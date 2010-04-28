@@ -1,10 +1,10 @@
 = RuPHY
 
-* http://github.com/#{github_username}/#{project_name}
+* http://not.yet.published/
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Ab Initio molecular orbital calculator
 
 == FEATURES/PROBLEMS:
 
