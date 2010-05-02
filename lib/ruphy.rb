@@ -5,4 +5,8 @@ module RuPHY
 	VERSION = '0.0.1'
 end
 
+begin
+	require "gsl.so"
+rescue LoadError
+end
 require 'ruphy/gsl/spwf.rb'
