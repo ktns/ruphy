@@ -19,3 +19,16 @@ Spec::Rake::SpecTask.new do |t|
 	t.spec_opts = ['--options', "spec/spec.opts"]
 	t.spec_files = FileList['spec/**/*_spec.rb']
 end
+
+namespace :spec do
+	Spec::Rake::SpecTask.new('rcov') do |t|
+		t.spec_files = FileList['spec/**/*_spec.rb']
+		t.rcov = true
+		t.spec_opts = %w<-c>
+		t.rcov_opts = Gem.path.collect do |p|
+			['-x',p]
+		end.flatten
+	end
+
+	task :rcov => :compile
+end
