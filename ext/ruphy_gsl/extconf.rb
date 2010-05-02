@@ -1,6 +1,6 @@
 require 'mkmf'
 
-dir_config("gsl")
+dir_config("ruphy_gsl")
 
 def gsl_check
 	find_library('gsl', 'gsl_sf_legendre_Plm') or
@@ -12,4 +12,4 @@ unless gsl_check
 	raise 'Extention build dependency is not met! Please install libgsl!'
 end
 
-create_makefile("gsl")
+create_makefile("ruphy_gsl")

@@ -1,4 +1,4 @@
-#include "gsl.h"
+#include "ruphy_gsl.h"
 
 static VALUE rb_cSPWF;
 static VALUE rb_cHydrogenic;
