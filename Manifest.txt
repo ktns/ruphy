@@ -1,4 +1,5 @@
 .autotest
+COPYING
 History.txt
 Manifest.txt
 README.rdoc
