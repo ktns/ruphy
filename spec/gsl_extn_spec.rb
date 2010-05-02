@@ -11,4 +11,14 @@ describe "gsl" do
 	it 'should define class RuPHY::GSL::SPWF' do
 		RuPHY::GSL::SPWF.should be_instance_of(Class)
 	end
+
+	it 'should define class RuPHY::GSL::SPWF::Hydrogenic' do
+		RuPHY::GSL::SPWF::Hydrogenic.should be_instance_of(Class)
+	end
+end
+
+describe RuPHY::GSL::SPWF::Hydrogenic do
+	it 'should be descendant of SPWF' do
+		RuPHY::GSL::SPWF::Hydrogenic.should < RuPHY::GSL::SPWF
+	end
 end
