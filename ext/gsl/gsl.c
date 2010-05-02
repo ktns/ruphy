@@ -1,8 +1,4 @@
-#include <ruby.h>
-
-static VALUE rb_mRuPHY;
-static VALUE rb_mGSL;
-static VALUE rb_cSPWF;
+#include "gsl.h"
 
 void Init_gsl()
 {

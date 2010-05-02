@@ -5,6 +5,7 @@ README.rdoc
 Rakefile
 ext/gsl/extconf.rb
 ext/gsl/gsl.c
+ext/gsl/gsl.h
 lib/ruphy.rb
 lib/ruphy/gsl/spwf.rb
 script/console
