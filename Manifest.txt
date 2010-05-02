@@ -6,6 +6,7 @@ Rakefile
 ext/gsl/extconf.rb
 ext/gsl/gsl.c
 ext/gsl/gsl.h
+ext/gsl/spwf.c
 lib/ruphy.rb
 lib/ruphy/gsl/spwf.rb
 script/console

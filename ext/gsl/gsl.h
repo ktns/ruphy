@@ -2,4 +2,5 @@
 
 VALUE rb_mRuPHY;
 VALUE rb_mGSL;
-VALUE rb_cSPWF;
+
+void init_SPWF(void);
