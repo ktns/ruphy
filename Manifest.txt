@@ -12,6 +12,8 @@ ext/ruphy_gsl/spwf.c
 ext/ruphy_gsl/utilities.c
 lib/ruphy.rb
 lib/ruphy/gsl/spop.rb
+lib/ruphy/gsl/spop/hamiltonian.rb
+lib/ruphy/gsl/spop/hamiltonian/hydrogenic.rb
 lib/ruphy/gsl/spwf.rb
 lib/ruphy/gsl/spwf/hydrogenic.rb
 script/console

@@ -6,4 +6,4 @@ module RuPHY
 		end
 	end
 end
-
+require 'ruphy/gsl/spop/hamiltonian'
