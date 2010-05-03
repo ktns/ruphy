@@ -12,4 +12,6 @@ unless gsl_check
 	raise 'Extention build dependency is not met! Please install libgsl!'
 end
 
+$CFLAGS += '-Wall'
+
 create_makefile("ruphy_gsl")
