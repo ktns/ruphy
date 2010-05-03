@@ -51,5 +51,18 @@ class RuPHY::GSL::SPWF
 				end
 			end
 		end
+
+		describe Hydrogenic do
+			describe '#eval' do
+				before do
+					@s1 = Hydrogenic.new(1,0,0)
+				end
+
+				it 'should be defined' do
+					@s1.should respond_to(:eval)
+					@s1.eval(0,0,0).should be_kind_of(Complex)
+				end
+			end
+		end
 	end
 end

@@ -23,8 +23,16 @@ static gsl_complex hydrogenic_wave_function(double r, double theta, double phy,
 			( m>0 ? 2*GSL_IS_EVEN(m)-1 : 1 ) * gsl_sf_legendre_sphPlm(l, abs(m), cos(theta)));
 }
 
+static VALUE return_value(VALUE self, VALUE r, VALUE theta, VALUE phy) {
+	gsl_complex ret = hydrogenic_wave_function(rb_num2dbl(r), rb_num2dbl(theta), rb_num2dbl(phy),
+			NUM2INT(rb_iv_get(self, "@n")), NUM2INT(rb_iv_get(self, "@l")), NUM2INT(rb_iv_get(self, "@m")),
+			NUM2INT(rb_iv_get(self, "@Z")));
+	return rb_funcall(rb_mRuPHY, rb_intern("complex"), 2, rb_float_new(GSL_REAL(ret)), rb_float_new(GSL_IMAG(ret)));
+}
+
 void init_SPWF(void) {
 	rb_cSPWF  = rb_define_class_under(rb_mGSL, "SPWF", rb_cObject);
 
 	rb_cHydrogenic = rb_define_class_under(rb_cSPWF,"Hydrogenic", rb_cSPWF);
+	rb_define_method(rb_cHydrogenic, "eval", return_value, 3);
 }
