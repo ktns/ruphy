@@ -16,11 +16,11 @@ lib/ruphy/gsl/spwf/hydrogenic.rb
 script/console
 script/destroy
 script/generate
-spec/hydrogenic_spec.rb
 spec/ruphy_gsl_extn_spec.rb
 spec/ruphy_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
+spec/spwf_spec.rb
 tasks/extconf.rake
 tasks/extconf/ruphy_gsl.rake
 tasks/rspec.rake
