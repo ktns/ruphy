@@ -19,3 +19,4 @@ begin
 rescue LoadError
 end
 require 'ruphy/gsl/spwf.rb'
+require 'ruphy/gsl/spop.rb'
