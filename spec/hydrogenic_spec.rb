@@ -53,6 +53,14 @@ class RuPHY::GSL::SPWF
 		end
 
 		describe Hydrogenic do
+			describe '#initialize' do
+				it 'should invoke argument validation' do
+					InvalidQuantumNumbersError.should_receive(:check).with(:n,:l,:p)
+					InvalidAtomicNumberError.should_receive(:check).with(:Z)
+					Hydrogenic.new(:n, :l, :p, :Z)
+				end
+			end
+
 			describe '#eval' do
 				before do
 					@s1 = Hydrogenic.new(1,0,0)
