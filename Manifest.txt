@@ -10,9 +10,11 @@ ext/ruphy_gsl/ruphy_gsl.h
 ext/ruphy_gsl/spwf.c
 lib/ruphy.rb
 lib/ruphy/gsl/spwf.rb
+lib/ruphy/gsl/spwf/hydrogenic.rb
 script/console
 script/destroy
 script/generate
+spec/hydrogenic_spec.rb
 spec/ruphy_gsl_extn_spec.rb
 spec/ruphy_spec.rb
 spec/spec.opts
