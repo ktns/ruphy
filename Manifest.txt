@@ -20,6 +20,7 @@ spec/ruphy_gsl_extn_spec.rb
 spec/ruphy_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
+spec/spop_spec.rb
 spec/spwf_spec.rb
 tasks/extconf.rake
 tasks/extconf/ruphy_gsl.rake
