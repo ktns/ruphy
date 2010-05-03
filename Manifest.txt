@@ -8,6 +8,7 @@ ext/ruphy_gsl/extconf.rb
 ext/ruphy_gsl/ruphy_gsl.c
 ext/ruphy_gsl/ruphy_gsl.h
 ext/ruphy_gsl/spwf.c
+ext/ruphy_gsl/utilities.c
 lib/ruphy.rb
 lib/ruphy/gsl/spwf.rb
 lib/ruphy/gsl/spwf/hydrogenic.rb
