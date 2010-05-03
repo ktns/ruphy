@@ -15,6 +15,10 @@ describe "ruphy_gsl" do
 	it 'should define class RuPHY::GSL::SPWF::Hydrogenic' do
 		RuPHY::GSL::SPWF::Hydrogenic.should be_instance_of(Class)
 	end
+
+	it 'should define class RuPHY::GSL::SPOP' do
+		RuPHY::GSL::SPOP.should be_instance_of(Class)
+	end
 end
 
 describe RuPHY::GSL::SPWF::Hydrogenic do
