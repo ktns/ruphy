@@ -4,6 +4,8 @@ static VALUE rb_cSPOP;
 static VALUE rb_cHamiltonian;
 static VALUE rb_cHydrogenic;
 
+#define DERIV_DX (1e-8)
+
 typedef struct {
 	spwf_func func;
 	double x1,x2;
