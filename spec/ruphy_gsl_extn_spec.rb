@@ -46,3 +46,13 @@ describe RuPHY::GSL::SPOP::Hamiltonian::Hydrogenic do
 		RuPHY::GSL::SPOP::Hamiltonian::Hydrogenic.should < RuPHY::GSL::SPOP::Hamiltonian
 	end
 end
+
+describe RuPHY::GSL::SPOP do
+	describe '.test_deriv_r' do
+		it 'should return 1' do
+			[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
+				RuPHY::GSL::SPOP.test_deriv_r(f).should be_close(1.0, 1e-6);
+			end
+		end
+	end
+end

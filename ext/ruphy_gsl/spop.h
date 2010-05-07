@@ -10,4 +10,7 @@ gsl_complex spop_theta_deriv( double r, double theta, double phy, void *op_param
 gsl_complex spop_phy_deriv  ( double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params );
 
 gsl_complex spop_laplacian  ( double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params );
+
+VALUE test_deriv_r(VALUE self, VALUE arg_r);
+
 #endif //_SPOP_H_
