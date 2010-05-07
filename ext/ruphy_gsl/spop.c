@@ -14,27 +14,33 @@ typedef struct {
 	void *params;
 } dummy_params;
 
-double r_deriv_dummy_real(double r, dummy_params *params) {
+double r_deriv_dummy_real(double r, void *arg_params) {
+	dummy_params* params=arg_params;
 	return GSL_REAL(params->func(r, params->x1, params->x2, params->params));
 }
 
-double r_deriv_dummy_imag(double r, dummy_params *params) {
+double r_deriv_dummy_imag(double r, void *arg_params) {
+	dummy_params* params=arg_params;
 	return GSL_IMAG(params->func(r, params->x1, params->x2, params->params));
 }
 
-double theta_deriv_dummy_real(double theta, dummy_params *params) {
+double theta_deriv_dummy_real(double theta, void *arg_params) {
+	dummy_params* params=arg_params;
 	return GSL_REAL(params->func(params->x2, theta, params->x1, params->params));
 }
 
-double theta_deriv_dummy_imag(double theta, dummy_params *params) {
+double theta_deriv_dummy_imag(double theta, void *arg_params) {
+	dummy_params* params=arg_params;
 	return GSL_IMAG(params->func(params->x2, theta, params->x1, params->params));
 }
 
-double phy_deriv_dummy_real(double phy, dummy_params *params) {
+double phy_deriv_dummy_real(double phy, void *arg_params) {
+	dummy_params* params=arg_params;
 	return GSL_REAL(params->func(params->x1, params->x2, phy, params->params));
 }
 
-double phy_deriv_dummy_imag(double phy, dummy_params *params) {
+double phy_deriv_dummy_imag(double phy, void *arg_params) {
+	dummy_params* params=arg_params;
 	return GSL_IMAG(params->func(params->x1, params->x2, phy, params->params));
 }
 
