@@ -27,7 +27,7 @@ namespace :spec do
 		t.spec_opts = %w<-c>
 		t.rcov_opts = Gem.path.collect do |p|
 			['-x',p]
-		end.flatten
+		end.flatten.concat(['-x', '^spec/'])
 	end
 
 	task :rcov => :compile
