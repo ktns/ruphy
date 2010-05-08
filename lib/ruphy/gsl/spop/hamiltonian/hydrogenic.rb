@@ -1,13 +1,11 @@
-class RuPHY::GSL::SPOP::Hamiltonian
+module RuPHY::GSL::SPOP::Hamiltonian
 	# Represents Hamiltonian for a hydrogenic atom.
-	class Hydrogenic < self
+	class Hydrogenic
 		# Initializes Hamiltonian for a hydrogenic atom with Atomic Number z.
+		include RuPHY::GSL::SPOP::Hamiltonian
+
 		def initialize z = 1
 			@Z = z
-		end
-		
-		class << self
-			public :new
 		end
 	end
 end
