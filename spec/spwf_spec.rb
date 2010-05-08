@@ -53,6 +53,10 @@ module RuPHY::GSL::SPWF
 		end
 
 		describe Hydrogenic do
+			it 'should respond to :new' do
+				Hydrogenic.should respond_to :new
+			end
+
 			describe '#initialize' do
 				it 'should invoke argument validation' do
 					InvalidQuantumNumbersError.should_receive(:check).with(:n,:l,:p)
