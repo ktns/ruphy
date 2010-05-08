@@ -66,7 +66,7 @@ module RuPHY::GSL::SPWF
 					@s1 = Hydrogenic.new(1,0,0)
 				end
 
-				it 'should be defined' do
+				it 'should return complex number' do
 					@s1.should respond_to(:eval)
 					@s1.eval(0,0,0).should be_kind_of(Complex)
 				end
