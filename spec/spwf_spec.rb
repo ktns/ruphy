@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/spec_helper.rb'
 
-class RuPHY::GSL::SPWF
+module RuPHY::GSL::SPWF
 	class Hydrogenic
 		describe InvalidQuantumNumbersError do
 			describe '.check' do

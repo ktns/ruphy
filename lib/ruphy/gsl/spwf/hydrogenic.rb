@@ -1,8 +1,9 @@
 module RuPHY
 	module GSL
-		class SPWF
+		module SPWF
 			# Represent wave functions of hydrogenic atoms.
-			class Hydrogenic < SPWF
+			class Hydrogenic
+				include SPWF
 				#Raised when invalid quantum numbers was given.
 				class InvalidQuantumNumbersError < Exception
 					#Check given quantum numbers, and raise this exception if invalid.

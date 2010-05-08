@@ -10,7 +10,7 @@
 #include <gsl/gsl_sf_legendre.h>
 #include <gsl/gsl_sf_pow_int.h>
 
-static VALUE rb_cSPWF;
+static VALUE rb_mSPWF;
 
 static VALUE rb_cHydrogenic;
 
@@ -44,8 +44,8 @@ static VALUE return_value(VALUE self, VALUE r, VALUE theta, VALUE phy) {
 }
 
 void init_SPWF(void) {
-	rb_cSPWF  = rb_define_class_under(rb_mGSL, "SPWF", rb_cObject);
+	rb_mSPWF  = rb_define_module_under(rb_mGSL, "SPWF");
 
-	rb_cHydrogenic = rb_define_class_under(rb_cSPWF,"Hydrogenic", rb_cSPWF);
+	rb_cHydrogenic = rb_define_class_under(rb_mSPWF,"Hydrogenic", rb_cObject);
 	rb_define_method(rb_cHydrogenic, "eval", return_value, 3);
 }
