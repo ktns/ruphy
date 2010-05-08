@@ -9,37 +9,37 @@ typedef struct {
 	void *params;
 } dummy_params;
 
-double r_deriv_dummy_real(double r, void *arg_params) {
+static double r_deriv_dummy_real(double r, void *arg_params) {
 	dummy_params* params=arg_params;
 	return GSL_REAL(params->func(r, params->x1, params->x2, params->params));
 }
 
-double r_deriv_dummy_imag(double r, void *arg_params) {
+static double r_deriv_dummy_imag(double r, void *arg_params) {
 	dummy_params* params=arg_params;
 	return GSL_IMAG(params->func(r, params->x1, params->x2, params->params));
 }
 
-double theta_deriv_dummy_real(double theta, void *arg_params) {
+static double theta_deriv_dummy_real(double theta, void *arg_params) {
 	dummy_params* params=arg_params;
 	return GSL_REAL(params->func(params->x2, theta, params->x1, params->params));
 }
 
-double theta_deriv_dummy_imag(double theta, void *arg_params) {
+static double theta_deriv_dummy_imag(double theta, void *arg_params) {
 	dummy_params* params=arg_params;
 	return GSL_IMAG(params->func(params->x2, theta, params->x1, params->params));
 }
 
-double phy_deriv_dummy_real(double phy, void *arg_params) {
+static double phy_deriv_dummy_real(double phy, void *arg_params) {
 	dummy_params* params=arg_params;
 	return GSL_REAL(params->func(params->x1, params->x2, phy, params->params));
 }
 
-double phy_deriv_dummy_imag(double phy, void *arg_params) {
+static double phy_deriv_dummy_imag(double phy, void *arg_params) {
 	dummy_params* params=arg_params;
 	return GSL_IMAG(params->func(params->x1, params->x2, phy, params->params));
 }
 
-gsl_complex r_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
+gsl_complex spop_r_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
 	gsl_function F;
 	dummy_params params;
 	gsl_complex res;
@@ -62,7 +62,7 @@ gsl_complex r_deriv(double r, double theta, double phy, void *op_params, spwf_fu
 	return res;
 }
 
-gsl_complex theta_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
+gsl_complex spop_theta_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
 	gsl_function F;
 	dummy_params params;
 	gsl_complex res;
@@ -85,7 +85,7 @@ gsl_complex theta_deriv(double r, double theta, double phy, void *op_params, spw
 	return res;
 }
 
-gsl_complex phy_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
+gsl_complex spop_phy_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
 	gsl_function F;
 	dummy_params params;
 	gsl_complex res;
