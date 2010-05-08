@@ -96,3 +96,43 @@ VALUE test_deriv_r(VALUE self, VALUE index, VALUE arg_r) {
 	gsl_complex res = spop_r_deriv(r, 0, 0, NULL, func, NULL);
 	return ruphy_gsl2rb_complex(&res);
 }
+
+gsl_complex theta_test_function1(double r, double theta, double phy, void *params)
+{
+	return gsl_complex_rect(theta,0);
+}
+
+gsl_complex theta_test_function2(double r, double theta, double phy, void *params)
+{
+	return gsl_complex_rect(theta*theta,0);
+}
+
+VALUE test_deriv_theta(VALUE self, VALUE index, VALUE arg_theta) {
+	static const spwf_func funcs[] = {theta_test_function1, theta_test_function2};
+
+	double    theta = (double)NUM2DBL(arg_theta);
+	spwf_func func  = funcs[FIX2INT(index)];
+
+	gsl_complex res = spop_theta_deriv(0, theta, 0, NULL, func, NULL);
+	return ruphy_gsl2rb_complex(&res);
+}
+
+gsl_complex phy_test_function1(double r, double theta, double phy, void *params)
+{
+	return gsl_complex_rect(phy,0);
+}
+
+gsl_complex phy_test_function2(double r, double theta, double phy, void *params)
+{
+	return gsl_complex_rect(phy*phy,0);
+}
+
+VALUE test_deriv_phy(VALUE self, VALUE index, VALUE arg_phy) {
+	static const spwf_func funcs[] = {phy_test_function1, phy_test_function2};
+
+	double    phy  = (double)NUM2DBL(arg_phy);
+	spwf_func func = funcs[FIX2INT(index)];
+
+	gsl_complex res = spop_phy_deriv(0, 0, phy, NULL, func, NULL);
+	return ruphy_gsl2rb_complex(&res);
+}

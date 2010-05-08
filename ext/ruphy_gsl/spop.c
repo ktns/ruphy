@@ -32,4 +32,6 @@ void init_SPOP(void) {
 	rb_mHamiltonian = rb_define_module_under(rb_mSPOP, "Hamiltonian");
 	rb_cHydrogenic  = rb_define_class_under(rb_mHamiltonian, "Hydrogenic", rb_cObject);
 	rb_define_singleton_method(rb_mSPOP, "test_deriv_r", test_deriv_r, 2);
+	rb_define_singleton_method(rb_mSPOP, "test_deriv_theta", test_deriv_theta, 2);
+	rb_define_singleton_method(rb_mSPOP, "test_deriv_phy", test_deriv_phy, 2);
 }
