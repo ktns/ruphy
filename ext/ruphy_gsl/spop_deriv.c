@@ -77,13 +77,22 @@ gsl_complex spop_phy_deriv(double r, double theta, double phy, void *op_params, 
 	return res;
 }
 
-gsl_complex r_test_function(double r, double theta, double phy, void *params)
+gsl_complex r_test_function1(double r, double theta, double phy, void *params)
 {
 	return gsl_complex_rect(r,0);
 }
 
-VALUE test_deriv_r(VALUE self, VALUE arg_r) {
-	double r = (double)NUM2DBL(arg_r);
-	gsl_complex res = spop_r_deriv(r, 0, 0, NULL, r_test_function, NULL);
+gsl_complex r_test_function2(double r, double theta, double phy, void *params)
+{
+	return gsl_complex_rect(r*r,0);
+}
+
+VALUE test_deriv_r(VALUE self, VALUE index, VALUE arg_r) {
+	static const spwf_func funcs[] = {r_test_function1, r_test_function2};
+
+	double    r    = (double)NUM2DBL(arg_r);
+	spwf_func func = funcs[FIX2INT(index)];
+
+	gsl_complex res = spop_r_deriv(r, 0, 0, NULL, func, NULL);
 	return ruphy_gsl2rb_complex(&res);
 }
