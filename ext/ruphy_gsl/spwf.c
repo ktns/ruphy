@@ -21,6 +21,11 @@ typedef struct _hwf_params {
 	unsigned int Z;
 } hwf_params;
 
+typedef {
+	spwf_func func;
+	hwf_params param;
+} hwf_func_params;
+
 static gsl_complex hydrogenic_wave_function(double r, double theta, double phy,
 		hwf_params *params) {
 	unsigned int n = params->n;
@@ -46,6 +51,7 @@ static VALUE return_value(VALUE self, VALUE r, VALUE theta, VALUE phy) {
 void init_SPWF(void) {
 	rb_mSPWF  = rb_define_module_under(rb_mGSL, "SPWF");
 
-	rb_cHydrogenic = rb_define_class_under(rb_mSPWF,"Hydrogenic", rb_cObject);
+	rb_cHydrogenic = rb_define_class_under(rb_mSPWF, "Hydrogenic", rb_cObject);
+
 	rb_define_method(rb_cHydrogenic, "eval", return_value, 3);
 }

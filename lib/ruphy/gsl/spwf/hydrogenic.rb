@@ -40,10 +40,6 @@ module RuPHY
 					InvalidAtomicNumberError.check z
 					@n,@l,@m,@Z = n,l,m,z
 				end
-
-				class << self
-					public :new
-				end
 			end
 		end
 	end
