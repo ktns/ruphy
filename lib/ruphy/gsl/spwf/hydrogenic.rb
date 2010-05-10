@@ -39,6 +39,7 @@ module RuPHY
 					InvalidQuantumNumbersError.check n, l, m
 					InvalidAtomicNumberError.check z
 					@n,@l,@m,@Z = n,l,m,z
+					setup_params n,l,m,z
 				end
 			end
 		end

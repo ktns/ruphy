@@ -13,6 +13,8 @@
 static VALUE rb_mSPWF;
 
 static VALUE rb_cHydrogenic;
+static VALUE rb_cHydrogenic_Params;
+static VALUE rb_cHydrogenic_Func;
 
 typedef struct _hwf_params {
 	unsigned int n;
@@ -21,30 +23,45 @@ typedef struct _hwf_params {
 	unsigned int Z;
 } hwf_params;
 
-typedef {
-	spwf_func func;
-	hwf_params param;
-} hwf_func_params;
-
 static gsl_complex hydrogenic_wave_function(double r, double theta, double phy,
-		hwf_params *params) {
-	unsigned int n = params->n;
-	unsigned int l = params->l;
-	int          m = params->m;
-	unsigned int Z = params->Z;
+		void *params) {
+	hwf_params *hwf_params = params;
+	unsigned int n = hwf_params->n;
+	unsigned int l = hwf_params->l;
+	int          m = hwf_params->m;
+	unsigned int Z = hwf_params->Z;
 	return gsl_complex_mul_real( gsl_complex_exp (gsl_complex_rect(0, m * phy) ),
 			sqrt( gsl_pow_3( 2*Z/n / gsl_sf_fact(n+l) ) * gsl_sf_fact(n-l-1) / 2 / n ) *
 			exp(-r*Z) * gsl_sf_pow_int(r, l) * gsl_sf_laguerre_n (n+1, 2l+1, 2*r*Z) *
 			( m>0 ? 2*GSL_IS_EVEN(m)-1 : 1 ) * gsl_sf_legendre_sphPlm(l, abs(m), cos(theta)));
 }
 
+static VALUE get_func_hydrogenic(VALUE self)
+{
+	spwf_func *func = ruby_xcalloc(1, sizeof(spwf_func));
+	*func = hydrogenic_wave_function;
+	VALUE wrapped = Data_Wrap_Struct(rb_cHydrogenic_Func, NULL, NULL, func);
+	return wrapped;
+}
+
+static VALUE setup_hwf_params(VALUE self, VALUE n, VALUE l, VALUE m, VALUE Z)
+{
+	hwf_params *params = ruby_xcalloc(1, sizeof(hwf_params));
+	params->n = NUM2INT(n);
+	params->l = NUM2INT(l);
+	params->m = NUM2INT(m);
+	params->Z = NUM2INT(Z);
+	VALUE wrapped = Data_Wrap_Struct(rb_cHydrogenic_Params, NULL, NULL, params);
+	rb_iv_set(self, "params", wrapped);
+	return wrapped;
+}
+
 static VALUE return_value(VALUE self, VALUE r, VALUE theta, VALUE phy) {
-	hwf_params params;
-	params.n = NUM2INT(rb_iv_get(self, "@n"));
-	params.l = NUM2INT(rb_iv_get(self, "@l"));
-	params.m = NUM2INT(rb_iv_get(self, "@m"));
-	params.Z = NUM2INT(rb_iv_get(self, "@Z"));
-	gsl_complex ret = hydrogenic_wave_function(rb_num2dbl(r), rb_num2dbl(theta), rb_num2dbl(phy),&params);
+	void *params;
+	spwf_func *func;
+	Data_Get_Struct(rb_iv_get(self, "params"), void, params);
+	Data_Get_Struct(rb_funcall(self, rb_intern("get_func"), 0), spwf_func, func);
+	gsl_complex ret = (*func)(rb_num2dbl(r), rb_num2dbl(theta), rb_num2dbl(phy),params);
 	return rb_funcall(rb_mRuPHY, rb_intern("complex"), 2, rb_float_new(GSL_REAL(ret)), rb_float_new(GSL_IMAG(ret)));
 }
 
@@ -52,6 +69,10 @@ void init_SPWF(void) {
 	rb_mSPWF  = rb_define_module_under(rb_mGSL, "SPWF");
 
 	rb_cHydrogenic = rb_define_class_under(rb_mSPWF, "Hydrogenic", rb_cObject);
+	rb_cHydrogenic_Params = rb_define_class_under(rb_cHydrogenic, "Params", rb_cObject);
+	rb_cHydrogenic_Func = rb_define_class_under(rb_cHydrogenic, "Func", rb_cObject);
+	rb_define_method(rb_cHydrogenic, "get_func", get_func_hydrogenic, 0);
+	rb_define_method(rb_cHydrogenic, "setup_params", setup_hwf_params, 4);
 
-	rb_define_method(rb_cHydrogenic, "eval", return_value, 3);
+	rb_define_method(rb_mSPWF, "eval", return_value, 3);
 }
