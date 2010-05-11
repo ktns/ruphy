@@ -66,13 +66,31 @@ module RuPHY::GSL::SPWF
 			end
 
 			describe '#eval' do
-				before do
+				before :all do
 					@s1 = Hydrogenic.new(1,0,0)
 				end
 
 				it 'should return complex number' do
 					@s1.should respond_to(:eval)
 					@s1.eval(0,0,0).should be_kind_of(Complex)
+				end
+
+				describe 'on different Z' do
+					before :all do 
+						@Z = 1 + rand(100)
+						@s2 = Hydrogenic.new(1,0,0,@Z)
+					end
+
+					it 'should return propotional value at (r/Z)' do
+						ratios = []
+						15.times do
+							r, theta, phy = rand(), rand() * 2 * Math::PI, rand() * Math::PI
+							ratios << @s1.eval(r, theta, phy) / @s2.eval(r/@Z, theta, phy)
+						end
+						ratios.each do |ratio|
+							ratio.should be_close ratios.first, 1e-5
+						end
+					end
 				end
 			end
 		end
