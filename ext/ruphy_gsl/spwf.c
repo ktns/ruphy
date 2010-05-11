@@ -180,8 +180,8 @@ gsl_complex integrate_spwf(spwf_func func, void *arg_params)
 	params.func = func;
 
 	for(r = 0, ret = GSL_COMPLEX_ZERO, diff = GSL_COMPLEX_ZERO;
-			gsl_complex_abs(ret) > 0 && gsl_complex_abs(diff) /
-			gsl_complex_abs(ret) < QAG_EPSREL; r += INTEGRATE_DR){
+			r == 0 || gsl_complex_abs(diff) /
+			gsl_complex_abs(ret) > QAG_EPSREL; r += INTEGRATE_DR){
 		diff = gsl_complex_rect(
 				integrate_spwf_r_real(r, r+INTEGRATE_DR, &params),
 				integrate_spwf_r_imag(r, r+INTEGRATE_DR, &params));
