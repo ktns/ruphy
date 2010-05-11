@@ -43,6 +43,14 @@ module RuPHY
 				end
 
 				attr_reader :n, :l, :m, :Z
+
+				def to_s
+					"(#{@n}, #{@l}, #{@m})Z=#{@Z}"
+				end
+
+				def inspect
+					"<SPWF::Hydrogenic: n=#{@n} l=#{@l}, m=#{@m}, Z=#{@Z}>"
+				end
 			end
 		end
 	end
