@@ -5,6 +5,8 @@ Manifest.txt
 README.rdoc
 Rakefile
 ext/ruphy_gsl/extconf.rb
+ext/ruphy_gsl/gsl_dummy_func.c
+ext/ruphy_gsl/gsl_dummy_func.h
 ext/ruphy_gsl/ruphy_gsl.c
 ext/ruphy_gsl/ruphy_gsl.h
 ext/ruphy_gsl/spop.c
