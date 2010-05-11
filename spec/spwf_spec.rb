@@ -108,6 +108,22 @@ module RuPHY::GSL
 						end
 					end
 				end
+
+				it 'should be orthonormal (with same Z)' do
+					z = rand(100) + 1
+					phies = Array.new(3) do
+						n = rand(100) + 1
+						l = rand(n)
+						m = rand(2*l + 1) - l
+						Hydrogenic.new(n,l,m,z)
+					end
+					phies.each do |phy|
+						(phy * phy).should be_close 1, 1e-5
+					end
+					phies.combination.each do |phy1, phy2|
+						(phy1 * phy2).should be_close 0, 1e-5
+					end
+				end
 			end
 		end
 	end
