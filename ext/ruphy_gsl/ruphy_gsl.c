@@ -1,4 +1,9 @@
 #include "ruphy_gsl.h"
+#include "spwf.h"
+#include "spop.h"
+
+VALUE rb_mRuPHY;
+VALUE rb_mGSL;
 
 void Init_ruphy_gsl()
 {

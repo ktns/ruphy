@@ -12,6 +12,8 @@ ext/ruphy_gsl/spop.h
 ext/ruphy_gsl/spop_deriv.c
 ext/ruphy_gsl/spop_laplacian.c
 ext/ruphy_gsl/spwf.c
+ext/ruphy_gsl/spwf.h
+ext/ruphy_gsl/spwf_hydrogenic.c
 ext/ruphy_gsl/utilities.c
 lib/ruphy.rb
 lib/ruphy/gsl/spop.rb
