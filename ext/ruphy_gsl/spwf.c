@@ -65,7 +65,7 @@ double integrate_spwf_phy_real(double theta, void *arg_params)
 	dummy_params.params   = params->params;
 
 	F.function = gsl_dummy_func_real;
-	F.params   = &params;
+	F.params   = &dummy_params;
 
 	gsl_integration_qag(&F, - M_PI, M_PI,
 			QAG_EPSABS, QAG_EPSABS, QAG_WORKSPACE_SIZE, QAG_RULE_KEY,
@@ -89,7 +89,7 @@ double integrate_spwf_phy_imag(double theta, void *arg_params)
 	dummy_params.params   = params->params;
 
 	F.function = gsl_dummy_func_imag;
-	F.params   = &params;
+	F.params   = &dummy_params;
 
 	gsl_integration_qag(&F, - M_PI, M_PI,
 			QAG_EPSABS, QAG_EPSABS, QAG_WORKSPACE_SIZE, QAG_RULE_KEY,
