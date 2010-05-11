@@ -41,6 +41,8 @@ module RuPHY
 					@n,@l,@m,@Z = n,l,m,z
 					setup_params n,l,m,z
 				end
+
+				attr_reader :n, :l, :m, :Z
 			end
 		end
 	end
