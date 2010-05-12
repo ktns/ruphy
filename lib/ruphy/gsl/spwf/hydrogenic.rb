@@ -51,6 +51,23 @@ module RuPHY
 				def inspect
 					"<SPWF::Hydrogenic: n=#{@n} l=#{@l}, m=#{@m}, Z=#{@Z}>"
 				end
+
+				def to_a
+					[self.class, @n, @l, @m, @Z]
+				end
+				protected :to_a
+
+				def hash
+					to_a.hash
+				end
+
+				def eql? other
+					to_a.eql? other.to_a
+				end
+
+				def == other
+					to_a == other.to_a
+				end
 			end
 		end
 	end
