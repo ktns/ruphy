@@ -46,6 +46,7 @@ typedef struct {
 	spwf_func func;
 	void *params;
 	double r;
+	double error;
 } integration_params;
 
 static gsl_integration_workspace *qag_workspace_phy;
@@ -56,7 +57,7 @@ double integrate_spwf_phy_real(double theta, void *arg_params)
 	gsl_function F;
 	gsl_dummy_func_params dummy_params;
 	double ret;
-	double dummy;
+	double error;
 
 	dummy_params.r        = params->r;
 	dummy_params.theta    = theta;
@@ -69,8 +70,9 @@ double integrate_spwf_phy_real(double theta, void *arg_params)
 
 	gsl_integration_qag(&F, - M_PI, M_PI,
 			QAG_EPSABS, QAG_EPSABS, QAG_WORKSPACE_SIZE, QAG_RULE_KEY,
-			qag_workspace_phy, &ret, &dummy);
+			qag_workspace_phy, &ret, &error);
 
+	params->error+=error;
 	return ret * sin(theta);
 }
 
@@ -80,7 +82,7 @@ double integrate_spwf_phy_imag(double theta, void *arg_params)
 	gsl_function F;
 	gsl_dummy_func_params dummy_params;
 	double ret;
-	double dummy;
+	double error;
 
 	dummy_params.r        = params->r;
 	dummy_params.theta    = theta;
@@ -93,8 +95,9 @@ double integrate_spwf_phy_imag(double theta, void *arg_params)
 
 	gsl_integration_qag(&F, - M_PI, M_PI,
 			QAG_EPSABS, QAG_EPSABS, QAG_WORKSPACE_SIZE, QAG_RULE_KEY,
-			qag_workspace_phy, &ret, &dummy);
+			qag_workspace_phy, &ret, &error);
 
+	params->error+=error;
 	return ret * sin(theta);
 }
 
@@ -104,7 +107,7 @@ double integrate_spwf_theta_real(double r, void *arg_params)
 {
 	integration_params *params = arg_params;
 	gsl_function F;
-	double ret, dummy;
+	double ret, error;
 
 	params->r = r;
 
@@ -113,8 +116,9 @@ double integrate_spwf_theta_real(double r, void *arg_params)
 
 	gsl_integration_qag(&F, 0, M_PI,
 			QAG_EPSABS, QAG_EPSREL, QAG_WORKSPACE_SIZE, QAG_RULE_KEY,
-			qag_workspace_theta, &ret, &dummy);
+			qag_workspace_theta, &ret, &error);
 
+	params->error+=error;
 	return ret * gsl_pow_2(r);
 }
 
@@ -122,7 +126,7 @@ double integrate_spwf_theta_imag(double r, void *arg_params)
 {
 	integration_params *params = arg_params;
 	gsl_function F;
-	double ret, dummy;
+	double ret, error;
 
 	params->r = r;
 
@@ -131,8 +135,9 @@ double integrate_spwf_theta_imag(double r, void *arg_params)
 
 	gsl_integration_qag(&F, 0, M_PI,
 			QAG_EPSABS, QAG_EPSREL, QAG_WORKSPACE_SIZE, QAG_RULE_KEY,
-			qag_workspace_theta, &ret, &dummy);
+			qag_workspace_theta, &ret, &error);
 
+	params->error+=error;
 	return ret * gsl_pow_2(r);
 }
 
@@ -140,31 +145,35 @@ static gsl_integration_workspace *qag_workspace_r;
 
 double integrate_spwf_r_real(double r1, double r2, void *arg_params)
 {
+	integration_params *params = arg_params;
 	gsl_function F;
-	double ret, dummy;
+	double ret, error;
 
 	F.function = integrate_spwf_theta_real;
 	F.params   = arg_params;
 
 	gsl_integration_qag(&F, r1, r2,
 			QAG_EPSABS, QAG_EPSREL, QAG_WORKSPACE_SIZE, QAG_RULE_KEY,
-			qag_workspace_theta, &ret, &dummy);
+			qag_workspace_theta, &ret, &error);
 
+	params->error+=error;
 	return ret;
 }
 
 double integrate_spwf_r_imag(double r1, double r2, void *arg_params)
 {
+	integration_params *params = arg_params;
 	gsl_function F;
-	double ret, dummy;
+	double ret, error;
 
 	F.function = integrate_spwf_theta_imag;
 	F.params   = arg_params;
 
 	gsl_integration_qag(&F, r1, r2,
 			QAG_EPSABS, QAG_EPSREL, QAG_WORKSPACE_SIZE, QAG_RULE_KEY,
-			qag_workspace_theta, &ret, &dummy);
+			qag_workspace_theta, &ret, &error);
 
+	params->error+=error;
 	return ret;
 }
 
@@ -176,8 +185,9 @@ gsl_complex integrate_spwf(spwf_func func, void *arg_params)
 	gsl_complex ret, diff;
 	integration_params params;
 
+	params.error  = 0;
 	params.params = arg_params;
-	params.func = func;
+	params.func   = func;
 
 	for(r = 0, ret = GSL_COMPLEX_ZERO, diff = GSL_COMPLEX_ZERO;
 			r == 0 || gsl_complex_abs(diff) /
