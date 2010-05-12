@@ -111,7 +111,7 @@ double integrate_spwf_theta_real(double r, void *arg_params)
 	F.function = integrate_spwf_phy_real;
 	F.params   = arg_params;
 
-	gsl_integration_qag(&F, - M_PI_2, M_PI_2,
+	gsl_integration_qag(&F, 0, M_PI,
 			QAG_EPSABS, QAG_EPSREL, QAG_WORKSPACE_SIZE, QAG_RULE_KEY,
 			qag_workspace_theta, &ret, &dummy);
 
@@ -129,7 +129,7 @@ double integrate_spwf_theta_imag(double r, void *arg_params)
 	F.function = integrate_spwf_phy_imag;
 	F.params   = arg_params;
 
-	gsl_integration_qag(&F, - M_PI_2, M_PI_2,
+	gsl_integration_qag(&F, 0, M_PI,
 			QAG_EPSABS, QAG_EPSREL, QAG_WORKSPACE_SIZE, QAG_RULE_KEY,
 			qag_workspace_theta, &ret, &dummy);
 
