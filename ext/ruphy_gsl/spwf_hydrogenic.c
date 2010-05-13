@@ -58,9 +58,9 @@ static VALUE setup_hwf_params(VALUE self, VALUE n, VALUE l, VALUE m, VALUE Z)
 
 void init_SPWF_Hydrogenic(void)
 {
-	rb_cHydrogenic = rb_define_class_under(rb_mSPWF, "Hydrogenic", rb_cObject);
+	rb_cHydrogenic        = rb_define_class_under(rb_mSPWF, "Hydrogenic", rb_cObject);
 	rb_cHydrogenic_Params = rb_define_class_under(rb_cHydrogenic, "Params", rb_cObject);
-	rb_cHydrogenic_Func = rb_define_class_under(rb_cHydrogenic, "Func", rb_cObject);
+	rb_cHydrogenic_Func   = rb_define_class_under(rb_cHydrogenic, "Func", rb_cObject);
 
 	rb_define_method(rb_cHydrogenic, "get_func", get_func_hydrogenic, 0);
 	rb_define_method(rb_cHydrogenic, "setup_params", setup_hwf_params, 4);
