@@ -117,7 +117,7 @@ module RuPHY::GSL
 						l = rand(n)
 						m = rand(2*l + 1) - l
 						phies << Hydrogenic.new(n,l,m,z)
-						phies.uniq
+						phies.uniq!
 					end
 					phies.each do |phy|
 						(phy * phy).should be_close 1, 1e-5
