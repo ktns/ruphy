@@ -122,7 +122,7 @@ module RuPHY::GSL
 					phies.each do |phy|
 						(phy * phy).should be_close 1, 1e-5
 					end
-					phies.combination.each do |phy1, phy2|
+					phies.combination(2) do |phy1, phy2|
 						(phy1 * phy2).should be_close 0, 1e-5
 					end
 				end
