@@ -40,8 +40,8 @@ static VALUE inner_product(VALUE self, VALUE other)
 {
 	func_mul_with_conjugate_param_t params;
 	spwf_func *func1  , *func2;
-	get_func_param(self, &func1, &params.params1);
-	get_func_param(self, &func2, &params.params2);
+	get_func_param(self , &func1, &params.params1);
+	get_func_param(other, &func2, &params.params2);
 	params.func1 = *func1;
 	params.func2 = *func2;
 	gsl_complex ret = integrate_spwf(func_mul_with_conjugate, &params);
