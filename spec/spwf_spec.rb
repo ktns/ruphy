@@ -109,21 +109,29 @@ module RuPHY::GSL
 					end
 				end
 
-				it 'should be orthonormal (with same Z)' do
-					z = rand(100) + 1
-					phies = []
-					until phies.size >= 3
-						n = rand(100) + 1
-						l = rand(n)
-						m = rand(2*l + 1) - l
-						phies << Hydrogenic.new(n,l,m,z)
-						phies.uniq
+				z = rand(100) + 1
+				phies = []
+				until phies.size >= 3
+					n = rand(100) + 1
+					l = rand(n)
+					m = rand(2*l + 1) - l
+					phies << Hydrogenic.new(n,l,m,z)
+					phies.uniq!
+				end
+
+				phies.each do |phy|
+					describe phy do
+						it 'should be normalized', :phy => phy do
+							(options[:phy] * options[:phy]).should be_close 1, 1e-5
+						end
 					end
-					phies.each do |phy|
-						(phy * phy).should be_close 1, 1e-5
-					end
-					phies.combination.each do |phy1, phy2|
-						(phy1 * phy2).should be_close 0, 1e-5
+				end
+
+				phies.combination(2) do |phy1, phy2|
+					describe "#{phy1} and #{phy2}" do
+						it 'should be orthodox each other', :phy1 => phy1, :phy2 => phy2 do
+							(options[:phy1] * options[:phy2]).should be_close 0, 1e-5
+						end
 					end
 				end
 			end
