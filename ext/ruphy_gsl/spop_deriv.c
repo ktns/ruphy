@@ -3,7 +3,10 @@
 #include "gsl_dummy_func.h"
 
 #include <gsl/gsl_deriv.h>
+
+#ifdef RUPHY_DERIV_TEST
 #include <gsl/gsl_complex_math.h>
+#endif //RUPHY_DERIV_TEST
 
 gsl_complex spop_r_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
 	gsl_function F;
@@ -77,6 +80,8 @@ gsl_complex spop_phy_deriv(double r, double theta, double phy, void *op_params, 
 	return res;
 }
 
+#ifdef RUPHY_DERIV_TEST
+
 gsl_complex r_test_function1(double r, double theta, double phy, void *params)
 {
 	return gsl_complex_rect(r,0);
@@ -136,3 +141,5 @@ VALUE test_deriv_phy(VALUE self, VALUE index, VALUE arg_phy) {
 	gsl_complex res = spop_phy_deriv(0, 0, phy, NULL, func, NULL);
 	return ruphy_gsl2rb_complex(&res);
 }
+
+#endif //RUPHY_DERIV_TEST

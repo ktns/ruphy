@@ -27,7 +27,9 @@ namespace :extconf do
 	task extension.to_sym => ["#{ext}/Makefile", ext_so ]
 
 	file "#{ext}/Makefile" => ["#{ext}/extconf.rb"] do
-		Dir.chdir(ext) do ruby "extconf.rb" end
+		extconf_opt = []
+		extconf_opt << '--enable-deriv-test' if ENV['RUPHY_GSL_DERIV_TEST']
+		Dir.chdir(ext) do ruby "extconf.rb", *extconf_opt end
 	end
 
 	file ext_so => ext_files do

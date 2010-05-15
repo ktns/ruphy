@@ -48,38 +48,44 @@ describe RuPHY::GSL::SPOP::Hamiltonian::Hydrogenic do
 end
 
 describe RuPHY::GSL::SPOP do
-	describe '.test_deriv_r' do
-		it 'should return sane values' do
-			[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-				RuPHY::GSL::SPOP.test_deriv_r(0,f).should be_close(1.0, 1e-6);
-			end
+	if RuPHY::GSL::SPOP.respond_to? :test_deriv_r
+		describe '.test_deriv_r' do
+			it 'should return sane values' do
+				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
+					RuPHY::GSL::SPOP.test_deriv_r(0,f).should be_close(1.0, 1e-6);
+				end
 
-			[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-				RuPHY::GSL::SPOP.test_deriv_r(1,f).should be_close(2*f, [(2*f*1e-6).abs,1e-6].max)
-			end
-		end
-	end
-
-	describe '.test_deriv_theta' do
-		it 'should return sane values' do
-			[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-				RuPHY::GSL::SPOP.test_deriv_theta(0,f).should be_close(1.0, 1e-6);
-			end
-
-			[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-				RuPHY::GSL::SPOP.test_deriv_theta(1,f).should be_close(2*f, [(2*f*1e-6).abs,1e-6].max)
+				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
+					RuPHY::GSL::SPOP.test_deriv_r(1,f).should be_close(2*f, [(2*f*1e-6).abs,1e-6].max)
+				end
 			end
 		end
 	end
 
-	describe '.test_deriv_phy' do
-		it 'should return sane values' do
-			[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-				RuPHY::GSL::SPOP.test_deriv_phy(0,f).should be_close(1.0, 1e-6);
-			end
+	if RuPHY::GSL::SPOP.respond_to? :test_deriv_theta
+		describe '.test_deriv_theta' do
+			it 'should return sane values' do
+				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
+					RuPHY::GSL::SPOP.test_deriv_theta(0,f).should be_close(1.0, 1e-6);
+				end
 
-			[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-				RuPHY::GSL::SPOP.test_deriv_phy(1,f).should be_close(2*f, [(2*f*1e-6).abs,1e-6].max)
+				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
+					RuPHY::GSL::SPOP.test_deriv_theta(1,f).should be_close(2*f, [(2*f*1e-6).abs,1e-6].max)
+				end
+			end
+		end
+	end
+
+	if RuPHY::GSL::SPOP.respond_to? :test_deriv_phy
+		describe '.test_deriv_phy' do
+			it 'should return sane values' do
+				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
+					RuPHY::GSL::SPOP.test_deriv_phy(0,f).should be_close(1.0, 1e-6);
+				end
+
+				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
+					RuPHY::GSL::SPOP.test_deriv_phy(1,f).should be_close(2*f, [(2*f*1e-6).abs,1e-6].max)
+				end
 			end
 		end
 	end
