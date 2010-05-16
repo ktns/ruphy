@@ -4,6 +4,8 @@ History.txt
 Manifest.txt
 README.rdoc
 Rakefile
+ext/ruphy_gsl/cubature.c
+ext/ruphy_gsl/cubature.h
 ext/ruphy_gsl/extconf.rb
 ext/ruphy_gsl/gsl_dummy_func.c
 ext/ruphy_gsl/gsl_dummy_func.h
