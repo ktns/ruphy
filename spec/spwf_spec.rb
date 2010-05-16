@@ -109,10 +109,10 @@ module RuPHY::GSL
 					end
 				end
 
-				z = rand(100) + 1
+				z = rand(120) + 1
 				phies = []
 				until phies.size >= 3
-					n = rand(100) + 1
+					n = rand(10) + 1
 					l = rand(n)
 					m = rand(2*l + 1) - l
 					phies << Hydrogenic.new(n,l,m,z)
