@@ -7,6 +7,7 @@
 
 #include <gsl/gsl_pow_int.h>
 #include <gsl/gsl_complex_math.h>
+#include <gsl/gsl_errno.h>
 
 typedef struct {
 	spwf_func func;
@@ -43,12 +44,16 @@ gsl_complex integrate_spwf(spwf_func func, void *params)
 	static const double xmax[3] = {1, M_PI, 2 *M_PI};
 	double ret[2], err[2];
 
+	gsl_error_handler_t *original_handler = gsl_set_error_handler_off();
+
 	adapt_integrate(
 			2, cubature_dummy_func, &fdata,
 			3, xmin, xmax,
 			0, REQERRABS, REQERRREL,
 			ret, err
 			);
-	// TODO error handling
+
+	gsl_set_error_handler(original_handler);
+
 	return gsl_complex_rect(ret[0], ret[1]);
 }
