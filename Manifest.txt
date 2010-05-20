@@ -20,6 +20,7 @@ ext/ruphy_gsl/spwf_integrate.c
 ext/ruphy_gsl/spwf_integrate.h
 ext/ruphy_gsl/utilities.c
 lib/ruphy.rb
+lib/ruphy/gsl/error.rb
 lib/ruphy/gsl/spop.rb
 lib/ruphy/gsl/spop/hamiltonian.rb
 lib/ruphy/gsl/spop/hamiltonian/hydrogenic.rb

@@ -18,5 +18,6 @@ begin
 	require "ruphy_gsl.so"
 rescue LoadError
 end
+require 'ruphy/gsl/error.rb'
 require 'ruphy/gsl/spwf.rb'
 require 'ruphy/gsl/spop.rb'

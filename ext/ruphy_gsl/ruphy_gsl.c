@@ -19,6 +19,11 @@ static void gsl_errror_handler(const char *reason, const char *file, int line, i
 	rb_exc_raise(exc);
 }
 
+static VALUE gsl_errorstr(VALUE self, VALUE _errno)
+{
+	return rb_str_new2(gsl_strerror(FIX2INT(_errno)));
+}
+
 #ifdef RUPHY_GSL_ERROR_TEST
 static VALUE gsl_error_test(VALUE self)
 {
@@ -74,6 +79,8 @@ void Init_ruphy_gsl()
 	rb_define_const(rb_mGSLERRNO, "GSL_ETOLX"   , rb_int_new(GSL_ETOLX));
 	rb_define_const(rb_mGSLERRNO, "GSL_ETOLG"   , rb_int_new(GSL_ETOLG));
 	rb_define_const(rb_mGSLERRNO, "GSL_EOF"     , rb_int_new(GSL_EOF));
+
+	rb_define_method(rb_mGSLERRNO, "errorstr", gsl_errorstr, 1);
 
 #ifdef RUPHY_GSL_ERROR_TEST
 	rb_define_singleton_method(rb_cGSLError, "gsl_error_test", gsl_error_test, 0);
