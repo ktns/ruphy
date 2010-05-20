@@ -8,6 +8,10 @@ if enable_config('deriv-test')
 	$CFLAGS << '-DRUPHY_DERIV_TEST'
 end
 
+if enable_config('gsl-error-test')
+	$CFLAGS << '-DRUPHY_GSL_ERROR_TEST'
+end
+
 $CFLAGS << '-Wall'
 
 $CFLAGS = $CFLAGS.join(' ')

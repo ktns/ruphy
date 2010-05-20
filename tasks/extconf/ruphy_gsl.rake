@@ -29,6 +29,7 @@ namespace :extconf do
 	file "#{ext}/Makefile" => ["#{ext}/extconf.rb"] do
 		extconf_opt = []
 		extconf_opt << '--enable-deriv-test' if ENV['RUPHY_GSL_DERIV_TEST']
+		extconf_opt << '--enable-gsl-error-test' if ENV['RUPHY_GSL_ERROR_TEST']
 		Dir.chdir(ext) do ruby "extconf.rb", *extconf_opt end
 	end
 

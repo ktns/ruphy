@@ -8,6 +8,10 @@ describe "ruphy_gsl" do
 		RuPHY::GSL.should be_instance_of(Module)
 	end
 
+	it 'should define class RuPHY::GSL::GSLError' do
+		RuPHY::GSL::GSLError.should be_instance_of(Class)
+	end
+
 	it 'should define module RuPHY::GSL::SPWF' do
 		RuPHY::GSL::SPWF.should be_instance_of(Module)
 	end
@@ -87,6 +91,26 @@ describe RuPHY::GSL::SPOP do
 					RuPHY::GSL::SPOP.test_deriv_phy(1,f).should be_close(2*f, [(2*f*1e-6).abs,1e-6].max)
 				end
 			end
+		end
+	end
+end
+
+describe RuPHY::GSL::GSLError do
+	if RuPHY::GSL::GSLError.respond_to? :gsl_error_test
+		it 'should be raised by test method' do
+			class RuPHY::GSL::GSLError
+				def initialize reason, file, line, errno
+					extend Spec::Matchers
+					reason.should == "test"
+					file.should == "ruphy_gsl.c"
+					line.should be_kind_of(Integer)
+					errno.should == Errno::GSL_EINVAL
+				end
+			end
+
+			lambda do
+				RuPHY::GSL::GSLError.gsl_error_test
+			end.should raise_error RuPHY::GSL::GSLError
 		end
 	end
 end
