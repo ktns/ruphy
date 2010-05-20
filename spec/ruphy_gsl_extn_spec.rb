@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 $:.unshift File.dirname(__FILE__) + "/../ext/ruphy_gsl"
-require "ruphy_gsl.so"
+require "ruphy_gsl"
 
 describe "ruphy_gsl" do
 	it "should define module RuPHY::GSL" do

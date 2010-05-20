@@ -15,7 +15,7 @@ module RuPHY
 end
 
 begin
-	require "ruphy_gsl.so"
+	require "ruphy_gsl"
 rescue LoadError
 end
 require 'ruphy/gsl/spwf.rb'
