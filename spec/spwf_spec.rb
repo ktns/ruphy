@@ -129,7 +129,7 @@ module RuPHY::GSL
 
 				phies.combination(2) do |phy1, phy2|
 					describe "#{phy1} and #{phy2}" do
-						it 'should be orthodox each other', :phy1 => phy1, :phy2 => phy2 do
+						it 'should be mutually orthogonal', :phy1 => phy1, :phy2 => phy2 do
 							(options[:phy1] * options[:phy2]).should be_close 0, 1e-5
 						end
 					end
