@@ -9,6 +9,8 @@
 #include <gsl/gsl_complex_math.h>
 #include <gsl/gsl_errno.h>
 
+#include <rubysig.h>
+
 typedef struct {
 	spwf_func func;
 	void *params;
@@ -29,6 +31,8 @@ static void cubature_dummy_func (unsigned ndim, const double *x, void * arg_fdat
 			fdata->func(r, theta, phy, fdata->params),
 			gsl_pow_2(r) * sin(theta) / gsl_pow_2(t)
 			);
+
+	CHECK_INTS;
 
 	fval[0] = GSL_REAL(val);
 	fval[1] = GSL_IMAG(val);
