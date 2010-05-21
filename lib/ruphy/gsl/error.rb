@@ -6,8 +6,10 @@ module RuPHY
 
 			include GSLError::Errno
 
+			attr_reader :reason, :file, :line, :errno, :errstr
 			def initialize reason, file, line, errno
-				super "GSLError:#{errorstr(errno)} @ #{file} l#{line}; #{reason}"
+				@reason,@file,@line,@errno,@errstr = reason, file, line, errno, errorstr(errno)
+				super "GSLError:#{@errstr} @ #{file} l#{line}; #{reason}"
 			end
 		end
 	end
