@@ -30,6 +30,7 @@ namespace :extconf do
 		extconf_opt = []
 		extconf_opt << '--enable-deriv-test' if ENV['RUPHY_GSL_DERIV_TEST']
 		extconf_opt << '--enable-gsl-error-test' if ENV['RUPHY_GSL_ERROR_TEST']
+		extconf_opt << "--with-opt-dir=#{ENV['RUPHY_GSL_WITH_OPT_DIR']}" if ENV['RUPHY_GSL_WITH_OPT_DIR']
 		Dir.chdir(ext) do ruby "extconf.rb", *extconf_opt end
 	end
 

@@ -15,8 +15,10 @@ module RuPHY
 end
 
 begin
-	require "ruphy_gsl.so"
+	require 'ruphy_gsl'
 rescue LoadError
+	$: << File.join(File.dirname(__FILE__), *%w<.. ext ruphy_gsl>)
+	require 'ruphy_gsl'
 end
 require 'ruphy/gsl/error.rb'
 require 'ruphy/gsl/spwf.rb'

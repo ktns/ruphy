@@ -4,4 +4,4 @@ module RuPHY::GSL::SPOP
 		include RuPHY::GSL::SPOP
 	end
 end
-require "lib/ruphy/gsl/spop/hamiltonian/hydrogenic.rb"
+require "ruphy/gsl/spop/hamiltonian/hydrogenic.rb"
