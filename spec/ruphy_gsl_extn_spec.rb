@@ -98,19 +98,18 @@ end
 describe RuPHY::GSL::GSLError do
 	if RuPHY::GSL::GSLError.respond_to? :gsl_error_test
 		it 'should be raised by test method' do
-			class RuPHY::GSL::GSLError
-				def initialize reason, file, line, errno
-					extend Spec::Matchers
-					reason.should == "test"
-					file.should == "ruphy_gsl.c"
-					line.should be_kind_of(Integer)
-					errno.should == Errno::GSL_EINVAL
-				end
+			class << RuPHY::GSL::GSLError
+				attr_reader :gsl_error_test_line
 			end
 
 			lambda do
 				RuPHY::GSL::GSLError.gsl_error_test
-			end.should raise_error RuPHY::GSL::GSLError
+			end.should raise_error RuPHY::GSL::GSLError do |ex|
+				ex.reason.should == "test"
+				ex.file.should   == "ruphy_gsl.c"
+				ex.line.should   == RuPHY::GSL::GSLError.gsl_error_test_line
+				ex.errno.should  == Errno::GSL_EINVAL
+			end
 		end
 	end
 end

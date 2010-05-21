@@ -27,6 +27,7 @@ static VALUE gsl_errorstr(VALUE self, VALUE _errno)
 #ifdef RUPHY_GSL_ERROR_TEST
 static VALUE gsl_error_test(VALUE self)
 {
+	rb_iv_set(rb_cGSLError, "@gsl_error_test_line", rb_int_new(__LINE__+1));
 	GSL_ERROR("test", GSL_EINVAL);
 }
 #endif //RUPHY_GSL_ERROR_TEST
