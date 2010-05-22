@@ -48,7 +48,8 @@ static VALUE inner_product(VALUE self, VALUE other)
 	return RB_COMPLEX(ret);
 }
 
-void init_SPWF(void) {
+void init_SPWF(void)
+{
 	rb_mSPWF  = rb_define_module_under(rb_mGSL, "SPWF");
 
 	rb_define_method(rb_mSPWF, "eval"         , return_value , 3);

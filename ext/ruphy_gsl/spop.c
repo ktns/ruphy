@@ -27,7 +27,8 @@ static gsl_complex hamiltonian(double r, double theta, double phy,
 			gsl_complex_div_real(ret_laplacian, 2), ret_potential);
 }
 
-void init_SPOP(void) {
+void init_SPOP(void)
+{
 	rb_mSPOP        = rb_define_module_under(rb_mGSL, "SPOP");
 	rb_mHamiltonian = rb_define_module_under(rb_mSPOP, "Hamiltonian");
 	rb_cHydrogenic  = rb_define_class_under(rb_mHamiltonian, "Hydrogenic", rb_cObject);
