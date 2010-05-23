@@ -20,7 +20,8 @@ typedef struct _hwf_params {
 } hwf_params;
 
 static gsl_complex hydrogenic_wave_function(double r, double theta, double phy,
-		void *params) {
+		void *params)
+{
 	hwf_params *hwf_params = params;
 	unsigned int n = hwf_params->n;
 	unsigned int l = hwf_params->l;
