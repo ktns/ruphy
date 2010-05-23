@@ -6,7 +6,7 @@
 
 VALUE rb_mSPWF;
 
-static void get_func_param(VALUE spwf, spwf_func **func, void** params)
+void get_func_param(VALUE spwf, spwf_func **func, void** params)
 {
 	Data_Get_Struct(rb_funcall(spwf, rb_intern("get_func"), 0), spwf_func, *func);
 	Data_Get_Struct(rb_iv_get(spwf, "params"), void, *params);
