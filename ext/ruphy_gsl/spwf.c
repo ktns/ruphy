@@ -56,4 +56,5 @@ void init_SPWF(void)
 	rb_define_method(rb_mSPWF, "inner_product", inner_product, 1);
 
 	init_SPWF_Hydrogenic();
+	init_SPWF_Operated();
 }
