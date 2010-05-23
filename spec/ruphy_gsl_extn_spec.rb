@@ -112,4 +112,13 @@ describe RuPHY::GSL::GSLError do
 			end
 		end
 	end
+
+	it 'should be raised by too large SPWF::Hydrogenic' do
+		lambda do
+			RuPHY::GSL::SPWF::Hydrogenic.new(1000,999,-999,500).eval(0,0,0)
+		end.should raise_error RuPHY::GSL::GSLError do |ex|
+			ex.reason.should == 'underflow'
+			ex.errno.should == RuPHY::GSL::GSLError::Errno::GSL_UNDERFLOW
+		end
+	end
 end
