@@ -8,7 +8,7 @@
 #include <gsl/gsl_complex_math.h>
 #endif //RUPHY_DERIV_TEST
 
-gsl_complex spop_r_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
+GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_r_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
 	gsl_function F;
 	gsl_dummy_func_params params;
 	gsl_complex res;
@@ -32,7 +32,7 @@ gsl_complex spop_r_deriv(double r, double theta, double phy, void *op_params, sp
 	return res;
 }
 
-gsl_complex spop_theta_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
+GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_theta_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
 	gsl_function F;
 	gsl_dummy_func_params params;
 	gsl_complex res;
@@ -56,7 +56,7 @@ gsl_complex spop_theta_deriv(double r, double theta, double phy, void *op_params
 	return res;
 }
 
-gsl_complex spop_phy_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
+GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_phy_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
 	gsl_function F;
 	gsl_dummy_func_params params;
 	gsl_complex res;
@@ -92,7 +92,7 @@ static gsl_complex r_test_function2(double r, double theta, double phy, void *pa
 	return gsl_complex_rect(r*r,0);
 }
 
-VALUE test_deriv_r(VALUE self, VALUE index, VALUE arg_r) {
+GCC_ATTR_VISIBILITY_HIDDEN VALUE test_deriv_r(VALUE self, VALUE index, VALUE arg_r) {
 	static const spwf_func funcs[] = {r_test_function1, r_test_function2};
 
 	double    r    = (double)NUM2DBL(arg_r);
@@ -112,7 +112,7 @@ static gsl_complex theta_test_function2(double r, double theta, double phy, void
 	return gsl_complex_rect(theta*theta,0);
 }
 
-VALUE test_deriv_theta(VALUE self, VALUE index, VALUE arg_theta) {
+GCC_ATTR_VISIBILITY_HIDDEN VALUE test_deriv_theta(VALUE self, VALUE index, VALUE arg_theta) {
 	static const spwf_func funcs[] = {theta_test_function1, theta_test_function2};
 
 	double    theta = (double)NUM2DBL(arg_theta);
@@ -132,7 +132,7 @@ static gsl_complex phy_test_function2(double r, double theta, double phy, void *
 	return gsl_complex_rect(phy*phy,0);
 }
 
-VALUE test_deriv_phy(VALUE self, VALUE index, VALUE arg_phy) {
+GCC_ATTR_VISIBILITY_HIDDEN VALUE test_deriv_phy(VALUE self, VALUE index, VALUE arg_phy) {
 	static const spwf_func funcs[] = {phy_test_function1, phy_test_function2};
 
 	double    phy  = (double)NUM2DBL(arg_phy);

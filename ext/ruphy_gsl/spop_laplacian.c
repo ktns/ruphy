@@ -35,7 +35,7 @@ static gsl_complex laplacian_phy_dummy (double  r, double theta, double phy, voi
 	return ret;
 }
 
-gsl_complex spop_laplacian (double  r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params )
+GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_laplacian (double  r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params )
 {
 	laplacian_dummy_params dummy_params;
 	dummy_params.func        = spwf;

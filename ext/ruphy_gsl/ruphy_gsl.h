@@ -1,6 +1,12 @@
 #include <ruby.h>
 #include <gsl/gsl_complex.h>
 
+#if __GNUC__ >= 4
+#define GCC_ATTR_VISIBILITY_HIDDEN __attribute__ ((visibility("hidden")))
+#else
+#define GCC_ATTR_VISIBILITY_HIDDEN
+#endif
+
 extern VALUE rb_mRuPHY;
 extern VALUE rb_mGSL;
 extern VALUE rb_cGSLError;

@@ -52,7 +52,7 @@ static VALUE setup_hwf_params(VALUE self, VALUE n, VALUE l, VALUE m, VALUE Z)
 	return wrapped;
 }
 
-void init_SPWF_Hydrogenic(void)
+GCC_ATTR_VISIBILITY_HIDDEN void init_SPWF_Hydrogenic(void)
 {
 	rb_cHydrogenic        = rb_define_class_under(rb_mSPWF, "Hydrogenic", rb_cObject);
 	rb_cHydrogenic_Params = rb_define_class_under(rb_cHydrogenic, "Params", rb_cObject);

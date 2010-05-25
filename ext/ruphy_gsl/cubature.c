@@ -839,7 +839,9 @@ static int ruleadapt_integrate(rule *r, unsigned fdim, integrand f, void *fdata,
      return status;
 }
 
-int adapt_integrate(unsigned fdim, integrand f, void *fdata, 
+#include "ruphy_gsl.h"
+
+GCC_ATTR_VISIBILITY_HIDDEN int adapt_integrate(unsigned fdim, integrand f, void *fdata, 
 		    unsigned dim, const double *xmin, const double *xmax, 
 		    unsigned maxEval, double reqAbsError, double reqRelError, 
 		    double *val, double *err)

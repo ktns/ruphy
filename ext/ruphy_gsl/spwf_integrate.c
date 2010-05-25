@@ -41,7 +41,7 @@ static void cubature_dummy_func (unsigned ndim, const double *x, void * arg_fdat
 #define REQERRABS (1.0e-8)
 #define REQERRREL (1.0e-8)
 
-gsl_complex integrate_spwf(spwf_func func, void *params)
+GCC_ATTR_VISIBILITY_HIDDEN gsl_complex integrate_spwf(spwf_func func, void *params)
 {
 	cubature_dummy_func_fdata_t fdata = {func, params};
 	static const double xmin[3] = {0, 0, 0};

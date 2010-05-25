@@ -4,7 +4,7 @@
 
 #include <gsl/gsl_complex_math.h>
 
-VALUE rb_mSPWF;
+GCC_ATTR_VISIBILITY_HIDDEN VALUE rb_mSPWF;
 
 static void get_func_param(VALUE spwf, spwf_func **func, void** params)
 {
@@ -48,7 +48,7 @@ static VALUE inner_product(VALUE self, VALUE other)
 	return RB_COMPLEX(ret);
 }
 
-void init_SPWF(void)
+GCC_ATTR_VISIBILITY_HIDDEN void init_SPWF(void)
 {
 	rb_mSPWF  = rb_define_module_under(rb_mGSL, "SPWF");
 
