@@ -82,12 +82,12 @@ gsl_complex spop_phy_deriv(double r, double theta, double phy, void *op_params, 
 
 #ifdef RUPHY_DERIV_TEST
 
-gsl_complex r_test_function1(double r, double theta, double phy, void *params)
+static gsl_complex r_test_function1(double r, double theta, double phy, void *params)
 {
 	return gsl_complex_rect(r,0);
 }
 
-gsl_complex r_test_function2(double r, double theta, double phy, void *params)
+static gsl_complex r_test_function2(double r, double theta, double phy, void *params)
 {
 	return gsl_complex_rect(r*r,0);
 }
@@ -102,12 +102,12 @@ VALUE test_deriv_r(VALUE self, VALUE index, VALUE arg_r) {
 	return ruphy_gsl2rb_complex(&res);
 }
 
-gsl_complex theta_test_function1(double r, double theta, double phy, void *params)
+static gsl_complex theta_test_function1(double r, double theta, double phy, void *params)
 {
 	return gsl_complex_rect(theta,0);
 }
 
-gsl_complex theta_test_function2(double r, double theta, double phy, void *params)
+static gsl_complex theta_test_function2(double r, double theta, double phy, void *params)
 {
 	return gsl_complex_rect(theta*theta,0);
 }
@@ -122,12 +122,12 @@ VALUE test_deriv_theta(VALUE self, VALUE index, VALUE arg_theta) {
 	return ruphy_gsl2rb_complex(&res);
 }
 
-gsl_complex phy_test_function1(double r, double theta, double phy, void *params)
+static gsl_complex phy_test_function1(double r, double theta, double phy, void *params)
 {
 	return gsl_complex_rect(phy,0);
 }
 
-gsl_complex phy_test_function2(double r, double theta, double phy, void *params)
+static gsl_complex phy_test_function2(double r, double theta, double phy, void *params)
 {
 	return gsl_complex_rect(phy*phy,0);
 }
