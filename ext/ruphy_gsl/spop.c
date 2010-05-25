@@ -30,7 +30,7 @@ static gsl_complex hamiltonian(double r, double theta, double phy,
 			r, theta,phy, p_params->potential_params, spwf, wf_params);
 
 	return gsl_complex_add(
-			gsl_complex_div_real(ret_laplacian, 2), ret_potential);
+			gsl_complex_div_real(ret_laplacian, -2), ret_potential);
 }
 
 GCC_ATTR_VISIBILITY_HIDDEN void init_SPOP(void)
