@@ -12,6 +12,12 @@ module RuPHY::GSL
 						]]
 					end
 
+					it 'should not equal' do
+						@spwfs.each do |spwf1,spwf2|
+							spwf1.should_not equal spwf2
+						end
+					end
+
 					it 'should have same hash' do
 						@spwfs.each do |spwf1,spwf2|
 							spwf1.hash.should == spwf2.hash
