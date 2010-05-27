@@ -30,6 +30,23 @@ module RuPHY
 					setup_params spwf, real, imag
 				end
 
+				def to_a
+					[self.class, @spwf, @multiplier]
+				end
+				protected :to_a
+
+				def hash
+					to_a.hash
+				end
+
+				def eql? other
+					to_a.eql? other.to_a rescue false
+				end
+
+				def == other
+					to_a == other.to_a rescue false
+				end
+
 				def * other
 					if other.kind_of? Numeric
 						Multiplied.new(@spwf, @multiplier * other)
