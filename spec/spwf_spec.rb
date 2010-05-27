@@ -13,6 +13,19 @@ module RuPHY::GSL
 						(@spwf1 * @spwf2).should be_kind_of Complex
 					end
 				end
+
+				describe Numeric do
+					before :each do
+						@spwf = mock(:spwf)
+						@spwf.extend(SPWF)
+					end
+
+					it "should invoke #{Multiplied}.new" do
+						multiplier = Complex(rand(), rand())
+						Multiplied.should_receive(:new).with(@spwf, multiplier)
+						@spwf * multiplier
+					end
+				end
 			end
 		end
 	end
