@@ -25,7 +25,17 @@ module RuPHY
 						raise TypeError,
 							"Numeric expected, but #{n.class}!" unless n.kind_of?(Numeric)
 					end
+					@multiplier = Complex.new(real, imag)
+					@spwf = spwf
 					setup_params spwf, real, imag
+				end
+
+				def * other
+					if other.kind_of? Numeric
+						Multiplied.new(@spwf, @multiplier * other)
+					else
+						super
+					end
 				end
 			end
 		end
