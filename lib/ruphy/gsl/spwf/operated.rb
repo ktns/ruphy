@@ -18,6 +18,8 @@ module RuPHY
 							"Don't specify complex number and imaginary part together!" if imag
 						imag = real.image
 						real = real.real
+					elsif imag.nil?
+						imag = 0
 					end
 					[real, imag].each do |n|
 						raise TypeError,
