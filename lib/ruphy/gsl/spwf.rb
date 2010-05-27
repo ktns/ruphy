@@ -5,6 +5,8 @@ module RuPHY
 				case other
 				when SPWF
 					inner_product(other)
+				when Numeric
+					Operated.new(self, other)
 				else
 					raise TypeError
 				end
