@@ -12,6 +12,10 @@ module RuPHY
 				end
 			end
 
+			def -@
+				self * -1
+			end
+
 			def ** other
 				raise ArgumentError, "expected 2, but#{other}!" unless other == 2
 				self * self
