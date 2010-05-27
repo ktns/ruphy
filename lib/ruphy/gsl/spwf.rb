@@ -14,3 +14,4 @@ module RuPHY
 end
 
 require __FILE__.sub(/.rb$/,'')+'/hydrogenic.rb'
+require __FILE__.sub(/.rb$/,'')+'/operated.rb'
