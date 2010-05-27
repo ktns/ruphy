@@ -6,10 +6,16 @@ module RuPHY::GSL
 			describe Multiplied do
 				describe 'identical pair' do
 					before do
-						@spwfs = [[
-							Hydrogenic.new(1,0,0,1) * -1,
-							- Hydrogenic.new(1,0,0,1)
-						]]
+						@spwfs =
+							[
+								[
+									Hydrogenic.new(1,0,0,1) * -1,
+									-Hydrogenic.new(1,0,0,1)
+								],[
+									Multiplied.new(Hydrogenic.new(2,1,-1,3), 1, -1),
+									Hydrogenic.new(2,1,-1,3) * Complex(1, -1)
+								]
+							]
 					end
 
 					it 'should not equal' do
