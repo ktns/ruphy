@@ -56,7 +56,7 @@ static void free_multiplying_owf_params(void *st)
 static VALUE setup_multiplying_owf_params(VALUE self, VALUE spwf, VALUE real, VALUE imag)
 {
 	gsl_complex *multiplier = ruby_xmalloc(sizeof(gsl_complex));
-	owf_params *params = ruby_xmalloc(sizeof(gsl_complex));
+	owf_params *params      = ruby_xmalloc(sizeof(owf_params));
 	spwf_func *buf;
 	get_func_param(spwf, &buf, &params->spwf_params);
 	*multiplier         = gsl_complex_rect(NUM2DBL(real), NUM2DBL(imag));
