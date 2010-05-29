@@ -39,6 +39,7 @@ spec/ruphy_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
 spec/spop_spec.rb
+spec/spwf_combination_spec.rb
 spec/spwf_hydrogenic_spec.rb
 spec/spwf_operated_spec.rb
 spec/spwf_spec.rb
