@@ -3,6 +3,22 @@ require File.dirname(__FILE__) + '/spec_helper.rb'
 module RuPHY::GSL
 	module SPWF
 		describe SPWF do
+			describe '#+' do
+				describe SPWF do
+					before do
+						@spwf1 = mock(:spwf1)
+						@spwf1.extend SPWF
+						@spwf2 = mock(:spwf2)
+						@spwf2.extend SPWF
+					end
+
+					it "should invoke #{Combination}.new" do
+						Combination.should_receive :new
+						@spwf1 + @spwf2
+					end
+				end
+			end
+
 			describe '#*'do
 				describe 'SPWF' do
 					before :each do
