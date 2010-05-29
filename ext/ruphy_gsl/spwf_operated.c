@@ -24,7 +24,7 @@ static gsl_complex operated_wave_function(double r, double theta, double phy,
 static VALUE get_func_operated(VALUE self)
 {
 	spwf_func *func    = ruby_xcalloc(1, sizeof(spwf_func));
-	VALUE      wrapped = Data_Wrap_Struct(rb_cOperated_Func, NULL, NULL, func);
+	VALUE      wrapped = Data_Wrap_Struct(rb_cOperated_Func, NULL, free, func);
 	*func = operated_wave_function;
 	return wrapped;
 }
@@ -35,7 +35,7 @@ static VALUE setup_owf_params(VALUE self, VALUE spop, VALUE spwf)
 	spwf_func *buf;
 	get_func_param(spwf, &buf, &params->spwf_params);
 	params->spwf = *buf;
-	VALUE wrapped = Data_Wrap_Struct(rb_cOperated_Params, NULL, NULL, params);
+	VALUE wrapped = Data_Wrap_Struct(rb_cOperated_Params, NULL, free, params);
 	rb_iv_set(self, "params", wrapped);
 	return wrapped;
 }
@@ -51,6 +51,7 @@ static void free_multiplying_owf_params(void *st)
 {
 	owf_params* params = st;
 	free(params->spop_params);
+	free(st);
 }
 
 static VALUE setup_multiplying_owf_params(VALUE self, VALUE spwf, VALUE real, VALUE imag)
