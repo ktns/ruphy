@@ -57,4 +57,5 @@ void init_SPWF(void)
 
 	init_SPWF_Hydrogenic();
 	init_SPWF_Operated();
+	init_SPWF_Combination();
 }

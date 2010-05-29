@@ -28,6 +28,10 @@ describe "ruphy_gsl" do
 		RuPHY::GSL::SPWF::Multiplied.should be_instance_of(Class)
 	end
 
+	it 'should define class RuPHY::GSL::SPWF::Combination' do
+		RuPHY::GSL::SPWF::Combination.should be_instance_of(Class)
+	end
+
 	it 'should define module RuPHY::GSL::SPOP' do
 		RuPHY::GSL::SPOP.should be_instance_of(Module)
 	end

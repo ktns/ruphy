@@ -17,6 +17,7 @@ ext/ruphy_gsl/spop_deriv.c
 ext/ruphy_gsl/spop_laplacian.c
 ext/ruphy_gsl/spwf.c
 ext/ruphy_gsl/spwf.h
+ext/ruphy_gsl/spwf_combination.c
 ext/ruphy_gsl/spwf_hydrogenic.c
 ext/ruphy_gsl/spwf_integrate.c
 ext/ruphy_gsl/spwf_integrate.h
