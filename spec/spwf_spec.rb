@@ -13,8 +13,8 @@ module RuPHY::GSL
 					end
 
 					it "should invoke #{Combination}.new" do
-						Combination.should_receive :new
-						@spwf1 + @spwf2
+						Combination.should_receive(:new).with(@spwf1, @spwf2).and_return :combination
+						(@spwf1 + @spwf2).should == :combination
 					end
 				end
 			end
