@@ -1,6 +1,11 @@
 module RuPHY
 	module GSL
 		module SPWF
+			def + other
+				raise TypeError, "#{SPWF} expected, but #{other.class}!" unless other.kind_of?(SPWF)
+				Combination.new(self, other)
+			end
+
 			def * other
 				case other
 				when SPWF
