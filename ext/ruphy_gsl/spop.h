@@ -1,7 +1,10 @@
 #ifndef _SPOP_H_
 #define _SPOP_H_
 
+extern VALUE rb_mSPOP;
+
 void init_SPOP(void);
+void init_SPOP_Multiplier(void);
 
 #define DERIV_DX (1e-8)
 

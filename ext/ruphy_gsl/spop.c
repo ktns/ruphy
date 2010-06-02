@@ -3,7 +3,7 @@
 
 #include <gsl/gsl_complex_math.h>
 
-static VALUE rb_mSPOP;
+VALUE rb_mSPOP;
 static VALUE rb_mHamiltonian;
 static VALUE rb_cHydrogenic;
 
@@ -44,4 +44,6 @@ void init_SPOP(void)
 	rb_define_singleton_method(rb_mSPOP, "test_deriv_theta", test_deriv_theta, 2);
 	rb_define_singleton_method(rb_mSPOP, "test_deriv_phy", test_deriv_phy, 2);
 #endif
+
+	init_SPOP_Multiplier();
 }
