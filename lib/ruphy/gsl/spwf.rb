@@ -15,7 +15,7 @@ module RuPHY
 				when SPWF
 					inner_product(other)
 				when Numeric
-					Multiplied.new(self, other)
+					Operated.new(SPOP::Multiplier.new(other), self)
 				else
 					raise TypeError
 				end

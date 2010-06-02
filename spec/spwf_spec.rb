@@ -36,9 +36,9 @@ module RuPHY::GSL
 						@spwf.extend(SPWF)
 					end
 
-					it "should invoke #{Multiplied}.new" do
+					it "should invoke #{Operated}.new" do
 						multiplier = Complex(rand(), rand())
-						Multiplied.should_receive(:new).with(@spwf, multiplier)
+						Operated.should_receive(:new).with(SPOP::Multiplier.new(multiplier), @spwf)
 						@spwf * multiplier
 					end
 				end

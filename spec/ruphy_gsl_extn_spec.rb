@@ -24,10 +24,6 @@ describe "ruphy_gsl" do
 		RuPHY::GSL::SPWF::Operated.should be_instance_of(Class)
 	end
 
-	it 'should define class RuPHY::GSL::SPWF::Multiplied' do
-		RuPHY::GSL::SPWF::Multiplied.should be_instance_of(Class)
-	end
-
 	it 'should define class RuPHY::GSL::SPWF::Combination' do
 		RuPHY::GSL::SPWF::Combination.should be_instance_of(Class)
 	end
