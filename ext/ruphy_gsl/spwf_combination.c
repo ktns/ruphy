@@ -52,7 +52,7 @@ static VALUE setup_combo_params(int argc, VALUE *argv, VALUE self)
 	params->count  = argc;
 	for(i=0; i<argc; i++) {
 		spwf_func *buf;
-		get_func_param(argv[i], &buf, &params->params[i].params);
+		get_func_param_from_spwf(argv[i], &buf, &params->params[i].params);
 		params->params[i].func = *buf;
 	}
 	VALUE wrapped = Data_Wrap_Struct(rb_cComboParams, NULL, free_combo_params, params);

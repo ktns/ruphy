@@ -33,7 +33,7 @@ static VALUE setup_owf_params(VALUE self, VALUE spop, VALUE spwf)
 {
 	owf_params *params = ruby_xcalloc(1, sizeof(owf_params));
 	spwf_func *buf;
-	get_func_param(spwf, &buf, &params->spwf_params);
+	get_func_param_from_spwf(spwf, &buf, &params->spwf_params);
 	params->spwf = *buf;
 	VALUE wrapped = Data_Wrap_Struct(rb_cOperated_Params, NULL, free, params);
 	rb_iv_set(self, "params", wrapped);
@@ -59,7 +59,7 @@ static VALUE setup_multiplying_owf_params(VALUE self, VALUE spwf, VALUE real, VA
 	gsl_complex *multiplier = ruby_xmalloc(sizeof(gsl_complex));
 	owf_params *params      = ruby_xmalloc(sizeof(owf_params));
 	spwf_func *buf;
-	get_func_param(spwf, &buf, &params->spwf_params);
+	get_func_param_from_spwf(spwf, &buf, &params->spwf_params);
 	*multiplier         = gsl_complex_rect(NUM2DBL(real), NUM2DBL(imag));
 	params->spop        = multiply;
 	params->spop_params = multiplier;

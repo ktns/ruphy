@@ -6,7 +6,7 @@
 
 VALUE rb_mSPWF;
 
-void get_func_param(VALUE spwf, spwf_func **func, void** params)
+void get_func_param_from_spwf(VALUE spwf, spwf_func **func, void** params)
 {
 	Data_Get_Struct(rb_funcall(spwf, rb_intern("get_func"), 0), spwf_func, *func);
 	Data_Get_Struct(rb_iv_get(spwf, "params"), void, *params);
@@ -17,7 +17,7 @@ void get_func_param(VALUE spwf, spwf_func **func, void** params)
 static VALUE return_value(VALUE self, VALUE r, VALUE theta, VALUE phy) {
 	void *params;
 	spwf_func *func;
-	get_func_param(self, &func, &params);
+	get_func_param_from_spwf(self, &func, &params);
 	gsl_complex ret = (*func)(rb_num2dbl(r), rb_num2dbl(theta), rb_num2dbl(phy),params);
 	return RB_COMPLEX(ret);
 }
@@ -40,8 +40,8 @@ static VALUE inner_product(VALUE self, VALUE other)
 {
 	func_mul_with_conjugate_param_t params;
 	spwf_func *func1  , *func2;
-	get_func_param(self , &func1, &params.params1);
-	get_func_param(other, &func2, &params.params2);
+	get_func_param_from_spwf(self , &func1, &params.params1);
+	get_func_param_from_spwf(other, &func2, &params.params2);
 	params.func1 = *func1;
 	params.func2 = *func2;
 	gsl_complex ret = integrate_spwf(func_mul_with_conjugate, &params);
