@@ -14,7 +14,7 @@ static gsl_complex multiply(double r, double theta, double phy,
 	return gsl_complex_mul(func(r, theta, phy, wf_params), *param);
 }
 
-VALUE get_multiplying_func(VALUE self)
+static VALUE get_multiplying_func(VALUE self)
 {
 	spop_func *func = ruby_xmalloc(sizeof(spop_func));
 	*func = multiply;
@@ -22,7 +22,7 @@ VALUE get_multiplying_func(VALUE self)
 	return wrapped;
 }
 
-VALUE setup_multipler_params(VALUE self, VALUE real, VALUE imag)
+static VALUE setup_multipler_params(VALUE self, VALUE real, VALUE imag)
 {
 	gsl_complex *params = ruby_xmalloc(sizeof(gsl_complex));
 	*params = gsl_complex_rect(NUM2DBL(real), NUM2DBL(imag));
@@ -31,7 +31,7 @@ VALUE setup_multipler_params(VALUE self, VALUE real, VALUE imag)
 	return wrapped;
 }
 
-void init_SPOP_Multiplier(void)
+GCC_ATTR_VISIBILITY_HIDDEN void init_SPOP_Multiplier(void)
 {
 	rb_cMultiplier = rb_define_class_under(rb_mSPOP, "Multiplier", rb_cObject);
 

@@ -60,7 +60,7 @@ static VALUE setup_combo_params(int argc, VALUE *argv, VALUE self)
 	return wrapped;
 }
 
-void init_SPWF_Combination(void)
+GCC_ATTR_VISIBILITY_HIDDEN void init_SPWF_Combination(void)
 {
 	VALUE rb_cCombination = rb_define_class_under(rb_mSPWF , "Combination", rb_cObject);
 	rb_cComboParams = rb_define_class_under(rb_cCombination, "Params"     , rb_cObject);

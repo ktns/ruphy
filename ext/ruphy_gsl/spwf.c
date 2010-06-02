@@ -6,7 +6,7 @@
 
 GCC_ATTR_VISIBILITY_HIDDEN VALUE rb_mSPWF;
 
-void get_func_param_from_spwf(VALUE spwf, spwf_func **func, void** params)
+GCC_ATTR_VISIBILITY_HIDDEN void get_func_param_from_spwf(VALUE spwf, spwf_func **func, void** params)
 {
 	Data_Get_Struct(rb_funcall(spwf, rb_intern("get_func"), 0), spwf_func, *func);
 	Data_Get_Struct(rb_iv_get(spwf, "params"), void, *params);

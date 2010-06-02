@@ -44,7 +44,7 @@ static VALUE setup_owf_params(VALUE self, VALUE spop, VALUE spwf)
 	return wrapped;
 }
 
-void init_SPWF_Operated(void)
+GCC_ATTR_VISIBILITY_HIDDEN void init_SPWF_Operated(void)
 {
 	VALUE rb_cOperated  = rb_define_class_under(rb_mSPWF    , "Operated", rb_cObject);
 	rb_cOperated_Params = rb_define_class_under(rb_cOperated, "Params"  , rb_cObject);
