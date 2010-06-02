@@ -1,5 +1,6 @@
 #include "ruphy_gsl.h"
 #include "spwf.h"
+#include "spop.h"
 
 #include <gsl/gsl_complex_math.h>
 
@@ -35,6 +36,9 @@ static VALUE setup_owf_params(VALUE self, VALUE spop, VALUE spwf)
 	spwf_func *buf;
 	get_func_param_from_spwf(spwf, &buf, &params->spwf_params);
 	params->spwf = *buf;
+	spop_func *spop_func_buf;
+	get_func_param_from_spop(spop, &spop_func_buf, &params->spop_params);
+	params->spop = *spop_func_buf;
 	VALUE wrapped = Data_Wrap_Struct(rb_cOperated_Params, NULL, free, params);
 	rb_iv_set(self, "params", wrapped);
 	return wrapped;

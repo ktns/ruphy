@@ -11,6 +11,8 @@ gsl_complex spop_phy_deriv  ( double r, double theta, double phy, void *op_param
 
 gsl_complex spop_laplacian  ( double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params );
 
+void get_func_param_from_spop(VALUE spop, spop_func **func, void **params);
+
 #ifdef RUPHY_DERIV_TEST
 VALUE test_deriv_r(VALUE self, VALUE index, VALUE arg_r);
 VALUE test_deriv_theta( VALUE self, VALUE index,   VALUE arg_theta);

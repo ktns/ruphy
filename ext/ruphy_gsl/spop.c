@@ -7,6 +7,12 @@ static VALUE rb_mSPOP;
 static VALUE rb_mHamiltonian;
 static VALUE rb_cHydrogenic;
 
+void get_func_param_from_spop(VALUE spop, spop_func **func, void **params)
+{
+	Data_Get_Struct(rb_funcall(spop, rb_intern("get_func"), 0), spop_func, *func);
+	Data_Get_Struct(rb_iv_get(spop, "params"), void, *params);
+}
+
 typedef struct {
 	spop_func  potential_func;
 	void      *potential_params;
