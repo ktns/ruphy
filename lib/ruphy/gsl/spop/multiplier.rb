@@ -33,6 +33,24 @@ module RuPHY::GSL
 			def eql? other
 				Multiplier == other.class and @multiplier.eql? other.multiplier
 			end
+
+			def * other
+				case other
+				when Numeric
+					Multiplier.new(@multiplier * other)
+				when Multiplier
+					Multiplier.new(@multiplier * other.multiplier)
+				else
+					super
+				end
+			end
+
+			def coerce other
+				case other
+				when Numeric
+					[Multiplier.new(other) ,self]
+				end
+			end
 		end
 	end
 end
