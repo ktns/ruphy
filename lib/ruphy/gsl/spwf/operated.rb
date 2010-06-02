@@ -2,6 +2,8 @@ module RuPHY
 	module GSL
 		module SPWF
 			class Operated
+				include SPWF
+
 				def initialize spop, spwf
 					raise TypeError,
 						"SPOP expected, but #{spop.class}!" unless spop.kind_of?(SPOP)
@@ -12,6 +14,8 @@ module RuPHY
 			end
 
 			class Multiplied
+				include SPWF
+
 				def initialize spwf, real, imag = nil
 					if real.kind_of?(Complex)
 						raise TypeError,
