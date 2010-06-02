@@ -6,6 +6,10 @@ module RuPHY
 				Combination.new(self, other)
 			end
 
+			def - other
+				self + (-other)
+			end
+
 			def * other
 				case other
 				when SPWF
