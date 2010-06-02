@@ -21,6 +21,18 @@ module RuPHY::GSL
 			end
 
 			attr_reader :multiplier
+
+			def hash
+				[Multiplier, @multiplier].hash
+			end
+
+			def == other
+				Multiplier == other.class and @multiplier == other.multiplier
+			end
+
+			def eql? other
+				Multiplier == other.class and @multiplier.eql? other.multiplier
+			end
 		end
 	end
 end
