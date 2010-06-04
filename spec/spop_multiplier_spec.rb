@@ -29,6 +29,16 @@ module RuPHY::GSL
 					end
 				end
 			end
+
+			describe "/ #{Numeric}" do
+				it "should return #{Multiplier} with devided multiplier" do
+					[rand(),Complex.new(rand(),rand())].each do |num|
+						multiplied = @multiplier / num
+						multiplied.should be_kind_of(Multiplier)
+						multiplied.multiplier.should == @multiplier.multiplier / num
+					end
+				end
+			end
 		end
 
 		describe "identical #{Multiplier}s" do
@@ -62,6 +72,17 @@ module RuPHY::GSL
 
 			it "should return #{Multiplier} with multiplied multiplier" do
 				(@num * @multiplier).should == Multiplier.new(@num * @multiplier.multiplier)
+			end
+		end
+
+		describe "#{Numeric} / #{Multiplier}" do
+			before do
+				@multiplier = Multiplier.new(rand())
+				@num = rand()
+			end
+
+			it "should return #{Multiplier} with devided multiplier" do
+				(@num / @multiplier).should == Multiplier.new(@num / @multiplier.multiplier)
 			end
 		end
 	end
