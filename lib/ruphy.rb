@@ -6,6 +6,8 @@ require 'complex'
 module RuPHY
 	VERSION = '0.0.1'
 
+	# internal utility function
+	# called from inside of ruphy_gsl.so
 	def self.complex x, y
 		if v = [x,y].find{|v|not v.class <= Numeric}
 			raise TypeError, "Numeric expected, but `#{v.class}'"

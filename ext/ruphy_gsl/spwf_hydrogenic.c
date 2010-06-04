@@ -36,7 +36,7 @@ static VALUE get_func_hydrogenic(VALUE self)
 {
 	spwf_func *func = ruby_xcalloc(1, sizeof(spwf_func));
 	*func = hydrogenic_wave_function;
-	VALUE wrapped = Data_Wrap_Struct(rb_cHydrogenic_Func, NULL, NULL, func);
+	VALUE wrapped = Data_Wrap_Struct(rb_cHydrogenic_Func, NULL, free, func);
 	return wrapped;
 }
 
@@ -47,7 +47,7 @@ static VALUE setup_hwf_params(VALUE self, VALUE n, VALUE l, VALUE m, VALUE Z)
 	params->l = NUM2INT(l);
 	params->m = NUM2INT(m);
 	params->Z = NUM2INT(Z);
-	VALUE wrapped = Data_Wrap_Struct(rb_cHydrogenic_Params, NULL, NULL, params);
+	VALUE wrapped = Data_Wrap_Struct(rb_cHydrogenic_Params, NULL, free, params);
 	rb_iv_set(self, "params", wrapped);
 	return wrapped;
 }
