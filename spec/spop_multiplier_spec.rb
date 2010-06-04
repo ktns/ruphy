@@ -39,6 +39,16 @@ module RuPHY::GSL
 					end
 				end
 			end
+
+			describe "** #{Numeric}" do
+				it "should return #{Multiplier} with raised multiplier" do
+					[rand(),Complex.new(rand(),rand())].each do |num|
+						multiplied = @multiplier ** num
+						multiplied.should be_kind_of(Multiplier)
+						multiplied.multiplier.should == @multiplier.multiplier ** num
+					end
+				end
+			end
 		end
 
 		describe "identical #{Multiplier}s" do
