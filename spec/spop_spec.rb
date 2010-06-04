@@ -5,10 +5,8 @@ module RuPHY::GSL
 		describe SPOP do
 			describe '#*'do
 				it 'should invoke SPWF::Operated' do
-					@spop = mock(:spop)
-					@spop.extend SPOP
-					@spwf = mock(:spwf)
-					@spwf.extend SPWF
+					@spop = mock_spop
+					@spwf = mock_spwf
 					SPWF::Operated.should_receive(:new).with(@spop, @spwf)
 					@spop * @spwf
 				end

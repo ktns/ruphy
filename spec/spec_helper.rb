@@ -6,6 +6,18 @@ rescue LoadError
 	require 'spec'
 end
 
+def mock_spop name=:spop
+	spop = mock(name)
+	spop.extend RuPHY::GSL::SPOP
+	return spop
+end
+
+def mock_spwf name = :spwf
+	spwf = mock(name)
+	spwf.extend RuPHY::GSL::SPWF
+	return spwf
+end
+
 def random_spwf_hydrogenic z = nil
 	z = rand(120) + 1 unless z
 	n = rand(10) + 1
