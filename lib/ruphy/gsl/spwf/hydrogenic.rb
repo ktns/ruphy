@@ -62,10 +62,12 @@ module RuPHY
 				end
 
 				def eql? other
+					self.class == other.class and
 					to_a.eql? other.to_a
 				end
 
 				def == other
+					self.class == other.class and
 					to_a == other.to_a
 				end
 			end
