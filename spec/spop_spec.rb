@@ -11,6 +11,15 @@ module RuPHY::GSL
 					@spop * @spwf
 				end
 			end
+
+			describe "+ #{SPOP}" do
+				it "should invoke #{Combination}.new" do
+					@spop1 = mock_spop :spop1
+					@spop2 = mock_spop :spop2
+					SPOP::Combination.should_receive(:new).with(@spop1, @spop2)
+					@spop1 + @spop2
+				end
+			end
 		end
 
 		module Hamiltonian

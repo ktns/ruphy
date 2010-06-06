@@ -11,5 +11,7 @@ module RuPHY::GSL
 		end
 	end
 end
+
+require 'ruphy/gsl/spop/combination'
 require 'ruphy/gsl/spop/hamiltonian'
 require 'ruphy/gsl/spop/multiplier'

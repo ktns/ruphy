@@ -27,6 +27,7 @@ ext/ruphy_gsl/utilities.c
 lib/ruphy.rb
 lib/ruphy/gsl/error.rb
 lib/ruphy/gsl/spop.rb
+lib/ruphy/gsl/spop/combination.rb
 lib/ruphy/gsl/spop/hamiltonian.rb
 lib/ruphy/gsl/spop/hamiltonian/hydrogenic.rb
 lib/ruphy/gsl/spop/multiplier.rb
@@ -41,6 +42,7 @@ spec/ruphy_gsl_extn_spec.rb
 spec/ruphy_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
+spec/spop_combination_spec.rb
 spec/spop_multiplier_spec.rb
 spec/spop_spec.rb
 spec/spwf_combination_spec.rb
