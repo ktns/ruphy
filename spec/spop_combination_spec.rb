@@ -4,7 +4,7 @@ module RuPHY::GSL
 	module SPOP
 		describe Combination do
 			before do
-				@spops = Array.new(4){Multiplier.new(rand())}
+				@spops = Array.new(4){Multiplier.new(rand())}.sort_by(&:hash)
 				@spop_combination = Combination.new(*@spops)
 			end
 
