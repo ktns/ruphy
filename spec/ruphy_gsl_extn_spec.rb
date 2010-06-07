@@ -32,6 +32,10 @@ describe "ruphy_gsl" do
 		RuPHY::GSL::SPOP.should be_instance_of(Module)
 	end
 
+	it 'should define class RuPHY::GSL::SPOP::Combination' do
+		RuPHY::GSL::SPOP::Combination.should be_instance_of(Class)
+	end
+
 	it 'should define module RuPHY::GSL::SPOP::Hamiltonian' do
 		RuPHY::GSL::SPOP::Hamiltonian.should be_instance_of(Module)
 	end

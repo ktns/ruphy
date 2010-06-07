@@ -13,6 +13,7 @@ ext/ruphy_gsl/ruphy_gsl.c
 ext/ruphy_gsl/ruphy_gsl.h
 ext/ruphy_gsl/spop.c
 ext/ruphy_gsl/spop.h
+ext/ruphy_gsl/spop_combination.c
 ext/ruphy_gsl/spop_deriv.c
 ext/ruphy_gsl/spop_laplacian.c
 ext/ruphy_gsl/spop_multiplier.c

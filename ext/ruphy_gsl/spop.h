@@ -4,6 +4,7 @@
 extern VALUE rb_mSPOP;
 
 void init_SPOP(void);
+void init_SPOP_Combination(void);
 void init_SPOP_Multiplier(void);
 
 #define DERIV_DX (1e-8)

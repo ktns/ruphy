@@ -45,5 +45,6 @@ GCC_ATTR_VISIBILITY_HIDDEN void init_SPOP(void)
 	rb_define_singleton_method(rb_mSPOP, "test_deriv_phy", test_deriv_phy, 2);
 #endif
 
+	init_SPOP_Combination();
 	init_SPOP_Multiplier();
 }
