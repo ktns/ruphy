@@ -21,6 +21,38 @@ module RuPHY::GSL
 					end
 				end
 			end
+
+			describe 'with permutated operators' do
+				before do
+					@spop_combinations = @spops.permutation.collect do |spops|
+						Combination.new(*spops)
+					end
+				end
+
+				it 'should not be equal each other' do
+					@spop_combinations.combination(2) do |spop1, spop2|
+						spop1.should_not equal spop2
+					end
+				end
+
+				it 'should be eql each other' do
+					@spop_combinations.combination(2) do |spop1, spop2|
+						spop1.should eql spop2
+					end
+				end
+
+				it 'should be == each other' do
+					@spop_combinations.combination(2) do |spop1, spop2|
+						spop1.should == spop2
+					end
+				end
+
+				it 'should have same hash as aother' do
+					@spop_combinations.combination(2) do |spop1, spop2|
+						spop1.hash.should == spop2.hash
+					end
+				end
+			end
 		end
 	end
 end
