@@ -20,6 +20,12 @@ module RuPHY::GSL
 				end
 			end
 
+			describe '#-@' do
+				it "should return #{Multiplier} with sign-inverted multiplier" do
+					(-@multiplier).should == Multiplier.new(-@multiplier.multiplier)
+				end
+			end
+
 			describe "* #{Numeric}" do
 				it "should return #{Multiplier} with multiplied multiplier" do
 					[rand(),Complex.new(rand(),rand())].each do |num|

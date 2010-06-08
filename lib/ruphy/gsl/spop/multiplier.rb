@@ -34,6 +34,10 @@ module RuPHY::GSL
 				Multiplier == other.class and @multiplier.eql? other.multiplier
 			end
 
+			def -@
+				Multiplier.new(-@multiplier)
+			end
+
 			def * other
 				case other
 				when SPWF
