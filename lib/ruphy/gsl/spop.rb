@@ -10,6 +10,10 @@ module RuPHY::GSL
 			end
 		end
 
+		def - other
+			self + (- other)
+		end
+
 		def * other
 			case other
 			when SPWF

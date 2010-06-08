@@ -12,12 +12,25 @@ module RuPHY::GSL
 				end
 			end
 
-			describe "+ #{SPOP}" do
-				it "should invoke #{Combination}.new" do
+			describe "\b" do
+				before do
 					@spop1 = mock_spop :spop1
 					@spop2 = mock_spop :spop2
-					SPOP::Combination.should_receive(:new).with(@spop1, @spop2)
-					@spop1 + @spop2
+				end
+
+				describe "+ #{SPOP}" do
+					it "should invoke #{Combination}.new" do
+						SPOP::Combination.should_receive(:new).with(@spop1, @spop2)
+						@spop1 + @spop2
+					end
+				end
+
+				describe "- #{SPOP}" do
+					it "should invoke #{SPOP} + (-#{SPOP})" do
+						@spop1.should_receive(:+).with(:inverted)
+						@spop2.should_receive(:-@).with(no_args()).and_return(:inverted)
+						@spop1 - @spop2
+					end
 				end
 			end
 		end
