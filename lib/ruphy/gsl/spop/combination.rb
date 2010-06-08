@@ -10,7 +10,7 @@ module RuPHY::GSL
 			attr_reader :spops
 
 			def hash
-				@spops.hash
+				[self.class, @spops].hash
 			end
 
 			def eql? other
