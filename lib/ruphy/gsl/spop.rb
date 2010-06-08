@@ -22,6 +22,13 @@ module RuPHY::GSL
 				raise NotImplementedError, "#{self.class} * #{other.class} is not implemented!"
 			end
 		end
+
+		def coerce other
+			case other
+			when Numeric
+				[Multiplier.new(other) ,self]
+			end
+		end
 	end
 end
 

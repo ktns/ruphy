@@ -66,13 +66,6 @@ module RuPHY::GSL
 					Multiplier.new(self.multiplier ** other)
 				end
 			end
-
-			def coerce other
-				case other
-				when Numeric
-					[Multiplier.new(other) ,self]
-				end
-			end
 		end
 	end
 end
