@@ -47,4 +47,5 @@ GCC_ATTR_VISIBILITY_HIDDEN void init_SPOP(void)
 
 	init_SPOP_Combination();
 	init_SPOP_Multiplier();
+	init_SPOP_Translation();
 }

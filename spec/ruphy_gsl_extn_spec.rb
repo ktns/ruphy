@@ -44,6 +44,10 @@ describe "ruphy_gsl" do
 		RuPHY::GSL::SPOP::Hamiltonian::Hydrogenic.should be_instance_of(Class)
 	end
 
+	it 'should define class RuPHY::GSL::SPOP::Translation' do
+		RuPHY::GSL::SPOP::Translation.should be_instance_of(Class)
+	end
+
 	it 'should define class RuPHY::GSL::SPOP::Multiplier' do
 		RuPHY::GSL::SPOP::Multiplier.should be_instance_of(Class)
 	end

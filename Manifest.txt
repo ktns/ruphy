@@ -17,6 +17,7 @@ ext/ruphy_gsl/spop_combination.c
 ext/ruphy_gsl/spop_deriv.c
 ext/ruphy_gsl/spop_laplacian.c
 ext/ruphy_gsl/spop_multiplier.c
+ext/ruphy_gsl/spop_translation.c
 ext/ruphy_gsl/spwf.c
 ext/ruphy_gsl/spwf.h
 ext/ruphy_gsl/spwf_combination.c
@@ -32,6 +33,7 @@ lib/ruphy/gsl/spop/combination.rb
 lib/ruphy/gsl/spop/hamiltonian.rb
 lib/ruphy/gsl/spop/hamiltonian/hydrogenic.rb
 lib/ruphy/gsl/spop/multiplier.rb
+lib/ruphy/gsl/spop/translation.rb
 lib/ruphy/gsl/spwf.rb
 lib/ruphy/gsl/spwf/combination.rb
 lib/ruphy/gsl/spwf/hydrogenic.rb
@@ -46,6 +48,7 @@ spec/spec_helper.rb
 spec/spop_combination_spec.rb
 spec/spop_multiplier_spec.rb
 spec/spop_spec.rb
+spec/spop_translation_spec.rb
 spec/spwf_combination_spec.rb
 spec/spwf_hydrogenic_spec.rb
 spec/spwf_operated_spec.rb
