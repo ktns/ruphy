@@ -12,6 +12,14 @@ module RuPHY::GSL
 				end
 			end
 
+			describe "* nil" do
+				it "should raise #{TypeError}" do
+					lambda do
+						mock_spop * nil
+					end.should raise_error NotImplementedError
+				end
+			end
+
 			describe "\b" do
 				before do
 					@spop1 = mock_spop :spop1
