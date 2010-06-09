@@ -83,13 +83,9 @@ module RuPHY::GSL
 						end
 
 						it 'should return propotional value at (r/Z)' do
-							ratios = []
-							15.times do
-								r, theta, phy = rand(), rand() * 2 * Math::PI, rand() * Math::PI
-								ratios << @s1.eval(r, theta, phy) / @s2.eval(r/@Z, theta, phy)
-							end
-							ratios.each do |ratio|
-								ratio.should be_close ratios.first, 1e-5
+							ratio = @s1.eval(0,0,0) / @s2.eval(0,0,0)
+							@s1.should_be_equivalent do |r, theta, phy|
+								@s2.eval(r/@s2.Z, theta, phy) * ratio
 							end
 						end
 					end

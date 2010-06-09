@@ -14,15 +14,8 @@ module RuPHY::GSL
 				end
 
 				it 'should return summation of original operators operated on the function' do
-					10.times do
-						begin
-							coord = random_coordinate
-							(@spop_combination * @spwf).eval(*coord).should ==
-								@spops.inject(0){|s,o| s + (o * @spwf).eval(*coord)}
-						rescue GSLError
-							retry if $!.errno == GSLError::Errno::GSL_EUNDRFLW
-							raise $!
-						end
+					(@spop_combination * @spwf).should_be_equivalent do |r, theta, phy|
+						@spops.inject(0){|s,o| s + (o * @spwf).eval(r, theta, phy)}
 					end
 				end
 			end

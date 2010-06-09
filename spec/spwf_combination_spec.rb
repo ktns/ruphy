@@ -24,15 +24,8 @@ module RuPHY::GSL
 
 				describe '#eval' do
 					it 'should return summation of operands' do
-						10.times do
-							begin
-								r, theta, phy = random_coordinate()
-								@spwf_combination.eval(r,theta,phy).should ==
-									@spwfs.inject(0){|s, f| s + f.eval(r,theta,phy)}
-							rescue GSLError
-								retry if $!.errno == GSLError::Errno::GSL_EUNDRFLW
-								raise $!
-							end
+						@spwf_combination.should_be_equivalent do |r, theta, phy|
+							@spwfs.inject(0){|s, f| s + f.eval(r,theta,phy)}
 						end
 					end
 				end
