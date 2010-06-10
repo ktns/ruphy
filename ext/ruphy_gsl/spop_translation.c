@@ -19,9 +19,9 @@ static gsl_complex translate(double r, double theta, double phy,
 {
 	trnsl_params *params = op_params;
 	double x,y,z;
-	x = r * cos(theta) * sin(phy) + params->dx;
+	x = r * sin(theta) * cos(phy) + params->dx;
 	y = r * sin(theta) * sin(phy) + params->dy;
-	z = r * cos(phy)              + params->dz;
+	z = r * cos(theta)            + params->dz;
 	r = sqrt(gsl_pow_2(x) + gsl_pow_2(y) + gsl_pow_2(z));
 	theta = acos(z/r);
 	gsl_sf_result r_res;
