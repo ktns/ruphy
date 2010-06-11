@@ -3,9 +3,15 @@
 
 #include <gsl/gsl_complex_math.h>
 
-static VALUE rb_mSPOP;
+GCC_ATTR_VISIBILITY_HIDDEN VALUE rb_mSPOP;
 static VALUE rb_mHamiltonian;
 static VALUE rb_cHydrogenic;
+
+GCC_ATTR_VISIBILITY_HIDDEN void get_func_param_from_spop(VALUE spop, spop_func **func, void **params)
+{
+	Data_Get_Struct(rb_funcall(spop, rb_intern("get_func"), 0), spop_func, *func);
+	Data_Get_Struct(rb_iv_get(spop, "params"), void, *params);
+}
 
 typedef struct {
 	spop_func  potential_func;
@@ -38,4 +44,8 @@ GCC_ATTR_VISIBILITY_HIDDEN void init_SPOP(void)
 	rb_define_singleton_method(rb_mSPOP, "test_deriv_theta", test_deriv_theta, 2);
 	rb_define_singleton_method(rb_mSPOP, "test_deriv_phy", test_deriv_phy, 2);
 #endif
+
+	init_SPOP_Combination();
+	init_SPOP_Multiplier();
+	init_SPOP_Translation();
 }

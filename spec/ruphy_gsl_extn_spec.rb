@@ -20,8 +20,20 @@ describe "ruphy_gsl" do
 		RuPHY::GSL::SPWF::Hydrogenic.should be_instance_of(Class)
 	end
 
+	it 'should define class RuPHY::GSL::SPWF::Operated' do
+		RuPHY::GSL::SPWF::Operated.should be_instance_of(Class)
+	end
+
+	it 'should define class RuPHY::GSL::SPWF::Combination' do
+		RuPHY::GSL::SPWF::Combination.should be_instance_of(Class)
+	end
+
 	it 'should define module RuPHY::GSL::SPOP' do
 		RuPHY::GSL::SPOP.should be_instance_of(Module)
+	end
+
+	it 'should define class RuPHY::GSL::SPOP::Combination' do
+		RuPHY::GSL::SPOP::Combination.should be_instance_of(Class)
 	end
 
 	it 'should define module RuPHY::GSL::SPOP::Hamiltonian' do
@@ -30,6 +42,14 @@ describe "ruphy_gsl" do
 
 	it 'should define class RuPHY::GSL::SPOP::Hamiltonian::Hydrogenic' do
 		RuPHY::GSL::SPOP::Hamiltonian::Hydrogenic.should be_instance_of(Class)
+	end
+
+	it 'should define class RuPHY::GSL::SPOP::Translation' do
+		RuPHY::GSL::SPOP::Translation.should be_instance_of(Class)
+	end
+
+	it 'should define class RuPHY::GSL::SPOP::Multiplier' do
+		RuPHY::GSL::SPOP::Multiplier.should be_instance_of(Class)
 	end
 end
 
