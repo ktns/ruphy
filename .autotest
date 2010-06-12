@@ -35,6 +35,9 @@ if system 'type notify-send > /dev/null 2>&1'
 end
 
 Autotest.add_hook :initialize do |at|
+	at.find_directories=%w<./spec ./lib ./ext>
+	at.add_exception(/(_helper\.rb|\.opts)$/)
+
 	at.add_mapping(/ext\/.*\/(.*)\.[ch]/) do |_, m|
 		["spec/#{m[1]}_extn_spec.rb"]
 	end
