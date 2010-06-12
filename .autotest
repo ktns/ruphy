@@ -1,4 +1,12 @@
 # -*- ruby -*-
+
+if ENV['TERM'] == 'screen'
+	begin
+		require 'autotest/screen'
+	rescue LoadError
+	end
+end
+
 # Adapted with tip from http://ph7spot.com/articles/getting_started_with_autotest
 # by DitoCujo (http://ditoinfo.wordpress.com)
 # and modified by ktns
