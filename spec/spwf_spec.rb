@@ -103,7 +103,7 @@ module RuPHY::GSL
 								ratios << @s1.eval(r, theta, phy) / @s2.eval(r/@Z, theta, phy)
 							end
 							ratios.each do |ratio|
-								ratio.should be_close ratios.first, 1e-5
+								ratio.should be_within(1e-5).of(ratios.first)
 							end
 						end
 					end
@@ -121,16 +121,20 @@ module RuPHY::GSL
 
 				phies.each do |phy|
 					describe phy do
-						it 'should be normalized', :phy => phy do
-							(options[:phy] * options[:phy]).should be_close 1, 1e-5
+						subject {phy}
+
+						it 'should be normalized' do
+							(subject * subject).should be_within(1e-5).of(1)
 						end
 					end
 				end
 
 				phies.combination(2) do |phy1, phy2|
+					subject {{:phy1 => phy1, :phy2 => phy2}}
+
 					describe "#{phy1} and #{phy2}" do
 						it 'should be mutually orthogonal', :phy1 => phy1, :phy2 => phy2 do
-							(options[:phy1] * options[:phy2]).should be_close 0, 1e-5
+							(subject[:phy1] * subject[:phy2]).should be_within(1e-5).of(0)
 						end
 					end
 				end
