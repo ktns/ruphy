@@ -1,4 +1,5 @@
 .autotest
+.rspec
 COPYING
 History.txt
 Manifest.txt
@@ -51,8 +52,7 @@ spec/ruphy/gsl/spwf/operated_spec.rb
 spec/ruphy/gsl/spwf_spec.rb
 spec/ruphy_gsl_extn_spec.rb
 spec/ruphy_spec.rb
-spec/spec.opts
 spec/spec_helper.rb
 tasks/extconf.rake
 tasks/extconf/ruphy_gsl.rake
-tasks/rspec.rake
+tasks/rcov.rake
