@@ -30,7 +30,7 @@ module RuPHY
 				self * self
 			end
 		end
-	end 
+	end
 end
 
 require __FILE__.sub(/.rb$/,'')+'/combination.rb'
