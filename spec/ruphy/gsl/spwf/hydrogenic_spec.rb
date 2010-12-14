@@ -77,7 +77,7 @@ module RuPHY::GSL
 					end
 
 					describe 'on different Z' do
-						before :all do
+						before :all do 
 							@Z = 1 + rand(100)
 							@s2 = Hydrogenic.new(1,0,0,@Z)
 						end

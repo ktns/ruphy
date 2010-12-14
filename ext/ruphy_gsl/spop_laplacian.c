@@ -9,7 +9,7 @@ typedef struct {
 	void * func_params;
 }laplacian_dummy_params;
 
-static gsl_complex laplacian_r_dummy (double  r, double theta, double phy, void *params)
+static gsl_complex laplacian_r_dummy (double  r, double theta, double phy, void *params) 
 {
 	laplacian_dummy_params *dummy_params = params;
 	gsl_complex ret = spop_r_deriv(r, theta, phy, NULL,
@@ -18,7 +18,7 @@ static gsl_complex laplacian_r_dummy (double  r, double theta, double phy, void 
 	return ret;
 }
 
-static gsl_complex laplacian_theta_dummy (double  r, double theta, double phy, void *params)
+static gsl_complex laplacian_theta_dummy (double  r, double theta, double phy, void *params) 
 {
 	laplacian_dummy_params *dummy_params = params;
 	gsl_complex ret = spop_theta_deriv(r, theta, phy, NULL,
@@ -27,7 +27,7 @@ static gsl_complex laplacian_theta_dummy (double  r, double theta, double phy, v
 	return ret;
 }
 
-static gsl_complex laplacian_phy_dummy (double  r, double theta, double phy, void *params)
+static gsl_complex laplacian_phy_dummy (double  r, double theta, double phy, void *params) 
 {
 	laplacian_dummy_params *dummy_params = params;
 	gsl_complex ret = spop_theta_deriv(r, theta, phy, NULL,
