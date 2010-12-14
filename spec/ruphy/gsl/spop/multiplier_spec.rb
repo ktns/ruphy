@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
+require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
 module RuPHY::GSL
 	module	SPOP
@@ -10,13 +10,12 @@ module RuPHY::GSL
 			end
 
 			it 'should multiply spwf by @multiplier' do
-				10.times do
-					begin
-						coord = random_coordinate
-						@multiplied.eval(*coord).should == @spwf.eval(*coord) * @multiplier.multiplier
-					rescue GSLError
-						retry if $!.errno == GSLError::Errno::GSL_EUNDRFLW
-					end
+				@multiplied.should_be_equivalent(@spwf){|val| val * @multiplier.multiplier}
+			end
+
+			describe '#-@' do
+				it "should return #{Multiplier} with sign-inverted multiplier" do
+					(-@multiplier).should == Multiplier.new(-@multiplier.multiplier)
 				end
 			end
 
@@ -26,6 +25,26 @@ module RuPHY::GSL
 						multiplied = @multiplier * num
 						multiplied.should be_kind_of(Multiplier)
 						multiplied.multiplier.should == @multiplier.multiplier * num
+					end
+				end
+			end
+
+			describe "/ #{Numeric}" do
+				it "should return #{Multiplier} with devided multiplier" do
+					[rand(),Complex.new(rand(),rand())].each do |num|
+						multiplied = @multiplier / num
+						multiplied.should be_kind_of(Multiplier)
+						multiplied.multiplier.should == @multiplier.multiplier / num
+					end
+				end
+			end
+
+			describe "** #{Numeric}" do
+				it "should return #{Multiplier} with raised multiplier" do
+					[rand(),Complex.new(rand(),rand())].each do |num|
+						multiplied = @multiplier ** num
+						multiplied.should be_kind_of(Multiplier)
+						multiplied.multiplier.should == @multiplier.multiplier ** num
 					end
 				end
 			end
@@ -62,6 +81,17 @@ module RuPHY::GSL
 
 			it "should return #{Multiplier} with multiplied multiplier" do
 				(@num * @multiplier).should == Multiplier.new(@num * @multiplier.multiplier)
+			end
+		end
+
+		describe "#{Numeric} / #{Multiplier}" do
+			before do
+				@multiplier = Multiplier.new(rand())
+				@num = rand()
+			end
+
+			it "should return #{Multiplier} with devided multiplier" do
+				(@num / @multiplier).should == Multiplier.new(@num / @multiplier.multiplier)
 			end
 		end
 	end

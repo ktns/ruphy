@@ -34,21 +34,36 @@ module RuPHY::GSL
 				Multiplier == other.class and @multiplier.eql? other.multiplier
 			end
 
+			def -@
+				Multiplier.new(-@multiplier)
+			end
+
 			def * other
 				case other
-				when Numeric
-					Multiplier.new(@multiplier * other)
-				when Multiplier
-					Multiplier.new(@multiplier * other.multiplier)
-				else
+				when SPWF
 					super
+				when Multiplier
+					Multiplier.new(self.multiplier * other.multiplier)
+				else
+					Multiplier.new(self.multiplier * other)
 				end
 			end
 
-			def coerce other
+			def / other
 				case other
-				when Numeric
-					[Multiplier.new(other) ,self]
+				when Multiplier
+					Multiplier.new(self.multiplier / other.multiplier)
+				else
+					Multiplier.new(self.multiplier / other)
+				end
+			end
+
+			def ** other
+				case other
+				when Multiplier
+					Multiplier.new(self.multiplier ** other.multiplier)
+				else
+					Multiplier.new(self.multiplier ** other)
 				end
 			end
 		end

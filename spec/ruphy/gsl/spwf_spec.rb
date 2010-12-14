@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
+require File.dirname(__FILE__) + '/../../spec_helper.rb'
 
 module RuPHY::GSL
 	module SPWF
@@ -6,10 +6,8 @@ module RuPHY::GSL
 			describe '#+' do
 				describe SPWF do
 					before do
-						@spwf1 = mock(:spwf1)
-						@spwf1.extend SPWF
-						@spwf2 = mock(:spwf2)
-						@spwf2.extend SPWF
+						@spwf1 = mock_spwf(:spwf1)
+						@spwf2 = mock_spwf(:spwf2)
 					end
 
 					it "should invoke #{Combination}.new" do
@@ -32,8 +30,7 @@ module RuPHY::GSL
 
 				describe Numeric do
 					before :each do
-						@spwf = mock(:spwf)
-						@spwf.extend(SPWF)
+						@spwf = mock_spwf
 					end
 
 					it "should invoke #{Operated}.new" do

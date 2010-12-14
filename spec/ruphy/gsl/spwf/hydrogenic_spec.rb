@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper.rb'
+require File.dirname(__FILE__) + '/../../../spec_helper.rb'
 
 module RuPHY::GSL
 	module SPWF
@@ -83,13 +83,9 @@ module RuPHY::GSL
 						end
 
 						it 'should return propotional value at (r/Z)' do
-							ratios = []
-							15.times do
-								r, theta, phy = rand(), rand() * 2 * Math::PI, rand() * Math::PI
-								ratios << @s1.eval(r, theta, phy) / @s2.eval(r/@Z, theta, phy)
-							end
-							ratios.each do |ratio|
-								ratio.should be_close ratios.first, 1e-5
+							ratio = @s1.eval(0,0,0) / @s2.eval(0,0,0)
+							@s1.should_be_equivalent do |r, theta, phy|
+								@s2.eval(r/@s2.Z, theta, phy) * ratio
 							end
 						end
 					end
@@ -97,16 +93,19 @@ module RuPHY::GSL
 
 				random_spwf_hydrogenic_subset(3).each do |phy|
 					describe phy do
-						it 'should be normalized', :phy => phy do
-							(options[:phy] * options[:phy]).should be_close 1, 1e-5
+						subject {phy}
+
+						it 'should be normalized' do
+							(subject * subject).should be_within(1e-5).of(1)
 						end
 					end
 				end
 
 				random_spwf_hydrogenic_subset(3).combination(2) do |phy1, phy2|
 					describe "#{phy1} and #{phy2}" do
+						subject {{:phy1 => phy1, :phy2 => phy2}}
 						it 'should be mutually orthogonal', :phy1 => phy1, :phy2 => phy2 do
-							(options[:phy1] * options[:phy2]).should be_close 0, 1e-5
+							(subject[:phy1] * subject[:phy2]).should be_within(1e-5).of(0)
 						end
 					end
 				end
