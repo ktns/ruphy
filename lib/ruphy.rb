@@ -14,6 +14,7 @@ module RuPHY
 		end
 		Complex(x,y)
 	end
+
 end
 
 begin
@@ -22,6 +23,8 @@ rescue LoadError
 	$: << File.join(File.dirname(__FILE__), *%w<.. ext ruphy_gsl>)
 	require 'ruphy_gsl'
 end
+
+require 'ruphy/digestable.rb'
 require 'ruphy/gsl/error.rb'
 require 'ruphy/gsl/spwf.rb'
 require 'ruphy/gsl/spop.rb'

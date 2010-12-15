@@ -1,6 +1,7 @@
 module RuPHY::GSL
 	module SPOP
 		class Multiplier
+			include RuPHY::Digestable
 			include SPOP
 
 			def initialize real, imag = nil
@@ -22,16 +23,16 @@ module RuPHY::GSL
 
 			attr_reader :multiplier
 
-			def hash
-				[Multiplier, @multiplier].hash
+			def digest_args
+				[Multiplier, @multiplier]
 			end
 
 			def == other
-				Multiplier == other.class and @multiplier == other.multiplier
+				self.class == other.class and @multiplier == other.multiplier
 			end
 
 			def eql? other
-				Multiplier == other.class and @multiplier.eql? other.multiplier
+				self.class == other.class and @multiplier.eql? other.multiplier
 			end
 
 			def -@
