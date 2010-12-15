@@ -55,7 +55,7 @@ module RuPHY::GSL
 						end
 					end
 
-					it 'should have same hash as aother' do
+					it 'should have same hash as another' do
 						@spwf_combinations.combination(2) do |spwf1, spwf2|
 							spwf1.hash.should == spwf2.hash
 						end

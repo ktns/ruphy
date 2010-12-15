@@ -1,6 +1,7 @@
 module RuPHY::GSL
 	module SPOP
 		class Combination
+			include RuPHY::Digestable
 			include SPOP
 
 			def initialize *spops
@@ -9,8 +10,9 @@ module RuPHY::GSL
 			end
 			attr_reader :spops
 
-			def hash
-				[self.class, @spops].hash
+			# required funciton by RuPHY::Digestable#digest
+			def digest_args
+				[self.class, @spops]
 			end
 
 			def eql? other

@@ -3,6 +3,7 @@ module RuPHY
 		module SPWF
 			# Represent wave functions of hydrogenic atoms.
 			class Hydrogenic
+				include Digestable
 				include SPWF
 				#Raised when invalid quantum numbers was given.
 				class InvalidQuantumNumbersError < Exception
@@ -57,8 +58,8 @@ module RuPHY
 				end
 				protected :to_a
 
-				def hash
-					to_a.hash
+				def digest_args
+					to_a
 				end
 
 				def eql? other

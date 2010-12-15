@@ -73,6 +73,32 @@ module RuPHY::GSL
 			end
 		end
 
+		describe "different #{Multiplier}s" do
+			before :all do
+				@multiplier1 = Multiplier.new(rand())
+				begin
+					@multiplier2 = Multiplier.new(rand())
+				end until @multiplier1.multiplier != @multiplier2.multiplier
+				raise if @multiplier1.multiplier == @multiplier2.multiplier
+			end
+
+			it 'shuld not equal each other' do
+				@multiplier1.should_not equal @multiplier2
+			end
+
+			it 'should not return same hash' do
+				@multiplier1.hash.should_not == @multiplier2.hash
+			end
+
+			it 'shuld not == each other' do
+				@multiplier1.should_not == @multiplier2
+			end
+
+			it 'shuld not eql each other' do
+				@multiplier1.should_not eql @multiplier2
+			end
+		end
+
 		describe "#{Numeric} * #{Multiplier}" do
 			before do
 				@multiplier = Multiplier.new(rand())
