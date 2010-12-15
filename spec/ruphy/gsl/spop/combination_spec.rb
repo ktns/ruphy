@@ -45,7 +45,7 @@ module RuPHY::GSL
 					end
 				end
 
-				it 'should have same hash as aother' do
+				it 'should have same hash as another' do
 					@spop_combinations.combination(2) do |spop1, spop2|
 						spop1.hash.should == spop2.hash
 					end
