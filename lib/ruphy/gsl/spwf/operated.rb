@@ -2,6 +2,7 @@ module RuPHY
 	module GSL
 		module SPWF
 			class Operated
+				include Digestable
 				include SPWF
 
 				def initialize spop, spwf
@@ -17,8 +18,8 @@ module RuPHY
 				end
 				protected :to_a
 
-				def hash
-					to_a.hash
+				def digest_args
+					to_a
 				end
 
 				def eql? other

@@ -2,6 +2,7 @@ module RuPHY
 	module GSL
 		module SPWF
 			class Combination
+				include Digestable
 				include SPWF
 
 				def initialize *args
@@ -16,8 +17,8 @@ module RuPHY
 				end
 				attr_reader :spwfs
 
-				def hash
-					[self.class, @spwfs].hash
+				def digest_args
+					[self.class, @spwfs]
 				end
 
 				def eql? other
