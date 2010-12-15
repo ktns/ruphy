@@ -1,3 +1,4 @@
+// vim: ts=8:sw=4:noet
 /* Adaptive multidimensional integration of a vector of integrands.
  *
  * Copyright (c) 2005-2009 Steven G. Johnson
