@@ -41,5 +41,23 @@ module RuPHY::GSL
 				end
 			end
 		end
+
+		SPWF.constants.collect do |name|
+			SPWF.const_get(name)
+		end.select do |cls|
+			cls.kind_of?(Class) && cls < SPWF
+		end.each do |cls|
+			describe "#{cls}" do
+				subject{cls}
+
+				it "should include #{RuPHY::Digestable}" do
+					subject.should < RuPHY::Digestable
+				end
+
+				it "should have instance method 'digest_args'" do
+					subject.instance_methods.should include 'digest_args'
+				end
+			end
+		end
 	end
 end

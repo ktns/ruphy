@@ -50,5 +50,23 @@ module RuPHY::GSL
 				end
 			end
 		end
+
+		SPOP.constants.collect do |name|
+			SPOP.const_get(name)
+		end.select do |cls|
+			cls.kind_of?(Class) && cls < SPOP
+		end.each do |cls|
+			describe "#{cls}" do
+				subject{cls}
+
+				it "should include #{RuPHY::Digestable}" do
+					subject.should < RuPHY::Digestable
+				end
+
+				it "should have instance method 'digest_args'" do
+					subject.instance_methods.should include 'digest_args'
+				end
+			end
+		end
 	end
 end
