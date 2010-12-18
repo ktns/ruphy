@@ -1,6 +1,7 @@
 module RuPHY::GSL
 	module SPOP
 		class Translation
+			include RuPHY::Digestable
 			include SPOP
 
 			def initialize dx, dy, dz
@@ -11,6 +12,10 @@ module RuPHY::GSL
 
 			def inverse
 				self.class.new -@dx, -@dy, -@dz 
+			end
+
+			def digest_args
+				[self.class, @dx, @dy, @dz]
 			end
 		end
 	end
