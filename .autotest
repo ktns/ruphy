@@ -1,9 +1,10 @@
 # -*- ruby -*-
 
-if ENV['TERM'] == 'screen'
+if ENV['TERM'] =~ /screen/
 	begin
 		require 'autotest/screen'
 	rescue LoadError
+		$stderr.puts "Could not load 'autotest/screen'"
 	end
 end
 
