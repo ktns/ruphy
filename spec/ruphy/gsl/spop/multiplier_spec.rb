@@ -21,7 +21,7 @@ module RuPHY::GSL
 
 			describe "* #{Numeric}" do
 				it "should return #{Multiplier} with multiplied multiplier" do
-					[rand(),Complex.new(rand(),rand())].each do |num|
+					[rand(), random_complex].each do |num|
 						multiplied = @multiplier * num
 						multiplied.should be_kind_of(Multiplier)
 						multiplied.multiplier.should == @multiplier.multiplier * num
@@ -31,7 +31,7 @@ module RuPHY::GSL
 
 			describe "/ #{Numeric}" do
 				it "should return #{Multiplier} with devided multiplier" do
-					[rand(),Complex.new(rand(),rand())].each do |num|
+					[rand(), random_complex].each do |num|
 						multiplied = @multiplier / num
 						multiplied.should be_kind_of(Multiplier)
 						multiplied.multiplier.should == @multiplier.multiplier / num
@@ -41,7 +41,7 @@ module RuPHY::GSL
 
 			describe "** #{Numeric}" do
 				it "should return #{Multiplier} with raised multiplier" do
-					[rand(),Complex.new(rand(),rand())].each do |num|
+					[rand(), random_complex].each do |num|
 						multiplied = @multiplier ** num
 						multiplied.should be_kind_of(Multiplier)
 						multiplied.multiplier.should == @multiplier.multiplier ** num

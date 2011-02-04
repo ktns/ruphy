@@ -6,6 +6,10 @@ rescue LoadError
 	require 'rspec'
 end
 
+def random_complex
+	Complex.new(rand(), rand())
+end
+
 def mock_spop name=:spop
 	spop = mock(name)
 	spop.extend RuPHY::GSL::SPOP
