@@ -1,6 +1,8 @@
 #include <ruby.h>
 #include <gsl/gsl_complex.h>
 
+#include "extconf.h"
+
 #if __GNUC__ >= 4
 #define GCC_ATTR_VISIBILITY_HIDDEN __attribute__ ((visibility("hidden")))
 #else
