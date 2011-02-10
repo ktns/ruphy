@@ -5,7 +5,8 @@ module RuPHY::GSL::SPOP::Hamiltonian
 		include RuPHY::GSL::SPOP::Hamiltonian
 
 		def initialize z = 1
-			@Z = z
+			@Z = z.to_i
+			raise ArgumentError, "should be positive number but was #{@Z}" unless @Z > 0
 		end
 	end
 end
