@@ -34,5 +34,6 @@ DEPENDENCIES
   bundler (~> 1.0.21)
   jeweler (~> 1.8.3)
   rcov (~> 0.9.11)
+  rdoc (~> 3.12)
   rspec (~> 2.8.0)
   simplecov (~> 0.6.1)
