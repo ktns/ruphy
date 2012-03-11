@@ -12,7 +12,7 @@ end
 require 'rake'
 
 require 'jeweler'
-Jeweler::Tasks.new do |gem|
+jeweler_tasks = Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "ruphy"
   gem.homepage = "http://github.com/ktns/ruphy"
@@ -47,3 +47,8 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+require 'rake/extensiontask'
+Rake::ExtensionTask.new('ruphy_gsl', jeweler_tasks.gemspec)
+
+task :spec => :compile

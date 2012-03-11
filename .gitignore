@@ -46,3 +46,7 @@ pkg
 
 # For rubinius:
 #*.rbc
+
+# For c extension:
+*.so
+/tmp
