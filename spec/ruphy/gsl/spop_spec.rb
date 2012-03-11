@@ -64,7 +64,7 @@ module RuPHY::GSL
 				end
 
 				it "should have instance method 'digest_args'" do
-					subject.instance_methods.should include 'digest_args'
+					subject.method_defined?(:digest_args).should be_true
 				end
 			end
 		end
