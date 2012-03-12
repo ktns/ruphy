@@ -62,7 +62,10 @@ module RuPHY::GSL
 					it 'should invoke argument validation' do
 						InvalidQuantumNumbersError.should_receive(:check).with(:n,:l,:p)
 						InvalidAtomicNumberError.should_receive(:check).with(:Z)
-						Hydrogenic.new(:n, :l, :p, :Z)
+						begin
+							Hydrogenic.new(:n, :l, :p, :Z)
+						rescue
+						end
 					end
 				end
 
