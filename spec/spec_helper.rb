@@ -12,7 +12,7 @@ RSpec.configure do |config|
 end
 
 def random_complex
-	Complex.new(rand(), rand())
+	rand() + Complex::I * rand()
 end
 
 def mock_spop name=:spop
