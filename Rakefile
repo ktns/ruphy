@@ -49,6 +49,10 @@ Rake::RDocTask.new do |rdoc|
 end
 
 require 'rake/extensiontask'
-Rake::ExtensionTask.new('ruphy_gsl', jeweler_tasks.gemspec)
+Rake::ExtensionTask.new('ruphy_gsl', jeweler_tasks.gemspec) do
+	ext.config_options << '--enable-deriv-test' if ENV['RUPHY_GSL_DERIV_TEST']
+	ext.config_options << '--enable-gsl-error-test' if ENV['RUPHY_GSL_ERROR_TEST']
+	ext.config_options << "--with-opt-dir=#{ENV['RUPHY_GSL_WITH_OPT_DIR']}" if ENV['RUPHY_GSL_WITH_OPT_DIR']
+end
 
 task :spec => :compile
