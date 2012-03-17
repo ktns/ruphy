@@ -12,7 +12,11 @@ module RuPHY
 				def initialize rows
 					rows.kind_of?(Array) or raise TypeError, 'Expected Array, but %s' % rows.class
 					rows.first.kind_of?(Array) or raise TypeError, 'Expected Array, but %s' % rows.first.class
-					super rows
+					begin
+						init_rows rows, true
+					rescue NoMethodError
+						super rows
+					end
 				end
 			end
 
