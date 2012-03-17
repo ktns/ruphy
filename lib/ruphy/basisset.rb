@@ -13,8 +13,8 @@ module RuPHY
 				@bases[i]
 			end
 
-			def each
-				@bases.each
+			def each &block
+				@bases.each &block
 			end
 		end
 	end
