@@ -4,7 +4,7 @@ module RuPHY
 		end
 
 		class SimpleList < Base
-			def new *bases
+			def initialize *bases
 				@bases = bases
 			end
 
