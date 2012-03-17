@@ -44,7 +44,7 @@ describe RuPHY::Theory::RHF::OverlapMatrix do
 			RuPHY::Theory::RHF::OverlapMatrix.new(@basis_set)
 		end
 
-		it {should == Matrix.identity(2)}
+		it {should be_within(1e-5).of(Matrix.identity(2))}
 	end
 end
 

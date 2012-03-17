@@ -103,3 +103,15 @@ module RuPHY::GSL::SPWF
 		self.should BeEquivalent.new(expected, &block)
 	end
 end
+
+class Matrix
+	def abs
+		to_a.flatten.inject(0) do |s,e|
+			s+begin
+					e.abs2
+			rescue NoMethodError
+				e**2
+			end
+		end ** 0.5
+	end
+end
