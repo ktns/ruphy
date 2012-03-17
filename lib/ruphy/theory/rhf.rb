@@ -8,6 +8,12 @@ module RuPHY
 					raise NoMethodError
 				end
 				public_class_method :new
+
+				def initialize rows
+					rows.kind_of?(Array) or raise TypeError, 'Expected Array, but %s' % rows.class
+					rows.first.kind_of?(Array) or raise TypeError, 'Expected Array, but %s' % rows.first.class
+					super rows
+				end
 			end
 
 			class CoefficientMatrix < Matrix
@@ -19,7 +25,13 @@ module RuPHY
 			end
 
 			class OverlapMatrix < Matrix
-
+				def initialize bases
+					super(bases.map do |bi|
+						bases.map do |bj|
+							bi * bj
+						end
+					end)
+				end
 			end
 
 			class OneElectronMatrix < Matrix
