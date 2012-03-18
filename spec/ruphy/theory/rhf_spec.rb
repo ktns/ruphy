@@ -50,6 +50,22 @@ end
 
 describe RuPHY::Theory::RHF::OneElectronMatrix do
 	it_behaves_like RuPHY::Theory::RHF::Matrix
+
+	context 'with Hydrogenic solution basis and Hamiltonian on He nucleus' do
+		before do
+			@basis_set = RuPHY::BasisSet::SimpleList.new(* 2.times.map do |i|
+				RuPHY::GSL::SPWF::Hydrogenic.new(i+1,0,0,2)
+			end)
+
+			@spop = RuPHY::GSL::SPOP::Hamiltonian::Hydrogenic.new(2)
+		end
+
+		subject do
+			RuPHY::Theory::RHF::OneElectronMatrix.new(@basis_set, @spop)
+		end
+
+		it {should be_diagnoal}
+	end
 end
 
 describe RuPHY::Theory::RHF::TwoElectronMatrix do
