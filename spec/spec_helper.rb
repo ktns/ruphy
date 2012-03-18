@@ -115,3 +115,33 @@ class Matrix
 		end ** 0.5
 	end
 end
+
+class BeDiagonal
+	def initialize
+		@e = 1e-8
+	end
+
+	def within e
+		@e = e
+	end
+
+	def matches? target
+		@target = target
+		@max    = 0
+		@target.each_with_index do |e,i,j|
+			i==j and next
+			e.abs <= @e or return @failed=[i,j]
+			@max = [@max,e].max_by(&:abs)
+		end
+	end
+
+	def failure_message
+		'Expected diagonal matrix, but [%d,%d] = %e' %
+		[*@failed, @target[*@failed]]
+	end
+
+	def failure_message
+		'Expected non-diagonal matrix,'+
+		' but maximum absolute value of off-diagonal is %e' % @max.abs
+	end
+end
