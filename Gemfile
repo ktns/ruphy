@@ -13,6 +13,11 @@ group :development do
   gem "rake-compiler", "~> 0.8.0"
 end
 
+group :autotest do
+  gem "ZenTest", "~> 4.6.2"
+	gem "autotest-screen", "~> 0.1.0.1"
+end
+
 group :test do
   gem "rspec", "~> 2.8.0"
   gem 'rcov', '~> 0.9.11', :platform => :ruby_18
