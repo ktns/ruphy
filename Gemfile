@@ -15,7 +15,7 @@ end
 
 group :autotest do
   gem "ZenTest", "~> 4.6.2"
-	gem "autotest-screen", "~> 0.1.0.1"
+  gem "autotest-screen", "~> 0.1.0.1"
 end
 
 group :test do
