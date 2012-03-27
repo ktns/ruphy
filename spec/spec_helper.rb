@@ -87,7 +87,7 @@ class BeEquivalent
 	end
 
 	def failure_message
-		coord, vt, ve = *(@vals.find{|coord, vt, ve| vt != ve})
+		coord, vt, ve = *(@vals.find{|coord, vt, ve| (vt - ve).abs >= 1e-8})
 		"expected #{@target}(#{'r=%e, theta=%e, phi=%e'%coord}) to return #{'%s'%ve}, but returned #{'%s'%vt}!"
 	end
 
