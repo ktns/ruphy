@@ -17,14 +17,14 @@ typedef struct {
 }combo_params;
 
 static gsl_complex combo_wave_function(
-		double r, double theta, double phy, void *arg_params)
+		double r, double theta, double phi, void *arg_params)
 {
 	gsl_complex buf = gsl_complex_rect(0,0);
 	combo_params *params = arg_params;
 	int i;
 	for(i = 0; i < params->count; i++) {
 		buf = gsl_complex_add(buf,
-				params->params[i].func(r, theta, phy, params->params[i].params));
+				params->params[i].func(r, theta, phi, params->params[i].params));
 	}
 	return buf;
 }

@@ -5,7 +5,7 @@ typedef struct {
 	spwf_func  func;
 	double     r;
 	double     theta;
-	double     phy;
+	double     phi;
 	void      *params;
 	double    *variable;
 } gsl_dummy_func_params;

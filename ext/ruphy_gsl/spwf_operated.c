@@ -14,11 +14,11 @@ typedef struct {
 	void      *spop_params;
 } owf_params;
 
-static gsl_complex operated_wave_function(double r, double theta, double phy,
+static gsl_complex operated_wave_function(double r, double theta, double phi,
 		void *arg_params)
 {
 	owf_params *params = arg_params;
-	return params->spop(r, theta, phy,
+	return params->spop(r, theta, phi,
 			params->spop_params, params->spwf, params->spwf_params);
 }
 

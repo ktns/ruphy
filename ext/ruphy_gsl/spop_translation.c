@@ -14,22 +14,22 @@ typedef struct {
 	double dz;
 }trnsl_params;
 
-static gsl_complex translate(double r, double theta, double phy,
+static gsl_complex translate(double r, double theta, double phi,
 		void *op_params, spwf_func func, void *wf_params)
 {
 	trnsl_params *params = op_params;
 	double x,y,z;
-	x = r * sin(theta) * cos(phy) + params->dx;
-	y = r * sin(theta) * sin(phy) + params->dy;
+	x = r * sin(theta) * cos(phi) + params->dx;
+	y = r * sin(theta) * sin(phi) + params->dy;
 	z = r * cos(theta)            + params->dz;
 	r = sqrt(gsl_pow_2(x) + gsl_pow_2(y) + gsl_pow_2(z));
 	theta = acos(z/r);
 	gsl_sf_result r_res;
 	gsl_sf_result theta_res;
 	gsl_sf_rect_to_polar(x, y, &r_res, &theta_res);
-	phy = theta_res.val;
+	phi = theta_res.val;
 
-	return func(r, theta, phy, wf_params);
+	return func(r, theta, phi, wf_params);
 }
 
 static VALUE get_trnsl_func(VALUE self)

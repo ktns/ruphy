@@ -8,7 +8,7 @@
 #include <gsl/gsl_complex_math.h>
 #endif //RUPHY_DERIV_TEST
 
-GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_r_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
+GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_r_deriv(double r, double theta, double phi, void *op_params, spwf_func spwf, void *wf_params) {
 	gsl_function F;
 	gsl_dummy_func_params params;
 	gsl_complex res;
@@ -17,7 +17,7 @@ GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_r_deriv(double r, double theta, doub
 	params.func     = spwf;
 	params.variable = &params.r;
 	params.theta    = theta;
-	params.phy      = phy;
+	params.phi      = phi;
 	params.params   = wf_params;
 
 	F.function = gsl_dummy_func_real;
@@ -32,7 +32,7 @@ GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_r_deriv(double r, double theta, doub
 	return res;
 }
 
-GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_theta_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
+GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_theta_deriv(double r, double theta, double phi, void *op_params, spwf_func spwf, void *wf_params) {
 	gsl_function F;
 	gsl_dummy_func_params params;
 	gsl_complex res;
@@ -41,7 +41,7 @@ GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_theta_deriv(double r, double theta, 
 	params.func     = spwf;
 	params.r        = r;
 	params.variable = &params.theta;
-	params.phy      = phy;
+	params.phi      = phi;
 	params.params   = wf_params;
 
 	F.function = gsl_dummy_func_real;
@@ -56,7 +56,7 @@ GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_theta_deriv(double r, double theta, 
 	return res;
 }
 
-GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_phy_deriv(double r, double theta, double phy, void *op_params, spwf_func spwf, void *wf_params) {
+GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_phi_deriv(double r, double theta, double phi, void *op_params, spwf_func spwf, void *wf_params) {
 	gsl_function F;
 	gsl_dummy_func_params params;
 	gsl_complex res;
@@ -65,29 +65,29 @@ GCC_ATTR_VISIBILITY_HIDDEN gsl_complex spop_phy_deriv(double r, double theta, do
 	params.func     = spwf;
 	params.r        = r;
 	params.theta    = theta;
-	params.variable = &params.phy;
+	params.variable = &params.phi;
 	params.params   = wf_params;
 
 	F.function = gsl_dummy_func_real;
 	F.params = &params;
 
-	gsl_deriv_central(&F, phy, DERIV_DX, &GSL_REAL(res), &dummy);
+	gsl_deriv_central(&F, phi, DERIV_DX, &GSL_REAL(res), &dummy);
 
 	F.function = gsl_dummy_func_imag;
 
-	gsl_deriv_central(&F, phy, DERIV_DX, &GSL_IMAG(res), &dummy);
+	gsl_deriv_central(&F, phi, DERIV_DX, &GSL_IMAG(res), &dummy);
 
 	return res;
 }
 
 #ifdef RUPHY_DERIV_TEST
 
-static gsl_complex r_test_function1(double r, double theta, double phy, void *params)
+static gsl_complex r_test_function1(double r, double theta, double phi, void *params)
 {
 	return gsl_complex_rect(r,0);
 }
 
-static gsl_complex r_test_function2(double r, double theta, double phy, void *params)
+static gsl_complex r_test_function2(double r, double theta, double phi, void *params)
 {
 	return gsl_complex_rect(r*r,0);
 }
@@ -102,12 +102,12 @@ GCC_ATTR_VISIBILITY_HIDDEN VALUE test_deriv_r(VALUE self, VALUE index, VALUE arg
 	return ruphy_gsl2rb_complex(&res);
 }
 
-static gsl_complex theta_test_function1(double r, double theta, double phy, void *params)
+static gsl_complex theta_test_function1(double r, double theta, double phi, void *params)
 {
 	return gsl_complex_rect(theta,0);
 }
 
-static gsl_complex theta_test_function2(double r, double theta, double phy, void *params)
+static gsl_complex theta_test_function2(double r, double theta, double phi, void *params)
 {
 	return gsl_complex_rect(theta*theta,0);
 }
@@ -122,23 +122,23 @@ GCC_ATTR_VISIBILITY_HIDDEN VALUE test_deriv_theta(VALUE self, VALUE index, VALUE
 	return ruphy_gsl2rb_complex(&res);
 }
 
-static gsl_complex phy_test_function1(double r, double theta, double phy, void *params)
+static gsl_complex phi_test_function1(double r, double theta, double phi, void *params)
 {
-	return gsl_complex_rect(phy,0);
+	return gsl_complex_rect(phi,0);
 }
 
-static gsl_complex phy_test_function2(double r, double theta, double phy, void *params)
+static gsl_complex phi_test_function2(double r, double theta, double phi, void *params)
 {
-	return gsl_complex_rect(phy*phy,0);
+	return gsl_complex_rect(phi*phi,0);
 }
 
-GCC_ATTR_VISIBILITY_HIDDEN VALUE test_deriv_phy(VALUE self, VALUE index, VALUE arg_phy) {
-	static const spwf_func funcs[] = {phy_test_function1, phy_test_function2};
+GCC_ATTR_VISIBILITY_HIDDEN VALUE test_deriv_phi(VALUE self, VALUE index, VALUE arg_phi) {
+	static const spwf_func funcs[] = {phi_test_function1, phi_test_function2};
 
-	double    phy  = (double)NUM2DBL(arg_phy);
+	double    phi  = (double)NUM2DBL(arg_phi);
 	spwf_func func = funcs[FIX2INT(index)];
 
-	gsl_complex res = spop_phy_deriv(0, 0, phy, NULL, func, NULL);
+	gsl_complex res = spop_phi_deriv(0, 0, phi, NULL, func, NULL);
 	return ruphy_gsl2rb_complex(&res);
 }
 

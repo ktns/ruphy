@@ -7,11 +7,11 @@ static VALUE rb_cMultiplier;
 static VALUE rb_cMultiplier_Func;
 static VALUE rb_cMultiplier_Params;
 
-static gsl_complex multiply(double r, double theta, double phy,
+static gsl_complex multiply(double r, double theta, double phi,
 		void *op_params, spwf_func func, void *wf_params)
 {
 	gsl_complex *param=op_params;
-	return gsl_complex_mul(func(r, theta, phy, wf_params), *param);
+	return gsl_complex_mul(func(r, theta, phi, wf_params), *param);
 }
 
 static VALUE get_multiplying_func(VALUE self)

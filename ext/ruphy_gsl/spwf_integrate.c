@@ -23,12 +23,12 @@ static void cubature_dummy_func (unsigned ndim, const double *x, void * arg_fdat
 	double t     = x[0];
 	double r     = (1-t)/t;
 	double theta = x[1];
-	double phy   = x[2];
+	double phi   = x[2];
 
 	cubature_dummy_func_fdata_t *fdata = arg_fdata;
 
 	gsl_complex val = gsl_complex_mul_real(
-			fdata->func(r, theta, phy, fdata->params),
+			fdata->func(r, theta, phi, fdata->params),
 			gsl_pow_2(r) * sin(theta) / gsl_pow_2(t)
 			);
 

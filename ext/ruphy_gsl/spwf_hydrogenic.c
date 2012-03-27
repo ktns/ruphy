@@ -19,7 +19,7 @@ typedef struct _hwf_params {
 	unsigned int Z;
 } hwf_params;
 
-static gsl_complex hydrogenic_wave_function(double r, double theta, double phy,
+static gsl_complex hydrogenic_wave_function(double r, double theta, double phi,
 		void *params)
 {
 	hwf_params *hwf_params = params;
@@ -27,7 +27,7 @@ static gsl_complex hydrogenic_wave_function(double r, double theta, double phy,
 	unsigned int l = hwf_params->l;
 	int          m = hwf_params->m;
 	unsigned int Z = hwf_params->Z;
-	return gsl_complex_mul_real( gsl_complex_exp (gsl_complex_rect(0, m * phy) ),
+	return gsl_complex_mul_real( gsl_complex_exp (gsl_complex_rect(0, m * phi) ),
 			gsl_sf_hydrogenicR(n, l, Z, r) * ( m>0 && GSL_IS_ODD(m) ? -1 : 1 )
 			* gsl_sf_legendre_sphPlm(l, abs(m), cos(theta)));
 }

@@ -88,12 +88,12 @@ class BeEquivalent
 
 	def failure_message
 		coord, vt, ve = *(@vals.find{|coord, vt, ve| vt != ve})
-		"expected #{@target}(#{'r=%e, theta=%e, phy=%e'%coord}) to return #{'%s'%ve}, but returned #{'%s'%vt}!"
+		"expected #{@target}(#{'r=%e, theta=%e, phi=%e'%coord}) to return #{'%s'%ve}, but returned #{'%s'%vt}!"
 	end
 
 	def negative_failure_message
 		"expected #{@vals.collect do|coord, vt, ve| 
-			"#{@target}(#{'r=%e, theta=%e, phy=%e'%coord}) not to return #{'%s'%ve}"
+			"#{@target}(#{'r=%e, theta=%e, phi=%e'%coord}) not to return #{'%s'%ve}"
 		end.join(" or,\n\t")}, but returned unexpected value!"
 	end
 end

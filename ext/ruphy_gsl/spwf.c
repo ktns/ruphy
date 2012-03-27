@@ -14,11 +14,11 @@ GCC_ATTR_VISIBILITY_HIDDEN void get_func_param_from_spwf(VALUE spwf, spwf_func *
 
 #define RB_COMPLEX(ret) (rb_funcall(rb_mRuPHY, rb_intern("complex"), 2, rb_float_new(GSL_REAL(ret)), rb_float_new(GSL_IMAG(ret))))
 
-static VALUE return_value(VALUE self, VALUE r, VALUE theta, VALUE phy) {
+static VALUE return_value(VALUE self, VALUE r, VALUE theta, VALUE phi) {
 	void *params;
 	spwf_func *func;
 	get_func_param_from_spwf(self, &func, &params);
-	gsl_complex ret = (*func)(rb_num2dbl(r), rb_num2dbl(theta), rb_num2dbl(phy),params);
+	gsl_complex ret = (*func)(rb_num2dbl(r), rb_num2dbl(theta), rb_num2dbl(phi),params);
 	return RB_COMPLEX(ret);
 }
 
@@ -28,12 +28,12 @@ typedef struct {
 }func_mul_with_conjugate_param_t;
 
 
-static gsl_complex func_mul_with_conjugate(double r, double theta, double phy, void *params_arg)
+static gsl_complex func_mul_with_conjugate(double r, double theta, double phi, void *params_arg)
 {
 	func_mul_with_conjugate_param_t *params = params_arg;
 	return gsl_complex_mul(
-			gsl_complex_conjugate(params->func1(r, theta, phy, params->params1)),
-			params->func2(r, theta, phy,params->params2));
+			gsl_complex_conjugate(params->func1(r, theta, phi, params->params1)),
+			params->func2(r, theta, phi,params->params2));
 }
 
 static VALUE inner_product(VALUE self, VALUE other)

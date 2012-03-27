@@ -12,7 +12,7 @@ typedef struct {
 	void      **params;
 }cop_params;
 
-static gsl_complex cop(double r, double theta, double phy,
+static gsl_complex cop(double r, double theta, double phi,
 		void *op_params, spwf_func func, void *wf_params)
 {
 	cop_params *params = op_params;
@@ -20,7 +20,7 @@ static gsl_complex cop(double r, double theta, double phy,
 	int i;
 	for(i=0; i < params->n; i++){
 		ret = gsl_complex_add(ret,
-				params->funcs[i](r, theta, phy, params->params[i], func, wf_params));
+				params->funcs[i](r, theta, phi, params->params[i], func, wf_params));
 	}
 	return ret;
 }
