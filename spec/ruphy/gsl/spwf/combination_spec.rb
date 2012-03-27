@@ -24,8 +24,8 @@ module RuPHY::GSL
 
 				describe '#eval' do
 					it 'should return summation of operands' do
-						@spwf_combination.should_be_equivalent do |r, theta, phy|
-							@spwfs.inject(0){|s, f| s + f.eval(r,theta,phy)}
+						@spwf_combination.should_be_equivalent do |r, theta, phi|
+							@spwfs.inject(0){|s, f| s + f.eval(r,theta,phi)}
 						end
 					end
 				end

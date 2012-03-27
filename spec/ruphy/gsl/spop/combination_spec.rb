@@ -14,8 +14,8 @@ module RuPHY::GSL
 				end
 
 				it 'should return summation of original operators operated on the function' do
-					(@spop_combination * @spwf).should_be_equivalent do |r, theta, phy|
-						@spops.inject(0){|s,o| s + (o * @spwf).eval(r, theta, phy)}
+					(@spop_combination * @spwf).should_be_equivalent do |r, theta, phi|
+						@spops.inject(0){|s,o| s + (o * @spwf).eval(r, theta, phi)}
 					end
 				end
 			end

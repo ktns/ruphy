@@ -87,16 +87,16 @@ module RuPHY::GSL
 
 						it 'should return propotional value at (r/Z)' do
 							ratio = @s1.eval(0,0,0) / @s2.eval(0,0,0)
-							@s1.should_be_equivalent do |r, theta, phy|
-								@s2.eval(r/@s2.Z, theta, phy) * ratio
+							@s1.should_be_equivalent do |r, theta, phi|
+								@s2.eval(r/@s2.Z, theta, phi) * ratio
 							end
 						end
 					end
 				end
 
-				random_spwf_hydrogenic_subset(3).each do |phy|
-					describe phy do
-						subject {phy}
+				random_spwf_hydrogenic_subset(3).each do |phi|
+					describe phi do
+						subject {phi}
 
 						it 'should be normalized' do
 							(subject * subject).should be_within(1e-5).of(1)
@@ -104,11 +104,11 @@ module RuPHY::GSL
 					end
 				end
 
-				random_spwf_hydrogenic_subset(3).combination(2) do |phy1, phy2|
-					describe "#{phy1} and #{phy2}" do
-						subject {{:phy1 => phy1, :phy2 => phy2}}
-						it 'should be mutually orthogonal', :phy1 => phy1, :phy2 => phy2 do
-							(subject[:phy1] * subject[:phy2]).should be_within(1e-5).of(0)
+				random_spwf_hydrogenic_subset(3).combination(2) do |phi1, phi2|
+					describe "#{phi1} and #{phi2}" do
+						subject {{:phi1 => phi1, :phi2 => phi2}}
+						it 'should be mutually orthogonal', :phi1 => phi1, :phi2 => phi2 do
+							(subject[:phi1] * subject[:phi2]).should be_within(1e-5).of(0)
 						end
 					end
 				end

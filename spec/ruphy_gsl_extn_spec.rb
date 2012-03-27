@@ -100,15 +100,15 @@ describe RuPHY::GSL::SPOP do
 		end
 	end
 
-	if RuPHY::GSL::SPOP.respond_to? :test_deriv_phy
-		describe '.test_deriv_phy' do
+	if RuPHY::GSL::SPOP.respond_to? :test_deriv_phi
+		describe '.test_deriv_phi' do
 			it 'should return sane values' do
 				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-					RuPHY::GSL::SPOP.test_deriv_phy(0,f).should be_within(1e-6).of(1.0);
+					RuPHY::GSL::SPOP.test_deriv_phi(0,f).should be_within(1e-6).of(1.0);
 				end
 
 				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-					RuPHY::GSL::SPOP.test_deriv_phy(1,f).should be_within([(2*f*1e-6).abs,1e-6].max).of(2*f)
+					RuPHY::GSL::SPOP.test_deriv_phi(1,f).should be_within([(2*f*1e-6).abs,1e-6].max).of(2*f)
 				end
 			end
 		end
