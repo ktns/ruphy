@@ -30,7 +30,7 @@ static gsl_complex laplacian_theta_dummy (double  r, double theta, double phy, v
 static gsl_complex laplacian_phy_dummy (double  r, double theta, double phy, void *params) 
 {
 	laplacian_dummy_params *dummy_params = params;
-	gsl_complex ret = spop_theta_deriv(r, theta, phy, NULL,
+	gsl_complex ret = spop_phy_deriv(r, theta, phy, NULL,
 			dummy_params->func, dummy_params->func_params);
 	return ret;
 }
