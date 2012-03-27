@@ -61,6 +61,14 @@ module RuPHY::GSL
 					Multiplier.new(self.multiplier ** other)
 				end
 			end
+
+			def to_s
+				'(%s)' % @multiplier
+			end
+
+			def inspect
+				'#<%s %p>' % [self.class, @multiplier]
+			end
 		end
 	end
 end
