@@ -10,6 +10,8 @@ doc
 
 # bundler
 .bundle
+# bundler visual representation of dependencies
+gem_graph.png
 
 # jeweler generated
 pkg
