@@ -29,6 +29,14 @@ module RuPHY
 				def == other
 					to_a == other.to_a rescue false
 				end
+
+				def to_s
+					'%s * %s' % [@spop, @spwf]
+				end
+
+				def inspect
+					'#<%s: %s * %s>' % [self.class, *[@spop, @spwf].map(&:inspect)]
+				end
 			end
 		end
 	end
