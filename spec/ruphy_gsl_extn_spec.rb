@@ -76,11 +76,11 @@ describe RuPHY::GSL::SPOP do
 		describe '.test_deriv_r' do
 			it 'should return sane values' do
 				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-					RuPHY::GSL::SPOP.test_deriv_r(0,f).should be_close(1.0, 1e-6);
+					RuPHY::GSL::SPOP.test_deriv_r(0,f).should be_within(1e-6).of(1.0);
 				end
 
 				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-					RuPHY::GSL::SPOP.test_deriv_r(1,f).should be_close(2*f, [(2*f*1e-6).abs,1e-6].max)
+					RuPHY::GSL::SPOP.test_deriv_r(1,f).should be_within([(2*f*1e-6).abs,1e-6].max).of(2*f)
 				end
 			end
 		end
@@ -90,11 +90,11 @@ describe RuPHY::GSL::SPOP do
 		describe '.test_deriv_theta' do
 			it 'should return sane values' do
 				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-					RuPHY::GSL::SPOP.test_deriv_theta(0,f).should be_close(1.0, 1e-6);
+					RuPHY::GSL::SPOP.test_deriv_theta(0,f).should be_within(1e-6).of(1.0);
 				end
 
 				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-					RuPHY::GSL::SPOP.test_deriv_theta(1,f).should be_close(2*f, [(2*f*1e-6).abs,1e-6].max)
+					RuPHY::GSL::SPOP.test_deriv_theta(1,f).should be_within([(2*f*1e-6).abs,1e-6].max).of(2*f)
 				end
 			end
 		end
@@ -104,11 +104,11 @@ describe RuPHY::GSL::SPOP do
 		describe '.test_deriv_phy' do
 			it 'should return sane values' do
 				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-					RuPHY::GSL::SPOP.test_deriv_phy(0,f).should be_close(1.0, 1e-6);
+					RuPHY::GSL::SPOP.test_deriv_phy(0,f).should be_within(1e-6).of(1.0);
 				end
 
 				[0.0, 1.0, -1.0, 10.0, -10.0].each do |f|
-					RuPHY::GSL::SPOP.test_deriv_phy(1,f).should be_close(2*f, [(2*f*1e-6).abs,1e-6].max)
+					RuPHY::GSL::SPOP.test_deriv_phy(1,f).should be_within([(2*f*1e-6).abs,1e-6].max).of(2*f)
 				end
 			end
 		end
