@@ -56,3 +56,5 @@ Rake::ExtensionTask.new('ruphy_gsl', jeweler_tasks.gemspec) do |ext|
 end
 
 task :spec => :compile
+
+CLEAN << 'gem_graph.png' 
