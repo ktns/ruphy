@@ -29,7 +29,7 @@ static VALUE get_cop_func(VALUE self)
 {
 	spop_func *func = ruby_xmalloc(sizeof(spop_func));
 	*func = cop;
-	VALUE wrapped = Data_Wrap_Struct(rb_cParams, NULL, free, func);
+	VALUE wrapped = Data_Wrap_Struct(rb_cFunc, NULL, free, func);
 	return wrapped;
 }
 
