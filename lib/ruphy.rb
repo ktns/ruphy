@@ -9,6 +9,7 @@ module RuPHY
 end
 
 require 'ruphy/digestable.rb'
+require 'ruphy/orbital'
 require 'ruphy/geometry'
 require 'ruphy/theory'
 require 'ruphy/basisset'
