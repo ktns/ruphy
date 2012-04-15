@@ -5,3 +5,5 @@ module RuPHY
 		end
 	end
 end
+
+require 'ruphy/orbital/gaussian'
