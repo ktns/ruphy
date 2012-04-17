@@ -11,5 +11,17 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 				described_class.new 1.0, [0,0,0], Vector[0,0,0]
 			end.should_not raise_error
 		end
+
+		it 'should not accept wrong dimension of orders' do
+			lambda do
+				described_class.new 1.0, [0,0,0,0], Vector[0,0,0]
+			end.should raise_error ArgumentError
+		end
+
+		it 'should not accept wrong dimension of orders' do
+			lambda do
+				described_class.new 1.0, [0,0,0], Vector[0,0,0,0]
+			end.should raise_error ArgumentError
+		end
 	end
 end
