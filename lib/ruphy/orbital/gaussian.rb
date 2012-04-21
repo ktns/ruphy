@@ -10,6 +10,12 @@ module RuPHY
 					raise NotImplementedError
 				end
 			end
+
+			class Contracted < Orbital
+				def initialize *args
+					raise NotImplementedError
+				end
+			end
 		end
 	end
 end
