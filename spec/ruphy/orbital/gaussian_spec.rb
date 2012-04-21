@@ -41,6 +41,10 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 				end.reduce(:*)**0.5
 			)
 		end
+
+		its(:angular_momentum) do
+			should == momenta.reduce(:+)
+		end
 	end
 
 	describe 's orbital with zeta = 1.0' do
