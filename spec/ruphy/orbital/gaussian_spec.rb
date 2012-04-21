@@ -18,7 +18,7 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 			end.should raise_error ArgumentError
 		end
 
-		it 'should not accept wrong dimension of momenta' do
+		it 'should not accept wrong dimension of center coordinates' do
 			lambda do
 				described_class.new 1.0, [0,0,0], Vector[0,0,0,0]
 			end.should raise_error ArgumentError
