@@ -24,6 +24,31 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 			end.should raise_error ArgumentError
 		end
 	end
+
+	shared_examples_for 'a primitive'	do
+		subject do
+			described_class.new(zeta,momenta,center)
+		end
+
+		its(:normilization_factor) do
+			should be_within(1e-5).of(
+				(2*Math::PI)**0.75*
+				2**momenta.reduce(:+)*
+				zeta**((2*momenta.reduce(:+)+3).to_f/4)/
+				momenta.map do |m|
+				m==0 ? 1 :
+					(2*m-1).downto(1).reduce(:*).downto(1).reduce(:*)
+				end.reduce(:*)**0.5
+			)
+		end
+	end
+
+	describe 's orbital with zeta = 1.0' do
+		let(:zeta){1.0}
+		let(:momenta){[0,0,0]}
+		let(:center){[0,0,0]}
+		it_behaves_like 'a primitive'
+	end
 end
 
 describe RuPHY::Orbital::Gaussian::Contracted do
