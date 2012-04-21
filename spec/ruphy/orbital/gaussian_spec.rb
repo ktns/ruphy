@@ -28,7 +28,7 @@ end
 
 describe RuPHY::Orbital::Gaussian::Contracted do
 	describe '.new' do
-		it 'should accept coeffs, zetas, orders, and center' do
+		it 'should accept coeffs, zetas, momenta, and center' do
 			lambda do
 				described_class.new [1.0,0.0], [1.0,2.0], [0,0,0], Vector[0,0,0]
 			end.should_not raise_error

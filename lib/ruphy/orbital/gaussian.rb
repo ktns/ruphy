@@ -21,8 +21,10 @@ module RuPHY
 			end
 
 			class Contracted < Orbital
-				def initialize *args
-					raise NotImplementedError
+				def initialize coeffs, zetas, momenta, center
+					@primitives=[coeffs,zetas].transpose.map do |c,zeta|
+						[c, Primitive.new(zeta,momenta,center)]
+					end
 				end
 			end
 		end
