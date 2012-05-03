@@ -6,7 +6,7 @@ source "http://rubygems.org"
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
 
-gem "soap4r", "~> 1.5.8"
+gem "soap4r", "~> 1.5.8", :require => 'soap/soap'
 
 group :development do
   gem "rspec", "~> 2.8.0"
