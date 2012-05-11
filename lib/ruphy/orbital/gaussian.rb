@@ -24,6 +24,14 @@ module RuPHY
 				def angular_momentum
 					@momenta.reduce(:+)
 				end
+
+				def normalization_factor
+					overlap(self)**(-0.5)
+				end
+
+				def overlap other
+					raise NotImplementedError
+				end
 			end
 
 			class Contracted < Orbital
