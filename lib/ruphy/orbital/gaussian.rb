@@ -19,6 +19,8 @@ module RuPHY
 					raise ArgumentError, 'Invalid dimension of center coordinates(%d)!' % center.size unless center.size == 3
 				end
 
+				attr_reader :zeta, :momenta, :center
+
 				def angular_momentum
 					@momenta.reduce(:+)
 				end

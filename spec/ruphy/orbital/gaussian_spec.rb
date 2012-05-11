@@ -30,6 +30,12 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 			described_class.new(zeta,momenta,center)
 		end
 
+		its(:zeta){ should be_frozen }
+
+		its(:momenta){ should be_frozen }
+
+		its(:center){ should be_frozen }
+
 		its(:normilization_factor) do
 			should be_within(1e-5).of(
 				(2*Math::PI)**0.75*
