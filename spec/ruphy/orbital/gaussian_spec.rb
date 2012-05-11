@@ -36,7 +36,7 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 
 		its(:center){ should be_frozen }
 
-		its(:normilization_factor) do
+		its(:normalization_factor) do
 			should be_within(1e-5).of(
 				(2*Math::PI)**0.75*
 				2**momenta.reduce(:+)*
