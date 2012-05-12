@@ -42,31 +42,22 @@ module RuPHY
 				# calculate one dimensional integral over entire space of
 				# (x-a)^m(x-b)^n exp(-z*x^2)
 				def integral a,b,m,n,z
-					case m
-					when 0
-						case n
-						when 0
-							sqrt(PI/z)
-						when 1
-							-b*sqrt(PI/z)
-						else
-							(b**2+(n-1)/2.0/z) * integral(a,b,m,n-2,z) -
-								2*b * integral(a,b,m,n-1,z)
-						end
-					when 1
-						case n
-						when 0
-							-a*sqrt(PI/z)
-						when 1
-							(a*b+0.5/z)*sqrt(PI/z)
-						else
-							(b**2+(n-1)/2.0/z) * integral(a,b,m,n-2,z) -
-								2*b * integral(a,b,m,n-1,z)
+					e=m+n
+					if e > 0
+						d=e+1
+						coefs=Vector[1,*[0]*e]
+						shifter=Matrix[*[[0]*d]+(Matrix.identity(e).to_a+[[0]*e]).transpose]
+						coefs=(Matrix.identity(d)*-a+shifter)**m*(Matrix.identity(d)*-b+shifter)**n*coefs
+						coefs.each_with_index.inject(0) do |s,(a,n)|
+							if n % 2 == 0
+								s + a*(n-1).downto(1).reduce(1,:*).downto(1).reduce(1,:*)/(2*z)**(n/2)
+							else
+								s
+							end
 						end
 					else
-							(a**2+(m-1)/2.0/z) * integral(a,b,m-2,n,z) -
-								2*a * integral(a,b,m-1,n,z)
-					end
+						1
+					end*sqrt(PI/z)
 				end
 			end
 
