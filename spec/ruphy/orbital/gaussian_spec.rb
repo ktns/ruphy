@@ -59,6 +59,69 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 		let(:center){[0,0,0]}
 		it_behaves_like 'a primitive'
 	end
+
+	describe 'px orbital with zeta = 1.0' do
+		let(:zeta){1.0}
+		let(:momenta){[1,0,0]}
+		let(:center){[0,0,0]}
+		it_behaves_like 'a primitive'
+	end
+
+	describe 'py orbital with zeta = 1.0' do
+		let(:zeta){1.0}
+		let(:momenta){[0,1,0]}
+		let(:center){[0,0,0]}
+		it_behaves_like 'a primitive'
+	end
+
+	describe 'pz orbital with zeta = 1.0' do
+		let(:zeta){1.0}
+		let(:momenta){[0,0,1]}
+		let(:center){[0,0,0]}
+		it_behaves_like 'a primitive'
+	end
+
+	describe 'dxy orbital with zeta = 1.0' do
+		let(:zeta){1.0}
+		let(:momenta){[1,1,0]}
+		let(:center){[0,0,0]}
+		it_behaves_like 'a primitive'
+	end
+
+	describe 'dyz orbital with zeta = 1.0' do
+		let(:zeta){1.0}
+		let(:momenta){[0,1,1]}
+		let(:center){[0,0,0]}
+		it_behaves_like 'a primitive'
+	end
+
+	describe 'dzx orbital with zeta = 1.0' do
+		let(:zeta){1.0}
+		let(:momenta){[1,0,1]}
+		let(:center){[0,0,0]}
+		it_behaves_like 'a primitive'
+	end
+
+	describe 'dx^2 orbital with zeta = 1.0' do
+		let(:zeta){1.0}
+		let(:momenta){[2,0,0]}
+		let(:center){[0,0,0]}
+		it_behaves_like 'a primitive'
+	end
+
+	describe 'dy^2 orbital with zeta = 1.0' do
+		let(:zeta){1.0}
+		let(:momenta){[0,2,0]}
+		let(:center){[0,0,0]}
+		it_behaves_like 'a primitive'
+	end
+
+	describe 'dz^2 orbital with zeta = 1.0' do
+		let(:zeta){1.0}
+		let(:momenta){[0,0,2]}
+		let(:center){[0,0,0]}
+		it_behaves_like 'a primitive'
+	end
 end
 
 describe RuPHY::Orbital::Gaussian::Contracted do
