@@ -38,7 +38,7 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 
 		its(:normalization_factor) do
 			should be_within(1e-5).of(
-				(2*Math::PI)**0.75*
+				(2/Math::PI)**0.75*
 				2**momenta.reduce(:+)*
 				zeta**((2*momenta.reduce(:+)+3).to_f/4)/
 				momenta.map do |m|
