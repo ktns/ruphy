@@ -160,6 +160,47 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 		let(:center){[0,0,0]}
 		it_behaves_like 'mutually orthogonal p primitives with identical center'
 	end
+
+	shared_examples_for 'mutually orthogonal p primitives with different centers' do
+		before :all do
+			@primitive1 = described_class.new(zeta1,momenta1,center1)
+			@primitive2 = described_class.new(zeta2,momenta2,center2)
+		end
+
+		it 'should not have overlap of 0' do
+			@primitive1.overlap(@primitive2).should be_within(1e-5).of(0)
+		end
+	end
+
+	describe 'px and py primitives with zeta = 1.0, 1 Bohr translated' do
+		let(:zeta1){1.0}
+		let(:zeta2){1.0}
+		let(:momenta1){[1,0,0]}
+		let(:momenta2){[0,1,0]}
+		let(:center1){[0,0,0]}
+		let(:center2){[0,0,1]}
+		it_behaves_like 'mutually orthogonal p primitives with different centers'
+	end
+
+	describe 'py and pz primitives with zeta = 1.0, 1 Bohr translated' do
+		let(:zeta1){1.0}
+		let(:zeta2){1.0}
+		let(:momenta1){[0,1,0]}
+		let(:momenta2){[0,0,1]}
+		let(:center1){[0,0,0]}
+		let(:center2){[0,0,1]}
+		it_behaves_like 'mutually orthogonal p primitives with different centers'
+	end
+
+	describe 'pz and px primitives with zeta = 1.0, 1 Bohr translated' do
+		let(:zeta1){1.0}
+		let(:zeta2){1.0}
+		let(:momenta1){[0,0,1]}
+		let(:momenta2){[1,0,0]}
+		let(:center1){[0,0,0]}
+		let(:center2){[0,0,1]}
+		it_behaves_like 'mutually orthogonal p primitives with different centers'
+	end
 end
 
 describe RuPHY::Orbital::Gaussian::Contracted do
