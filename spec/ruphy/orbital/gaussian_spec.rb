@@ -201,6 +201,29 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 		let(:center2){[0,0,1]}
 		it_behaves_like 'mutually orthogonal p primitives with different centers'
 	end
+
+	shared_examples_for 'two s primitives and different centers' do
+		before :all do
+			@primitive1 = described_class.new(zeta1,[0,0,0],center1)
+			@primitive2 = described_class.new(zeta2,[0,0,0],center2)
+			@primitive3 = described_class.new(zeta2,[0,0,0],center1)
+			@r = @primitive1.center-@primitive2.center
+		end
+
+		it 'should have overlap scaled by exponential of displacement' do
+			@primitive1.overlap(@primitive2).should be_within(1e-5).of(
+				@primitive1.overlap(@primitive3) *
+				Math::exp(-@r.inner_product(@r)* zeta1 * zeta2 / (zeta1+zeta2)))
+		end
+	end
+
+	describe 's orbitals with zeta=1.0 on (0,0,0) and (0,0,1)' do
+		let(:zeta1){1.0}
+		let(:zeta2){1.0}
+		let(:center1){[0,0,0]}
+		let(:center2){[0,0,1]}
+		it_behaves_like 'two s primitives and different centers'
+	end
 end
 
 describe RuPHY::Orbital::Gaussian::Contracted do
