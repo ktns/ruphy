@@ -49,7 +49,7 @@ module RuPHY
 						shifter=Matrix[*[[0]*d]+(Matrix.identity(e).to_a+[[0]*e]).transpose]
 						coefs=(m>0 ? (Matrix.identity(d)*-a+shifter)**m : Matrix.identity(d))*coefs
 						coefs=(n>0 ? (Matrix.identity(d)*-b+shifter)**n : Matrix.identity(d))*coefs
-						coefs.each_with_index.inject(0) do |s,(a,n)|
+						coefs.to_a.each_with_index.inject(0) do |s,(a,n)|
 							if n % 2 == 0
 								s + a*(n-1).downto(1).reduce(1,:*).downto(1).reduce(1,:*)/(2*z)**(n/2)
 							else
