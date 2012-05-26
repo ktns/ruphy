@@ -37,6 +37,16 @@ module RuPHY
 					end.reduce(:*) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)
 				end
 
+				def kinetic o
+					z = @zeta+o.zeta
+					c = (@center*@zeta + o.center*o.zeta)*z**-1.0
+					[@center-c,o.center-c,@momenta,o.momenta].map(&:to_a).transpose.map do |a,b,m,n|
+						4*o.zeta**2*integral(a,b,m,n+2,z) - 
+							2*o.zeta*(2*n+1)*integral(a,b,m,n,z) +
+							(n>1 ? n*(n-1)*integral(a,b,m,n-2,z) : 0)
+					end.reduce(:*) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)
+				end
+
 				include Math
 				private
 				# calculate one dimensional integral over entire space of

@@ -26,8 +26,12 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 	end
 
 	shared_examples_for 'a primitive'	do
+		before :all do
+			@primitive = described_class.new(zeta,momenta,center)
+		end
+
 		subject do
-			described_class.new(zeta,momenta,center)
+			@primitive
 		end
 
 		its(:zeta){ should be_frozen }
@@ -50,6 +54,12 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 
 		its(:angular_momentum) do
 			should == momenta.reduce(:+)
+		end
+
+		describe 'diagonal kinetic integal' do
+			subject{@primitive.kinetic(@primitive)}
+
+			it {should_not == 0}
 		end
 	end
 
