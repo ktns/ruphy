@@ -34,7 +34,7 @@ module RuPHY
 					c=(@center*@zeta+o.center*o.zeta)*z**-1.0
 					[@center-c,o.center-c,@momenta,o.momenta].map(&:to_a).transpose.map do |a,b,m,n|
 						integral(a,b,m,n,z)
-					end.reduce(:*) * exp(@zeta*o.zeta/z*(@center-o.center).r**2)
+					end.reduce(:*) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)
 				end
 
 				include Math
