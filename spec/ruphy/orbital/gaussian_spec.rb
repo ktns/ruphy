@@ -229,6 +229,14 @@ describe RuPHY::Orbital::Gaussian::Primitive do
 					Math::exp(-@r2 * @zeta))
 			end
 		end
+
+		describe 'kinetic' do
+			it 'should be scaled properly' do
+				@primitive1.kinetic(@primitive2).should be_within(1e-5).of(
+					@primitive1.overlap(@primitive2) * 
+					(3*@zeta - 2*@r2*@zeta**2))
+			end
+		end
 	end
 
 	describe 's orbitals with zeta=1.0 on (0,0,0) and (0,0,1)' do
