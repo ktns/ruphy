@@ -44,7 +44,7 @@ module RuPHY
 						4*o.zeta**2*integral(a,b,m,n+2,z) - 
 							2*o.zeta*(2*n+1)*integral(a,b,m,n,z) +
 							(n>1 ? n*(n-1)*integral(a,b,m,n-2,z) : 0)
-					end.reduce(:*) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)
+					end.reduce(:*) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)/-2
 				end
 
 				include Math
