@@ -40,11 +40,17 @@ module RuPHY
 				def kinetic o
 					z = @zeta+o.zeta
 					c = (@center*@zeta + o.center*o.zeta)*z**-1.0
-					[@center-c,o.center-c,@momenta,o.momenta].map(&:to_a).transpose.map do |a,b,m,n|
-						4*o.zeta**2*integral(a,b,m,n+2,z) - 
-							2*o.zeta*(2*n+1)*integral(a,b,m,n,z) +
-							(n>1 ? n*(n-1)*integral(a,b,m,n-2,z) : 0)
-					end.reduce(:*) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)/-2
+					3.times.map do |i|
+						[@center-c,o.center-c,@momenta,o.momenta].map(&:to_a).transpose.each_with_index.map do |(a,b,m,n),j|
+							if i==j
+								4*o.zeta**2*integral(a,b,m,n+2,z) - 
+									2*o.zeta*(2*n+1)*integral(a,b,m,n,z) +
+									(n>1 ? n*(n-1)*integral(a,b,m,n-2,z) : 0)
+							else
+								integral(a,b,m,n,z)
+							end
+						end.reduce(:*)
+					end.reduce(:+) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)/-2
 				end
 
 				include Math
