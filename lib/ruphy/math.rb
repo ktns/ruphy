@@ -14,5 +14,9 @@ module RuPHY
 				raise ArgumentError, 'Unsupported value for m(=%p)!', m
 			end
 		end
+
+		class <<self
+			include RuPHY::Math
+		end
 	end
 end
