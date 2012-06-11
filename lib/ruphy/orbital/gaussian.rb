@@ -6,6 +6,7 @@ module RuPHY
 			end
 
 			class Primitive < Orbital
+				include RuPHY::Math
 				def initialize zeta, momenta, center
 					@zeta, @momenta, @center = [zeta.to_f,
 						(momenta.to_ary rescue momenta.to_a),
@@ -33,7 +34,7 @@ module RuPHY
 					z=@zeta+o.zeta
 					c=(@center*@zeta+o.center*o.zeta)*z**-1.0
 					[@center-c,o.center-c,@momenta,o.momenta].map(&:to_a).transpose.map do |a,b,m,n|
-						integral(a,b,m,n,z)
+						cart_gauss_integral(a,b,m,n,z)
 					end.reduce(:*) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)
 				end
 
@@ -43,39 +44,16 @@ module RuPHY
 					3.times.map do |i|
 						[@center-c,o.center-c,@momenta,o.momenta].map(&:to_a).transpose.each_with_index.map do |(a,b,m,n),j|
 							if i==j
-								4*o.zeta**2*integral(a,b,m,n+2,z) - 
-									2*o.zeta*(2*n+1)*integral(a,b,m,n,z) +
-									(n>1 ? n*(n-1)*integral(a,b,m,n-2,z) : 0)
+								4*o.zeta**2*cart_gauss_integral(a,b,m,n+2,z) - 
+									2*o.zeta*(2*n+1)*cart_gauss_integral(a,b,m,n,z) +
+									(n>1 ? n*(n-1)*cart_gauss_integral(a,b,m,n-2,z) : 0)
 							else
-								integral(a,b,m,n,z)
+								cart_gauss_integral(a,b,m,n,z)
 							end
 						end.reduce(:*)
 					end.reduce(:+) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)/-2
 				end
 
-				include Math
-				private
-				# calculate one dimensional integral over entire space of
-				# (x-a)^m(x-b)^n exp(-z*x^2)
-				def integral a,b,m,n,z
-					e=m+n
-					if e > 0
-						d=e+1
-						coefs=Vector[1,*[0]*e]
-						shifter=Matrix[*[[0]*d]+(Matrix.identity(e).to_a+[[0]*e]).transpose]
-						coefs=(m>0 ? (Matrix.identity(d)*-a+shifter)**m : Matrix.identity(d))*coefs
-						coefs=(n>0 ? (Matrix.identity(d)*-b+shifter)**n : Matrix.identity(d))*coefs
-						coefs.to_a.each_with_index.inject(0) do |s,(a,n)|
-							if n % 2 == 0
-								s + a*(n-1).downto(1).reduce(1,:*).downto(1).reduce(1,:*)/(2*z)**(n/2)
-							else
-								s
-							end
-						end
-					else
-						1
-					end*sqrt(PI/z)
-				end
 			end
 
 			class Contracted < Orbital
