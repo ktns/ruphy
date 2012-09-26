@@ -47,7 +47,9 @@ module RuPHY
 			end
 
 			class Solver
-
+				def initialize geometry, basisset
+					raise NotImplementedError
+				end
 			end
 		end
 	end
