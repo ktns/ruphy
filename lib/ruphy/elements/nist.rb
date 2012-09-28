@@ -8,8 +8,9 @@ module RuPHY::ElementData
 		module GrepFirst
 			def grep_first pat
 				find do |el|
-					pat === el and $1
+					pat === el
 				end
+				return $1
 			end
 		end
 
