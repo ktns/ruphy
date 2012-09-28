@@ -1,6 +1,7 @@
+require 'matrix'
+
 require 'ruphy'
 require 'ruphy/geometry/reader/xyz'
-
 module RuPHY
 	module Geometry
 		class Molecule
@@ -17,6 +18,12 @@ module RuPHY
 				end
 
 				raise ArgumentError
+			end
+
+			class Atom
+				def initialize elem, x,y,z
+					@elem,@pos = elem.to_sym, Vector[x,y,z]
+				end
 			end
 		end
 	end
