@@ -2,9 +2,8 @@ require 'ruphy/constants'
 
 module RuPHY
 	class Element
-		include Constants
 		def initialize z, sym, m
-			@Z, @zym, @m = z, sym.to_sym, m / Da
+			@Z, @zym, @m = z, sym.to_sym, m / Constants::Da
 		end
 
 		attr_reader :Z, :sym, :m
