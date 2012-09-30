@@ -39,6 +39,27 @@ module RuPHY::ElementData
 				return read_elem_data io
 			end
 		end
+
+		def read_all_data &block
+			read_data '&all=all', &block
+		end
+
+		public
+		def download_all_elements_data
+			read_all_data do |io|
+				begin
+				loop do
+					z,sym,m = data = read_elem_data(io)
+					m > 0.0 or next
+					RuPHY::Elements[z]   = RuPHY::Element.new *data
+					RuPHY::Elements[sym] = RuPHY::Element.new *data
+				end
+				rescue
+					io.eof? and return
+					raise $!
+				end
+			end
+		end
 	end
 
 	RuPHY::Elements.extend NIST
