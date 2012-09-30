@@ -3,7 +3,7 @@ require 'ruphy/elements/nist'
 
 describe RuPHY::ElementData::NIST do
 	it 'should be included by RuPHY::Elements' do
-		RuPHY::Elements.singleton_class.ancestors.should include described_class
+		RuPHY::Elements.should be_kind_of described_class
 	end
 
 	describe '#get_elem_data' do
