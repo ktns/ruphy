@@ -11,6 +11,23 @@ module RuPHY
 		def name
 			@sym.to_s
 		end
+
+		def hash
+			signature.hash
+		end
+
+		def eql? other
+			signature.eql? other.signature rescue false
+		end
+
+		def == other
+			signature == other.signature rescue false
+		end
+
+		protected
+		def signature
+			[self.class, @Z, @sym]
+		end
 	end
 
 	Elements = {}
