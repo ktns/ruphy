@@ -3,7 +3,7 @@ require 'ruphy/constants'
 module RuPHY
 	class Element
 		def initialize z, sym, m
-			@Z, @sym, @m = z, sym.to_sym, m / Constants::Da
+			@Z, @sym, @m = z, sym.to_sym, m * Constants::Da
 		end
 
 		attr_reader :Z, :sym, :m
