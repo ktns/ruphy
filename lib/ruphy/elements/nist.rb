@@ -50,9 +50,8 @@ module RuPHY::ElementData
 				begin
 				loop do
 					z,sym,m = data = read_elem_data(io)
-					m > 0.0 or next
-					RuPHY::Elements[z]   = RuPHY::Element.new *data
-					RuPHY::Elements[sym] = RuPHY::Element.new *data
+					key?(z) and next
+					entry RuPHY::Element.new(*data)
 				end
 				rescue
 					io.eof? and return

@@ -38,8 +38,13 @@ module RuPHY
 				super
 			else
 				elem = Element.new(*get_elem_data(key))
-				self[elem.sym] = self[elem.Z] = elem
+				entry elem
 			end
+		end
+
+		private
+		def entry elem
+			self[elem.sym] = self[elem.Z] = self[elem.sym.to_s] = self[elem.Z.to_s] = elem
 		end
 	end
 end
