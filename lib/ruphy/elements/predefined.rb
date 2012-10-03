@@ -835,6 +835,7 @@ Uuo: *id118
 EOY
 			Hash = ::YAML.load(YAML)
 
+			private
 			def get_elem_data key
 				return Hash[key]
 			end
