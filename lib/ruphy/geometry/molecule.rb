@@ -25,6 +25,8 @@ module RuPHY
 					case elem
 					when Element
 						@elem = elem
+					when Integer
+						@elem = Elements[elem]
 					else
 						@elem = Elements[elem.to_sym]
 					end
