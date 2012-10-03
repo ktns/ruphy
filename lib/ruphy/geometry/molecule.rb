@@ -22,7 +22,13 @@ module RuPHY
 
 			class Atom
 				def initialize elem, x,y,z
-					@elem,@pos = elem.to_sym, Vector[x,y,z]
+					case elem
+					when Element
+						@elem = elem
+					else
+						@elem = Elements[elem.to_sym]
+					end
+					@pos = Vector[x,y,z]
 				end
 			end
 		end
