@@ -20,6 +20,6 @@ end
 
 group :test do
   gem "rspec", "~> 2.8.0"
-  gem 'rcov', '~> 0.9.11', :platform => :ruby_18
+  gem 'rcov', '~> 0.9.11', :platform => :mri_18
   gem 'simplecov', '~> 0.6.1', :platform => :ruby_19
 end
