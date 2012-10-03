@@ -1,4 +1,5 @@
 require 'yaml'
+require 'ruphy/element'
 
 module RuPHY
 	module ElementData
