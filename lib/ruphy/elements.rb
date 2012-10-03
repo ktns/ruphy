@@ -9,7 +9,12 @@ module RuPHY
 			if key? key
 				super
 			else
-				elem = Element.new(*get_elem_data(key))
+				case data = get_elem_data(key)
+				when Element
+					elem = data
+				when Array
+					elem = Element.new(*data)
+				end
 				entry elem
 			end
 		end
