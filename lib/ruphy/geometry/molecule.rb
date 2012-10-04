@@ -5,19 +5,9 @@ require 'ruphy/geometry/reader/xyz'
 module RuPHY
 	module Geometry
 		class Molecule
-			def initialize *args
-				if File.exist? fname=args.first
-					case File.extname(fname)
-					when /xyz/i
-						extend Reader::XYZ
-						read fname
-						return
-					else
-						raise ArgumentError
-					end
-				end
-
-				raise ArgumentError
+			def initialize io, type
+				extend Reader::Readers[type.to_sym]
+				read io
 			end
 
 			class Atom
@@ -30,6 +20,7 @@ module RuPHY
 					else
 						@elem = Elements[elem.to_sym]
 					end
+					raise ArgumentError unless @elem.kind_of?(Element)
 					@pos = Vector[x,y,z]
 				end
 			end
