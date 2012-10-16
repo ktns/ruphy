@@ -42,4 +42,10 @@ describe RuPHY::Geometry::Molecule do
 			end
 		end
 	end
+
+	context 'with wrong format string' do
+		subject{lambda { described_class.new('', 'wrong_format') }}
+
+		it{ should raise_error ArgumentError }
+	end
 end
