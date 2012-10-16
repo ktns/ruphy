@@ -1,8 +1,11 @@
 require 'openbabel'
+require 'matrix'
+require 'ruphy/constants'
 
 module RuPHY
 	module Geometry
 		class Molecule
+			include RuPHY::Constants
 			def initialize source, format = 'xyz'
 				obconv = OpenBabel::OBConversion.new
 				obconv.set_in_format(format) or raise ArgumentError, '%p is not a format registered in OpenBabel!' % format
@@ -27,6 +30,14 @@ module RuPHY
 					end while atom = @obmol.next_atom(iter)
 				else
 					Enumerator.new(self, :each_atom)
+				end
+			end
+
+			def nuclear_replusion_energy
+				each_atom.to_a.combination(2).inject(0) do |e, (a1, a2)|
+					v1, v2 = [a1,a2].map{|a|Vector[a.x,a.y,a.z]}
+					r = (v1-v2).r * Angstrom
+					e + a1.get_atomic_num * a2.get_atomic_num / r
 				end
 			end
 		end
