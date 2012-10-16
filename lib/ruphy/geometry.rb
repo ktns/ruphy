@@ -17,6 +17,18 @@ module RuPHY
 			def size
 				@obmol.num_atoms
 			end
+
+			def each_atom
+				if block_given?
+					iter = @obmol.begin_atoms
+					atom = @obmol.begin_atom(iter)
+					begin
+						yield atom
+					end while atom = @obmol.next_atom(iter)
+				else
+					Enumerator.new(self, :each_atom)
+				end
+			end
 		end
 	end
 end
