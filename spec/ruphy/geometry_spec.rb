@@ -18,6 +18,8 @@ describe RuPHY::Geometry::Molecule do
 			its(:size){should == correct_size}
 
 			its(:nuclear_replusion_energy){should be_within(1e-5).of(9.24861786)}
+
+			its(:each_atom){should have(3).items}
 		end
 
 		context 'string' do
