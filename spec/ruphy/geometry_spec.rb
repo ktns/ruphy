@@ -14,10 +14,14 @@ describe RuPHY::Geometry::Molecule do
 
 		let(:correct_size){3}
 
+		shared_examples_for "molecule read from xyz" do
+			its(:size){should == correct_size}
+		end
+
 		context 'string' do
 			subject{described_class.new(xyz)}
 
-			its(:size){should == correct_size}
+			it_should_behave_like "molecule read from xyz"
 		end
 
 		context 'file' do
@@ -29,7 +33,7 @@ describe RuPHY::Geometry::Molecule do
 
 			subject{described_class.new(@file.path)}
 
-			its(:size){should == correct_size}
+			it_should_behave_like "molecule read from xyz"
 
 			after(:all) do
 				@file.close(true)
