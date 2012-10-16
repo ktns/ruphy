@@ -13,6 +13,10 @@ module RuPHY
 					obconv.read_string(@obmol, source)
 				end
 			end
+
+			def size
+				@obmol.num_atoms
+			end
 		end
 	end
 end
