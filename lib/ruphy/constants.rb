@@ -11,8 +11,16 @@ module RuPHY
 			Angstrom = 1e-10 / SI::Bohr
 		end
 
-		def self.const_missing name
-			const_set(name, Predefined.const_get(name))
+		module ConstMissing
+			def const_missing name
+				const_set(name, Predefined.const_get(name))
+			end
+		end
+
+		extend ConstMissing
+
+		def self.included klass
+			klass.extend ConstMissing
 		end
 	end
 end
