@@ -3,6 +3,8 @@ module RuPHY
 		def initialize *args
 			raise NotImplementedError
 		end
+
+		private_class_method :new
 	end
 end
 

@@ -7,6 +7,9 @@ module RuPHY
 
 			class Primitive < Orbital
 				include RuPHY::Math
+
+				public_class_method :new
+
 				def initialize zeta, momenta, center, derivative_order = [0,0,0]
 					@zeta, @momenta, @center, @derivative_order = [zeta.to_f,
 						(momenta.to_ary rescue momenta.to_a),
@@ -69,6 +72,8 @@ module RuPHY
 			end
 
 			class Contracted < Orbital
+				public_class_method :new
+
 				def initialize coeffs, zetas, momenta, center
 					@primitives=[coeffs,zetas].transpose.map do |c,zeta|
 						[c, Primitive.new(zeta,momenta,center)]

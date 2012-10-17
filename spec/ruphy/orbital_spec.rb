@@ -4,6 +4,6 @@ describe RuPHY::Orbital do
 	describe '.new' do
 		subject{lambda{described_class.new}}
 
-		it{should raise_error NotImplementedError}
+		it{should raise_error NoMethodError}
 	end
 end
