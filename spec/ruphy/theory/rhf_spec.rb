@@ -71,3 +71,11 @@ end
 describe RuPHY::Theory::RHF::TwoElectronMatrix do
 	it_behaves_like RuPHY::Theory::RHF::Matrix
 end
+
+describe RuPHY::Theory::RHF::Solver do
+	it 'should not raise error on initialization' do
+		lambda do
+			described_class.new nil, nil
+		end.should_not raise_error
+	end
+end
