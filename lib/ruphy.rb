@@ -6,6 +6,11 @@ require 'complex'
 module RuPHY
 	VERSION = '0.0.1'
 
+	begin
+		Enumerator = ::Enumerable::Enumerator
+	rescue NameError
+		Enumerator = ::Enumerator
+	end
 end
 
 require 'ruphy/digestable.rb'
