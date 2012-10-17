@@ -48,6 +48,7 @@ pkg
 
 # For rubinius:
 #*.rbc
+.rbx/
 
 # For c extension:
 *.so
