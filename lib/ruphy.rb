@@ -15,7 +15,7 @@ end
 
 require 'ruphy/digestable.rb'
 require 'ruphy/math'
-require 'ruphy/orbital'
+require 'ruphy/ao'
 require 'ruphy/geometry'
 require 'ruphy/theory'
 require 'ruphy/basisset'

@@ -1,5 +1,5 @@
 module RuPHY
-	class Orbital
+	class AO
 		def initialize *args
 			raise NotImplementedError
 		end
@@ -8,4 +8,4 @@ module RuPHY
 	end
 end
 
-require 'ruphy/orbital/gaussian'
+require 'ruphy/ao/gaussian'
