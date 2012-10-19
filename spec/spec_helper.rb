@@ -32,3 +32,14 @@ end
 def random_coordinate
 	return (1-a=rand())/a, rand() * Math::PI/2, rand() * Math::PI
 end
+
+begin
+	TestMol = RuPHY::Geometry::Molecule.new(<<EOF, 'xyz')
+2
+Hydrogen
+H 0 0 0
+H 0 0 0.74
+EOF
+rescue Exception
+	TestMol = nil
+end
