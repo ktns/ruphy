@@ -1,4 +1,4 @@
-require 'ruphy/orbital/gaussian.rb'
+require 'ruphy/ao/gaussian.rb'
 
 module RuPHY
 	module BasisSet
@@ -7,7 +7,7 @@ module RuPHY
 				@bases = []
 				case element
 				when 'H'
-					@bases << Orbital::Gaussian::Contracted.new(
+					@bases << AO::Gaussian::Contracted.new(
 						[0.15432897,0.53532814,0.44463454],
 						[3.42525091,0.62391373,0.16885540],
 						[0,0,0],
