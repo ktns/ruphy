@@ -9,18 +9,30 @@ module RuPHY
 			if key? key
 				super
 			else
-				case data = get_elem_data(key)
-				when Element
-					elem = data
-				when Array
-					elem = Element.new(*data)
-				end
-				entry elem
+				entry get_elem_data(key)
+			end
+		end
+
+		def symbols
+			load_all
+			return values.map(&:sym)
+		end
+
+		def load_all
+			get_all_data do |data|
+				entry data
 			end
 		end
 
 		private
 		def entry elem
+			case elem
+			when Element
+			when Array
+				elem = Element.new(*elem)
+			else
+				raise TypeError
+			end
 			self[elem.sym] = self[elem.Z] = self[elem.sym.to_s] = self[elem.Z.to_s] = elem
 		end
 

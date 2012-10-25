@@ -45,13 +45,13 @@ module RuPHY::ElementData
 		end
 
 		public
-		def download_all_elements_data
+		def get_all_data
 			read_all_data do |io|
 				begin
 				loop do
 					z,sym,m = data = read_elem_data(io)
 					key?(z) and next
-					entry RuPHY::Element.new(*data)
+					yield data
 				end
 				rescue
 					io.eof? and return

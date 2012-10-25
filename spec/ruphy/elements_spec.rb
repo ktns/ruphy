@@ -48,4 +48,16 @@ describe 'RuPHY::Elements' do
 			RuPHY::Elements[:hoge] 
 		end
 	end
+
+	describe '#symbols' do
+		subject do
+			RuPHY::Elements.symbols
+		end
+
+		it{should_not include_a String}
+
+		it{should_not include_a Numeric}
+
+		it{should have_at_least(100).items}
+	end
 end
