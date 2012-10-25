@@ -68,5 +68,7 @@ task :spec => RaccOutputs
 CLEAN << RaccOutputs
 
 rule '.rb' => '.y' do |t|
-	sh "racc #{t.source} -o #{t.name}"
+	opts = []
+	opts << '-g' if ENV['RACC_DEBUG']
+	sh "racc #{opts.join(' ')} #{t.source} -o #{t.name}"
 end

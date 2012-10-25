@@ -33,7 +33,12 @@ S   3   1.00
 EOF
 	}
 	describe '#parse' do
-		subject{ lambda { described_class.new.parse(str) } }
+		before do
+			@parser = described_class.new
+			@parser.debug = ENV['RACC_DEBUG']
+		end
+
+		subject{ lambda { @parser.parse(str) } }
 
 		context 'with STO-3G' do
 			let(:str){sto3g_txt}
