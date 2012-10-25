@@ -43,3 +43,17 @@ EOF
 rescue Exception
 	TestMol = nil
 end
+
+RSpec::Matchers.define :include_a do |exp|
+	match do |act|
+		act.any?{|a| exp === a}
+	end
+
+	failure_message_for_should do |act|
+		'expected %p to include a instance of %p' % [act,exp]
+	end
+
+	failure_message_for_should_not do |act|
+		'expected %p not to include a instance of %p' % [act,exp]
+	end
+end
