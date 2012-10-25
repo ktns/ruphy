@@ -55,6 +55,7 @@ CLEAN << 'gem_graph.png'
 RaccSources = FileList['lib/**/*.y']
 RaccOutputs = RaccSources.ext('rb')
 task :racc => RaccOutputs
+task :spec => RaccOutputs
 
 rule '.rb' => '.y' do |t|
 	sh "racc #{t.source} -o #{t.name}"
