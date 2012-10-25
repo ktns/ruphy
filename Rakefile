@@ -31,14 +31,16 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
 end
 
-RSpec::Core::RakeTask.new(:rcov) do |spec|
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-end
-
-RSpec::Core::RakeTask.new(:simplecov) do |spec|
-  spec.pattern = 'spec/**/*_spec.rb'
-	ENV['SIMPLECOV']='true'
+if RUBY_VERSION < '1.9'
+	RSpec::Core::RakeTask.new(:rcov) do |spec|
+		spec.pattern = 'spec/**/*_spec.rb'
+		spec.rcov = true
+	end
+else
+	RSpec::Core::RakeTask.new(:simplecov) do |spec|
+		spec.pattern = 'spec/**/*_spec.rb'
+		ENV['SIMPLECOV']='true'
+	end
 end
 
 task :default => :spec
