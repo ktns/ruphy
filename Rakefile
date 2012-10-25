@@ -65,6 +65,8 @@ RaccOutputs = RaccSources.ext('rb')
 task :racc => RaccOutputs
 task :spec => RaccOutputs
 
+CLEAN << RaccOutputs
+
 rule '.rb' => '.y' do |t|
 	sh "racc #{t.source} -o #{t.name}"
 end
