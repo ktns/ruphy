@@ -4,7 +4,7 @@ $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname
 require 'complex'
 
 module RuPHY
-	VERSION = '0.0.1'
+	VERSION = IO.read(File.join(File.dirname(__FILE__), %w<.. VERSION>)).chomp
 
 	begin
 		Enumerator = ::Enumerable::Enumerator
@@ -13,7 +13,6 @@ module RuPHY
 	end
 end
 
-require 'ruphy/digestable.rb'
 require 'ruphy/math'
 require 'ruphy/ao'
 require 'ruphy/geometry'
