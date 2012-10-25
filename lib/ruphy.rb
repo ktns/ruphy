@@ -13,7 +13,6 @@ module RuPHY
 	end
 end
 
-require 'ruphy/digestable.rb'
 require 'ruphy/math'
 require 'ruphy/orbital'
 require 'ruphy/geometry'
