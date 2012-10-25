@@ -36,6 +36,11 @@ RSpec::Core::RakeTask.new(:rcov) do |spec|
   spec.rcov = true
 end
 
+RSpec::Core::RakeTask.new(:simplecov) do |spec|
+  spec.pattern = 'spec/**/*_spec.rb'
+	ENV['SIMPLECOV']='true'
+end
+
 task :default => :spec
 
 require 'rdoc/task'
