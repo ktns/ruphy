@@ -25,3 +25,7 @@ group :test do
   gem 'rcov', '~> 0.9.11', :platform => :mri_18
   gem 'simplecov', '~> 0.6.1', :platform => :ruby_19
 end
+
+group :debug do
+	gem 'debugger', '~> 1.2'
+end
