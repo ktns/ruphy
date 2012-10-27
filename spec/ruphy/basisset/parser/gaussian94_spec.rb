@@ -38,18 +38,18 @@ EOF
 			@parser.debug = ENV['RACC_DEBUG']
 		end
 
-		subject{ lambda { @parser.parse(str) } }
+		subject{ @parser.parse(str) }
 
 		context 'with STO-3G' do
 			let(:str){sto3g_txt}
 
-			it{should_not raise_error}
+			calling_it{should_not raise_error}
 		end
 
 		context 'with empty string' do
 			let(:str){''}
 
-			it{should raise_error}
+			calling_it{should raise_error}
 		end
 	end
 end

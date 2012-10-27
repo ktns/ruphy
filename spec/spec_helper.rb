@@ -7,6 +7,7 @@ begin
 	end
 rescue LoadError
 end if ENV['SIMPLECOV']
+
 require 'rspec'
 require 'ruphy'
 require 'tempfile'
@@ -64,4 +65,25 @@ RSpec::Matchers.define :include_a do |exp|
 	failure_message_for_should_not do |act|
 		'expected %p not to include a instance of %p' % [act,exp]
 	end
+end
+
+module RSpec
+	module CallingIt
+		module ExampleGroupMethods
+			def calling_it(&block)
+				example do
+					self.class.class_eval do
+						define_method(:subject) do
+							@_subject ||= lambda { instance_eval(&self.class.subject) }
+						end
+					end
+					instance_eval(&block)
+				end
+			end
+		end
+	end
+end
+
+RSpec.configure do |c|
+	c.extend RSpec::CallingIt::ExampleGroupMethods
 end
