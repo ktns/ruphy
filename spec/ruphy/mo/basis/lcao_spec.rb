@@ -6,6 +6,6 @@ describe RuPHY::MO::Basis::LCAO do
 	describe '#initialize', :if => ::TestMol do
 		subject{described_class.new(::TestMol, RuPHY::BasisSet::STO3G)}
 
-		it{should be_kind_of RuPHY::MO::Basis}
+		it{pending{should be_kind_of RuPHY::MO::Basis}}
 	end
 end
