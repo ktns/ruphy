@@ -48,4 +48,40 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 			it{should be_frozen}
 		end
 	end
+
+	subject{shell}
+	let(:shell){described_class.new(azimuthal_quantum_numbers, coeffs, zetas, center)}
+	let(:coeffs){[1]}
+	let(:zetas){[1]}
+	let(:center){[0,0,0]}
+
+	context 'with wrong azimuthal_quantum_numbers' do
+		let(:azimuthal_quantum_numbers){-1}
+
+		creating_it{should raise_error ArgumentError}
+	end
+
+	context 'with unmatching coefficients and zetas' do
+		let(:azimuthal_quantum_numbers){0}
+		let(:coeffs){[0.5,0.5]}
+		let(:zetas){[1]}
+
+		creating_it{should raise_error ArgumentError}
+	end
+
+	context 'of S shell' do
+		let(:azimuthal_quantum_numbers){0}
+
+		creating_it{should_not raise_error}
+	end
+
+	describe '#aos' do
+		context 'of S shell' do
+			let(:azimuthal_quantum_numbers){0}
+
+			subject{shell.aos()}
+
+			its(:size){should == 1}
+		end
+	end
 end

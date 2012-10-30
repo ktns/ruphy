@@ -17,7 +17,26 @@ module RuPHY
 					end
 
 					def initialize azimuthal_quantum_numbers, coeffs, zetas, center
-						raise NotImplementedError
+						@azimuthal_quantum_numbers = [azimuthal_quantum_numbers].flatten
+						l = @azimuthal_quantum_numbers.find do |l|
+							not l>=0 && Integer === l
+						end
+						raise ArgumentError, 'Invalid azimuthal quantum number!(%p)' % l if l
+						raise ArgumentError, 'Number of coefficients(%d) and zetas(%d) don\'t match!' %
+							[coeffs.count, zetas.count] unless coeffs.count == zetas.count
+						@coeffs, @zetas, @center =  coeffs, zetas, center
+					end
+
+					def cart_angular_momenta
+						@azimuthal_quantum_numbers.map do |l|
+							self.class.cart_angular_momenta(l)
+						end.flatten(1)
+					end
+
+					def aos
+						cart_angular_momenta.map do |momenta|
+							RuPHY::AO::Gaussian::Contracted.new(@coeffs, @zetas, momenta, @center)
+						end
 					end
 				end
 			end

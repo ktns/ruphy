@@ -80,6 +80,8 @@ module RSpec
 					instance_eval(&block)
 				end
 			end
+
+			alias creating_it calling_it
 		end
 	end
 end
