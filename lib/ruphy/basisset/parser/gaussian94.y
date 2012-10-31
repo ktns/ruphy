@@ -3,25 +3,47 @@ rule
 BLOCKS
   : COMMENTBLOCK
 	| ELEMENTBLOCK
-	| BLOCKS BLOCKS
+	| BLOCKS BLOCKS { result = val[0].merge val[1] }
 COMMENTBLOCK
-	: COMMENTLINE EOB
-	| EOL EOB
-	| COMMENTLINE COMMENTBLOCK
-	| EOL COMMENTBLOCK
+	: COMMENTLINE EOB { result = {} }
+	| EOL EOB {result = {} }
+	| COMMENTLINE COMMENTBLOCK {result = {} }
+	| EOL COMMENTBLOCK {result = {} }
 ELEMENTBLOCK
-	: ELEMENT_ALL NUMBER EOL SHELLS EOB
+	: ELEMENTS_LINE SHELLS EOB {
+		result = val[0].each_with_object({}) do |element, result|
+			result.merge({val[0] => val[1]})
+		end
+	}
+ELEMENTS_LINE
+	: ELEMENT_ALL ZERO EOL { result = [val[0]] }
+	| ELEMENT_ALL ELEMENTS_LINE { result = val[1].unshift val[0] }
 ELEMENT_ALL
 	: ELEMENT
 	| ELEMENT_OR_ANGULAR_MOMENTUM
+ZERO
+	: NUMBER { raise "Unexpected `%p', expected 0" % val[0] unless val[0] == 0}
 SHELLS
-	: ANGULAR_MOMENTUM_ALL NUMBER NUMBER EOL PRIMITIVES
+	: ANGULAR_MOMENTUM_ALL NUMBER NUMBER EOL PRIMITIVES {
+		c, n = val[4].count, val[1]
+		raise '# primitive gaussians (%d) != NGauss(%d)!' % [c,n] unless c==n
+		s = val[2]
+		result = [RuPHY::BasisSet::LCAO::Gaussian::Shell.new(
+			val[0],
+			*val[4].map do |a,d|
+				[a*s, d]
+			end.transpose, :center
+		)]
+	}
+	| SHELLS SHELLS { result = val[0] + val[1] }
 ANGULAR_MOMENTUM_ALL
-	: ANGULAR_MOMENTUM
-	| ELEMENT_OR_ANGULAR_MOMENTUM
+	: ANGULAR_MOMENTUM { result = ANGULAR_MOMENTUMS.index(val[0]) }
+	| ELEMENT_OR_ANGULAR_MOMENTUM { result = ANGULAR_MOMENTUMS.index(val[0]) }
 PRIMITIVES
-	: NUMBER NUMBER EOL
-	| NUMBER NUMBER EOL PRIMITIVES
+	: NUMBER NUMBER EOL { result = [[val[0], val[1]]] }
+	| NUMBER NUMBER EOL PRIMITIVES {
+		result = [[val[0], val[1]]] + val[3]
+	}
 end
 ---- inner
 ELEMENTS = RuPHY::Elements.symbols.map(&:to_s)
