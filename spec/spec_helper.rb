@@ -72,12 +72,12 @@ module RSpec
 		module ExampleGroupMethods
 			def calling_it(&block)
 				example do
-					self.class.class_eval do
-						define_method(:subject) do
-							@_subject ||= lambda { instance_eval(&self.class.subject) }
+					class << d = self.dup
+						def subject
+							lambda { super }
 						end
 					end
-					instance_eval(&block)
+					d.instance_eval(&block)
 				end
 			end
 
