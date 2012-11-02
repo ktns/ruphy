@@ -44,6 +44,8 @@ EOF
 			let(:str){sto3g_txt}
 
 			calling_it{should_not raise_error}
+
+			it{should return_a RuPHY::BasisSet::Base}
 		end
 
 		context 'with empty string' do

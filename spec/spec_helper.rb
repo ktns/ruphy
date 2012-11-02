@@ -86,6 +86,13 @@ module RSpec
 	end
 end
 
+module Matchers
+	include RSpec::Matchers
+	alias return_a be_a
+end
+
+
 RSpec.configure do |c|
 	c.extend RSpec::CallingIt::ExampleGroupMethods
+	c.include Matchers
 end
