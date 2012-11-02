@@ -3,7 +3,11 @@ require 'ruphy/ao/gaussian'
 module RuPHY
 	module BasisSet
 		module LCAO
-			module Gaussian
+			class Gaussian < BasisSet::Base
+				def initialize *args
+					raise NotImplementedError
+				end
+
 				class Shell
 					CartAngularMomentumBasis =
 						[Vector[1,0,0], Vector[0,1,0], Vector[0,0,1]].each(&:freeze).freeze
