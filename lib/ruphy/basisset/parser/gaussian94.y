@@ -12,7 +12,7 @@ COMMENTBLOCK
 ELEMENTBLOCK
 	: ELEMENTS_LINE SHELLS EOB {
 		result = val[0].each_with_object({}) do |element, result|
-			result.merge({val[0] => val[1]})
+			result.merge!({element.to_sym => val[1]})
 		end
 	}
 ELEMENTS_LINE
