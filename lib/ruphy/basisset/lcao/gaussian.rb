@@ -16,6 +16,24 @@ module RuPHY
 					end
 				end
 
+				class Hash < ::Hash
+					def initialize
+						super do |e|
+							if RuPHY::Element === e or RuPHY::Elements[e]
+								raise ElementNotFoundError.new(e)
+							else
+								raise InvalidElementError.new(e)
+							end
+						end
+					end
+
+					def []= e,b
+						unless e = RuPHY::Elements[e]
+							raise InvalidElementError.new(e)
+						end
+					end
+				end
+
 				def initialize args
 					raise TypeError, 'Expected Hash, but %p' % args.class unless Hash === args
 					raise NotImplementedError
