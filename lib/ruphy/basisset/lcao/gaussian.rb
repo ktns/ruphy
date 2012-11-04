@@ -4,7 +4,8 @@ module RuPHY
 	module BasisSet
 		module LCAO
 			class Gaussian < BasisSet::Base
-				def initialize *args
+				def initialize args
+					raise TypeError, 'Expected Hash, but %p' % args.class unless Hash === args
 					raise NotImplementedError
 				end
 

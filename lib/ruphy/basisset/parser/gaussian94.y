@@ -85,7 +85,7 @@ def parse str
 		str=$'
 	end
 	@q.push [false, '$end']
-	do_parse
+	return RuPHY::BasisSet::LCAO::Gaussian.new do_parse()
 end
 
 def next_token
