@@ -34,9 +34,10 @@ module RuPHY
 					end
 				end
 
-				def initialize args
-					raise TypeError, 'Expected Hash, but %p' % args.class unless Hash === args
-					raise NotImplementedError
+				def initialize arg
+					@basisset = arg.each_with_object(Hash.new) do |(e,b),s|
+						s[e] = b
+					end.freeze
 				end
 
 				class Shell
