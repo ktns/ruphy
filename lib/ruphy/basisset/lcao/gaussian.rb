@@ -4,6 +4,18 @@ module RuPHY
 	module BasisSet
 		module LCAO
 			class Gaussian < BasisSet::Base
+				class InvalidElementError < ArgumentError
+					def initialize e
+						super 'Invalid Element `%p\'!' % e
+					end
+				end
+
+				class ElementNotFoundError < ArgumentError
+					def initialize e
+						super 'Element `%s\' is not in this basis set!' % e
+					end
+				end
+
 				def initialize args
 					raise TypeError, 'Expected Hash, but %p' % args.class unless Hash === args
 					raise NotImplementedError
