@@ -3,7 +3,7 @@ require 'ruphy/basisset/lcao/gaussian'
 
 describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 	describe '::CartAngularMomentumBasis' do
-		subject{RuPHY::BasisSet::LCAO::Gaussian::Shell::CartAngularMomentumBasis}
+		subject{described_class::CartAngularMomentumBasis}
 
 		it{should be_frozen}
 
