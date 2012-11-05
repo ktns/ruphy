@@ -73,8 +73,9 @@ module RSpec
 			def calling_it(&block)
 				example do
 					class << d = self.dup
+						alias subject_original subject
 						def subject
-							lambda { super }
+							lambda { subject_original }
 						end
 					end
 					d.instance_eval(&block)
