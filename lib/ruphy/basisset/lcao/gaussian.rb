@@ -28,7 +28,11 @@ module RuPHY
 					end
 
 					def []= e,b
-						unless e = RuPHY::Elements[e]
+						begin
+							unless e = RuPHY::Elements[e]
+								raise InvalidElementError.new(e)
+							end
+						rescue
 							raise InvalidElementError.new(e)
 						end
 					end
