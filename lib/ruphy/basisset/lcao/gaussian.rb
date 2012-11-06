@@ -35,6 +35,7 @@ module RuPHY
 						rescue
 							raise InvalidElementError.new(e)
 						end
+						super
 					end
 				end
 
