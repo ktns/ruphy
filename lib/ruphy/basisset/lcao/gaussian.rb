@@ -44,6 +44,10 @@ module RuPHY
 					end.freeze
 				end
 
+				def elements
+					@basisset.keys
+				end
+
 				class Shell
 					CartAngularMomentumBasis =
 						[Vector[1,0,0], Vector[0,1,0], Vector[0,0,1]].each(&:freeze).freeze
