@@ -46,6 +46,10 @@ EOF
 			calling_it{should_not raise_error}
 
 			it{should return_a RuPHY::BasisSet::Base}
+
+			its(:elements){should include RuPHY::Elements[:H]}
+
+			its(:elements){should include RuPHY::Elements[:He]}
 		end
 
 		context 'with empty string' do
