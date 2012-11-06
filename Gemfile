@@ -2,7 +2,7 @@ source "http://rubygems.org"
 # Add dependencies required to use your gem here.
 # Example:
 #   gem "activesupport", ">= 2.3.5"
-gem "openbabel", :git => 'http://github.com/ktns/openbabel-gem.git', :branch => 'macosx'
+gem "openbabel", "~> 2.3.1.8"
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
