@@ -12,6 +12,12 @@ module RuPHY
 			@sym.to_s
 		end
 
+		alias to_s name
+
+		def inspect
+			'<#%s: %s>' % [self.class, self]
+		end
+
 		def hash
 			signature.hash
 		end
