@@ -37,8 +37,8 @@ SHELLS
 	}
 	| SHELLS SHELLS { result = val[0] + val[1] }
 ANGULAR_MOMENTUM_ALL
-	: ANGULAR_MOMENTUM { result = ANGULAR_MOMENTUMS.index(val[0]) }
-	| ELEMENT_OR_ANGULAR_MOMENTUM { result = ANGULAR_MOMENTUMS.index(val[0]) }
+	: ANGULAR_MOMENTUM { result = ANGULAR_MOMENTA.index(val[0]) }
+	| ELEMENT_OR_ANGULAR_MOMENTUM { result = ANGULAR_MOMENTA.index(val[0]) }
 PRIMITIVES
 	: NUMBER NUMBER EOL { result = [[val[0], val[1]]] }
 	| NUMBER NUMBER EOL PRIMITIVES {
@@ -47,11 +47,11 @@ PRIMITIVES
 end
 ---- inner
 ELEMENTS = RuPHY::Elements.symbols.map(&:to_s)
-ANGULAR_MOMENTUMS = %w<S P D F G H I>
-ELEMENT_OR_ANGULAR_MOMENTUM = ELEMENTS & ANGULAR_MOMENTUMS
+ANGULAR_MOMENTA = %w<S P D F G H I>
+ELEMENT_OR_ANGULAR_MOMENTUM = ELEMENTS & ANGULAR_MOMENTA
 
 ELEMENTS_R = Regexp.union(ELEMENTS)
-ANGULAR_MOMENTUMS_R = Regexp.union(ANGULAR_MOMENTUMS)
+ANGULAR_MOMENTA_R = Regexp.union(ANGULAR_MOMENTA)
 ELEMENT_OR_ANGULAR_MOMENTUM_R = Regexp.union(ELEMENT_OR_ANGULAR_MOMENTUM)
 
 def debug= on
@@ -77,7 +77,7 @@ def parse str
 			@q << [:ELEMENT_OR_ANGULAR_MOMENTUM, $1]
 		when /\A-?(#{ELEMENTS_R})\b/
 			@q << [:ELEMENT, $1]
-		when /\A(#{ANGULAR_MOMENTUMS_R})\b/
+		when /\A(#{ANGULAR_MOMENTA_R})\b/
 			@q << [:ANGULAR_MOMENTUM, $1]
 		else
 			raise 'Cannot Parse `%s\'' % str.split("\n").first
