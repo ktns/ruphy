@@ -40,10 +40,13 @@ ANGULAR_MOMENTUM_ALL
 	: ANGULAR_MOMENTUM { result = parse_angular_momenta_all(val[0]) }
 	| ELEMENT_OR_ANGULAR_MOMENTUM { result = parse_angular_momenta_all(val[0]) }
 PRIMITIVES
-	: NUMBER NUMBER EOL { result = [[val[0], val[1]]] }
-	| NUMBER NUMBER EOL PRIMITIVES {
+	: NUMBER COEFFS EOL { result = [[val[0], val[1]]] }
+	| NUMBER COEFFS EOL PRIMITIVES {
 		result = [[val[0], val[1]]] + val[3]
 	}
+COEFFS 
+	: NUMBER { result = [ val[0] ]}
+	| NUMBER COEFFS { result = [ val[0] ] + val[1] }
 end
 ---- inner
 ELEMENTS = RuPHY::Elements.symbols.map(&:to_s)
