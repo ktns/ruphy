@@ -37,8 +37,8 @@ SHELLS
 	}
 	| SHELLS SHELLS { result = val[0] + val[1] }
 ANGULAR_MOMENTUM_ALL
-	: ANGULAR_MOMENTUM { result = ANGULAR_MOMENTA.index(val[0]) }
-	| ELEMENT_OR_ANGULAR_MOMENTUM { result = ANGULAR_MOMENTA.index(val[0]) }
+	: ANGULAR_MOMENTUM { result = parse_angular_momenta_all(val[0]) }
+	| ELEMENT_OR_ANGULAR_MOMENTUM { result = parse_angular_momenta_all(val[0]) }
 PRIMITIVES
 	: NUMBER NUMBER EOL { result = [[val[0], val[1]]] }
 	| NUMBER NUMBER EOL PRIMITIVES {
@@ -93,4 +93,8 @@ end
 
 def next_token
 	@q.shift
+end
+
+def parse_angular_momenta_all m
+	m.split('').map{|s| ANGULAR_MOMENTA.index(s)}
 end
