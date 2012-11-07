@@ -72,7 +72,7 @@ def parse str
 		when /\A\n/
 			@q << [:EOL, $&]
 		when /\A\s+/
-		when /\A\d+\.\d+\b/
+		when /\A-?\d+\.\d+\b/
 			@q << [:NUMBER, $&.to_f]
 		when /\A\d+\b/
 			@q << [:NUMBER, $&.to_i]
