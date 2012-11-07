@@ -2,6 +2,11 @@ require File.join(File.dirname(__FILE__), %w|.. .. .. spec_helper.rb|)
 require 'ruphy/basisset/parser/gaussian94'
 
 describe RuPHY::BasisSet::Parser::Gaussian94 do
+	describe '::ANGULAR_MOMENTA_ALL' do
+		subject{described_class::ANGULAR_MOMENTA_ALL}
+
+		its(:size){should be == 2**described_class::ANGULAR_MOMENTA.size - 1}
+	end
 	let(:sto3g_txt){<<EOF
 !  STO-3G  EMSL  Basis Set Exchange Library   11/7/12 11:59 AM
 ! Elements                             References

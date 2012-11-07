@@ -48,6 +48,9 @@ end
 ---- inner
 ELEMENTS = RuPHY::Elements.symbols.map(&:to_s)
 ANGULAR_MOMENTA = %w<S P D F G H I>
+ANGULAR_MOMENTA_ALL = ANGULAR_MOMENTA.inject([[]]) do |p, m|
+	p + p.map{|s| s + [m]}
+end.reject(&:empty?).map(&:join)
 ELEMENT_OR_ANGULAR_MOMENTUM = ELEMENTS & ANGULAR_MOMENTA
 
 ELEMENTS_R = Regexp.union(ELEMENTS)
