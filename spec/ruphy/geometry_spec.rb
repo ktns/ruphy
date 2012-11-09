@@ -1,6 +1,10 @@
 require File.join(File.dirname(__FILE__), %w|.. spec_helper.rb|)
 
 describe RuPHY::Geometry::Molecule do
+	shared_examples_for 'proper molecule' do
+		it{should respond_to :each}
+	end
+
 	context 'with xyz' do
 		let(:xyz) do
 			<<-EOF
@@ -26,6 +30,8 @@ describe RuPHY::Geometry::Molecule do
 			subject{described_class.new(xyz)}
 
 			it_should_behave_like "molecule read from xyz"
+
+			it_should_behave_like 'proper molecule'
 		end
 
 		context 'file' do
@@ -42,6 +48,8 @@ describe RuPHY::Geometry::Molecule do
 			after(:all) do
 				@file.close(true)
 			end
+
+			it_should_behave_like 'proper molecule'
 		end
 	end
 
