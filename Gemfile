@@ -21,6 +21,7 @@ end
 
 group :autotest_macosx do
 	gem 'autotest-fsevent'
+	gem 'autotest-growl'
 end
 
 group :test do
