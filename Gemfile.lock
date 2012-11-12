@@ -4,6 +4,7 @@ GEM
     ZenTest (4.8.2)
     autotest-fsevent (0.2.8)
       sys-uname
+    autotest-growl (0.2.16)
     autotest-screen (0.1.0.1)
     columnize (0.3.6)
     debugger (1.2.1)
@@ -50,6 +51,7 @@ PLATFORMS
 DEPENDENCIES
   ZenTest (~> 4.8.2)
   autotest-fsevent
+  autotest-growl
   autotest-screen (~> 0.1.0)
   bundler (~> 1.2.1)
   debugger (~> 1.2)

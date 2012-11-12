@@ -13,6 +13,11 @@ begin
 rescue LoadError
 end
 
+begin
+	require 'autotest-growl'
+rescue LoadError
+end
+
 # Adapted with tip from http://ph7spot.com/articles/getting_started_with_autotest
 # by DitoCujo (http://ditoinfo.wordpress.com)
 # and modified by ktns
