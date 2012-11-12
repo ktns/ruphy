@@ -8,6 +8,11 @@ if ENV['TERM'] =~ /screen/
 	end
 end
 
+begin
+	require 'autotest-fsevent'
+rescue LoadError
+end
+
 # Adapted with tip from http://ph7spot.com/articles/getting_started_with_autotest
 # by DitoCujo (http://ditoinfo.wordpress.com)
 # and modified by ktns
