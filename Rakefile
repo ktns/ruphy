@@ -44,6 +44,8 @@ else
 	end
 end
 
+CLEAN << 'coverage'
+
 task :default => :spec
 
 require 'rdoc/task'

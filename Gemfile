@@ -20,6 +20,10 @@ group :autotest do
   gem "autotest-screen", "~> 0.1.0"
 end
 
+group :autotest_macosx do
+	gem 'autotest-fsevent'
+end
+
 group :test do
   gem "rspec", "~> 2.11.0"
   gem 'rcov', '~> 1.0.0', :platform => :mri_18
