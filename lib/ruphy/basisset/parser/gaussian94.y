@@ -48,6 +48,8 @@ COEFFS
 	: NUMBER { result = [ val[0] ]}
 	| NUMBER COEFFS { result = [ val[0] ] + val[1] }
 end
+---- header
+require 'ruphy/basisset/lcao/gaussian'
 ---- inner
 ELEMENTS = RuPHY::Elements.symbols.map(&:to_s)
 ANGULAR_MOMENTA = %w<S P D F G H I>
