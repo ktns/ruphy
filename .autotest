@@ -49,3 +49,7 @@ Autotest.add_hook :initialize do |at|
 	at.find_directories=%w<./spec ./lib>
 	at.add_exception(/(_helper\.rb|\.opts)$/)
 end
+
+Autotest.add_hook :run_command do |at|
+	system %w<rake racc>
+end
