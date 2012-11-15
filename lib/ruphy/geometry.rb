@@ -1,6 +1,7 @@
 require 'openbabel'
 require 'matrix'
 require 'ruphy/constants'
+require 'delegate'
 
 module RuPHY
 	module Geometry
@@ -39,6 +40,20 @@ module RuPHY
 					r = (v1-v2).r * Angstrom
 					e + a1.get_atomic_num * a2.get_atomic_num / r
 				end
+			end
+		end
+
+		class Atom < Delegator
+			def initialize obatom
+				@obatom = obatom
+			end
+
+			def __getobj__
+				return @obatom
+			end
+
+			def inspect
+				"#<#{self.class}: @obmol=#{@obmol.inspect}>"
 			end
 		end
 	end
