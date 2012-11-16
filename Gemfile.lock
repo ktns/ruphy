@@ -1,15 +1,9 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    ZenTest (4.8.2)
     archive-tar-minitar (0.5.2)
-    autotest-fsevent (0.2.8)
-      sys-uname
-    autotest-growl (0.2.16)
-    autotest-screen (0.1.0.1)
     columnize (0.3.6)
     diff-lcs (1.1.3)
-    ffi (1.1.5)
     git (1.2.5)
     jeweler (1.8.4)
       bundler (~> 1.0)
@@ -55,17 +49,11 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
-    sys-uname (0.9.0)
-      ffi (>= 1.0.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  ZenTest (~> 4.8.2)
-  autotest-fsevent
-  autotest-growl
-  autotest-screen (~> 0.1.0)
   bundler (~> 1.2.1)
   jeweler (~> 1.8.3)
   openbabel (~> 2.3.1.8)
