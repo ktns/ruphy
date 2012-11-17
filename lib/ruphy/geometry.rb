@@ -57,7 +57,7 @@ module RuPHY
 			end
 
 			def inspect
-				"#<#{self.class}: @obmol=#{@obmol.inspect}>"
+				"#<#{self.class}: #{to_s}>"
 			end
 
 			def vector
