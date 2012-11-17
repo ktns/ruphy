@@ -20,6 +20,8 @@ describe RuPHY::Geometry::Molecule do
 			its(:nuclear_replusion_energy){should be_within(1e-5).of(9.24861786)}
 
 			its(:each_atom){should have(3).items}
+
+			its(:each_atom){should all_be_kind_of RuPHY::Geometry::Atom}
 		end
 
 		context 'string' do
