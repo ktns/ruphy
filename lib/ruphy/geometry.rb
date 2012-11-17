@@ -57,7 +57,7 @@ module RuPHY
 			end
 
 			def vector
-				Vector[x,y,z]
+				Vector[get_x, get_y, get_z]
 			end
 		end
 	end
