@@ -52,6 +52,10 @@ module RuPHY
 				return @obatom
 			end
 
+			def to_s
+				'%s@[%.5f, %.5f, %.5f]' % [Elements[get_atomic_num], get_x, get_y, get_z]
+			end
+
 			def inspect
 				"#<#{self.class}: @obmol=#{@obmol.inspect}>"
 			end
