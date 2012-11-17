@@ -11,6 +11,7 @@ module RuPHY
 		def name
 			@sym.to_s
 		end
+		alias to_s name
 
 		alias to_s name
 

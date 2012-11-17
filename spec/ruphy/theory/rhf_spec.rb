@@ -74,7 +74,7 @@ end
 
 describe RuPHY::Theory::RHF::Solver do
 	it 'should not raise error on initialization' do
-		pending do
+		pending 'Not yet implemented' do
 			lambda do
 				described_class.new nil, nil
 			end.should_not raise_error

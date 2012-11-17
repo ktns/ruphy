@@ -21,7 +21,10 @@ jeweler_tasks = Jeweler::Tasks.new do |gem|
   gem.description = %Q{TODO: longer description of your gem}
   gem.email = "ktns.87@gmail.com"
   gem.authors = ["Katsuhiko Nishimra"]
-  # dependencies defined in Gemfile
+  gem.files.exclude '.document'
+  gem.files.exclude '.rspec'
+  gem.files.exclude '.travis.yml'
+  gem.files.exclude 'Gemfile*'
 end
 Jeweler::RubygemsDotOrgTasks.new
 

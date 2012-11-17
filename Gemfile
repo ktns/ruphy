@@ -15,16 +15,6 @@ group :development do
   #gem "rake-compiler", "~> 0.8.0"
 end
 
-group :autotest do
-  gem "ZenTest", "~> 4.8.2"
-  gem "autotest-screen", "~> 0.1.0"
-end
-
-group :autotest_macosx do
-	gem 'autotest-fsevent'
-	gem 'autotest-growl'
-end
-
 group :test do
   gem "rspec", "~> 2.11.0"
   gem 'rcov', '~> 1.0.0', :platform => :mri_18
@@ -32,5 +22,6 @@ group :test do
 end
 
 group :debug do
-	gem 'debugger', '~> 1.2'
+	gem 'ruby-debug', :platform => :ruby_18
+	gem 'ruby-debug19', :platform => :ruby_19
 end
