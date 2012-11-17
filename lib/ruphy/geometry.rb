@@ -36,7 +36,7 @@ module RuPHY
 
 			def nuclear_replusion_energy
 				each_atom.to_a.combination(2).inject(0) do |e, (a1, a2)|
-					v1, v2 = [a1,a2].map{|a|Vector[a.x,a.y,a.z]}
+					v1, v2 = [a1,a2].map(&:vector)
 					r = (v1-v2).r * Angstrom
 					e + a1.get_atomic_num * a2.get_atomic_num / r
 				end
@@ -54,6 +54,10 @@ module RuPHY
 
 			def inspect
 				"#<#{self.class}: @obmol=#{@obmol.inspect}>"
+			end
+
+			def vector
+				Vector[x,y,z]
 			end
 		end
 	end
