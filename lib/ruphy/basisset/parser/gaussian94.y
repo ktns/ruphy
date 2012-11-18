@@ -74,7 +74,7 @@ def parse str
 			@q << [:COMMENTLINE, $&]
 		when /\A\*{4,}\s*\n/
 			@q << [:EOB, $&]
-		when /\A\n/
+		when /\A\s*\n/
 			@q << [:EOL, $&]
 		when /\A\s+/
 		when /\A-?\d+\.\d+\b/
