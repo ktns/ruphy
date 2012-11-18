@@ -28,11 +28,11 @@ SHELLS
 		c, n = val[4].count, val[1]
 		raise '# primitive gaussians (%d) != NGauss(%d)!' % [c,n] unless c==n
 		s = val[2]
+		coeffs, zetas = val[4].map do |a,d|
+			[a*s, d]
+		end.transpose()
 		result = [RuPHY::BasisSet::LCAO::Gaussian::Shell.new(
-			val[0],
-			*val[4].map do |a,d|
-				[a*s, d]
-			end.transpose, :center
+			val[0], coeffs, zetas, :center
 		)]
 	}
 	| SHELLS SHELLS { result = val[0] + val[1] }
