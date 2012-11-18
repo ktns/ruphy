@@ -3,6 +3,7 @@ source "http://rubygems.org"
 # Example:
 #   gem "activesupport", ">= 2.3.5"
 gem "openbabel", "~> 2.3.1.8"
+gem "backports", "~> 2.6.5", :platform => :ruby_18
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
