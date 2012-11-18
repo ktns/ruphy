@@ -1,3 +1,9 @@
+Autotest.add_hook :initialize do |at|
+	at.add_mapping(%r|lib/(.+)\.y$|) do |f,matched|
+		"spec/#{matched[1]}_spec.rb"
+	end
+end
+
 Autotest.add_hook :run_command do |at|
 	system 'bundle exec rake racc'
 end
