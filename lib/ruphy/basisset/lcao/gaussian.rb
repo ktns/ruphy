@@ -40,8 +40,10 @@ module RuPHY
 				end
 
 				def initialize arg
-					@basisset = arg.each_with_object(Hash.new) do |(e,b),s|
-						s[e] = b
+					@basisset = Hash.new.tap do |s|
+						arg.each do |(e,b)|
+							s[e] = b
+						end
 					end.freeze
 				end
 

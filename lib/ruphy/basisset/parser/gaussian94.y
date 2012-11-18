@@ -11,8 +11,10 @@ COMMENTBLOCK
 	| EOL COMMENTBLOCK {result = {} }
 ELEMENTBLOCK
 	: ELEMENTS_LINE SHELLS EOB {
-		result = val[0].each_with_object({}) do |element, result|
-			result.merge!({element.to_sym => val[1]})
+		result = {}.tap do |result|
+			val[0].each do |element|
+				result.merge!({element.to_sym => val[1]})
+			end
 		end
 	}
 ELEMENTS_LINE
