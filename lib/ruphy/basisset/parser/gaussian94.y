@@ -70,7 +70,7 @@ def parse str
 	@q = []
 	until str.empty?
 		case str
-		when /\A*!.*\n/
+		when /\A!.*\n/
 			@q << [:COMMENTLINE, $&]
 		when /\A\*{4,}\s*\n/
 			@q << [:EOB, $&]
