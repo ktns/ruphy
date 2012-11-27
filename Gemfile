@@ -12,7 +12,7 @@ group :development do
   gem "bundler", "~> 1.2.2"
   gem "jeweler", "~> 1.8.3"
   gem "rdoc", "~> 3.12"
-	gem "racc", "~> 1.4"
+  gem "racc", "~> 1.4"
   #gem "rake-compiler", "~> 0.8.0"
 end
 
@@ -23,6 +23,6 @@ group :test do
 end
 
 group :debug do
-	gem 'ruby-debug', :platform => :ruby_18
-	gem 'ruby-debug19', :platform => :ruby_19
+  gem 'ruby-debug', :platform => :ruby_18
+  gem 'ruby-debug19', :platform => :ruby_19
 end

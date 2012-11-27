@@ -1,7 +1,7 @@
 class RuPHY::BasisSet::Parser::Gaussian94
 rule
 BLOCKS
-  : COMMENTBLOCK
+	: COMMENTBLOCK
 	| ELEMENTBLOCK
 	| BLOCKS BLOCKS { result = val[0].merge val[1] }
 COMMENTBLOCK

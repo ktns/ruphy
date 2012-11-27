@@ -35,16 +35,16 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
 end
 
 if RUBY_VERSION < '1.9'
-	RSpec::Core::RakeTask.new(:rcov) do |spec|
-		spec.pattern = 'spec/**/*_spec.rb'
-		spec.rcov = true
-		spec.rcov_opts = %w<--exclude gems,spec>
-	end
+  RSpec::Core::RakeTask.new(:rcov) do |spec|
+    spec.pattern = 'spec/**/*_spec.rb'
+    spec.rcov = true
+    spec.rcov_opts = %w<--exclude gems,spec>
+  end
 else
-	RSpec::Core::RakeTask.new(:simplecov) do |spec|
-		spec.pattern = 'spec/**/*_spec.rb'
-		ENV['SIMPLECOV']='true'
-	end
+  RSpec::Core::RakeTask.new(:simplecov) do |spec|
+    spec.pattern = 'spec/**/*_spec.rb'
+    ENV['SIMPLECOV']='true'
+  end
 end
 
 CLEAN << 'coverage'
@@ -73,7 +73,7 @@ task :spec => RaccOutputs
 CLEAN << RaccOutputs
 
 rule '.rb' => '.y' do |t|
-	opts = []
-	opts << '-g' if ENV['RACC_DEBUG']
-	sh "racc #{opts.join(' ')} #{t.source} -o #{t.name}"
+  opts = []
+  opts << '-g' if ENV['RACC_DEBUG']
+  sh "racc #{opts.join(' ')} #{t.source} -o #{t.name}"
 end

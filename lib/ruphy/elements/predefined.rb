@@ -2,9 +2,9 @@ require 'yaml'
 require 'ruphy/element'
 
 module RuPHY
-	module ElementData
-		module PreDefined
-			YAML = <<EOY
+  module ElementData
+    module PreDefined
+      YAML = <<EOY
 ---
 "1": &id001 !ruby/object:RuPHY::Element
   Z: 1
@@ -833,18 +833,18 @@ Uuo: *id118
 118: *id118
 :Uuo: *id118
 EOY
-			Hash = ::YAML.load(YAML)
+      Hash = ::YAML.load(YAML)
 
-			private
-			def get_elem_data key
-				return Hash[key]
-			end
+      private
+      def get_elem_data key
+        return Hash[key]
+      end
 
-			def get_all_data
-				Hash.values.uniq.each do |data|
-					yield data
-				end
-			end
-		end
-	end
+      def get_all_data
+        Hash.values.uniq.each do |data|
+          yield data
+        end
+      end
+    end
+  end
 end

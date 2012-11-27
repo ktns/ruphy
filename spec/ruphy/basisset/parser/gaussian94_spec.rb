@@ -3,12 +3,12 @@ require 'ruphy/basisset/parser/gaussian94'
 require 'digest/md5'
 
 describe RuPHY::BasisSet::Parser::Gaussian94 do
-	describe '::ANGULAR_MOMENTA_ALL' do
-		subject{described_class::ANGULAR_MOMENTA_ALL}
+  describe '::ANGULAR_MOMENTA_ALL' do
+    subject{described_class::ANGULAR_MOMENTA_ALL}
 
-		its(:size){should be == 2**described_class::ANGULAR_MOMENTA.size - 1}
-	end
-	let(:sto3g_txt){<<EOF
+    its(:size){should be == 2**described_class::ANGULAR_MOMENTA.size - 1}
+  end
+  let(:sto3g_txt){<<EOF
 
 !  STO-3G  EMSL  Basis Set Exchange Library   11/17/12 7:18 PM
 ! Elements                             References
@@ -70,42 +70,42 @@ D   3   1.00
 ****
 
 EOF
-	}
+  }
 
-	describe 'STO-3G test string' do
-		subject{Digest::MD5.digest(sto3g_txt)}
+  describe 'STO-3G test string' do
+    subject{Digest::MD5.digest(sto3g_txt)}
 
-		it{should == "\x9F\x16,\xE5\xF0\xF1\xF6\xD8#\x9B\xC7\x11\x15\x8D\x9FX"}
-	end
+    it{should == "\x9F\x16,\xE5\xF0\xF1\xF6\xD8#\x9B\xC7\x11\x15\x8D\x9FX"}
+  end
 
-	describe '#parse' do
-		before do
-			@parser = described_class.new
-			@parser.debug = ENV['RACC_DEBUG']
-		end
+  describe '#parse' do
+    before do
+      @parser = described_class.new
+      @parser.debug = ENV['RACC_DEBUG']
+    end
 
-		subject{ @parser.parse(str) }
+    subject{ @parser.parse(str) }
 
-		context 'with STO-3G' do
-			let(:str){sto3g_txt}
+    context 'with STO-3G' do
+      let(:str){sto3g_txt}
 
-			calling_it{should_not raise_error}
+      calling_it{should_not raise_error}
 
-			it{should return_a RuPHY::BasisSet::Base}
+      it{should return_a RuPHY::BasisSet::Base}
 
-			its(:elements){should include RuPHY::Elements[:H]}
+      its(:elements){should include RuPHY::Elements[:H]}
 
-			its(:elements){should include RuPHY::Elements[:He]}
+      its(:elements){should include RuPHY::Elements[:He]}
 
-			its(:elements){should include RuPHY::Elements[:C]}
+      its(:elements){should include RuPHY::Elements[:C]}
 
-			its(:elements){should include RuPHY::Elements[:Ti]}
-		end
+      its(:elements){should include RuPHY::Elements[:Ti]}
+    end
 
-		context 'with empty string' do
-			let(:str){''}
+    context 'with empty string' do
+      let(:str){''}
 
-			calling_it{should raise_error}
-		end
-	end
+      calling_it{should raise_error}
+    end
+  end
 end

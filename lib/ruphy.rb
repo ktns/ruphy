@@ -8,13 +8,13 @@ require 'bundler'
 Bundler.require(:default)
 
 module RuPHY
-	VERSION = IO.read(File.join(File.dirname(__FILE__), %w<.. VERSION>)).chomp
+  VERSION = IO.read(File.join(File.dirname(__FILE__), %w<.. VERSION>)).chomp
 
-	begin
-		Enumerator = ::Enumerable::Enumerator
-	rescue NameError
-		Enumerator = ::Enumerator
-	end
+  begin
+    Enumerator = ::Enumerable::Enumerator
+  rescue NameError
+    Enumerator = ::Enumerator
+  end
 end
 
 require 'ruphy/math'

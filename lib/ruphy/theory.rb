@@ -1,7 +1,7 @@
 module RuPHY
-	module Theory
+  module Theory
 
-	end
+  end
 end
 
 require 'ruphy/theory/rhf'
