@@ -1,10 +1,10 @@
 require File.join(File.dirname(__FILE__), %w'.. .. spec_helper.rb')
 
-describe RuPHY::Orbital::Gaussian do
+describe RuPHY::AO::Gaussian do
 
 end
 
-describe RuPHY::Orbital::Gaussian::Primitive do
+describe RuPHY::AO::Gaussian::Primitive do
   describe '.new' do
     it 'should accept zeta, momenta, and center' do
       lambda do
@@ -260,7 +260,7 @@ describe RuPHY::Orbital::Gaussian::Primitive do
   end
 end
 
-describe RuPHY::Orbital::Gaussian::Contracted do
+describe RuPHY::AO::Gaussian::Contracted do
   describe '.new' do
     it 'should accept coeffs, zetas, momenta, and center' do
       lambda do

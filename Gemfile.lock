@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     archive-tar-minitar (0.5.2)
+    backports (2.6.5)
     columnize (0.3.6)
     diff-lcs (1.1.3)
     git (1.2.5)
@@ -17,6 +18,7 @@ GEM
       ruby_core_source (>= 0.1.4)
     multi_json (1.3.7)
     openbabel (2.3.1.8)
+    racc (1.4.9)
     rake (10.0.1)
     rbx-require-relative (0.0.9)
     rcov (1.0.0)
@@ -54,9 +56,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  backports (~> 2.6.5)
   bundler (~> 1.2.2)
   jeweler (~> 1.8.3)
   openbabel (~> 2.3.1.8)
+  racc (~> 1.4)
   rcov (~> 1.0.0)
   rdoc (~> 3.12)
   rspec (~> 2.12.0)

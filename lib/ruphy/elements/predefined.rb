@@ -839,6 +839,12 @@ EOY
       def get_elem_data key
         return Hash[key]
       end
+
+      def get_all_data
+        Hash.values.uniq.each do |data|
+          yield data
+        end
+      end
     end
   end
 end

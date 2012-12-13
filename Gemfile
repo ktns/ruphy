@@ -3,6 +3,7 @@ source "http://rubygems.org"
 # Example:
 #   gem "activesupport", ">= 2.3.5"
 gem "openbabel", "~> 2.3.1.8"
+gem "backports", "~> 2.6.5", :platform => :ruby_18
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
@@ -11,6 +12,7 @@ group :development do
   gem "bundler", "~> 1.2.2"
   gem "jeweler", "~> 1.8.3"
   gem "rdoc", "~> 3.12"
+  gem "racc", "~> 1.4"
   #gem "rake-compiler", "~> 0.8.0"
 end
 

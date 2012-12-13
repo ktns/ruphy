@@ -1,13 +1,10 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
-begin
-  require 'simplecov'
-  SimpleCov.start do
-    add_filter '/spec/'
-  end
-rescue LoadError
-end if ENV['SIMPLECOV']
-require 'rspec'
+
+require 'bundler'
+
+Bundler.require(:test)
+
 require 'ruphy'
 require 'tempfile'
 
@@ -39,4 +36,60 @@ end
 
 def random_coordinate
   return (1-a=rand())/a, rand() * Math::PI/2, rand() * Math::PI
+end
+
+begin
+  TestMol = RuPHY::Geometry::Molecule.new(<<EOF, 'xyz')
+2
+Hydrogen
+H 0 0 0
+H 0 0 0.74
+EOF
+rescue Exception
+  TestMol = nil
+end
+
+RSpec::Matchers.define :include_a do |exp|
+  match do |act|
+    act.any?{|a| exp === a}
+  end
+
+  failure_message_for_should do |act|
+    'expected %p to include a instance of %p' % [act,exp]
+  end
+
+  failure_message_for_should_not do |act|
+    'expected %p not to include a instance of %p' % [act,exp]
+  end
+end
+
+module RSpec
+  module CallingIt
+    module ExampleGroupMethods
+      def calling_it(&block)
+        example do
+          class << d = self.dup
+            alias subject_original subject
+            def subject
+              lambda { subject_original }
+            end
+          end
+          d.instance_eval(&block)
+        end
+      end
+
+      alias creating_it calling_it
+    end
+  end
+end
+
+module Matchers
+  include RSpec::Matchers
+  alias return_a be_a
+end
+
+
+RSpec.configure do |c|
+  c.extend RSpec::CallingIt::ExampleGroupMethods
+  c.include Matchers
 end

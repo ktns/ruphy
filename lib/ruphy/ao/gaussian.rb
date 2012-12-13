@@ -1,11 +1,11 @@
 module RuPHY
-  class Orbital
-    class Gaussian < Orbital
+  class AO
+    class Gaussian < AO
       def initialize *args
         raise NotImplementedError
       end
 
-      class Primitive < Orbital
+      class Primitive < AO
         include RuPHY::Math
 
         public_class_method :new
@@ -71,7 +71,7 @@ module RuPHY
 
       end
 
-      class Contracted < Orbital
+      class Contracted < AO
         public_class_method :new
 
         def initialize coeffs, zetas, momenta, center

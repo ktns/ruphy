@@ -62,3 +62,18 @@ Rake::RDocTask.new do |rdoc|
 end
 
 CLEAN << 'gem_graph.png' 
+
+# Racc task
+
+RaccSources = FileList['lib/**/*.y']
+RaccOutputs = RaccSources.ext('rb')
+task :racc => RaccOutputs
+task :spec => RaccOutputs
+
+CLEAN << RaccOutputs
+
+rule '.rb' => '.y' do |t|
+  opts = []
+  opts << '-g' if ENV['RACC_DEBUG']
+  sh "racc #{opts.join(' ')} #{t.source} -o #{t.name}"
+end

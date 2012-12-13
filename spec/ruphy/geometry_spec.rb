@@ -1,6 +1,10 @@
 require File.join(File.dirname(__FILE__), %w|.. spec_helper.rb|)
 
 describe RuPHY::Geometry::Molecule do
+  shared_examples_for 'proper molecule' do
+    its(:each_atom){should all_be_kind_of RuPHY::Geometry::Atom}
+  end
+
   context 'with xyz' do
     let(:xyz) do
       <<-EOF
@@ -20,14 +24,14 @@ describe RuPHY::Geometry::Molecule do
       its(:nuclear_replusion_energy){should be_within(1e-5).of(9.24861786)}
 
       its(:each_atom){should have(3).items}
-
-      its(:each_atom){should all_be_kind_of RuPHY::Geometry::Atom}
     end
 
     context 'string' do
       subject{described_class.new(xyz)}
 
       it_should_behave_like "molecule read from xyz"
+
+      it_should_behave_like 'proper molecule'
     end
 
     context 'file' do
@@ -44,6 +48,8 @@ describe RuPHY::Geometry::Molecule do
       after(:all) do
         @file.close(true)
       end
+
+      it_should_behave_like 'proper molecule'
     end
   end
 

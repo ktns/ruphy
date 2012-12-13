@@ -3,6 +3,10 @@ $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname
 
 require 'complex'
 
+require 'rubygems'
+require 'bundler'
+Bundler.require(:default)
+
 module RuPHY
   VERSION = IO.read(File.join(File.dirname(__FILE__), %w<.. VERSION>)).chomp
 
@@ -14,7 +18,7 @@ module RuPHY
 end
 
 require 'ruphy/math'
-require 'ruphy/orbital'
+require 'ruphy/ao'
 require 'ruphy/geometry'
 require 'ruphy/theory'
 require 'ruphy/basisset'
