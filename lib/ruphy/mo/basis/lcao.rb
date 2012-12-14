@@ -6,6 +6,10 @@ module RuPHY
           raise NotImplementedError
         end
 
+        def shells
+          raise NotImplementedError
+        end
+
         class Shell < SimpleDelegator
           def initialize abst_shell, center
             shell = abst_shell.dup.extend ActualShell
