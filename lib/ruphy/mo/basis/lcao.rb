@@ -14,6 +14,10 @@ module RuPHY
           @shells.values.flatten
         end
 
+        def overlap
+          raise NotImplementedError
+        end
+
         class Shell < SimpleDelegator
           def initialize abst_shell, center
             shell = abst_shell.dup.extend ActualShell

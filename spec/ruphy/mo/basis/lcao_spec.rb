@@ -7,6 +7,20 @@ describe RuPHY::MO::Basis::LCAO do
     subject{described_class.new(::TestMol, RuPHY::BasisSet::STO3G)}
 
     it{should be_kind_of RuPHY::MO::Basis}
+
+    describe '#overlap' do
+      def subject; super.overlap; end
+
+      it{pending{should be_kind_of RuPHY::Matrix}}
+
+      it{pending{should be_square}}
+
+      describe 'diagonal elements' do
+        def subject; super.diagonal_elements; end
+
+        it{pending{should all_be_within(1e-5).of(1)}}
+      end
+    end
   end
 end
 
