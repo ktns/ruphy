@@ -12,3 +12,9 @@ gemfile:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libopenbabel-dev
+
+branches:
+  only:
+    - master
+    - develop
+    - /^feature\//
