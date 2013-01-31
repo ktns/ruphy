@@ -42,3 +42,5 @@ module RuPHY
     end
   end
 end
+
+require 'ruphy/math/matrix'
