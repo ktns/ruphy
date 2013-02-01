@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), %w|.. spec_helper.rb|)
+require 'spec_helper'
 
 describe RuPHY::Element do
   let(:element){described_class.new(0,:hoge,0)}

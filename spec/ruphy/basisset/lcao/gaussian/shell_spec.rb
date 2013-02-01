@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), %w|.. .. .. .. spec_helper.rb|)
+require 'spec_helper'
 require 'ruphy/basisset/lcao/gaussian/shell'
 
 describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
