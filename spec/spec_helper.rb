@@ -44,7 +44,7 @@ H 0 0 0.74
 EOF
 rescue Exception
   TestMol = nil
-end unless defined?(TestMol)
+end
 
 RSpec::Matchers.define :include_a do |exp|
   match do |act|
