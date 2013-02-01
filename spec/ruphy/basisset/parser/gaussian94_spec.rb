@@ -72,6 +72,22 @@ D   3   1.00
 EOF
   }
 
+  let(:sto3g_txt2){<<EOF
+-H
+S    3 1.00
+ 0.3425250914D+01  0.1543289673D+00
+ 0.6239137298D+00  0.5353281423D+00
+ 0.1688554040D+00  0.4446345422D+00
+****
+-He
+S    3 1.00
+ 0.6362421394D+01  0.1543289673D+00
+ 0.1158922999D+01  0.5353281423D+00
+ 0.3136497915D+00  0.4446345422D+00
+****
+EOF
+  }
+
   describe 'STO-3G test string' do
     subject{Digest::MD5.digest(sto3g_txt)}
 
@@ -79,7 +95,7 @@ EOF
   end
 
   describe '#parse' do
-    before do
+    before :each do
       @parser = described_class.new
       @parser.debug = ENV['RACC_DEBUG']
     end
@@ -100,6 +116,12 @@ EOF
       its(:elements){should include RuPHY::Elements[:C]}
 
       its(:elements){should include RuPHY::Elements[:Ti]}
+    end
+
+    context 'with STO-3G written by FORTRAN format' do
+      let(:str){sto3g_txt2}
+
+      calling_it{should_not raise_error}
     end
 
     context 'with empty string' do
