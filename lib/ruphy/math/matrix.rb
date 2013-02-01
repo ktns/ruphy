@@ -8,6 +8,19 @@ module RuPHY
         @delegate_sd_obj = matrix
       end
 
+      def diagonal_elements &block
+        begin
+          each :diagonal, &block
+        rescue ArgumentError
+          if block then
+            [row_size,column_size].min.times{|i| yield self[i,i]}
+          else
+            enumerator = Enumerator rescue enumerator = Enumerable::Enumerator
+            enumerator.new(self,:diagonal_elements)
+          end
+        end
+      end
+
       def coerce other
         [ other, @delegate_sd_obj ]
       end
