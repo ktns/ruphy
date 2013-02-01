@@ -18,7 +18,8 @@ ELEMENTBLOCK
 		end
 	}
 ELEMENTS_LINE
-	: ELEMENT_ALL ZERO EOL { result = [val[0]] }
+	: ELEMENT_ALL EOL { result = [val[0]] }
+	| ELEMENT_ALL ZERO EOL { result = [val[0]] }
 	| ELEMENT_ALL ELEMENTS_LINE { result = val[1].unshift val[0] }
 ELEMENT_ALL
 	: ELEMENT
