@@ -78,6 +78,8 @@ def parse str
 			@q << [:EOB, $&]
 		when /\A\s*\n/
 			@q << [:EOL, $&]
+		when /\A-?\d+\.\d+D[+-]\d+\b/
+			@q << [:NUMBER, $&.tr('D','e').to_f]
 		when /\A\s+/
 		when /\A-?\d+\.\d+\b/
 			@q << [:NUMBER, $&.to_f]
