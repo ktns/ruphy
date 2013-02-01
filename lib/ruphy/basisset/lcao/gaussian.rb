@@ -86,6 +86,17 @@ module RuPHY
         def inspect
           "#<#{self.class}:#{@name} [#{elements.join(',')}]>"
         end
+
+        def shells arg
+          case arg
+          when Geometry::Atom
+            @basisset[arg.element]
+          when Element
+            @basisset[arg]
+          else
+            raise TypeError, "expected #{Geometry::Atom} or #{Element}, but #{arg.class}"
+          end
+        end
       end
     end
   end
