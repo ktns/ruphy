@@ -41,12 +41,14 @@ module RuPHY
         end
 
         def initialize arg
+          @comment = arg.delete(:comment)
           @basisset = Hash.new.tap do |s|
             arg.each do |(e,b)|
               s[e] = b
             end
           end.freeze
         end
+        attr_reader :comment
 
         def elements
           @basisset.keys

@@ -1,14 +1,23 @@
 class RuPHY::BasisSet::Parser::Gaussian94
 rule
 BLOCKS
-	: COMMENTBLOCK
+	: COMMENTBLOCK { result = { :comment => val[0] } }
 	| ELEMENTBLOCK
-	| BLOCKS BLOCKS { result = val[0].merge val[1] }
+	| BLOCKS BLOCKS {
+		result = val[0].merge val[1] do |k, v1, v2|
+			case k
+			when :comment, *ELEMENTS
+				v1 + v2
+			else
+				raise Racc::ParseError, "Unexpected object `%p' appeared as element!" % k
+			end
+		end
+	}
 COMMENTBLOCK
-	: COMMENTLINE EOB { result = {} }
-	| EOL EOB {result = {} }
-	| COMMENTLINE COMMENTBLOCK {result = {} }
-	| EOL COMMENTBLOCK {result = {} }
+	: COMMENTLINE EOB { result = val[0] }
+	| EOL EOB { result = '' }
+	| COMMENTLINE COMMENTBLOCK { result = val.join }
+	| EOL COMMENTBLOCK { result = val[1] }
 ELEMENTBLOCK
 	: ELEMENTS_LINE SHELLS EOB {
 		result = {}.tap do |result|
