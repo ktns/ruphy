@@ -116,6 +116,8 @@ EOF
       its(:elements){should include RuPHY::Elements[:C]}
 
       its(:elements){should include RuPHY::Elements[:Ti]}
+
+      its(:comment){Digest::MD5.digest(subject).should == "r\xAE\xB2s\xBC^\xD31X*\xB4:^\x05Lb"}
     end
 
     context 'with STO-3G written by FORTRAN format' do
