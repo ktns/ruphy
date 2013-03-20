@@ -44,7 +44,7 @@ SHELLS
 			[a*s, d]
 		end.transpose()
 		result = [RuPHY::BasisSet::LCAO::Gaussian::Shell.new(
-			val[0], coeffs, zetas, :center
+			val[0], coeffs, zetas, nil
 		)]
 	}
 	| SHELLS SHELLS { result = val[0] + val[1] }
