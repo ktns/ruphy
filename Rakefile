@@ -77,3 +77,21 @@ rule '.rb' => '.y' do |t|
   opts << '-g' if ENV['RACC_DEBUG']
   sh "racc #{opts.join(' ')} #{t.source} -o #{t.name}"
 end
+
+# Gaussian94 basisset file to yml file
+Gaussian94Sources = FileList['lib/**/*.gbs']
+Gaussian94Outputs = Gaussian94Sources.ext('.yml')
+
+task :gbs2yml => Gaussian94Outputs
+
+rule '.yml' => ['.gbs', 'lib/ruphy/basisset/parser/gaussian94.rb'] do |t|
+  require 'yaml'
+  require 'ruphy'
+  require 'ruphy/basisset/parser/gaussian94'
+  puts 'Parsing `%s\' as Gaussian94 basisset definition file' % t.source
+  bs = RuPHY::BasisSet::Parser::Gaussian94.new.parse(IO.read(t.source))
+  puts 'Damping basisset definition to `%s\'' % t.name
+  File.open t.name, 'w' do |yml|
+    yml.puts bs.to_yaml
+  end
+end
