@@ -22,6 +22,7 @@ module RuPHY
       get_all_data do |data|
         entry data
       end
+      self
     end
 
     private
