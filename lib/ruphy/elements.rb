@@ -25,11 +25,21 @@ module RuPHY
       self
     end
 
+    def structures
+      ::Hash[*
+        map do |k,v|
+          [k,v.structure]
+        end.flatten
+      ]
+    end
+
     private
     def entry elem
       case elem
       when Element
       when Array
+        elem = Element.new(*elem)
+      when Struct
         elem = Element.new(*elem)
       else
         raise TypeError
