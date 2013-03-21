@@ -36,4 +36,19 @@ describe RuPHY::Element do
       should_not == other_element.hash
     end
   end
+
+  context 'deserialized from YAML' do
+    let(:original){RuPHY::Elements[42]}
+    subject do
+      YAML.load(original.to_yaml)
+    end
+
+    it {should == original}
+
+    it {should be_eql original}
+
+    its(:hash){should == original.hash}
+
+    its(:m){should == original.m}
+  end
 end
