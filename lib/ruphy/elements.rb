@@ -4,7 +4,7 @@ require 'ruphy/elements/predefined'
 module RuPHY
   Elements = {}
 
-  class << Elements
+  module ElementsModule
     def [] key
       if key? key
         super
@@ -36,6 +36,7 @@ module RuPHY
       self[elem.sym] = self[elem.Z] = self[elem.sym.to_s] = self[elem.Z.to_s] = elem
     end
 
-    include ElementData::PreDefined
   end
+
+  Elements.extend(ElementsModule).extend(ElementData::PreDefined)
 end
