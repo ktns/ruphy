@@ -1,19 +1,20 @@
 require 'spec_helper'
 
-describe 'RuPHY::Elements' do
+describe RuPHY::ElementsModule do
   subject do
-    RuPHY::Elements
+    {}.extend described_class, RuPHY::ElementData::PreDefined
   end
+
   describe '#[]' do
     it 'should invoke get_elem_data' do
       subject.should_receive(:get_elem_data).and_return([0,:hoge,0])
-      RuPHY::Elements[:hoge] 
+      subject[:hoge]
     end
   end
 
   describe '#symbols' do
-    subject do
-      RuPHY::Elements.symbols
+    def subject
+      super.symbols
     end
 
     it{should_not include_a String}

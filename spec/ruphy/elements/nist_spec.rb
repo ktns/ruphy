@@ -2,16 +2,20 @@ if ENV['TEST_NIST']
   require 'spec_helper'
   require 'ruphy/elements/nist'
 
+  #Override NIST methods with PreDefined methods
+  #to avoid connections to remote host while other tests
+  RuPHY::Elements.extend(RuPHY::ElementData::PreDefined.clone)
+
   describe RuPHY::ElementData::NIST do
     it 'should be included by RuPHY::Elements' do
       RuPHY::Elements.should be_kind_of described_class
     end
 
-    describe '#get_elem_data' do
-      subject do
-        stub(:get_elem_data).extend described_class
-      end
+    subject do
+      {}.extend RuPHY::ElementsModule, described_class
+    end
 
+    describe '#get_elem_data' do
       context 'with H' do
         let(:hdat){subject.send(:get_elem_data,:H)}
         let(:z){hdat[0]}
