@@ -8,7 +8,7 @@ gem "backports", "~> 2.6.5", :platform => :ruby_18
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
 group :development do
-  gem "rspec", "~> 2.12.0"
+  gem "rspec", "~> 2.13.0"
   gem "bundler", "~> 1.2.2"
   gem "jeweler", "~> 1.8.3"
   gem "rdoc", "~> 3.12"
@@ -17,7 +17,7 @@ group :development do
 end
 
 group :test do
-  gem "rspec", "~> 2.12.0"
+  gem "rspec", "~> 2.13.0"
   gem 'rcov', '~> 1.0.0', :platform => :mri_18
   gem 'simplecov', '~> 0.7.1', :platform => :ruby_19
 end
