@@ -6,7 +6,8 @@ describe RuPHY::Geometry::Molecule do
   end
 
   context 'with xyz' do
-    let(:xyz) do
+    before :all do
+      @xyz = 
       <<-EOF
       3
       Oxidane
@@ -27,7 +28,7 @@ describe RuPHY::Geometry::Molecule do
     end
 
     context 'string' do
-      subject{described_class.new(xyz)}
+      subject{described_class.new(@xyz)}
 
       it_should_behave_like "molecule read from xyz"
 
@@ -37,7 +38,7 @@ describe RuPHY::Geometry::Molecule do
     context 'file' do
       before(:all) do
         @file = Tempfile.new(['ruphy_test','xyz'])
-        @file.puts xyz
+        @file.puts @xyz
         @file.close(false)
       end
 

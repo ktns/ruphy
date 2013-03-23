@@ -26,12 +26,10 @@ describe RuPHY::AO::Gaussian::Primitive do
   end
 
   shared_examples_for 'a primitive'	do
-    before :all do
-      @primitive = described_class.new(zeta,momenta,center)
-    end
+      let(:primitive ){ described_class.new(zeta,momenta,center)}
 
     subject do
-      @primitive
+      primitive
     end
 
     its(:zeta){ should be_frozen }
@@ -57,7 +55,7 @@ describe RuPHY::AO::Gaussian::Primitive do
     end
 
     describe 'diagonal kinetic integal' do
-      subject{@primitive.kinetic(@primitive)}
+      subject{primitive.kinetic(primitive)}
 
       it {should_not == 0}
     end
@@ -146,13 +144,11 @@ describe RuPHY::AO::Gaussian::Primitive do
   end
 
   shared_examples_for 'mutually orthogonal p primitives with identical center' do
-    before :all do
-      @primitive1 = described_class.new(zeta1,momenta1,center)
-      @primitive2 = described_class.new(zeta2,momenta2,center)
-    end
+    let(:primitive1) {described_class.new(zeta1,momenta1,center)}
+    let(:primitive2) {described_class.new(zeta2,momenta2,center)}
 
     it 'should have overlap of 0' do
-      @primitive1.overlap(@primitive2).should be_within(1e-5).of(0)
+      primitive1.overlap(primitive2).should be_within(1e-5).of(0)
     end
   end
 
@@ -184,13 +180,11 @@ describe RuPHY::AO::Gaussian::Primitive do
   end
 
   shared_examples_for 'mutually orthogonal p primitives with different centers' do
-    before :all do
-      @primitive1 = described_class.new(zeta1,momenta1,center1)
-      @primitive2 = described_class.new(zeta2,momenta2,center2)
-    end
+    let(:primitive1 ){ described_class.new(zeta1,momenta1,center1)}
+    let(:primitive2 ){ described_class.new(zeta2,momenta2,center2)}
 
     it 'should not have overlap of 0' do
-      @primitive1.overlap(@primitive2).should be_within(1e-5).of(0)
+      primitive1.overlap(primitive2).should be_within(1e-5).of(0)
     end
   end
 
@@ -225,28 +219,26 @@ describe RuPHY::AO::Gaussian::Primitive do
   end
 
   shared_examples_for 'two s primitives on different centers' do
-    before :all do
-      @primitive1 = described_class.new(zeta1,[0,0,0],center1)
-      @primitive2 = described_class.new(zeta2,[0,0,0],center2)
-      @primitive3 = described_class.new(zeta2,[0,0,0],center1)
-      @r  = @primitive1.center-@primitive2.center
-      @r2 = @r.inner_product(@r)
-      @zeta = zeta1 * zeta2 / (zeta1 + zeta2)
-    end
+    let(:primitive1){described_class.new(zeta1,[0,0,0],center1)}
+    let(:primitive2){described_class.new(zeta2,[0,0,0],center2)}
+    let(:primitive3){described_class.new(zeta2,[0,0,0],center1)}
+    let(:r){primitive1.center-primitive2.center}
+    let(:r2){r.inner_product(r)}
+    let(:zeta){zeta1 * zeta2 / (zeta1 + zeta2)}
 
     describe 'overlap' do
       it 'should be scaled by exponential of displacement' do
-        @primitive1.overlap(@primitive2).should be_within(1e-5).of(
-          @primitive1.overlap(@primitive3) *
-          Math::exp(-@r2 * @zeta))
+        primitive1.overlap(primitive2).should be_within(1e-5).of(
+          primitive1.overlap(primitive3) *
+          Math::exp(-r2 * zeta))
       end
     end
 
     describe 'kinetic' do
       it 'should be scaled properly' do
-        @primitive1.kinetic(@primitive2).should be_within(1e-5).of(
-          @primitive1.overlap(@primitive2) * 
-          (3*@zeta - 2*@r2*@zeta**2))
+        primitive1.kinetic(primitive2).should be_within(1e-5).of(
+          primitive1.overlap(primitive2) * 
+          (3*zeta - 2*r2*zeta**2))
       end
     end
   end
