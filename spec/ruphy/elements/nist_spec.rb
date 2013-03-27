@@ -27,7 +27,7 @@ if ENV['TEST_NIST']
         end
 
         it 'should return proper atomic weight' do
-          m.should be_within(0.01).of(1)
+          m.should be_within(1.0).percent_of(1)
         end
       end
     end
