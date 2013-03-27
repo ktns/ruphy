@@ -23,4 +23,12 @@ describe RuPHY::ElementsModule do
 
     it{should have_at_least(100).items}
   end
+
+  describe '#[:H]' do
+    def subject
+      super[:H]
+    end
+
+    its(:m){should be_within(1).percent_of(RuPHY::Constants::Da)}
+  end
 end
