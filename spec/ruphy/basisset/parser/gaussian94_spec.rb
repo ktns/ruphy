@@ -89,9 +89,7 @@ EOF
   }
 
   describe 'STO-3G test string' do
-    subject{Digest::MD5.digest(sto3g_txt)}
-
-    it{should == "\x9F\x16,\xE5\xF0\xF1\xF6\xD8#\x9B\xC7\x11\x15\x8D\x9FX"}
+    example{sto3g_txt.should be_digested_as "\x9F\x16,\xE5\xF0\xF1\xF6\xD8#\x9B\xC7\x11\x15\x8D\x9FX"}
   end
 
   describe '#parse' do
@@ -117,7 +115,7 @@ EOF
 
       its(:elements){should include RuPHY::Elements[:Ti]}
 
-      its(:comment){Digest::MD5.digest(subject).should == "r\xAE\xB2s\xBC^\xD31X*\xB4:^\x05Lb"}
+      its(:comment){should be_digested_as "r\xAE\xB2s\xBC^\xD31X*\xB4:^\x05Lb"}
     end
 
     context 'with STO-3G written by FORTRAN format' do
