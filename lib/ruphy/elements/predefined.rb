@@ -6,832 +6,832 @@ module RuPHY
     module PreDefined
       YAML = <<EOY
 ---
-'1': &70118052412340 !ruby/struct:RuPHY::Element::Struct
+'1': &6631800 !ruby/struct:RuPHY::Element::Struct
   Z: 1
   sym: :H
-  m: 1837.3622794466407
-H: *70118052412340
-1: *70118052412340
-:H: *70118052412340
-'2': &70118052412160 !ruby/struct:RuPHY::Element::Struct
+  u: 1.00794
+H: *6631800
+1: *6631800
+:H: *6631800
+'2': &6631580 !ruby/struct:RuPHY::Element::Struct
   Z: 2
   sym: :He
-  m: 7296.297333608829
-He: *70118052412160
-2: *70118052412160
-:He: *70118052412160
-'3': &70118052411980 !ruby/struct:RuPHY::Element::Struct
+  u: 4.002602
+He: *6631580
+2: *6631580
+:He: *6631580
+'3': &6631260 !ruby/struct:RuPHY::Element::Struct
   Z: 3
   sym: :Li
-  m: 12652.669386708665
-Li: *70118052411980
-3: *70118052411980
-:Li: *70118052411980
-'4': &70118052411800 !ruby/struct:RuPHY::Element::Struct
+  u: 6.941
+Li: *6631260
+3: *6631260
+:Li: *6631260
+'4': &6631020 !ruby/struct:RuPHY::Element::Struct
   Z: 4
   sym: :Be
-  m: 16428.20332788458
-Be: *70118052411800
-4: *70118052411800
-:Be: *70118052411800
-'5': &70118052411620 !ruby/struct:RuPHY::Element::Struct
+  u: 9.012182
+Be: *6631020
+4: *6631020
+:Be: *6631020
+'5': &6630760 !ruby/struct:RuPHY::Element::Struct
   Z: 5
   sym: :B
-  m: 19707.248053552426
-B: *70118052411620
-5: *70118052411620
-:B: *70118052411620
-'6': &70118052411440 !ruby/struct:RuPHY::Element::Struct
+  u: 10.811
+B: *6630760
+5: *6630760
+:B: *6630760
+'6': &6630540 !ruby/struct:RuPHY::Element::Struct
   Z: 6
   sym: :C
-  m: 21894.16744027399
-C: *70118052411440
-6: *70118052411440
-:C: *70118052411440
-'7': &70118052411260 !ruby/struct:RuPHY::Element::Struct
+  u: 12.0107
+C: *6630540
+6: *6630540
+:C: *6630540
+'7': &6630340 !ruby/struct:RuPHY::Element::Struct
   Z: 7
   sym: :N
-  m: 25532.65297490452
-N: *70118052411260
-7: *70118052411260
-:N: *70118052411260
-'8': &70118052411080 !ruby/struct:RuPHY::Element::Struct
+  u: 14.0067
+N: *6630340
+7: *6630340
+:N: *6630340
+'8': &6630140 !ruby/struct:RuPHY::Element::Struct
   Z: 8
   sym: :O
-  m: 29165.122977338513
-O: *70118052411080
-8: *70118052411080
-:O: *70118052411080
-'9': &70118052410900 !ruby/struct:RuPHY::Element::Struct
+  u: 15.9994
+O: *6630140
+8: *6630140
+:O: *6630140
+'9': &6629940 !ruby/struct:RuPHY::Element::Struct
   Z: 9
   sym: :F
-  m: 34631.971555249664
-F: *70118052410900
-9: *70118052410900
-:F: *70118052410900
-'10': &70118052410720 !ruby/struct:RuPHY::Element::Struct
+  u: 18.9984032
+F: *6629940
+9: *6629940
+:F: *6629940
+'10': &6629720 !ruby/struct:RuPHY::Element::Struct
   Z: 10
   sym: :Ne
-  m: 36785.34395951086
-Ne: *70118052410720
-10: *70118052410720
-:Ne: *70118052410720
-'11': &70118052410540 !ruby/struct:RuPHY::Element::Struct
+  u: 20.1797
+Ne: *6629720
+10: *6629720
+:Ne: *6629720
+'11': &6629500 !ruby/struct:RuPHY::Element::Struct
   Z: 11
   sym: :Na
-  m: 41907.78705900466
-Na: *70118052410540
-11: *70118052410540
-:Na: *70118052410540
-'12': &70118052410360 !ruby/struct:RuPHY::Element::Struct
+  u: 22.98976928
+Na: *6629500
+11: *6629500
+:Na: *6629500
+'12': &6629260 !ruby/struct:RuPHY::Element::Struct
   Z: 12
   sym: :Mg
-  m: 44305.306071740975
-Mg: *70118052410360
-12: *70118052410360
-:Mg: *70118052410360
-'13': &70118052410180 !ruby/struct:RuPHY::Element::Struct
+  u: 24.305
+Mg: *6629260
+12: *6629260
+:Mg: *6629260
+'13': &6629000 !ruby/struct:RuPHY::Element::Struct
   Z: 13
   sym: :Al
-  m: 49184.33762433629
-Al: *70118052410180
-13: *70118052410180
-:Al: *70118052410180
-'14': &70118052410000 !ruby/struct:RuPHY::Element::Struct
+  u: 26.9815386
+Al: *6629000
+13: *6629000
+:Al: *6629000
+'14': &6628780 !ruby/struct:RuPHY::Element::Struct
   Z: 14
   sym: :Si
-  m: 51196.73621386057
-Si: *70118052410000
-14: *70118052410000
-:Si: *70118052410000
-'15': &70118052409820 !ruby/struct:RuPHY::Element::Struct
+  u: 28.0855
+Si: *6628780
+14: *6628780
+:Si: *6628780
+'15': &6628460 !ruby/struct:RuPHY::Element::Struct
   Z: 15
   sym: :P
-  m: 56461.71592689817
-P: *70118052409820
-15: *70118052409820
-:P: *70118052409820
-'16': &70118052409640 !ruby/struct:RuPHY::Element::Struct
+  u: 30.973762
+P: *6628460
+15: *6628460
+:P: *6628460
+'16': &6628140 !ruby/struct:RuPHY::Element::Struct
   Z: 16
   sym: :S
-  m: 58450.92117631657
-S: *70118052409640
-16: *70118052409640
-:S: *70118052409640
-'17': &70118052409460 !ruby/struct:RuPHY::Element::Struct
+  u: 32.065
+S: *6628140
+16: *6628140
+:S: *6628140
+'17': &6627860 !ruby/struct:RuPHY::Element::Struct
   Z: 17
   sym: :Cl
-  m: 64626.86756475758
-Cl: *70118052409460
-17: *70118052409460
-:Cl: *70118052409460
-'18': &70118052409280 !ruby/struct:RuPHY::Element::Struct
+  u: 35.453
+Cl: *6627860
+17: *6627860
+:Cl: *6627860
+'18': &6627600 !ruby/struct:RuPHY::Element::Struct
   Z: 18
   sym: :Ar
-  m: 72820.75157185388
-Ar: *70118052409280
-18: *70118052409280
-:Ar: *70118052409280
-'19': &70118052409100 !ruby/struct:RuPHY::Element::Struct
+  u: 39.948
+Ar: *6627600
+18: *6627600
+:Ar: *6627600
+'19': &6627380 !ruby/struct:RuPHY::Element::Struct
   Z: 19
   sym: :K
-  m: 71271.84317567374
-K: *70118052409100
-19: *70118052409100
-:K: *70118052409100
-'20': &70118052408920 !ruby/struct:RuPHY::Element::Struct
+  u: 39.0983
+K: *6627380
+19: *6627380
+:K: *6627380
+'20': &6627140 !ruby/struct:RuPHY::Element::Struct
   Z: 20
   sym: :Ca
-  m: 73057.72708262641
-Ca: *70118052408920
-20: *70118052408920
-:Ca: *70118052408920
-'21': &70118052408740 !ruby/struct:RuPHY::Element::Struct
+  u: 40.078
+Ca: *6627140
+20: *6627140
+:Ca: *6627140
+'21': &6626900 !ruby/struct:RuPHY::Element::Struct
   Z: 21
   sym: :Sc
-  m: 81949.61698803757
-Sc: *70118052408740
-21: *70118052408740
-:Sc: *70118052408740
-'22': &70118052408560 !ruby/struct:RuPHY::Element::Struct
+  u: 44.955912
+Sc: *6626900
+21: *6626900
+:Sc: *6626900
+'22': &6626580 !ruby/struct:RuPHY::Element::Struct
   Z: 22
   sym: :Ti
-  m: 87256.20595498972
-Ti: *70118052408560
-22: *70118052408560
-:Ti: *70118052408560
-'23': &70118052408380 !ruby/struct:RuPHY::Element::Struct
+  u: 47.867
+Ti: *6626580
+22: *6626580
+:Ti: *6626580
+'23': &6626360 !ruby/struct:RuPHY::Element::Struct
   Z: 23
   sym: :V
-  m: 92860.67678476004
-V: *70118052408380
-23: *70118052408380
-:V: *70118052408380
-'24': &70118052408200 !ruby/struct:RuPHY::Element::Struct
+  u: 50.9415
+V: *6626360
+23: *6626360
+:V: *6626360
+'24': &6523360 !ruby/struct:RuPHY::Element::Struct
   Z: 24
   sym: :Cr
-  m: 94783.09504368858
-Cr: *70118052408200
-24: *70118052408200
-:Cr: *70118052408200
-'25': &70118052408020 !ruby/struct:RuPHY::Element::Struct
+  u: 51.9961
+Cr: *6523360
+24: *6523360
+:Cr: *6523360
+'25': &6523140 !ruby/struct:RuPHY::Element::Struct
   Z: 25
   sym: :Mn
-  m: 100145.93288245542
-Mn: *70118052408020
-25: *70118052408020
-:Mn: *70118052408020
-'26': &70118052407840 !ruby/struct:RuPHY::Element::Struct
+  u: 54.938045
+Mn: *6523140
+25: *6523140
+:Mn: *6523140
+'26': &6522820 !ruby/struct:RuPHY::Element::Struct
   Z: 26
   sym: :Fe
-  m: 101799.21076224542
-Fe: *70118052407840
-26: *70118052407840
-:Fe: *70118052407840
-'27': &70118052407660 !ruby/struct:RuPHY::Element::Struct
+  u: 55.845
+Fe: *6522820
+26: *6522820
+:Fe: *6522820
+'27': &6522580 !ruby/struct:RuPHY::Element::Struct
   Z: 27
   sym: :Co
-  m: 107428.64605063135
-Co: *70118052407660
-27: *70118052407660
-:Co: *70118052407660
-'28': &70118052407480 !ruby/struct:RuPHY::Element::Struct
+  u: 58.933195
+Co: *6522580
+27: *6522580
+:Co: *6522580
+'28': &6522240 !ruby/struct:RuPHY::Element::Struct
   Z: 28
   sym: :Ni
-  m: 106991.52649212597
-Ni: *70118052407480
-28: *70118052407480
-:Ni: *70118052407480
-'29': &70118052407300 !ruby/struct:RuPHY::Element::Struct
+  u: 58.6934
+Ni: *6522240
+28: *6522240
+:Ni: *6522240
+'29': &6521820 !ruby/struct:RuPHY::Element::Struct
   Z: 29
   sym: :Cu
-  m: 115837.27544270117
-Cu: *70118052407300
-29: *70118052407300
-:Cu: *70118052407300
-'30': &70118052407120 !ruby/struct:RuPHY::Element::Struct
+  u: 63.546
+Cu: *6521820
+29: *6521820
+:Cu: *6521820
+'30': &6521600 !ruby/struct:RuPHY::Element::Struct
   Z: 30
   sym: :Zn
-  m: 119180.45303313824
-Zn: *70118052407120
-30: *70118052407120
-:Zn: *70118052407120
-'31': &70118052406940 !ruby/struct:RuPHY::Element::Struct
+  u: 65.38
+Zn: *6521600
+30: *6521600
+:Zn: *6521600
+'31': &6521280 !ruby/struct:RuPHY::Element::Struct
   Z: 31
   sym: :Ga
-  m: 127097.25798148513
-Ga: *70118052406940
-31: *70118052406940
-:Ga: *70118052406940
-'32': &70118052406760 !ruby/struct:RuPHY::Element::Struct
+  u: 69.723
+Ga: *6521280
+31: *6521280
+:Ga: *6521280
+'32': &6521040 !ruby/struct:RuPHY::Element::Struct
   Z: 32
   sym: :Ge
-  m: 132414.62386551182
-Ge: *70118052406760
-32: *70118052406760
-:Ge: *70118052406760
-'33': &70118052406580 !ruby/struct:RuPHY::Element::Struct
+  u: 72.64
+Ge: *6521040
+32: *6521040
+:Ge: *6521040
+'33': &6520680 !ruby/struct:RuPHY::Element::Struct
   Z: 33
   sym: :As
-  m: 136573.72636842413
-As: *70118052406580
-33: *70118052406580
-:As: *70118052406580
-'34': &70118052406400 !ruby/struct:RuPHY::Element::Struct
+  u: 74.9216
+As: *6520680
+33: *6520680
+:As: *6520680
+'34': &6520440 !ruby/struct:RuPHY::Element::Struct
   Z: 34
   sym: :Se
-  m: 143935.27946614553
-Se: *70118052406400
-34: *70118052406400
-:Se: *70118052406400
-'35': &70118052406220 !ruby/struct:RuPHY::Element::Struct
+  u: 78.96
+Se: *6520440
+34: *6520440
+:Se: *6520440
+'35': &6520060 !ruby/struct:RuPHY::Element::Struct
   Z: 35
   sym: :Br
-  m: 145656.086252063
-Br: *70118052406220
-35: *70118052406220
-:Br: *70118052406220
-'36': &70118052406040 !ruby/struct:RuPHY::Element::Struct
+  u: 79.904
+Br: *6520060
+35: *6520060
+:Br: *6520060
+'36': &6519780 !ruby/struct:RuPHY::Element::Struct
   Z: 36
   sym: :Kr
-  m: 152754.41424397245
-Kr: *70118052406040
-36: *70118052406040
-:Kr: *70118052406040
-'37': &70118047196620 !ruby/struct:RuPHY::Element::Struct
+  u: 83.798
+Kr: *6519780
+36: *6519780
+:Kr: *6519780
+'37': &6519520 !ruby/struct:RuPHY::Element::Struct
   Z: 37
   sym: :Rb
-  m: 155798.27353541835
-Rb: *70118047196620
-37: *70118047196620
-:Rb: *70118047196620
-'38': &70118047196060 !ruby/struct:RuPHY::Element::Struct
+  u: 85.4678
+Rb: *6519520
+37: *6519520
+:Rb: *6519520
+'38': &6519240 !ruby/struct:RuPHY::Element::Struct
   Z: 38
   sym: :Sr
-  m: 159721.49426068482
-Sr: *70118047196060
-38: *70118047196060
-:Sr: *70118047196060
-'39': &70118047194720 !ruby/struct:RuPHY::Element::Struct
+  u: 87.62
+Sr: *6519240
+38: *6519240
+:Sr: *6519240
+'39': &6518980 !ruby/struct:RuPHY::Element::Struct
   Z: 39
   sym: :Y
-  m: 162065.4554955068
-Y: *70118047194720
-39: *70118047194720
-:Y: *70118047194720
-'40': &70118047193860 !ruby/struct:RuPHY::Element::Struct
+  u: 88.90585
+Y: *6518980
+39: *6518980
+:Y: *6518980
+'40': &6518720 !ruby/struct:RuPHY::Element::Struct
   Z: 40
   sym: :Zr
-  m: 166291.1845747171
-Zr: *70118047193860
-40: *70118047193860
-:Zr: *70118047193860
-'41': &70118047192900 !ruby/struct:RuPHY::Element::Struct
+  u: 91.224
+Zr: *6518720
+40: *6518720
+:Zr: *6518720
+'41': &6518440 !ruby/struct:RuPHY::Element::Struct
   Z: 41
   sym: :Nb
-  m: 169357.97580405162
-Nb: *70118047192900
-41: *70118047192900
-:Nb: *70118047192900
-'42': &70118047192080 !ruby/struct:RuPHY::Element::Struct
+  u: 92.90638
+Nb: *6518440
+41: *6518440
+:Nb: *6518440
+'42': &6518020 !ruby/struct:RuPHY::Element::Struct
   Z: 42
   sym: :Mo
-  m: 174924.38472101477
-Mo: *70118047192080
-42: *70118047192080
-:Mo: *70118047192080
-'43': &70118047191480 !ruby/struct:RuPHY::Element::Struct
+  u: 95.96
+Mo: *6518020
+42: *6518020
+:Mo: *6518020
+'43': &6517800 !ruby/struct:RuPHY::Element::Struct
   Z: 43
   sym: :Tc
-  m: 0.0
-Tc: *70118047191480
-43: *70118047191480
-:Tc: *70118047191480
-'44': &70118047190600 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Tc: *6517800
+43: *6517800
+:Tc: *6517800
+'44': &6517480 !ruby/struct:RuPHY::Element::Struct
   Z: 44
   sym: :Ru
-  m: 184239.34518291958
-Ru: *70118047190600
-44: *70118047190600
-:Ru: *70118047190600
-'45': &70118047190420 !ruby/struct:RuPHY::Element::Struct
+  u: 101.07
+Ru: *6517480
+44: *6517480
+:Ru: *6517480
+'45': &6517280 !ruby/struct:RuPHY::Element::Struct
   Z: 45
   sym: :Rh
-  m: 187585.25710617326
-Rh: *70118047190420
-45: *70118047190420
-:Rh: *70118047190420
-'46': &70118047190240 !ruby/struct:RuPHY::Element::Struct
+  u: 102.9055
+Rh: *6517280
+45: *6517280
+:Rh: *6517280
+'46': &6516900 !ruby/struct:RuPHY::Element::Struct
   Z: 46
   sym: :Pd
-  m: 193991.79889548136
-Pd: *70118047190240
-46: *70118047190240
-:Pd: *70118047190240
-'47': &70118047189820 !ruby/struct:RuPHY::Element::Struct
+  u: 106.42
+Pd: *6516900
+46: *6516900
+:Pd: *6516900
+'47': &6516660 !ruby/struct:RuPHY::Element::Struct
   Z: 47
   sym: :Ag
-  m: 196631.70608548736
-Ag: *70118047189820
-47: *70118047189820
-:Ag: *70118047189820
-'48': &70118052422260 !ruby/struct:RuPHY::Element::Struct
+  u: 107.8682
+Ag: *6516660
+47: *6516660
+:Ag: *6516660
+'48': &6516320 !ruby/struct:RuPHY::Element::Struct
   Z: 48
   sym: :Cd
-  m: 204912.72416500616
-Cd: *70118052422260
-48: *70118052422260
-:Cd: *70118052422260
-'49': &70118052422080 !ruby/struct:RuPHY::Element::Struct
+  u: 112.411
+Cd: *6516320
+48: *6516320
+:Cd: *6516320
+'49': &6516040 !ruby/struct:RuPHY::Element::Struct
   Z: 49
   sym: :In
-  m: 209300.41689138676
-In: *70118052422080
-49: *70118052422080
-:In: *70118052422080
-'50': &70118052421900 !ruby/struct:RuPHY::Element::Struct
+  u: 114.818
+In: *6516040
+49: *6516040
+:In: *6516040
+'50': &6515700 !ruby/struct:RuPHY::Element::Struct
   Z: 50
   sym: :Sn
-  m: 216395.0991062074
-Sn: *70118052421900
-50: *70118052421900
-:Sn: *70118052421900
-'51': &70118052421720 !ruby/struct:RuPHY::Element::Struct
+  u: 118.71
+Sn: *6515700
+50: *6515700
+:Sn: *6515700
+'51': &6487400 !ruby/struct:RuPHY::Element::Struct
   Z: 51
   sym: :Sb
-  m: 221954.90916663985
-Sb: *70118052421720
-51: *70118052421720
-:Sb: *70118052421720
-'52': &70118052421540 !ruby/struct:RuPHY::Element::Struct
+  u: 121.76
+Sb: *6487400
+51: *6487400
+:Sb: *6487400
+'52': &6487160 !ruby/struct:RuPHY::Element::Struct
   Z: 52
   sym: :Te
-  m: 232600.5782659596
-Te: *70118052421540
-52: *70118052421540
-:Te: *70118052421540
-'53': &70118052421360 !ruby/struct:RuPHY::Element::Struct
+  u: 127.6
+Te: *6487160
+52: *6487160
+:Te: *6487160
+'53': &6486800 !ruby/struct:RuPHY::Element::Struct
   Z: 53
   sym: :I
-  m: 231332.70459667026
-I: *70118052421360
-53: *70118052421360
-:I: *70118052421360
-'54': &70118052421180 !ruby/struct:RuPHY::Element::Struct
+  u: 126.90447
+I: *6486800
+53: *6486800
+:I: *6486800
+'54': &6486340 !ruby/struct:RuPHY::Element::Struct
   Z: 54
   sym: :Xe
-  m: 239332.50566044386
-Xe: *70118052421180
-54: *70118052421180
-:Xe: *70118052421180
-'55': &70118052421000 !ruby/struct:RuPHY::Element::Struct
+  u: 131.293
+Xe: *6486340
+54: *6486340
+:Xe: *6486340
+'55': &6486140 !ruby/struct:RuPHY::Element::Struct
   Z: 55
   sym: :Cs
-  m: 242271.82575735645
-Cs: *70118052421000
-55: *70118052421000
-:Cs: *70118052421000
-'56': &70118052420820 !ruby/struct:RuPHY::Element::Struct
+  u: 132.9054519
+Cs: *6486140
+55: *6486140
+:Cs: *6486140
+'56': &6485660 !ruby/struct:RuPHY::Element::Struct
   Z: 56
   sym: :Ba
-  m: 250331.81513737803
-Ba: *70118052420820
-56: *70118052420820
-:Ba: *70118052420820
-'57': &70118052420640 !ruby/struct:RuPHY::Element::Struct
+  u: 137.327
+Ba: *6485660
+56: *6485660
+:Ba: *6485660
+'57': &6485360 !ruby/struct:RuPHY::Element::Struct
   Z: 57
   sym: :La
-  m: 253209.19001806356
-La: *70118052420640
-57: *70118052420640
-:La: *70118052420640
-'58': &70118052420460 !ruby/struct:RuPHY::Element::Struct
+  u: 138.90547
+La: *6485360
+57: *6485360
+:La: *6485360
+'58': &6484880 !ruby/struct:RuPHY::Element::Struct
   Z: 58
   sym: :Ce
-  m: 255415.85128772102
-Ce: *70118052420460
-58: *70118052420460
-:Ce: *70118052420460
-'59': &70118052420280 !ruby/struct:RuPHY::Element::Struct
+  u: 140.116
+Ce: *6484880
+58: *6484880
+:Ce: *6484880
+'59': &6484540 !ruby/struct:RuPHY::Element::Struct
   Z: 59
   sym: :Pr
-  m: 256858.94100389845
-Pr: *70118052420280
-59: *70118052420280
-:Pr: *70118052420280
-'60': &70118052420100 !ruby/struct:RuPHY::Element::Struct
+  u: 140.90765
+Pr: *6484540
+59: *6484540
+:Pr: *6484540
+'60': &6484180 !ruby/struct:RuPHY::Element::Struct
   Z: 60
   sym: :Nd
-  m: 262937.0894219322
-Nd: *70118052420100
-60: *70118052420100
-:Nd: *70118052420100
-'61': &70118052419920 !ruby/struct:RuPHY::Element::Struct
+  u: 144.242
+Nd: *6484180
+60: *6484180
+:Nd: *6484180
+'61': &6483820 !ruby/struct:RuPHY::Element::Struct
   Z: 61
   sym: :Pm
-  m: 0.0
-Pm: *70118052419920
-61: *70118052419920
-:Pm: *70118052419920
-'62': &70118052419740 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Pm: *6483820
+61: *6483820
+:Pm: *6483820
+'62': &6483460 !ruby/struct:RuPHY::Element::Struct
   Z: 62
   sym: :Sm
-  m: 274089.52153659635
-Sm: *70118052419740
-62: *70118052419740
-:Sm: *70118052419740
-'63': &70118052419560 !ruby/struct:RuPHY::Element::Struct
+  u: 150.36
+Sm: *6483460
+62: *6483460
+:Sm: *6483460
+'63': &6483080 !ruby/struct:RuPHY::Element::Struct
   Z: 63
   sym: :Eu
-  m: 277013.4347618204
-Eu: *70118052419560
-63: *70118052419560
-:Eu: *70118052419560
-'64': &70118052419380 !ruby/struct:RuPHY::Element::Struct
+  u: 151.964
+Eu: *6483080
+63: *6483080
+:Eu: *6483080
+'64': &6482440 !ruby/struct:RuPHY::Element::Struct
   Z: 64
   sym: :Gd
-  m: 286649.22360754036
-Gd: *70118052419380
-64: *70118052419380
-:Gd: *70118052419380
-'65': &70118052419200 !ruby/struct:RuPHY::Element::Struct
+  u: 157.25
+Gd: *6482440
+64: *6482440
+:Gd: *6482440
+'65': &6482000 !ruby/struct:RuPHY::Element::Struct
   Z: 65
   sym: :Tb
-  m: 289703.19993040775
-Tb: *70118052419200
-65: *70118052419200
-:Tb: *70118052419200
-'66': &70118052419020 !ruby/struct:RuPHY::Element::Struct
+  u: 158.92535
+Tb: *6482000
+65: *6482000
+:Tb: *6482000
+'66': &6481440 !ruby/struct:RuPHY::Element::Struct
   Z: 66
   sym: :Dy
-  m: 296219.38846566173
-Dy: *70118052419020
-66: *70118052419020
-:Dy: *70118052419020
-'67': &70118052418840 !ruby/struct:RuPHY::Element::Struct
+  u: 162.5
+Dy: *6481440
+66: *6481440
+:Dy: *6481440
+'67': &6481120 !ruby/struct:RuPHY::Element::Struct
   Z: 67
   sym: :Ho
-  m: 300649.59095289785
-Ho: *70118052418840
-67: *70118052418840
-:Ho: *70118052418840
-'68': &70118052418660 !ruby/struct:RuPHY::Element::Struct
+  u: 164.93032
+Ho: *6481120
+67: *6481120
+:Ho: *6481120
+'68': &6480660 !ruby/struct:RuPHY::Element::Struct
   Z: 68
   sym: :Er
-  m: 304894.5150484807
-Er: *70118052418660
-68: *70118052418660
-:Er: *70118052418660
-'69': &70118052418480 !ruby/struct:RuPHY::Element::Struct
+  u: 167.259
+Er: *6480660
+68: *6480660
+:Er: *6480660
+'69': &6480280 !ruby/struct:RuPHY::Element::Struct
   Z: 69
   sym: :Tm
-  m: 307948.2361669519
-Tm: *70118052418480
-69: *70118052418480
-:Tm: *70118052418480
-'70': &70118052418300 !ruby/struct:RuPHY::Element::Struct
+  u: 168.93421
+Tm: *6480280
+69: *6480280
+:Tm: *6480280
+'70': &6479680 !ruby/struct:RuPHY::Element::Struct
   Z: 70
   sym: :Yb
-  m: 315458.15416330233
-Yb: *70118052418300
-70: *70118052418300
-:Yb: *70118052418300
-'71': &70118052418120 !ruby/struct:RuPHY::Element::Struct
+  u: 173.054
+Yb: *6479680
+70: *6479680
+:Yb: *6479680
+'71': &6479480 !ruby/struct:RuPHY::Element::Struct
   Z: 71
   sym: :Lu
-  m: 318944.9753710384
-Lu: *70118052418120
-71: *70118052418120
-:Lu: *70118052418120
-'72': &70118052417940 !ruby/struct:RuPHY::Element::Struct
+  u: 174.9668
+Lu: *6479480
+71: *6479480
+:Lu: *6479480
+'72': &6453480 !ruby/struct:RuPHY::Element::Struct
   Z: 72
   sym: :Hf
-  m: 325367.3762906829
-Hf: *70118052417940
-72: *70118052417940
-:Hf: *70118052417940
-'73': &70118052417760 !ruby/struct:RuPHY::Element::Struct
+  u: 178.49
+Hf: *6453480
+72: *6453480
+:Hf: *6453480
+'73': &6453220 !ruby/struct:RuPHY::Element::Struct
   Z: 73
   sym: :Ta
-  m: 329847.81758620276
-Ta: *70118052417760
-73: *70118052417760
-:Ta: *70118052417760
-'74': &70118052417580 !ruby/struct:RuPHY::Element::Struct
+  u: 180.94788
+Ta: *6453220
+73: *6453220
+:Ta: *6453220
+'74': &6452860 !ruby/struct:RuPHY::Element::Struct
   Z: 74
   sym: :W
-  m: 335119.8300032446
-W: *70118052417580
-74: *70118052417580
-:W: *70118052417580
-'75': &70118052417400 !ruby/struct:RuPHY::Element::Struct
+  u: 183.84
+W: *6452860
+74: *6452860
+:W: *6452860
+'75': &6452660 !ruby/struct:RuPHY::Element::Struct
   Z: 75
   sym: :Re
-  m: 339434.60718784906
-Re: *70118052417400
-75: *70118052417400
-:Re: *70118052417400
-'76': &70118052417220 !ruby/struct:RuPHY::Element::Struct
+  u: 186.207
+Re: *6452660
+75: *6452660
+:Re: *6452660
+'76': &6452060 !ruby/struct:RuPHY::Element::Struct
   Z: 76
   sym: :Os
-  m: 346768.08780198666
-Os: *70118052417220
-76: *70118052417220
-:Os: *70118052417220
-'77': &70118052417040 !ruby/struct:RuPHY::Element::Struct
+  u: 190.23
+Os: *6452060
+76: *6452060
+:Os: *6452060
+'77': &6451800 !ruby/struct:RuPHY::Element::Struct
   Z: 77
   sym: :Ir
-  m: 350390.16733971756
-Ir: *70118052417040
-77: *70118052417040
-:Ir: *70118052417040
-'78': &70118052416860 !ruby/struct:RuPHY::Element::Struct
+  u: 192.217
+Ir: *6451800
+77: *6451800
+:Ir: *6451800
+'78': &6451580 !ruby/struct:RuPHY::Element::Struct
   Z: 78
   sym: :Pt
-  m: 355616.388796524
-Pt: *70118052416860
-78: *70118052416860
-:Pt: *70118052416860
-'79': &70118052416680 !ruby/struct:RuPHY::Element::Struct
+  u: 195.084
+Pt: *6451580
+78: *6451580
+:Pt: *6451580
+'79': &6451200 !ruby/struct:RuPHY::Element::Struct
   Z: 79
   sym: :Au
-  m: 359048.10226067423
-Au: *70118052416680
-79: *70118052416680
-:Au: *70118052416680
-'80': &70118052416500 !ruby/struct:RuPHY::Element::Struct
+  u: 196.966569
+Au: *6451200
+79: *6451200
+:Au: *6451200
+'80': &6450940 !ruby/struct:RuPHY::Element::Struct
   Z: 80
   sym: :Hg
-  m: 365653.21312201285
-Hg: *70118052416500
-80: *70118052416500
-:Hg: *70118052416500
-'81': &70118052416320 !ruby/struct:RuPHY::Element::Struct
+  u: 200.59
+Hg: *6450940
+80: *6450940
+:Hg: *6450940
+'81': &6450580 !ruby/struct:RuPHY::Element::Struct
   Z: 81
   sym: :Tl
-  m: 372567.9762375008
-Tl: *70118052416320
-81: *70118052416320
-:Tl: *70118052416320
-'82': &70118052416140 !ruby/struct:RuPHY::Element::Struct
+  u: 204.3833
+Tl: *6450580
+81: *6450580
+:Tl: *6450580
+'82': &6450320 !ruby/struct:RuPHY::Element::Struct
   Z: 82
   sym: :Pb
-  m: 377702.50640052377
-Pb: *70118052416140
-82: *70118052416140
-:Pb: *70118052416140
-'83': &70118052415960 !ruby/struct:RuPHY::Element::Struct
+  u: 207.2
+Pb: *6450320
+82: *6450320
+:Pb: *6450320
+'83': &6449760 !ruby/struct:RuPHY::Element::Struct
   Z: 83
   sym: :Bi
-  m: 380947.9771649808
-Bi: *70118052415960
-83: *70118052415960
-:Bi: *70118052415960
-'84': &70118052415780 !ruby/struct:RuPHY::Element::Struct
+  u: 208.9804
+Bi: *6449760
+83: *6449760
+:Bi: *6449760
+'84': &6449480 !ruby/struct:RuPHY::Element::Struct
   Z: 84
   sym: :Po
-  m: 0.0
-Po: *70118052415780
-84: *70118052415780
-:Po: *70118052415780
-'85': &70118052415600 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Po: *6449480
+84: *6449480
+:Po: *6449480
+'85': &6449180 !ruby/struct:RuPHY::Element::Struct
   Z: 85
   sym: :At
-  m: 0.0
-At: *70118052415600
-85: *70118052415600
-:At: *70118052415600
-'86': &70118052415420 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+At: *6449180
+85: *6449180
+:At: *6449180
+'86': &6448880 !ruby/struct:RuPHY::Element::Struct
   Z: 86
   sym: :Rn
-  m: 0.0
-Rn: *70118052415420
-86: *70118052415420
-:Rn: *70118052415420
-'87': &70118052415240 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Rn: *6448880
+86: *6448880
+:Rn: *6448880
+'87': &6448680 !ruby/struct:RuPHY::Element::Struct
   Z: 87
   sym: :Fr
-  m: 0.0
-Fr: *70118052415240
-87: *70118052415240
-:Fr: *70118052415240
-'88': &70118052415060 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Fr: *6448680
+87: *6448680
+:Fr: *6448680
+'88': &6448280 !ruby/struct:RuPHY::Element::Struct
   Z: 88
   sym: :Ra
-  m: 0.0
-Ra: *70118052415060
-88: *70118052415060
-:Ra: *70118052415060
-'89': &70118052414880 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Ra: *6448280
+88: *6448280
+:Ra: *6448280
+'89': &6447940 !ruby/struct:RuPHY::Element::Struct
   Z: 89
   sym: :Ac
-  m: 0.0
-Ac: *70118052414880
-89: *70118052414880
-:Ac: *70118052414880
-'90': &70118052414700 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Ac: *6447940
+89: *6447940
+:Ac: *6447940
+'90': &6447560 !ruby/struct:RuPHY::Element::Struct
   Z: 90
   sym: :Th
-  m: 422979.5214397448
-Th: *70118052414700
-90: *70118052414700
-:Th: *70118052414700
-'91': &70118052414520 !ruby/struct:RuPHY::Element::Struct
+  u: 232.03806
+Th: *6447560
+90: *6447560
+:Th: *6447560
+'91': &6447300 !ruby/struct:RuPHY::Element::Struct
   Z: 91
   sym: :Pa
-  m: 421152.6589983139
-Pa: *70118052414520
-91: *70118052414520
-:Pa: *70118052414520
-'92': &70118052414340 !ruby/struct:RuPHY::Element::Struct
+  u: 231.03588
+Pa: *6447300
+91: *6447300
+:Pa: *6447300
+'92': &6446920 !ruby/struct:RuPHY::Element::Struct
   Z: 92
   sym: :U
-  m: 433900.1732759879
-U: *70118052414340
-92: *70118052414340
-:U: *70118052414340
-'93': &70118046969580 !ruby/struct:RuPHY::Element::Struct
+  u: 238.02891
+U: *6446920
+92: *6446920
+:U: *6446920
+'93': &6446700 !ruby/struct:RuPHY::Element::Struct
   Z: 93
   sym: :Np
-  m: 0.0
-Np: *70118046969580
-93: *70118046969580
-:Np: *70118046969580
-'94': &70118046968320 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Np: *6446700
+93: *6446700
+:Np: *6446700
+'94': &6446300 !ruby/struct:RuPHY::Element::Struct
   Z: 94
   sym: :Pu
-  m: 0.0
-Pu: *70118046968320
-94: *70118046968320
-:Pu: *70118046968320
-'95': &70118046965920 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Pu: *6446300
+94: *6446300
+:Pu: *6446300
+'95': &6445980 !ruby/struct:RuPHY::Element::Struct
   Z: 95
   sym: :Am
-  m: 0.0
-Am: *70118046965920
-95: *70118046965920
-:Am: *70118046965920
-'96': &70118046965280 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Am: *6445980
+95: *6445980
+:Am: *6445980
+'96': &6445700 !ruby/struct:RuPHY::Element::Struct
   Z: 96
   sym: :Cm
-  m: 0.0
-Cm: *70118046965280
-96: *70118046965280
-:Cm: *70118046965280
-'97': &70118046964820 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Cm: *6445700
+96: *6445700
+:Cm: *6445700
+'97': &6169540 !ruby/struct:RuPHY::Element::Struct
   Z: 97
   sym: :Bk
-  m: 0.0
-Bk: *70118046964820
-97: *70118046964820
-:Bk: *70118046964820
-'98': &70118046964420 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Bk: *6169540
+97: *6169540
+:Bk: *6169540
+'98': &6169200 !ruby/struct:RuPHY::Element::Struct
   Z: 98
   sym: :Cf
-  m: 0.0
-Cf: *70118046964420
-98: *70118046964420
-:Cf: *70118046964420
-'99': &70118046963220 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Cf: *6169200
+98: *6169200
+:Cf: *6169200
+'99': &6168740 !ruby/struct:RuPHY::Element::Struct
   Z: 99
   sym: :Es
-  m: 0.0
-Es: *70118046963220
-99: *70118046963220
-:Es: *70118046963220
-'100': &70118046963020 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Es: *6168740
+99: *6168740
+:Es: *6168740
+'100': &6168440 !ruby/struct:RuPHY::Element::Struct
   Z: 100
   sym: :Fm
-  m: 0.0
-Fm: *70118046963020
-100: *70118046963020
-:Fm: *70118046963020
-'101': &70118046962840 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Fm: *6168440
+100: *6168440
+:Fm: *6168440
+'101': &6165480 !ruby/struct:RuPHY::Element::Struct
   Z: 101
   sym: :Md
-  m: 0.0
-Md: *70118046962840
-101: *70118046962840
-:Md: *70118046962840
-'102': &70118046962000 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Md: *6165480
+101: *6165480
+:Md: *6165480
+'102': &6162380 !ruby/struct:RuPHY::Element::Struct
   Z: 102
   sym: :No
-  m: 0.0
-'No': *70118046962000
-102: *70118046962000
-:No: *70118046962000
-'103': &70118052430440 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+'No': *6162380
+102: *6162380
+:No: *6162380
+'103': &6141940 !ruby/struct:RuPHY::Element::Struct
   Z: 103
   sym: :Lr
-  m: 0.0
-Lr: *70118052430440
-103: *70118052430440
-:Lr: *70118052430440
-'104': &70118052430260 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Lr: *6141940
+103: *6141940
+:Lr: *6141940
+'104': &6141360 !ruby/struct:RuPHY::Element::Struct
   Z: 104
   sym: :Rf
-  m: 0.0
-Rf: *70118052430260
-104: *70118052430260
-:Rf: *70118052430260
-'105': &70118052430080 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Rf: *6141360
+104: *6141360
+:Rf: *6141360
+'105': &6140880 !ruby/struct:RuPHY::Element::Struct
   Z: 105
   sym: :Db
-  m: 0.0
-Db: *70118052430080
-105: *70118052430080
-:Db: *70118052430080
-'106': &70118052429900 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Db: *6140880
+105: *6140880
+:Db: *6140880
+'106': &6140620 !ruby/struct:RuPHY::Element::Struct
   Z: 106
   sym: :Sg
-  m: 0.0
-Sg: *70118052429900
-106: *70118052429900
-:Sg: *70118052429900
-'107': &70118052429720 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Sg: *6140620
+106: *6140620
+:Sg: *6140620
+'107': &6139900 !ruby/struct:RuPHY::Element::Struct
   Z: 107
   sym: :Bh
-  m: 0.0
-Bh: *70118052429720
-107: *70118052429720
-:Bh: *70118052429720
-'108': &70118052429540 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Bh: *6139900
+107: *6139900
+:Bh: *6139900
+'108': &6139000 !ruby/struct:RuPHY::Element::Struct
   Z: 108
   sym: :Hs
-  m: 0.0
-Hs: *70118052429540
-108: *70118052429540
-:Hs: *70118052429540
-'109': &70118052429360 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Hs: *6139000
+108: *6139000
+:Hs: *6139000
+'109': &6138580 !ruby/struct:RuPHY::Element::Struct
   Z: 109
   sym: :Mt
-  m: 0.0
-Mt: *70118052429360
-109: *70118052429360
-:Mt: *70118052429360
-'110': &70118052429180 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Mt: *6138580
+109: *6138580
+:Mt: *6138580
+'110': &6137580 !ruby/struct:RuPHY::Element::Struct
   Z: 110
   sym: :Ds
-  m: 0.0
-Ds: *70118052429180
-110: *70118052429180
-:Ds: *70118052429180
-'111': &70118052429000 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Ds: *6137580
+110: *6137580
+:Ds: *6137580
+'111': &6137080 !ruby/struct:RuPHY::Element::Struct
   Z: 111
   sym: :Rg
-  m: 0.0
-Rg: *70118052429000
-111: *70118052429000
-:Rg: *70118052429000
-'112': &70118052428820 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Rg: *6137080
+111: *6137080
+:Rg: *6137080
+'112': &6136120 !ruby/struct:RuPHY::Element::Struct
   Z: 112
   sym: :Cn
-  m: 0.0
-Cn: *70118052428820
-112: *70118052428820
-:Cn: *70118052428820
-'113': &70118052428640 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Cn: *6136120
+112: *6136120
+:Cn: *6136120
+'113': &6129240 !ruby/struct:RuPHY::Element::Struct
   Z: 113
   sym: :Uut
-  m: 0.0
-Uut: *70118052428640
-113: *70118052428640
-:Uut: *70118052428640
-'114': &70118052428460 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Uut: *6129240
+113: *6129240
+:Uut: *6129240
+'114': &6126820 !ruby/struct:RuPHY::Element::Struct
   Z: 114
   sym: :Uuq
-  m: 0.0
-Uuq: *70118052428460
-114: *70118052428460
-:Uuq: *70118052428460
-'115': &70118052428280 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Uuq: *6126820
+114: *6126820
+:Uuq: *6126820
+'115': &6126400 !ruby/struct:RuPHY::Element::Struct
   Z: 115
   sym: :Uup
-  m: 0.0
-Uup: *70118052428280
-115: *70118052428280
-:Uup: *70118052428280
-'116': &70118052428100 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Uup: *6126400
+115: *6126400
+:Uup: *6126400
+'116': &6126160 !ruby/struct:RuPHY::Element::Struct
   Z: 116
   sym: :Uuh
-  m: 0.0
-Uuh: *70118052428100
-116: *70118052428100
-:Uuh: *70118052428100
-'117': &70118052427920 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Uuh: *6126160
+116: *6126160
+:Uuh: *6126160
+'117': &6125800 !ruby/struct:RuPHY::Element::Struct
   Z: 117
   sym: :Uus
-  m: 0.0
-Uus: *70118052427920
-117: *70118052427920
-:Uus: *70118052427920
-'118': &70118052427740 !ruby/struct:RuPHY::Element::Struct
+  u: 0.0
+Uus: *6125800
+117: *6125800
+:Uus: *6125800
+'118': &6124940 !ruby/struct:RuPHY::Element::Struct
   Z: 118
   sym: :Uuo
-  m: 0.0
-Uuo: *70118052427740
-118: *70118052427740
-:Uuo: *70118052427740
+  u: 0.0
+Uuo: *6124940
+118: *6124940
+:Uuo: *6124940
 EOY
       Hash = ::YAML.load(YAML)
 

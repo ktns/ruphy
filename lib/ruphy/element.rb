@@ -1,12 +1,20 @@
 require 'ruphy/constants'
 
 module RuPHY
-  struct = Struct.new(:Z,:sym,:m)
+  struct = Struct.new(:Z,:sym,:u)
 
   class Element < struct
-    def initialize z, sym, m
-      super z, sym.to_sym, m * Constants::Da
+    def initialize z, sym, u
+      super z, sym.to_sym, u
     end
+
+    alias amu u
+
+    def m
+      u * Constants::Da
+    end
+
+    alias me m
 
     def name
       sym.to_s
@@ -31,7 +39,7 @@ module RuPHY
     end
 
     def structure
-      @structure ||= Struct.new self.Z, sym, m / Constants::Da
+      @structure ||= Struct.new *to_a
     end
 
     protected
