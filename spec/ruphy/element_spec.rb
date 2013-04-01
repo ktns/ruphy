@@ -25,6 +25,10 @@ describe RuPHY::Element do
     should_not be_eql other_element
   end
 
+  its(:z){should == subject.Z}
+
+  its(:atomic_number){should == subject.Z}
+
   describe '#hash' do
     subject{element.hash}
 

@@ -10,6 +10,9 @@ module RuPHY
 
     alias amu u
 
+    alias z Z
+    alias atomic_number Z
+
     def m
       u * Constants::Da
     end
