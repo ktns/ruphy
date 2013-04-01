@@ -38,7 +38,7 @@ describe RuPHY::Element do
   end
 
   context 'deserialized from YAML' do
-    let(:original){RuPHY::Elements[42]}
+    let(:original){RuPHY::Elements.values.sample}
     subject do
       YAML.load(original.to_yaml)
     end
