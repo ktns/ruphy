@@ -30,7 +30,7 @@ module RuPHY
             yield Atom.new(atom)
           end while atom = @obmol.next_atom(iter)
         else
-          Enumerator.new(self, :each_atom)
+          to_enum(:each_atom)
         end
       end
 
