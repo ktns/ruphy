@@ -28,6 +28,6 @@ RSpec::Matchers.define :be_digested_as do |expected|
   end
 
   failure_message_for_should do |actual|
-    "Digest mismatched using %s" % @algorithm
+    "Digest mismatched using %s" % @algorithm.class
   end
 end
