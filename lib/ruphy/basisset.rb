@@ -14,7 +14,7 @@ module RuPHY
       end
 
       def each &block
-        @bases.each &block
+        @bases.each(&block)
       end
     end
   end

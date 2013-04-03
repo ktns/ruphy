@@ -43,7 +43,7 @@ module RuPHY
     end
 
     def structure
-      @structure ||= Struct.new *to_a
+      @structure ||= Struct.new(*to_a)
     end
 
     # yaml encoding definition
