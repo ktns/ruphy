@@ -1,3 +1,4 @@
+require 'yaml'
 require 'ruphy/constants'
 
 module RuPHY
@@ -43,6 +44,36 @@ module RuPHY
 
     def structure
       @structure ||= Struct.new *to_a
+    end
+
+    # yaml encoding definition
+    def to_yaml(opts = {})
+      if defined?(YAML::ENGINE) and YAML::ENGINE.yamler == 'psych'
+        super
+      else
+        #syck encoding definition
+        YAML.quick_emit(hash, opts) do |out|
+          out.scalar("x-private:#{self.class}", z.to_s, :plain)
+        end
+      end
+    end
+
+    if defined?(YAML::ENGINE) and YAML::ENGINE.yamler == 'psych'
+      self.yaml_tag(YAML.tagurize("#{self}"))
+    else
+      YAML::add_private_type(self.to_s) do |type, value|
+        RuPHY::Elements[value]
+      end
+    end
+
+    # psych yaml encoding definition
+    def encode_with coder
+      coder.represent_scalar(YAML.tagurize(self.class.to_s), z.to_s)
+    end
+
+    # psych yaml decoding definition
+    def init_with coder
+      initialize_copy RuPHY::Elements[coder.scalar]
     end
 
     protected

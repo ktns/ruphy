@@ -41,6 +41,10 @@ describe RuPHY::Element do
     end
   end
 
+  its(:to_yaml){should_not include 'sym:'}
+
+  its(:to_yaml){should_not include 'u:'}
+
   context 'deserialized from YAML' do
     let(:original){RuPHY::Elements.values.sample}
     subject do
