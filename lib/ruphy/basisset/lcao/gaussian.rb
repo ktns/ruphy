@@ -40,8 +40,36 @@ module RuPHY
           end
         end
 
+        module YAML
+          include ::YAML
+
+          # Modify the emit style for comments of basissets
+          module CommentStyle
+            # Define emit style for Syck
+            def to_yaml_style
+              :literal
+            end
+
+            # TODO: Emit literal style string with psych
+            #def encode_with coder
+            #end
+
+            # Allow only String to extend this module
+            def self.extended obj
+              unless obj.kind_of? String
+                raise TypeError, "%s is extended by %s instead of %s" % [
+                  self,
+                  obj.class,
+                  String
+                ]
+              end
+            end
+          end
+        end
+
         def initialize arg
-          @comment = arg.delete(:comment)
+          @comment = arg.delete(:comment) || ''
+          @comment.extend YAML::CommentStyle
           @basisset = Hash.new.tap do |s|
             arg.each do |(e,b)|
               s[e] = b
