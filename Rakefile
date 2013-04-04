@@ -93,7 +93,11 @@ rule '.yml' => ['.gbs', 'lib/ruphy/basisset/parser/gaussian94.rb'] do |t|
   puts 'Parsing `%s\' as Gaussian94 basisset definition file' % t.source
   bs = RuPHY::BasisSet::Parser::Gaussian94.new.parse(IO.read(t.source))
   puts 'Damping basisset definition to `%s\'' % t.name
-  File.open t.name, 'w' do |yml|
-    yml.puts bs.to_yaml
+  begin
+    File.open t.name, 'w' do |yml|
+      yml.puts bs.to_yaml
+    end
+  ensure
+    rm_f t.name if $!
   end
 end
