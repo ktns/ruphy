@@ -30,7 +30,7 @@ module RuPHY
 
           def []= e,b
             begin
-              unless e = RuPHY::Elements[e]
+              unless e.kind_of? RuPHY::Element or e = RuPHY::Elements[e]
                 raise InvalidElementError.new(e)
               end
             rescue
