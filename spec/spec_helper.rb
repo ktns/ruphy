@@ -90,3 +90,9 @@ RSpec.configure do |c|
   c.extend RSpec::CallingIt::ExampleGroupMethods
   c.include Matchers
 end
+
+module TestCenter
+  def center
+    Vector[0,0,0]
+  end
+end
