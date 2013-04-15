@@ -89,7 +89,6 @@ module Matchers
   alias return_a be_a
 end
 
-
 RSpec.configure do |c|
   c.extend RSpec::CallingIt::ExampleGroupMethods
   c.include Matchers
