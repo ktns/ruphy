@@ -53,7 +53,11 @@ module RuPHY
       end
 
       def to_s
-        '%s@[%.5f, %.5f, %.5f]' % [Elements[get_atomic_num], get_x, get_y, get_z]
+        '%s@[%.5f, %.5f, %.5f]' % [element, get_x, get_y, get_z]
+      end
+
+      def element
+        Elements[get_atomic_num]
       end
 
       def inspect
