@@ -68,8 +68,8 @@ module RuPHY
         end
 
         def initialize arg
-          @comment = arg.delete(:comment) || ''
-          @comment.extend YAML::CommentStyle
+          @comment = arg.delete(:comment) and @comment.extend YAML::CommentStyle
+          @name    = arg.delete(:name)
           @basisset = Hash.new.tap do |s|
             arg.each do |(e,b)|
               s[e] = b
@@ -77,9 +77,14 @@ module RuPHY
           end.freeze
         end
         attr_reader :comment
+        attr_reader :name
 
         def elements
           @basisset.keys
+        end
+
+        def inspect
+          "#<#{self.class}:#{@name} [#{elements.join(',')}]>"
         end
       end
     end
