@@ -35,6 +35,10 @@ def random_coordinate
   return (1-a=rand())/a, rand() * Math::PI/2, rand() * Math::PI
 end
 
+def random_element
+  RuPHY::Elements.values.sample
+end
+
 begin
   TestMol = RuPHY::Geometry::Molecule.new(<<EOF, 'xyz')
 2

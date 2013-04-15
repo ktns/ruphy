@@ -8,5 +8,27 @@ describe "RuPHY::BasisSet::STO3G" do
 
   it{should be_frozen}
 
-  it{pending{should respond_to :shells}}
+  it{should respond_to :shells}
+
+  describe '#shells' do
+    def subject; super.shells(arg); end
+
+    context "with #{RuPHY::Element}" do
+      let(:arg){random_element}
+      
+      calling_it{should_not raise_error}
+    end
+
+    context "with #{RuPHY::Geometry::Atom}", :if => ::TestMol do
+      let(:arg){::TestMol.each_atom.first}
+      
+      calling_it{should_not raise_error}
+    end
+
+    context "with #{:hoge}" do
+      let(:arg){:hoge}
+
+      calling_it{should raise_error TypeError}
+    end
+  end
 end
