@@ -3,7 +3,11 @@ module RuPHY
     class Basis
       class LCAO < Basis
         def initialize geometry, basisset
-          raise NotImplementedError
+          @shells = geometry.each_atom.each_with_object({}) do |atom, shells|
+            shells[atom] = basisset.shells(atom.element).map do |shell|
+              Shell.new shell, atom
+            end
+          end
         end
 
         def shells
