@@ -2,7 +2,7 @@ require 'bundler'
 Bundler.require(:test)
 
 Autotest.add_hook :initialize do |at|
-  at.add_mapping(%r|lib/(.+)\.y$|) do |f,matched|
+  at.add_mapping(%r<lib/(.+)\.(?:y|rb)$>) do |f,matched|
     "spec/#{matched[1]}_spec.rb"
   end
 end
