@@ -9,17 +9,17 @@ gem "backports", "~> 2.6.5", :platform => :ruby_18
 # Include everything needed to run rake, tests, features, etc.
 group :development do
   gem "rspec", "~> 2.13.0"
-  gem "bundler", "~> 1.2.2"
-  gem "jeweler", "~> 1.8.3"
-  gem "rdoc", "~> 3.12"
+  gem "bundler", "~> 1.3.5"
+  gem "jeweler", "~> 1.8.4"
+  gem "rdoc", "~> 4.0"
   gem "racc", "~> 1.4"
   #gem "rake-compiler", "~> 0.8.0"
 end
 
 group :test do
   gem "rspec", "~> 2.13.0"
-  gem 'rcov', '~> 1.0.0', :platform => :mri_18
-  gem 'simplecov', '~> 0.7.1', :platform => :ruby_19
+  gem 'rcov', "~> 1.0.0", :platform => :mri_18
+  gem 'simplecov', "~> 0.7.1", :platform => :ruby_19
 end
 
 group :debug do
