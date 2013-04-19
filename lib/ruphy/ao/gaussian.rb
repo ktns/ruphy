@@ -75,8 +75,17 @@ module RuPHY
         public_class_method :new
 
         def initialize coeffs, zetas, momenta, center
-          @primitives=[coeffs,zetas].transpose.map do |c,zeta|
-            [c, Primitive.new(zeta,momenta,center)]
+          begin
+            @primitives=[coeffs,zetas].transpose.map do |c,zeta|
+              [c, Primitive.new(zeta,momenta,center)]
+            end
+          rescue Exception
+            if exception = zetas.find{|z| z.to_f && false rescue true}
+              #raise ArgumentError, "`%p' out of zetas cannot be converted to Float!" % exception <= wrong
+              raise ArgumentError, "`%p' out of zetas cannot be converted to Float!" % [exception]
+            else
+              raise $!
+            end
           end
         end
       end

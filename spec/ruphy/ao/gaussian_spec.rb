@@ -263,4 +263,10 @@ describe RuPHY::AO::Gaussian::Contracted do
   context 'with proper coeffs, zetas, momenta, and center' do
     creating_it{should_not raise_error}
   end
+
+  context 'with invalid zetas' do
+    let(:zetas){[:wrong_zeta]}
+
+    creating_it{should raise_error ArgumentError, /wrong_zeta.*out of zetas cannot be converted to Float!/}
+  end
 end
