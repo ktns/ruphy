@@ -26,6 +26,8 @@ module RuPHY
 
     alias to_s name
 
+    alias to_sym sym
+
     def inspect
       '#<%s: %s>' % [self.class, self]
     end
