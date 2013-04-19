@@ -13,13 +13,19 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
   end
 
   describe '.cart_angular_momenta' do
+    shared_examples_for("proper cart_angular_momenta") do
+      it{should be_frozen}
+
+      it{should be_instance_of Array}
+    end
+
     subject{described_class.cart_angular_momenta(l)}
     context 'l=0' do
       let(:l){0}
 
       it{should eq [Vector[0,0,0]]}
 
-      it{should be_frozen}
+      it_behaves_like("proper cart_angular_momenta")
     end
 
     context 'l=1' do
@@ -31,7 +37,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
       it{should include Vector[0,1,0]}
       it{should include Vector[0,0,1]}
 
-      it{should be_frozen}
+      it_behaves_like("proper cart_angular_momenta")
     end
 
     context 'l=2' do
@@ -45,7 +51,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
       it{should include Vector[1,0,1]}
       it{should include Vector[1,1,0]}
 
-      it{should be_frozen}
+      it_behaves_like("proper cart_angular_momenta")
     end
   end
 
