@@ -11,7 +11,7 @@ module RuPHY
         end
 
         def shells
-          raise NotImplementedError
+          @shells.values.flatten
         end
 
         class Shell < SimpleDelegator
