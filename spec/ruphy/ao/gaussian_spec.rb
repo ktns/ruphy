@@ -253,11 +253,14 @@ describe RuPHY::AO::Gaussian::Primitive do
 end
 
 describe RuPHY::AO::Gaussian::Contracted do
-  describe '.new' do
-    it 'should accept coeffs, zetas, momenta, and center' do
-      lambda do
-        described_class.new [1.0,0.0], [1.0,2.0], [0,0,0], Vector[0,0,0]
-      end.should_not raise_error
-    end
+  let(:coeffs){[1.0,0.0]}
+  let(:zetas){[1.0,2.0]}
+  let(:momenta){[0,0,0]}
+  let(:center){Vector[0,0,0]}
+
+  subject{described_class.new coeffs, zetas, momenta, center}
+
+  context 'with proper coeffs, zetas, momenta, and center' do
+    creating_it{should_not raise_error}
   end
 end
