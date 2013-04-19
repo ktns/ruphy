@@ -19,6 +19,12 @@ describe "RuPHY::BasisSet::STO3G" do
       calling_it{should_not raise_error}
     end
 
+    context "with #{RuPHY::Element}.z" do
+      let(:arg){random_element.z}
+
+      calling_it{should_not raise_error}
+    end
+
     context "with #{RuPHY::Element}.to_sym" do
       let(:arg){random_element.to_sym}
 

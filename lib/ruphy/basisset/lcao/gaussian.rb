@@ -93,7 +93,7 @@ module RuPHY
             @basisset[arg.element]
           when Element
             @basisset[arg]
-          when Symbol
+          when Integer, Symbol
             @basisset[Elements[arg]]
           else
             raise TypeError, "expected #{Geometry::Atom}, #{Element} or #{Symbol}, but #{arg.class}"
