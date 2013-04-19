@@ -8,6 +8,14 @@ describe RuPHY::MO::Basis::LCAO do
 
     it{should be_kind_of RuPHY::MO::Basis}
 
+    describe '#aos' do
+      def subject; super.aos; end
+
+      it{should be_kind_of Enumerable}
+
+      it{should all_be_kind_of RuPHY::AO}
+    end
+
     describe '#overlap' do
       def subject; super.overlap; end
 

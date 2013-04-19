@@ -14,6 +14,12 @@ module RuPHY
           @shells.values.flatten
         end
 
+        def aos
+          shells.flat_map do |shell|
+            shell.aos
+          end
+        end
+
         def overlap
           raise NotImplementedError
         end
