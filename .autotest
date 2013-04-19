@@ -1,5 +1,4 @@
-require 'bundler'
-Bundler.require(:test)
+require 'autotest/bundler'
 
 Autotest.add_hook :initialize do |at|
   at.add_mapping(%r<lib/(.+)\.(?:y|rb)$>) do |f,matched|
