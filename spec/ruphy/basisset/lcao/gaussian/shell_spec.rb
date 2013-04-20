@@ -95,6 +95,8 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
   end
 
   describe '#aos' do
+    let(:shell_with_center){shell.clone.extend TestCenter}
+
     context 'of S shell' do
       context 'without center' do
         subject{shell.aos()}
@@ -103,10 +105,21 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
       end
 
       context 'with center' do
-        let(:shell_with_center){shell.clone.extend TestCenter}
         subject{shell_with_center.aos()}
 
         its(:size){should == 1}
+      end
+    end
+
+    context 'of SP shell' do
+      let(:azimuthal_quantum_numbers){[0,1]}
+      let(:coeffs){[[1],[1]]}
+      let(:zetas){[1]}
+
+      context 'with center' do
+        subject{shell_with_center.aos}
+
+        its(:size){should == 4}
       end
     end
   end
