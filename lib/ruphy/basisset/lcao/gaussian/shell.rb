@@ -8,6 +8,7 @@ module RuPHY
 
           @@cart_angular_momenta = {}
           def self.cart_angular_momenta l
+            raise TypeError, "Expected #{Integer}, but %p" % [l] unless Integer === l
             @@cart_angular_momenta[l]||=
               CartAngularMomentumBasis.repeated_combination(l).map do |b|
                 b.inject(Vector[0,0,0],&:+)
@@ -30,15 +31,22 @@ module RuPHY
             @coeffs, @zetas = coeffs, zetas
           end
 
+          def cart_angular_momenta_with_index
+            @cart_angular_momenta_with_index ||=
+            @azimuthal_quantum_numbers.each_with_index.flat_map do |l,i|
+              momenta = self.class.cart_angular_momenta(l)
+              [momenta, [i]*momenta.size].transpose
+            end.freeze
+          end
+
           def cart_angular_momenta
-            @azimuthal_quantum_numbers.map do |l|
-              self.class.cart_angular_momenta(l)
-            end.flatten(1)
+            cart_angular_momenta_with_index.transpose.first
           end
 
           def aos
-            cart_angular_momenta.map do |momenta|
-              RuPHY::AO::Gaussian::Contracted.new(@coeffs, @zetas, momenta, self.center)
+            @aos ||=
+            cart_angular_momenta_with_index.map do |momenta, i|
+              RuPHY::AO::Gaussian::Contracted.new(@coeffs[i], @zetas, momenta, self.center)
             end
           end
 
