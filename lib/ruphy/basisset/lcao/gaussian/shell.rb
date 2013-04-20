@@ -20,8 +20,13 @@ module RuPHY
               not l>=0 && Integer === l
             end
             raise ArgumentError, 'Invalid azimuthal quantum number!(%p)' % l if l
-            raise ArgumentError, 'Number of coefficients(%d) and zetas(%d) don\'t match!' %
-              [coeffs.count, zetas.count] unless coeffs.count == zetas.count
+            raise ArgumentError, 'Number of azimuthal quantum numbers(%d) and coefficient sets(%d) don\'t match!' %
+              [coeffs.count, @azimuthal_quantum_numbers.count] unless coeffs.count == @azimuthal_quantum_numbers.count
+            coeffcounts = coeffs.map(&:count)
+            raise ArgumentError, 'Sizes of coefficient sets(%s) is not unique!' % coeffcounts.join(',') unless
+              coeffcounts.uniq.count == 1
+            raise ArgumentError, 'Size of coefficient set(%d) and zeta set(%d) don\'t match!' %
+              [coeffcounts.first, zetas.count] unless coeffcounts.first == zetas.count
             @coeffs, @zetas = coeffs, zetas
           end
 

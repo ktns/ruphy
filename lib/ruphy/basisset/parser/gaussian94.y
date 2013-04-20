@@ -35,26 +35,33 @@ ELEMENT_ALL
 	| ELEMENT_OR_ANGULAR_MOMENTUM
 ZERO
 	: NUMBER { raise "Unexpected `%p', expected 0" % val[0] unless val[0] == 0}
-SHELLS
+SHELL
 	: ANGULAR_MOMENTUM_ALL NUMBER NUMBER EOL PRIMITIVES {
-		c, n = val[4].count, val[1]
-		raise '# primitive gaussians (%d) != NGauss(%d)!' % [c,n] unless c==n
-		s = val[2]
-		coeffs, zetas = val[4].map do |a,d|
-			[a*s, d]
+		momenta, ngauss, scale_factor, _, primitives = val
+		raise '# primitive gaussians (%d) != NGauss(%d)!' % [primitives.count,ngauss] unless primitives.count == ngauss
+		zetas, coeffs = primitives.map do |z,c|
+			[z*scale_factor**2, c]
 		end.transpose()
+		coeffs=coeffs.transpose
 		result = [RuPHY::BasisSet::LCAO::Gaussian::Shell.new(
 			val[0], coeffs, zetas
 		)]
 	}
-	| SHELLS SHELLS { result = val[0] + val[1] }
+SHELLS
+	: SHELL { [val[0]] }
+	| SHELLS SHELL { result = val[0].push val[1] }
 ANGULAR_MOMENTUM_ALL
 	: ANGULAR_MOMENTUM { result = parse_angular_momenta_all(val[0]) }
 	| ELEMENT_OR_ANGULAR_MOMENTUM { result = parse_angular_momenta_all(val[0]) }
 PRIMITIVES
-	: NUMBER COEFFS EOL { result = [[val[0], val[1]]] }
+	: NUMBER COEFFS EOL {
+		zeta, coeffs = val
+		result = []
+		result.unshift([zeta, coeffs])
+	}
 	| NUMBER COEFFS EOL PRIMITIVES {
-		result = [[val[0], val[1]]] + val[3]
+		zeta, coeffs, _, result = val
+		result.unshift([zeta, coeffs])
 	}
 COEFFS 
 	: NUMBER { result = [ val[0] ]}

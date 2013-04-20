@@ -57,33 +57,45 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 
   subject{shell}
   let(:shell){described_class.new(azimuthal_quantum_numbers, coeffs, zetas)}
-  let(:coeffs){[1]}
+  let(:azimuthal_quantum_numbers){0}
+  let(:coeffs){[[1]]}
   let(:zetas){[1]}
 
   context 'with wrong azimuthal_quantum_numbers' do
     let(:azimuthal_quantum_numbers){-1}
 
-    creating_it{should raise_error ArgumentError}
+    creating_it{should raise_error ArgumentError,
+                /^Invalid azimuthal quantum number!\(.*\)$/}
+  end
+
+  context 'with unmatching azimuthal quantum numbers and coefficient sets' do
+    let(:azimuthal_quantum_numbers){[0,1]}
+
+    creating_it{should raise_error ArgumentError,
+                /^Number of azimuthal quantum numbers\(\d+\) and coefficient sets\(\d+\) don\'t match!$/}
+  end
+
+  context 'with coefficients set of different sizes' do
+    let(:azimuthal_quantum_numbers){[0,1]}
+    let(:coeffs){[[1,1],[1]]}
+    creating_it{should raise_error ArgumentError,
+                /^Sizes of coefficient sets\([\d,]+\) is not unique!$/}
   end
 
   context 'with unmatching coefficients and zetas' do
-    let(:azimuthal_quantum_numbers){0}
-    let(:coeffs){[0.5,0.5]}
-    let(:zetas){[1]}
+    let(:coeffs){[[0.5,0.5]]}
+    let(:zetas){[1,2,3]}
 
-    creating_it{should raise_error ArgumentError}
+    creating_it{should raise_error ArgumentError,
+                /^Size of coefficient set\(\d+\) and zeta set\(\d+\) don't match!$/}
   end
 
   context 'of S shell' do
-    let(:azimuthal_quantum_numbers){0}
-
     creating_it{should_not raise_error}
   end
 
   describe '#aos' do
     context 'of S shell' do
-      let(:azimuthal_quantum_numbers){0}
-
       context 'without center' do
         subject{shell.aos()}
 

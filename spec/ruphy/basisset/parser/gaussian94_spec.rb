@@ -129,5 +129,27 @@ EOF
 
       calling_it{should raise_error}
     end
+
+    context 'with SP shell' do
+      let(:str){<<EOF
+C     0 
+SP   3   1.00
+      2.9412494             -0.09996723             0.15591627       
+      0.6834831              0.39951283             0.60768372       
+      0.2222899              0.70011547             0.39195739       
+****
+EOF
+      }
+
+      calling_it{should_not raise_error}
+
+      describe 'its SP shell' do
+        def subject; super.shells(:C).first.extend(TestShell); end
+
+        its(:coeffs){should have(2).arrays}
+
+        its(:zetas){should have(3).zetas}
+      end
+    end
   end
 end

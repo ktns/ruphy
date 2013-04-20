@@ -99,3 +99,7 @@ module TestCenter
     Vector[0,0,0]
   end
 end
+
+module TestShell
+  attr_reader :coeffs, :zetas
+end
