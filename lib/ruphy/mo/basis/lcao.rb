@@ -21,7 +21,11 @@ module RuPHY
         end
 
         def overlap
-          raise NotImplementedError
+          aos = self.aos
+          hash={}
+          Matrix.build(aos.size) do |i,j|
+            hash[[j,i]] ||= aos[i].overlap(aos[j])
+          end
         end
 
         class Shell < SimpleDelegator

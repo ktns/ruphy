@@ -19,9 +19,9 @@ describe RuPHY::MO::Basis::LCAO do
     describe '#overlap' do
       def subject; super.overlap; end
 
-      it{pending{should be_kind_of RuPHY::Matrix}}
+      it{should be_kind_of RuPHY::Matrix}
 
-      it{pending{should be_square}}
+      it{should be_square}
 
       describe 'diagonal elements' do
         def subject; super.diagonal_elements; end

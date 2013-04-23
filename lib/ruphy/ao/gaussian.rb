@@ -185,6 +185,10 @@ module RuPHY
             end
           end
         end
+
+        def overlap other
+          raise NotImplementedError
+        end
       end
     end
   end
