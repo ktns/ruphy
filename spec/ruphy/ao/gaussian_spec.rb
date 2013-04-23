@@ -345,8 +345,9 @@ describe RuPHY::AO::Gaussian::Contracted do
   let(:zetas){[1.0,2.0]}
   let(:momenta){[0,0,0]}
   let(:center){Vector[0,0,0]}
+  let(:contracted){described_class.new coeffs, zetas, momenta, center}
 
-  subject{described_class.new coeffs, zetas, momenta, center}
+  subject{contracted}
 
   context 'with proper coeffs, zetas, momenta, and center' do
     creating_it{should_not raise_error}
@@ -356,5 +357,15 @@ describe RuPHY::AO::Gaussian::Contracted do
     let(:zetas){[:wrong_zeta]}
 
     creating_it{should raise_error ArgumentError, /wrong_zeta.*out of zetas cannot be converted to Float!/}
+  end
+
+  describe '#overlap' do
+    subject{contracted.overlap(other)}
+
+    context 'with self' do
+      let(:other){contracted}
+
+      it{should be_a Float}
+    end
   end
 end

@@ -187,7 +187,14 @@ module RuPHY
         end
 
         def overlap other
-          raise NotImplementedError
+          case other
+          when Primitive, Contracted
+            @primitives.inject(0) do |s, (c, primitive)|
+              other.overlap(primitive) * c + s
+            end
+          else
+            raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
+          end
         end
       end
     end
