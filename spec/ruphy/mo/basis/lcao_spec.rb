@@ -23,6 +23,8 @@ describe RuPHY::MO::Basis::LCAO do
 
       it{should be_square}
 
+      it{should be_symmetric}
+
       describe 'diagonal elements' do
         def subject; super.diagonal_elements; end
 
