@@ -16,7 +16,7 @@ module RuPHY
           if block then
             [row_size,column_size].min.times{|i| yield self[i,i]}
           else
-            enumerator = Enumerator rescue enumerator = Enumerable::Enumerator
+            enumerator = Enumerator
             enumerator.new(self,:diagonal_elements)
           end
         end
