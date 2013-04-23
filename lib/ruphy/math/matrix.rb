@@ -17,14 +17,6 @@ module RuPHY
         [ other, __getobj__ ]
       end
 
-      def symmetric?
-        begin
-          __getobj__.symmetric?
-        rescue NoMethodError
-          transpose == __getobj__
-        end
-      end
-
       class << self
         private :new
 
