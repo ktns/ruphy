@@ -43,10 +43,14 @@ module RuPHY
         end
 
         def normalization_factor
-          overlap(self)**(-0.5)
+          @normalization_factor ||= overlap_raw(self)**(-0.5)
         end
 
         def overlap o
+          overlap_raw(o) * normalization_factor * o.normalization_factor
+        end
+
+        def overlap_raw o
           z=@zeta+o.zeta
           c=(@center*@zeta+o.center*o.zeta)*z**-1.0
           [@center-c,o.center-c,@momenta,o.momenta].map(&:to_a).transpose.map do |a,b,m,n|
@@ -54,7 +58,7 @@ module RuPHY
           end.reduce(:*) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)
         end
 
-        def kinetic o
+        def kinetic_raw o
           z = @zeta+o.zeta
           c = (@center*@zeta + o.center*o.zeta)*z**-1.0
           3.times.map do |i|
@@ -70,6 +74,9 @@ module RuPHY
           end.reduce(:+) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)/-2
         end
 
+        def kinetic o
+          kinetic_raw(o) * normalization_factor * o.normalization_factor
+        end
       end
 
       class Contracted < AO
