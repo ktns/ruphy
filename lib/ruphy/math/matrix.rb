@@ -10,16 +10,7 @@ module RuPHY
       end
 
       def diagonal_elements &block
-        begin
-          each :diagonal, &block
-        rescue ArgumentError
-          if block then
-            [row_size,column_size].min.times{|i| yield self[i,i]}
-          else
-            enumerator = Enumerator
-            enumerator.new(self,:diagonal_elements)
-          end
-        end
+        each :diagonal, &block
       end
 
       def coerce other
