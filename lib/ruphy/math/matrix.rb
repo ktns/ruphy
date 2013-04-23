@@ -5,7 +5,8 @@ module RuPHY
   module Math
     class Matrix < SimpleDelegator
       def initialize matrix
-        @delegate_sd_obj = matrix
+        raise TypeError, "Expected #{::Matrix}, but `%p'" % [matrix] unless ::Matrix === matrix
+        __setobj__ matrix
       end
 
       def diagonal_elements &block
@@ -22,14 +23,14 @@ module RuPHY
       end
 
       def coerce other
-        [ other, @delegate_sd_obj ]
+        [ other, __getobj__ ]
       end
 
       class << self
         private :new
 
-        def method_missing method, *args
-          new(::Matrix.send(method,*args))
+        def method_missing method, *args, &block
+          new(::Matrix.send(method,*args, &block))
         end
       end
     end
