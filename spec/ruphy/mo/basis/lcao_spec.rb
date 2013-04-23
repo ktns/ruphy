@@ -28,7 +28,7 @@ describe RuPHY::MO::Basis::LCAO do
       describe 'diagonal elements' do
         def subject; super.diagonal_elements; end
 
-        it{pending{should all_be_within(1e-5).of(1)}}
+        it{should all_be_within(1e-5).of(1)}
       end
     end
   end
