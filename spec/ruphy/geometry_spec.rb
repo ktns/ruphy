@@ -60,3 +60,10 @@ describe RuPHY::Geometry::Molecule do
     it{ should raise_error ArgumentError }
   end
 end
+
+describe RuPHY::Geometry::Atom do
+  let(:center){Array.new(3){rand()}}
+  subject{described_class.new(dummy_atom(*center))}
+
+  its(:vector){should == Vector[*center]}
+end

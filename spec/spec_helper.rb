@@ -103,3 +103,12 @@ end
 module TestShell
   attr_reader :coeffs, :zetas
 end
+
+def dummy_atom x = 0, y = 0, z = 0, atomic_num = 1
+  obatom = mock(:obatom)
+  obatom.stub(:x).and_return(x); obatom.stub(:get_x).and_return(x)
+  obatom.stub(:y).and_return(y); obatom.stub(:get_y).and_return(y)
+  obatom.stub(:z).and_return(z); obatom.stub(:get_z).and_return(z)
+  obatom.stub(:get_atomic_num).and_return(atomic_num)
+  RuPHY::Geometry::Atom.new obatom
+end
