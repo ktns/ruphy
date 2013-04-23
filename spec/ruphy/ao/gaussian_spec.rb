@@ -143,6 +143,13 @@ describe RuPHY::AO::Gaussian::Primitive do
     it_behaves_like 'a primitive'
   end
 
+  describe 'primiteve centerd on Atom' do
+    let(:zeta){1.0}
+    let(:momenta){[0,0,2]}
+    let(:center){dummy_atom}
+    it_behaves_like 'a primitive'
+  end
+
   shared_examples_for 'mutually orthogonal p primitives with identical center' do
     let(:primitive1) {described_class.new(zeta1,momenta1,center)}
     let(:primitive2) {described_class.new(zeta2,momenta2,center)}
