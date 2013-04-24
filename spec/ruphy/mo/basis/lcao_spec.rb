@@ -25,16 +25,14 @@ describe RuPHY::MO::Basis::LCAO do
       it{should be_square}
 
       it 'should not calculate symmetric off-diagonal element twice' do
-        pending do
-          count = 0
-          basis.aos.each do |ao|
-            ao.stub(:overlap) do
-              count += 1
-            end
+        count = 0
+        basis.aos.each do |ao|
+          ao.stub(:overlap) do
+            count += 1
           end
-          subject
-          expect(count).to eq 3
         end
+        subject
+        expect(count).to eq 3
       end
 
       describe 'diagonal elements' do
@@ -58,16 +56,14 @@ describe RuPHY::MO::Basis::LCAO do
       it{should be_square}
 
       it 'should not calculate symmetric off-diagonal element twice' do
-        pending do
-          count = 0
-          basis.aos.each do |ao|
-            ao.stub(:kinetic) do
-              count += 1
-            end
+        count = 0
+        basis.aos.each do |ao|
+          ao.stub(:kinetic) do
+            count += 1
           end
-          subject
-          expect(count).to eq 3
         end
+        subject
+        expect(count).to eq 3
       end
 
       describe 'diagonal elements' do

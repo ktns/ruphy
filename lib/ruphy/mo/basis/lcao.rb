@@ -24,7 +24,7 @@ module RuPHY
           aos = self.aos
           hash={}
           Matrix.build(aos.size) do |i,j|
-            hash[[j,i]] ||= aos[i].overlap(aos[j])
+            hash[i.hash+j.hash] ||= aos[i].overlap(aos[j])
           end
         end
 
@@ -32,7 +32,7 @@ module RuPHY
           aos = self.aos
           hash={}
           Matrix.build(aos.size) do |i,j|
-            hash[[j,i]] ||= aos[i].kinetic(aos[j])
+            hash[i.hash+j.hash] ||= aos[i].kinetic(aos[j])
           end
         end
 
