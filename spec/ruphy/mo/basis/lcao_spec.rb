@@ -34,7 +34,7 @@ describe RuPHY::MO::Basis::LCAO do
       describe 'off diagonal element' do
         def subject; super[0,1]; end
 
-        it{pending{should be_within(0.01).percent_of(0.65987312)}}
+        it{should be_within(0.01).percent_of(0.65987312)}
       end
     end
   end
