@@ -2,7 +2,7 @@ module RSpec::Matchers
   module AllBeWithin
     class AllBeWithin
       def initialize delta
-        @delta = delta
+        @delta = delta.to_f
       end
 
       def matches? actual
@@ -22,6 +22,12 @@ module RSpec::Matchers
 
       def of expected
         @expected = expected
+        return self
+      end
+
+      def percent_of expected
+        @expected = expected
+        @delta /= 1000
         return self
       end
 

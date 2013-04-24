@@ -23,18 +23,16 @@ describe RuPHY::MO::Basis::LCAO do
 
       it{should be_square}
 
-      it{should be_symmetric}
-
       describe 'diagonal elements' do
         def subject; super.diagonal_elements; end
 
         it{should all_be_within(1e-5).of(1)}
       end
 
-      describe 'off diagonal element' do
-        def subject; super[0,1]; end
+      describe 'off diagonal elements' do
+        def subject; super.each :off_diagonal ; end
 
-        it{should be_within(0.01).percent_of(0.65987312)}
+        it{should all_be_within(0.01).percent_of(0.65987312)}
       end
     end
 
@@ -45,18 +43,16 @@ describe RuPHY::MO::Basis::LCAO do
 
       it{should be_square}
 
-      it{should be_symmetric}
-
       describe 'diagonal elements' do
         def subject; super.diagonal_elements; end
 
         it{should all_be_within(1e-5).of(0.76003188)}
       end
 
-      describe 'off diagonal element' do
-        def subject; super[0,1]; end
+      describe 'off diagonal elements' do
+        def subject; super.each(:off_diagonal) ; end
 
-        it{should be_within(0.01).percent_of(0.23696027)}
+        it{should all_be_within(0.01).percent_of(0.23696027)}
       end
     end
   end
