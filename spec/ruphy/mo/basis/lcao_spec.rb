@@ -41,22 +41,22 @@ describe RuPHY::MO::Basis::LCAO do
     describe '#kinetic' do
       def subject; super.kinetic; end
 
-      it{pending{should be_kind_of RuPHY::Matrix}}
+      it{should be_kind_of RuPHY::Matrix}
 
-      it{pending{should be_square}}
+      it{should be_square}
 
-      it{pending{should be_symmetric}}
+      it{should be_symmetric}
 
       describe 'diagonal elements' do
         def subject; super.diagonal_elements; end
 
-        it{pending{should all_be_within(1e-5).of(0.76003188)}}
+        it{should all_be_within(1e-5).of(0.76003188)}
       end
 
       describe 'off diagonal element' do
         def subject; super[0,1]; end
 
-        it{pending{should be_within(0.01).percent_of(0.23696027)}}
+        it{should be_within(0.01).percent_of(0.23696027)}
       end
     end
   end

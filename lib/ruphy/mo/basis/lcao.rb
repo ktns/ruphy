@@ -28,6 +28,14 @@ module RuPHY
           end
         end
 
+        def kinetic
+          aos = self.aos
+          hash={}
+          Matrix.build(aos.size) do |i,j|
+            hash[[j,i]] ||= aos[i].kinetic(aos[j])
+          end
+        end
+
         class Shell < SimpleDelegator
           def initialize abst_shell, center
             shell = abst_shell.dup.extend ActualShell
