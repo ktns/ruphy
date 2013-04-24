@@ -4,7 +4,8 @@ require 'ruphy/mo/basis/lcao'
 
 describe RuPHY::MO::Basis::LCAO do
   context 'with TestMol and STO3G', :if => ::TestMol do
-    subject{described_class.new(::TestMol, RuPHY::BasisSet::STO3G)}
+    let(:basis){described_class.new(::TestMol, RuPHY::BasisSet::STO3G)}
+    subject{basis}
 
     it{should be_kind_of RuPHY::MO::Basis}
 
@@ -22,6 +23,19 @@ describe RuPHY::MO::Basis::LCAO do
       it{should be_kind_of RuPHY::Matrix}
 
       it{should be_square}
+
+      it 'should not calculate symmetric off-diagonal element twice' do
+        pending do
+          count = 0
+          basis.aos.each do |ao|
+            ao.stub(:overlap) do
+              count += 1
+            end
+          end
+          subject
+          expect(count).to eq 3
+        end
+      end
 
       describe 'diagonal elements' do
         def subject; super.diagonal_elements; end
@@ -42,6 +56,19 @@ describe RuPHY::MO::Basis::LCAO do
       it{should be_kind_of RuPHY::Matrix}
 
       it{should be_square}
+
+      it 'should not calculate symmetric off-diagonal element twice' do
+        pending do
+          count = 0
+          basis.aos.each do |ao|
+            ao.stub(:kinetic) do
+              count += 1
+            end
+          end
+          subject
+          expect(count).to eq 3
+        end
+      end
 
       describe 'diagonal elements' do
         def subject; super.diagonal_elements; end
