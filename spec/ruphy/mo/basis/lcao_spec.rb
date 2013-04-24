@@ -30,6 +30,12 @@ describe RuPHY::MO::Basis::LCAO do
 
         it{should all_be_within(1e-5).of(1)}
       end
+
+      describe 'off diagonal element' do
+        def subject; super[0,1]; end
+
+        it{pending{should be_within(0.01).percent_of(0.65987312)}}
+      end
     end
   end
 end
