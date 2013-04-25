@@ -78,6 +78,15 @@ describe RuPHY::MO::Basis::LCAO do
         it{should all_be_within(0.01).percent_of(0.23696027)}
       end
     end
+
+    describe '#core_hamiltonian' do
+      let(:operator){:core_hamiltonian}
+      let(:correct_diagonal_value){0.76003188}
+      let(:correct_off_diagonal_value){0.23696027}
+      pending do
+        it_should_behave_like "operator represented by basis"
+      end
+    end
   end
 end
 

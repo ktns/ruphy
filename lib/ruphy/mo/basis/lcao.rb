@@ -36,6 +36,14 @@ module RuPHY
           end
         end
 
+        def nuclear_attraction
+          raise NotImplementedError
+        end
+
+        def core_hamiltonian
+          kinetic - nuclear_attraction
+        end
+
         class Shell < SimpleDelegator
           def initialize abst_shell, center
             shell = abst_shell.dup.extend ActualShell
