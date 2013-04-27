@@ -10,11 +10,10 @@ module RuPHY
 
         public_class_method :new
 
-        def initialize zeta, momenta, center, derivative_order = [0,0,0]
-          @zeta, @momenta, @center, @derivative_order = [zeta.to_f,
+        def initialize zeta, momenta, center
+          @zeta, @momenta, @center = [zeta.to_f,
             (momenta.to_ary rescue momenta.to_a),
-            (center.vector rescue Vector[*center]),
-            Vector[*derivative_order]].map(&:freeze)
+            (center.vector rescue Vector[*center])].map(&:freeze)
           raise ArgumentError, 'Invalid value for a zeta(%p)!' % zeta unless @zeta > 0
           raise ArgumentError, 'Invalid size of momenta(%d)!' % @momenta.size unless @momenta.size == 3
           @momenta.each do |m|
@@ -24,19 +23,7 @@ module RuPHY
           raise ArgumentError, 'Invalid dimension of center coordinates(%d)!' % @center.size unless @center.size == 3
         end
 
-        attr_reader :zeta, :momenta, :center, :derivative_order
-
-        def deriv_x n = 1
-          self.class.new(@zeta,@momenta,@center,@derivative_order + Vector[1,0,0] * n)
-        end
-
-        def deriv_y n = 1
-          self.class.new(@zeta,@momenta,@center,@derivative_order + Vector[0,1,0] * n)
-        end
-
-        def deriv_z n = 1
-          self.class.new(@zeta,@momenta,@center,@derivative_order + Vector[0,0,1] * n)
-        end
+        attr_reader :zeta, :momenta, :center
 
         def angular_momentum
           @momenta.reduce(:+)
