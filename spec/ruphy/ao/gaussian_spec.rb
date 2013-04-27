@@ -63,18 +63,6 @@ describe RuPHY::AO::Gaussian::Primitive do
 
       it {should_not == 0}
     end
-
-    its(:deriv_x) do
-      subject.deriv_x.derivative_order.should == subject.derivative_order + Vector[1,0,0]
-    end
-
-    its(:deriv_y) do
-      subject.deriv_y.derivative_order.should == subject.derivative_order + Vector[0,1,0]
-    end
-
-    its(:deriv_z) do
-      subject.deriv_z.derivative_order.should == subject.derivative_order + Vector[0,0,1]
-    end
   end
 
   describe 's primitive with zeta = 1.0' do
