@@ -26,11 +26,9 @@ describe RuPHY::AO::Gaussian::Primitive do
   end
 
   shared_examples_for 'a primitive'	do
-      let(:primitive ){ described_class.new(zeta,momenta,center)}
+    let(:primitive ){ described_class.new(zeta,momenta,center)}
 
-    subject do
-      primitive
-    end
+    subject{primitive}
 
     its(:zeta){ should be_frozen }
 
@@ -38,16 +36,20 @@ describe RuPHY::AO::Gaussian::Primitive do
 
     its(:center){ should be_frozen }
 
-    its(:normalization_factor) do
-      should be_within(1e-5).of(
-        (2/Math::PI)**0.75*
-        2**momenta.reduce(:+)*
-        zeta**((2*momenta.reduce(:+)+3).to_f/4)/
-        momenta.map do |m|
-        m==0 ? 1 :
-          (2*m-1).downto(1).reduce(:*).downto(1).reduce(:*)
-        end.reduce(:*)**0.5
-      )
+    describe '#normalization_factor' do
+      subject{primitive.normalization_factor}
+
+      it "should return correct value" do
+        should be_within(1e-5).of(
+          (2/Math::PI)**0.75*
+          2**momenta.reduce(:+)*
+          zeta**((2*momenta.reduce(:+)+3).to_f/4)/
+          momenta.map do |m|
+            m==0 ? 1 :
+              (2*m-1).downto(1).reduce(:*).downto(1).reduce(:*)
+          end.reduce(:*)**0.5
+        )
+      end
     end
 
     its(:angular_momentum) do
@@ -143,7 +145,7 @@ describe RuPHY::AO::Gaussian::Primitive do
     it_behaves_like 'a primitive'
   end
 
-  describe 'primiteve centerd on Atom' do
+  describe 'primitive centerd on Atom' do
     let(:zeta){1.0}
     let(:momenta){[0,0,2]}
     let(:center){dummy_atom}
