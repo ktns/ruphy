@@ -52,6 +52,12 @@ describe RuPHY::AO::Gaussian::Primitive do
       end
     end
 
+    describe "its overlap with self" do
+      subject{primitive.overlap(primitive)}
+
+      it{should be_within(0.1).percent_of(1)}
+    end
+
     its(:angular_momentum) do
       should == momenta.reduce(:+)
     end
