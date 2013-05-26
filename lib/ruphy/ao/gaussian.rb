@@ -29,6 +29,86 @@ module RuPHY
           @momenta.reduce(:+)
         end
 
+        class PrimitiveProduct
+          include RuPHY::Math
+          def initialize g1, g2
+            @primitive1, @primitive2 = g1,g2
+          end
+
+          # a in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def a
+            @primitive1.zeta
+          end
+
+          # b in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def b
+            @primitive2.zeta
+          end
+
+          # p in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def total_exponent
+            a + b
+          end
+          alias p total_exponent
+
+          # mu in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def reduced_exponent
+            a*b/p
+          end
+          alias mu reduced_exponent
+
+          # X_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def separation
+            @primitive1.center - @primitive2.center
+          end
+          alias x separation
+
+          # K_{AB} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def prefactor
+            exp(-mu*x.r2)
+          end
+          alias k prefactor
+
+          # P in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def center
+            (a * @primitive1.center + b * @primitive2.center)/p
+          end
+
+          # PA in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def pa
+            center - @primitive1.center
+          end
+
+          # PB in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def pb
+            center - @primitive2.center
+          end
+
+          # E_t^{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def hermitian_coeffs t, i, j, xyz
+            if t > i + j or t < 0
+              0
+            elsif [t,i,j] == [0,0,0]
+              1
+            elsif i > 0
+                        E(t-1, i-1, j, xyz)/2/p +
+              pa[xyz] * E(t,   i-1, j, xyz)     +
+                (t+1) * E(t+1, i-1, j, xyz)
+            else
+                        E(t-1, i, j-1, xyz)/2/p +
+              pb[xyz] * E(t,   i, j-1, xyz)+
+                (t+1) * E(t+1, i, j-1, xyz)
+            end
+          end
+          alias E hermitian_coeffs
+
+          def overlap_integral
+            [0,1,2].inject(1) do |i, e|
+              e * hermitian_coeffs(0,@primitive1.momenta[i],@primitive2.momenta[i],i)
+            end * (PI/p)**1.5
+          end
+        end
+
         def normalization_factor
           @normalization_factor ||= overlap_raw(self)**(-0.5)
         end

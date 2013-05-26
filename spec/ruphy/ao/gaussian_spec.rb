@@ -251,6 +251,47 @@ describe RuPHY::AO::Gaussian::Primitive do
   end
 end
 
+describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
+  let(:primitive1){mock_primitive(:primitive1)}
+  let(:primitive2){mock_primitive(:primitive2)}
+  let(:product){described_class.new(primitive1,primitive2)}
+
+  describe '#hermitian_coeffs' do
+    let(:xyz){mock(:xyz)}
+    let(:pa){rand()}; let(:pb){rand()}
+
+    subject do
+      product.stub(:pa).with().and_return(mock_vector(pa,:pa,xyz))
+      product.stub(:pb).with().and_return(mock_vector(pb,:pb,xyz))
+      product.hermitian_coeffs(t,i,j,xyz)
+    end
+
+    context 'with t=0, i=0, j=0' do
+      let(:t){0}; let(:i){0}; let(:j){0};
+
+      it{should == 1}
+    end
+
+    context 'with t=1, i=0, j=0' do
+      let(:t){1}; let(:i){0}; let(:j){0};
+
+      it{should == 0}
+    end
+
+    context 'with t=0, i=1, j=0' do
+      let(:t){0}; let(:i){1}; let(:j){0};
+
+      it{should == pa}
+    end
+
+    context 'with t=0, i=0, j=1' do
+      let(:t){0}; let(:i){0}; let(:j){1};
+
+      it{should == pb}
+    end
+  end
+end
+
 describe RuPHY::AO::Gaussian::Contracted do
   let(:coeffs){[1.0,0.0]}
   let(:zetas){[1.0,2.0]}
