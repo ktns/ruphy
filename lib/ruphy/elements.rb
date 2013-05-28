@@ -42,7 +42,7 @@ module RuPHY
       when Struct
         elem = Element.new(*elem)
       else
-        raise TypeError
+        raise TypeError, "Expected #{Element} or #{Array} or #{Struct}, but received #{elem.class}!"
       end
       self[elem.sym] = self[elem.Z] = self[elem.sym.to_s] = self[elem.Z.to_s] = elem
     end
