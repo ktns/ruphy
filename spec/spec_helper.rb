@@ -36,7 +36,9 @@ def random_coordinate
 end
 
 def random_element
-  RuPHY::Elements.values.sample
+  elements = RuPHY::Elements.clone
+  elements.empty? and elements.load_all
+  elements.values.sample
 end
 
 begin
