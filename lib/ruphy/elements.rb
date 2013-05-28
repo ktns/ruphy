@@ -37,9 +37,7 @@ module RuPHY
     def entry elem
       case elem
       when Element
-      when Array
-        elem = Element.new(*elem)
-      when Struct
+      when Array, Struct
         elem = Element.new(*elem)
       else
         raise TypeError, "Expected #{Element} or #{Array} or #{Struct}, but received #{elem.class}!"
