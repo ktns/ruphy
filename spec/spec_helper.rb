@@ -31,8 +31,8 @@ def random_spwf_hydrogenic_subset count
   return phies
 end
 
-def random_coordinate
-  return (1-a=rand())/a, rand() * Math::PI/2, rand() * Math::PI
+def random_vector
+  return Vector[*3.times.map{rand()}]
 end
 
 def random_element
