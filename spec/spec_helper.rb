@@ -31,8 +31,8 @@ def random_spwf_hydrogenic_subset count
   return phies
 end
 
-def random_coordinate
-  return (1-a=rand())/a, rand() * Math::PI/2, rand() * Math::PI
+def random_vector
+  return Vector[*3.times.map{rand()}]
 end
 
 def random_element
@@ -113,4 +113,16 @@ def dummy_atom x = 0, y = 0, z = 0, atomic_num = 1
   obatom.stub(:z).and_return(z); obatom.stub(:get_z).and_return(z)
   obatom.stub(:get_atomic_num).and_return(atomic_num)
   RuPHY::Geometry::Atom.new obatom
+end
+
+def mock_primitive name=:primitive, opts={}
+  primitive = mock(name)
+  primitive.stub(:zeta).and_return(opts[:zeta] || rand())
+  return primitive
+end
+
+def mock_vector value, name=:vector, xyz=nil
+  vector = mock(name)
+  vector.stub(:[]).with(xyz).and_return(value)
+  return vector
 end

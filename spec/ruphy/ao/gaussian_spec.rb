@@ -63,18 +63,6 @@ describe RuPHY::AO::Gaussian::Primitive do
 
       it {should_not == 0}
     end
-
-    its(:deriv_x) do
-      subject.deriv_x.derivative_order.should == subject.derivative_order + Vector[1,0,0]
-    end
-
-    its(:deriv_y) do
-      subject.deriv_y.derivative_order.should == subject.derivative_order + Vector[0,1,0]
-    end
-
-    its(:deriv_z) do
-      subject.deriv_z.derivative_order.should == subject.derivative_order + Vector[0,0,1]
-    end
   end
 
   describe 's primitive with zeta = 1.0' do
@@ -244,14 +232,6 @@ describe RuPHY::AO::Gaussian::Primitive do
           Math::exp(-r2 * zeta))
       end
     end
-
-    describe 'kinetic' do
-      it 'should be scaled properly' do
-        primitive1.kinetic(primitive2).should be_within(1e-5).of(
-          primitive1.overlap(primitive2) * 
-          (3*zeta - 2*r2*zeta**2))
-      end
-    end
   end
 
   describe 's primitives with zeta=1.0 on (0,0,0) and (0,0,1)' do
@@ -259,7 +239,104 @@ describe RuPHY::AO::Gaussian::Primitive do
     let(:zeta2){1.0}
     let(:center1){[0,0,0]}
     let(:center2){[0,0,1]}
+    let(:primitive1){described_class.new(zeta1,[0,0,0],center1)}
+    let(:primitive2){described_class.new(zeta2,[0,0,0],center2)}
+    let(:product){RuPHY::AO::Gaussian::Primitive::PrimitiveProduct.new(primitive1,primitive2)}
     it_behaves_like 'two s primitives on different centers'
+
+    describe 'decomposed kinetic integral along z axis' do
+      it 'should be correct' do
+        expect(product.kinetic_decomposed(2)).to be_within(1e-5).of(0.0)
+      end
+    end
+
+    describe 'raw kinetic integral' do
+
+      it 'should be correct' do
+        expect(primitive1.kinetic_raw(primitive2)).to be_within(1e-5).of(-2.388155327648917/-2)
+      end
+    end
+  end
+end
+
+describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
+  let(:primitive1){mock_primitive(:primitive1)}
+  let(:primitive2){mock_primitive(:primitive2)}
+  let(:product){described_class.new(primitive1,primitive2)}
+
+  describe '#hermitian_coeffs' do
+    let(:xyz){mock(:xyz)}
+    let(:p){rand()};
+    let(:pa){rand()}; let(:pb){rand()}
+
+    def self.case_for t, i, j, val = nil, &block
+      block and val = block
+
+      def E(t,i,j)
+        product.stub(:p).with().and_return(p)
+        product.stub(:pa).with().and_return(mock_vector(pa,:pa,xyz))
+        product.stub(:pb).with().and_return(mock_vector(pb,:pb,xyz))
+        product.hermitian_coeffs(t,i,j,xyz)
+      end
+
+      context 'with t=%d, i=%d, j=%d' % [t,i,j] do
+        subject do
+          E(t,i,j)
+        end
+
+        it 'should calculated correctly' do
+          case val
+          when nil
+            if i > 0
+              should be_within(1e-5).of(
+                          E(t-1, i-1, j) / 2 / p \
+                   + pa * E(t,   i-1, j)         \
+                + (t+1) * E(t+1, i-1, j)
+              )
+            else
+              should be_within(1e-5).of(
+                          E(t-1, i, j-1) / 2 / p \
+                   + pb * E(t,   i, j-1)         \
+                + (t+1) * E(t+1, i, j-1)
+              )
+            end
+          when Proc
+            should be_within(1e-5).of(instance_eval(&val))
+          else
+            should be_within(1e-5).of(val)
+          end
+        end
+
+        it{should be_a Float}
+      end
+    end
+
+    case_for(0, 0, 0, 1)
+
+    case_for(1, 0, 0, 0)
+
+    case_for(0, 1, 0){pa}
+
+    case_for(0, 0, 1){pb}
+
+    case_for(0, 1, 1){pa*pb + E(1, 0, 1)}
+
+    case_for(1, 1, 0){0.5/p}
+
+    case_for(1, 0, 1){0.5/p}
+  end
+
+  describe '#center' do
+    let(:center1){random_vector}
+    let(:center2){random_vector}
+
+    subject do
+      primitive1.stub(:center).and_return(center1)
+      primitive2.stub(:center).and_return(center2)
+      product.center
+    end
+
+    it{should == (center1 * primitive1.zeta + center2 * primitive2.zeta) / (primitive1.zeta + primitive2.zeta)}
   end
 end
 

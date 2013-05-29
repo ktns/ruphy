@@ -44,3 +44,4 @@ module RuPHY
 end
 
 require 'ruphy/math/matrix'
+require 'ruphy/math/vector'

@@ -10,11 +10,10 @@ module RuPHY
 
         public_class_method :new
 
-        def initialize zeta, momenta, center, derivative_order = [0,0,0]
-          @zeta, @momenta, @center, @derivative_order = [zeta.to_f,
+        def initialize zeta, momenta, center
+          @zeta, @momenta, @center = [zeta.to_f,
             (momenta.to_ary rescue momenta.to_a),
-            (center.vector rescue Vector[*center]),
-            Vector[*derivative_order]].map(&:freeze)
+            (center.vector rescue Vector[*center])].map(&:freeze)
           raise ArgumentError, 'Invalid value for a zeta(%p)!' % zeta unless @zeta > 0
           raise ArgumentError, 'Invalid size of momenta(%d)!' % @momenta.size unless @momenta.size == 3
           @momenta.each do |m|
@@ -24,26 +23,132 @@ module RuPHY
           raise ArgumentError, 'Invalid dimension of center coordinates(%d)!' % @center.size unless @center.size == 3
         end
 
-        attr_reader :zeta, :momenta, :center, :derivative_order
-
-        def deriv_x n = 1
-          self.class.new(@zeta,@momenta,@center,@derivative_order + Vector[1,0,0] * n)
-        end
-
-        def deriv_y n = 1
-          self.class.new(@zeta,@momenta,@center,@derivative_order + Vector[0,1,0] * n)
-        end
-
-        def deriv_z n = 1
-          self.class.new(@zeta,@momenta,@center,@derivative_order + Vector[0,0,1] * n)
-        end
+        attr_reader :zeta, :momenta, :center
 
         def angular_momentum
           @momenta.reduce(:+)
         end
 
+        class PrimitiveProduct
+          include RuPHY::Math
+          def initialize g1, g2
+            @primitive1, @primitive2 = g1,g2
+          end
+
+          # a in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def a
+            @primitive1.zeta
+          end
+
+          # b in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def b
+            @primitive2.zeta
+          end
+
+          # p in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def total_exponent
+            a + b
+          end
+          alias p total_exponent
+
+          # mu in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def reduced_exponent
+            a*b/p
+          end
+          alias mu reduced_exponent
+
+          # X_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def separation
+            @primitive1.center - @primitive2.center
+          end
+          alias x separation
+
+          # K_{AB} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def prefactor
+            exp(-mu*x.r2)
+          end
+          alias k prefactor
+
+          # P in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def center
+            (a * @primitive1.center + b * @primitive2.center)/p
+          end
+
+          # PA in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def pa
+            center - @primitive1.center
+          end
+
+          # PB in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def pb
+            center - @primitive2.center
+          end
+
+          # E_t^{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def hermitian_coeffs t, i, j, xyz
+            if t > i + j or t < 0
+              return 0.0
+            elsif [t,i,j] == [0,0,0]
+              return 1.0
+            elsif i > 0
+              return    E(t-1, i-1, j, xyz)/2/p +
+              pa[xyz] * E(t,   i-1, j, xyz)     +
+                (t+1) * E(t+1, i-1, j, xyz)
+            else
+              return    E(t-1, i, j-1, xyz)/2/p +
+              pb[xyz] * E(t,   i, j-1, xyz)+
+                (t+1) * E(t+1, i, j-1, xyz)
+            end
+          end
+          alias E hermitian_coeffs
+
+          # i in K_{AB} * x_A^i x_B^j exp(-p*x_P)
+          def i xyz
+            @primitive1.momenta[xyz]
+          end
+
+          # j in K_{AB} * x_A^i x_B^j exp(-p*x_P)
+          def j xyz
+            @primitive2.momenta[xyz]
+          end
+
+          # S_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def overlap_decomposed xyz
+            hermitian_coeffs(0,i(xyz),j(xyz),xyz)
+          end
+
+          # S_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def overlap_integral
+            [0,1,2].inject(1) do |sab,i|
+              sab * overlap_decomposed(i)
+            end * (PI/p)**1.5 * prefactor
+          end
+
+          # T_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def kinetic_decomposed xyz
+                             -2*b**2 * E(0, i(xyz), j(xyz)+2, xyz) \
+                    + b*(2*j(xyz)+1) * E(0, i(xyz), j(xyz),   xyz) \
+            -0.5 * j(xyz)*(j(xyz)-1) * E(0, i(xyz), j(xyz)-2, xyz)
+          end
+
+          # T_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def kinetic_integral
+            [0, 1, 2].inject(0.0) do |tab, i|
+              ([0, 1, 2]-[i]).inject(kinetic_decomposed(i)) do |tij, j|
+                tij * overlap_decomposed(j)
+              end + tab
+            end * (PI/p)**1.5 * prefactor
+          end
+        end
+
         def normalization_factor
           @normalization_factor ||= overlap_raw(self)**(-0.5)
+        end
+
+        @@products = {}
+
+        def * other
+          @@products[[self,other]] ||= PrimitiveProduct.new(self,other)
         end
 
         def overlap o
@@ -51,27 +156,11 @@ module RuPHY
         end
 
         def overlap_raw o
-          z=@zeta+o.zeta
-          c=(@center*@zeta+o.center*o.zeta)*z**-1.0
-          [@center-c,o.center-c,@momenta,o.momenta].map(&:to_a).transpose.map do |a,b,m,n|
-            cart_gauss_integral(a,b,m,n,z)
-          end.reduce(:*) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)
+          (self*o).overlap_integral
         end
 
         def kinetic_raw o
-          z = @zeta+o.zeta
-          c = (@center*@zeta + o.center*o.zeta)*z**-1.0
-          3.times.map do |i|
-            [@center-c,o.center-c,@momenta,o.momenta].map(&:to_a).transpose.each_with_index.map do |(a,b,m,n),j|
-              if i==j
-                4*o.zeta**2*cart_gauss_integral(a,b,m,n+2,z) - 
-                  2*o.zeta*(2*n+1)*cart_gauss_integral(a,b,m,n,z) +
-                  (n>1 ? n*(n-1)*cart_gauss_integral(a,b,m,n-2,z) : 0)
-              else
-                cart_gauss_integral(a,b,m,n,z)
-              end
-            end.reduce(:*)
-          end.reduce(:+) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)/-2
+          (self*o).kinetic_integral
         end
 
         def kinetic o
