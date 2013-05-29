@@ -41,13 +41,9 @@ describe RuPHY::AO::Gaussian::Primitive do
 
       it "should return correct value" do
         should be_within(1e-5).of(
-          (2/Math::PI)**0.75*
-          2**momenta.reduce(:+)*
-          zeta**((2*momenta.reduce(:+)+3).to_f/4)/
-          momenta.map do |m|
-            m==0 ? 1 :
-              (2*m-1).downto(1).reduce(:*).downto(1).reduce(:*)
-          end.reduce(:*)**0.5
+          momenta.inject(1.0) do |k,i|
+            k*(1..2*i-1).step(2).inject(1,&:*)/2**i/(2*zeta)**i
+          end**-0.5 * (Math::PI/2/zeta)**-0.75
         )
       end
     end
