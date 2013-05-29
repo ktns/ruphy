@@ -317,6 +317,19 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
 
     case_for(1, 0, 1){0.5/p}
   end
+
+  describe '#center' do
+    let(:center1){random_vector}
+    let(:center2){random_vector}
+
+    subject do
+      primitive1.stub(:center).and_return(center1)
+      primitive2.stub(:center).and_return(center2)
+      product.center
+    end
+
+    it{should == (center1 * primitive1.zeta + center2 * primitive2.zeta) / (primitive1.zeta + primitive2.zeta)}
+  end
 end
 
 describe RuPHY::AO::Gaussian::Contracted do
