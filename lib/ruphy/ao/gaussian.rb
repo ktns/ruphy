@@ -102,9 +102,25 @@ module RuPHY
           end
           alias E hermitian_coeffs
 
+          # i in K_{AB} * x_A^i x_B^j exp(-p*x_P)
+          def i xyz
+            @primitive1.momenta[xyz]
+          end
+
+          # j in K_{AB} * x_A^i x_B^j exp(-p*x_P)
+          def j xyz
+            @primitive2.momenta[xyz]
+          end
+
+          # S_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def overlap_decomposed xyz
+            hermitian_coeffs(0,i(xyz),j(xyz),xyz)
+          end
+
+          # S_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def overlap_integral
-            [0,1,2].inject(1) do |e,i|
-              e * hermitian_coeffs(0,@primitive1.momenta[i],@primitive2.momenta[i],i)
+            [0,1,2].inject(1) do |sab,i|
+              sab * overlap_decomposed(i)
             end * (PI/p)**1.5 * prefactor
           end
         end
