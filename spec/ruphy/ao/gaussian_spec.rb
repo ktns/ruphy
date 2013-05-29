@@ -257,76 +257,65 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
   let(:product){described_class.new(primitive1,primitive2)}
 
   describe '#hermitian_coeffs' do
-    def E(t,i,j)
-      product.hermitian_coeffs(t,i,j,xyz)
-    end
-
     let(:xyz){mock(:xyz)}
     let(:p){rand()};
     let(:pa){rand()}; let(:pb){rand()}
 
-    subject do
-      product.stub(:p).with().and_return(p)
-      product.stub(:pa).with().and_return(mock_vector(pa,:pa,xyz))
-      product.stub(:pb).with().and_return(mock_vector(pb,:pb,xyz))
-      E(t,i,j)
+    def self.case_for t, i, j, val = nil, &block
+      block and val = block
+
+      def E(t,i,j)
+        product.stub(:p).with().and_return(p)
+        product.stub(:pa).with().and_return(mock_vector(pa,:pa,xyz))
+        product.stub(:pb).with().and_return(mock_vector(pb,:pb,xyz))
+        product.hermitian_coeffs(t,i,j,xyz)
+      end
+
+      context 'with t=%d, i=%d, j=%d' % [t,i,j] do
+        subject do
+          E(t,i,j)
+        end
+
+        it 'should calculated correctly' do
+          case val
+          when nil
+            if i > 0
+              should be_within(1e-5).of(
+                          E(t-1, i-1, j) / 2 / p \
+                   + pa * E(t,   i-1, j)         \
+                + (t+1) * E(t+1, i-1, j)
+              )
+            else
+              should be_within(1e-5).of(
+                          E(t-1, i, j-1) / 2 / p \
+                   + pb * E(t,   i, j-1)         \
+                + (t+1) * E(t+1, i, j-1)
+              )
+            end
+          when Proc
+            should be_within(1e-5).of(instance_eval(&val))
+          else
+            should be_within(1e-5).of(val)
+          end
+        end
+
+        it{should be_a Float}
+      end
     end
 
-    context 'with t=0, i=0, j=0' do
-      let(:t){0}; let(:i){0}; let(:j){0};
+    case_for(0, 0, 0, 1)
 
-      it{should == 1}
+    case_for(1, 0, 0, 0)
 
-      it{should be_a Float}
-    end
+    case_for(0, 1, 0){pa}
 
-    context 'with t=1, i=0, j=0' do
-      let(:t){1}; let(:i){0}; let(:j){0};
+    case_for(0, 0, 1){pb}
 
-      it{should == 0}
+    case_for(0, 1, 1){pa*pb + E(1, 0, 1)}
 
-      it{should be_a Float}
-    end
+    case_for(1, 1, 0){0.5/p}
 
-    context 'with t=0, i=1, j=0' do
-      let(:t){0}; let(:i){1}; let(:j){0};
-
-      it{should == pa}
-
-      it{should be_a Float}
-    end
-
-    context 'with t=0, i=0, j=1' do
-      let(:t){0}; let(:i){0}; let(:j){1};
-
-      it{should == pb}
-
-      it{should be_a Float}
-    end
-
-    context 'with t=0, i=1, j=1' do
-      let(:t){0}; let(:i){1}; let(:j){1};
-
-      it{should == pa * pb + E(1,0,1)}
-
-      it{should be_a Float}
-    end
-
-    context 'with t=0, i=1, j=1' do
-      let(:t){1}; let(:i){1}; let(:j){0};
-
-      it{ should == 0.5/p }
-
-      it{should be_a Float}
-    end
-
-    context 'with t=0, i=1, j=1' do
-      let(:t){1}; let(:i){0}; let(:j){1};
-
-      it{ should == 0.5/p }
-
-      it{should be_a Float}
-    end
+    case_for(1, 0, 1){0.5/p}
   end
 end
 
