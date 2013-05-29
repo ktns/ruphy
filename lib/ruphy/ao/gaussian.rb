@@ -113,16 +113,18 @@ module RuPHY
           @normalization_factor ||= overlap_raw(self)**(-0.5)
         end
 
+        @@products = {}
+
+        def * other
+          @@products[[self,other]] ||= PrimitiveProduct.new(self,other)
+        end
+
         def overlap o
           overlap_raw(o) * normalization_factor * o.normalization_factor
         end
 
         def overlap_raw o
-          z=@zeta+o.zeta
-          c=(@center*@zeta+o.center*o.zeta)*z**-1.0
-          [@center-c,o.center-c,@momenta,o.momenta].map(&:to_a).transpose.map do |a,b,m,n|
-            cart_gauss_integral(a,b,m,n,z)
-          end.reduce(:*) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)
+          (self*o).overlap_integral
         end
 
         def kinetic_raw o
