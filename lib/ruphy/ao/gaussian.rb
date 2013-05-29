@@ -105,7 +105,7 @@ module RuPHY
           def overlap_integral
             [0,1,2].inject(1) do |e,i|
               e * hermitian_coeffs(0,@primitive1.momenta[i],@primitive2.momenta[i],i)
-            end * (PI/p)**1.5
+            end * (PI/p)**1.5 * prefactor
           end
         end
 
