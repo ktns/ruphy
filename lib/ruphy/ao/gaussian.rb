@@ -137,7 +137,7 @@ module RuPHY
               ([0, 1, 2]-[i]).inject(kinetic_decomposed(i)) do |tij, j|
                 tij * overlap_decomposed(j)
               end + tab
-            end * prefactor
+            end * (PI/p)**1.5 * prefactor
           end
         end
 
