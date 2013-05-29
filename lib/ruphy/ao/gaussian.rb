@@ -87,15 +87,15 @@ module RuPHY
           # E_t^{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def hermitian_coeffs t, i, j, xyz
             if t > i + j or t < 0
-              0
+              return 0.0
             elsif [t,i,j] == [0,0,0]
-              1
+              return 1.0
             elsif i > 0
-                        E(t-1, i-1, j, xyz)/2/p +
+              return    E(t-1, i-1, j, xyz)/2/p +
               pa[xyz] * E(t,   i-1, j, xyz)     +
                 (t+1) * E(t+1, i-1, j, xyz)
             else
-                        E(t-1, i, j-1, xyz)/2/p +
+              return    E(t-1, i, j-1, xyz)/2/p +
               pb[xyz] * E(t,   i, j-1, xyz)+
                 (t+1) * E(t+1, i, j-1, xyz)
             end
