@@ -239,7 +239,23 @@ describe RuPHY::AO::Gaussian::Primitive do
     let(:zeta2){1.0}
     let(:center1){[0,0,0]}
     let(:center2){[0,0,1]}
+    let(:primitive1){described_class.new(zeta1,[0,0,0],center1)}
+    let(:primitive2){described_class.new(zeta2,[0,0,0],center2)}
+    let(:product){RuPHY::AO::Gaussian::Primitive::PrimitiveProduct.new(primitive1,primitive2)}
     it_behaves_like 'two s primitives on different centers'
+
+    describe 'decomposed kinetic integral along z axis' do
+      it 'should be correct' do
+        expect(product.kinetic_decomposed(2)).to be_within(1e-5).of(0.0)
+      end
+    end
+
+    describe 'raw kinetic integral' do
+
+      it 'should be correct' do
+        expect(primitive1.kinetic_raw(primitive2)).to be_within(1e-5).of(-2.388155327648917/-2)
+      end
+    end
   end
 end
 
