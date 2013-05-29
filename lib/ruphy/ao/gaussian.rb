@@ -123,6 +123,22 @@ module RuPHY
               sab * overlap_decomposed(i)
             end * (PI/p)**1.5 * prefactor
           end
+
+          # T_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def kinetic_decomposed xyz
+                             -2*b**2 * E(0, i(xyz), j(xyz)+2, xyz) \
+                    + b*(2*j(xyz)+1) * E(0, i(xyz), j(xyz),   xyz) \
+            -0.5 * j(xyz)*(j(xyz)-1) * E(0, i(xyz), j(xyz)-2, xyz)
+          end
+
+          # T_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def kinetic_integral
+            [0, 1, 2].inject(0.0) do |tab, i|
+              ([0, 1, 2]-[i]).inject(kinetic_decomposed(i)) do |tij, j|
+                tij * overlap_decomposed(j)
+              end + tab
+            end * prefactor
+          end
         end
 
         def normalization_factor
@@ -144,19 +160,7 @@ module RuPHY
         end
 
         def kinetic_raw o
-          z = @zeta+o.zeta
-          c = (@center*@zeta + o.center*o.zeta)*z**-1.0
-          3.times.map do |i|
-            [@center-c,o.center-c,@momenta,o.momenta].map(&:to_a).transpose.each_with_index.map do |(a,b,m,n),j|
-              if i==j
-                4*o.zeta**2*cart_gauss_integral(a,b,m,n+2,z) - 
-                  2*o.zeta*(2*n+1)*cart_gauss_integral(a,b,m,n,z) +
-                  (n>1 ? n*(n-1)*cart_gauss_integral(a,b,m,n-2,z) : 0)
-              else
-                cart_gauss_integral(a,b,m,n,z)
-              end
-            end.reduce(:*)
-          end.reduce(:+) * exp(-@zeta*o.zeta/z*(@center-o.center).r**2)/-2
+          (self*o).kinetic_integral
         end
 
         def kinetic o
