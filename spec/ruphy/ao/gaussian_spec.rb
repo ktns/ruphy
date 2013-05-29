@@ -257,6 +257,10 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
   let(:product){described_class.new(primitive1,primitive2)}
 
   describe '#hermitian_coeffs' do
+    def E(t,i,j)
+      product.hermitian_coeffs(t,i,j,xyz)
+    end
+
     let(:xyz){mock(:xyz)}
     let(:p){rand()};
     let(:pa){rand()}; let(:pb){rand()}
@@ -265,7 +269,7 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
       product.stub(:p).with().and_return(p)
       product.stub(:pa).with().and_return(mock_vector(pa,:pa,xyz))
       product.stub(:pb).with().and_return(mock_vector(pb,:pb,xyz))
-      product.hermitian_coeffs(t,i,j,xyz)
+      E(t,i,j)
     end
 
     context 'with t=0, i=0, j=0' do
@@ -303,7 +307,7 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
     context 'with t=0, i=1, j=1' do
       let(:t){0}; let(:i){1}; let(:j){1};
 
-      it{should == pa * pb + product.hermitian_coeffs(1,0,1,xyz)}
+      it{should == pa * pb + E(1,0,1)}
 
       it{should be_a Float}
     end
