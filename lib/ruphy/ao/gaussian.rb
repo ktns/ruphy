@@ -110,6 +110,10 @@ module RuPHY
             @primitive2.momenta[xyz]
           end
 
+          def gauss3
+            (PI/p)**1.5
+          end
+
           # S_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def overlap_decomposed xyz
             hermitian_coeffs(0,i(xyz),j(xyz),xyz)
@@ -119,7 +123,7 @@ module RuPHY
           def overlap_integral
             [0,1,2].inject(1) do |sab,i|
               sab * overlap_decomposed(i)
-            end * (PI/p)**1.5 * prefactor
+            end * gauss3 * prefactor
           end
 
           # T_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
@@ -135,7 +139,7 @@ module RuPHY
               ([0, 1, 2]-[i]).inject(kinetic_decomposed(i)) do |tij, j|
                 tij * overlap_decomposed(j)
               end + tab
-            end * (PI/p)**1.5 * prefactor
+            end * gauss3 * prefactor
           end
         end
 
