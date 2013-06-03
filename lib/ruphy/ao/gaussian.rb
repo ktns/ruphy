@@ -229,7 +229,27 @@ module RuPHY
             raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
           end
         end
+
+        def nuclear_attraction other, atom
+          nuclear_attraction_raw(other, atom) * normalization_factor * other.normalization_factor
+        end
+
+        def nuclear_attraction_raw other, atom
+          case other
+          when Primitive
+            @primitives.inject(0) do |s, (c, primitive)|
+              other.nuclear_attraction(primitive, atom) * c + s
+            end
+          when Contracted
+            @primitives.inject(0) do |s, (c, primitive)|
+              other.nuclear_attraction_raw(primitive, atom) * c + s
+            end
+          else
+            raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
+          end
+        end
       end
+
     end
   end
 end
