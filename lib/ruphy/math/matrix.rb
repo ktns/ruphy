@@ -19,7 +19,15 @@ module RuPHY
 
       module MatrixWrapper
         def method_missing method, *args, &block
-          retval = super
+          args.map! do |arg|
+            case arg
+            when Matrix, Coercer
+              arg.__getobj__
+            else
+              arg
+            end
+          end
+          retval = super method, *args, &block
           loop do
             case retval
             when ::Matrix
