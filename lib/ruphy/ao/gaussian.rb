@@ -168,6 +168,14 @@ module RuPHY
         def kinetic o
           kinetic_raw(o) * normalization_factor * o.normalization_factor
         end
+
+        def nuclear_attraction_raw other, atom
+          (self*other).nuclear_attraction_integral(atom)
+        end
+
+        def nuclear_attraction other, atom
+          nuclear_attraction_raw(other, atom) * normalization_factor * other.normalization_factor
+        end
       end
 
       class Contracted < AO
