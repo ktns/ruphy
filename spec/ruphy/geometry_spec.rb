@@ -3,6 +3,8 @@ require 'spec_helper'
 describe RuPHY::Geometry::Molecule do
   shared_examples_for 'proper molecule' do
     its(:each_atom){should all_be_kind_of RuPHY::Geometry::Atom}
+
+    its(:each){should all_be_kind_of RuPHY::Geometry::Atom}
   end
 
   context 'with xyz' do

@@ -6,6 +6,8 @@ require 'delegate'
 module RuPHY
   module Geometry
     class Molecule
+      include Enumerable
+
       def initialize source, format = 'xyz'
         obconv = OpenBabel::OBConversion.new
         obconv.set_in_format(format) or raise ArgumentError, '%p is not a format registered in OpenBabel!' % format
@@ -32,6 +34,7 @@ module RuPHY
           to_enum(:each_atom)
         end
       end
+      alias each each_atom
 
       def nuclear_replusion_energy
         each_atom.to_a.combination(2).inject(0) do |e, (a1, a2)|
