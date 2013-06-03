@@ -25,17 +25,6 @@ describe RuPHY::MO::Basis::LCAO do
 
       it{should be_square}
 
-      it 'should not calculate symmetric off-diagonal element twice' do
-        count = 0
-        basis.aos.each do |ao|
-          ao.stub(operator) do
-            count += 1
-          end
-        end
-        subject
-        expect(count).to eq 3
-      end
-
       describe 'diagonal elements' do
         subject{matrix.diagonal_elements}
 
@@ -49,11 +38,29 @@ describe RuPHY::MO::Basis::LCAO do
       end
     end
 
+    shared_examples_for 'operator simply projected by basis' do
+      let(:matrix){ basis.__send__(operator) }
+      subject{matrix}
+
+      it 'should not calculate symmetric off-diagonal element twice' do
+        count = 0
+        basis.aos.each do |ao|
+          ao.stub(operator) do
+            count += 1
+          end
+        end
+        subject
+        expect(count).to eq 3
+      end
+    end
+
+
     describe '#overlap' do
       let(:operator){:overlap}
       let(:correct_diagonal_value){1.0}
       let(:correct_off_diagonal_value){0.65987312}
       it_should_behave_like "operator represented by basis"
+      it_should_behave_like 'operator simply projected by basis'
     end
 
     describe '#kinetic' do
@@ -61,6 +68,7 @@ describe RuPHY::MO::Basis::LCAO do
       let(:correct_diagonal_value){0.76003188}
       let(:correct_off_diagonal_value){0.23696027}
       it_should_behave_like "operator represented by basis"
+      it_should_behave_like 'operator simply projected by basis'
     end
 
     describe '#core_hamiltonian' do
