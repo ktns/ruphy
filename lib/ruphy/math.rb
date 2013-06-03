@@ -18,6 +18,9 @@ module RuPHY
         raise ArgumentError, 'Unsupported value for m(=%p)!' % m
       end
     end
+    private
+    alias F boys
+    public
 
     # calculate one dimensional integral over entire space of
     # (x-a)^m(x-b)^n exp(-z*x^2)

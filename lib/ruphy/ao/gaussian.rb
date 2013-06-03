@@ -82,6 +82,11 @@ module RuPHY
             center - @primitive2.center
           end
 
+          # PC in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def PC atom
+            center - atom.vector
+          end
+
           # E_t^{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def hermitian_coeffs t, i, j, xyz
             if t > i + j or t < 0
@@ -140,6 +145,36 @@ module RuPHY
                 tij * overlap_decomposed(j)
               end + tab
             end * gauss3 * prefactor
+          end
+
+          # R_{tuv}^{n} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def auxiliary_hermite_integral t,u,v,n,atom
+            if [t,u,v] == [0,0,0]
+              return -2 * p * F(p*PC(atom).r2,n)
+            elsif [u,v] == [0,0]
+              return PC(atom)[0] * R(t-1, u,   v,   n+1, atom) +
+                   (t>1) ? (t-1) * R(t-2, u,   v,   n+1, atom) : 0
+            elsif v == 0
+              return PC(atom)[1] * R(t,   u-1, v,   n+1, atom) +
+                   (u>1) ? (u-1) * R(t,   u-2, v,   n+1, atom) : 0
+            else
+              return PC(atom)[2] * R(t,   u,   v-1, n+1, atom) +
+                   (v>1) ? (v-1) * R(t,   u,   v-2, n+1, atom) : 0
+            end
+          end
+          alias R auxiliary_hermite_integral
+
+          # <G_a | r_C^{-1} | G_b>
+          def nuclear_attraction_integral atom
+            [0, 1, 2].map do |xyz|
+              (0..(i(xyz)+j(xyz))).to_a
+            end.reduce(&:product).inject(0.0) do |vab, ((t,u),v)|
+              vab +
+              E(t,i(0),j(0),0) *
+              E(u,i(1),j(1),1) *
+              E(v,i(2),j(2),2) *
+              R(t,u,v,0,atom)
+            end * prefactor
           end
         end
 
