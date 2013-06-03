@@ -6,8 +6,6 @@ module RuPHY
       end
 
       class Primitive < AO
-        include RuPHY::Math
-
         public_class_method :new
 
         def initialize zeta, momenta, center
