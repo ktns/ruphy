@@ -3,6 +3,7 @@ module RuPHY
     class Basis
       class LCAO < Basis
         def initialize geometry, basisset
+          @geometry = geometry
           @shells = geometry.each_atom.each_with_object({}) do |atom, shells|
             shells[atom] = basisset.shells(atom.element).map do |shell|
               Shell.new shell, atom
@@ -36,12 +37,18 @@ module RuPHY
           end
         end
 
-        def nuclear_attraction
-          raise NotImplementedError
+        def nuclear_attraction geometry=@geometry
+          aos = self.aos
+          hash={}
+          Matrix.build(aos.size) do |i,j|
+            hash[i.hash+j.hash] ||= geometry.inject(0.0) do |v, atom|
+              aos[i].nuclear_attraction(aos[j], atom) + v
+            end
+          end
         end
 
-        def core_hamiltonian
-          kinetic - nuclear_attraction
+        def core_hamiltonian geometry=@geometry
+          kinetic - nuclear_attraction(geometry)
         end
 
         class Shell < SimpleDelegator
