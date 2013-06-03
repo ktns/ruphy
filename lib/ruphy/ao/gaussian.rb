@@ -185,6 +185,48 @@ module RuPHY
             end
           end
         end
+
+        def normalization_factor
+          @normalization_factor ||= overlap_raw(self)**-0.5
+        end
+
+        def overlap other
+          overlap_raw(other) * normalization_factor * other.normalization_factor
+        end
+
+        def overlap_raw other
+          case other
+          when Primitive
+            @primitives.inject(0) do |s, (c, primitive)|
+              other.overlap(primitive) * c + s
+            end
+          when Contracted
+            @primitives.inject(0) do |s, (c, primitive)|
+              other.overlap_raw(primitive) * c + s
+            end
+          else
+            raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
+          end
+        end
+
+        def kinetic other
+          kinetic_raw(other) * normalization_factor * other.normalization_factor
+        end
+
+        def kinetic_raw other
+          case other
+          when Primitive
+            @primitives.inject(0) do |s, (c, primitive)|
+              other.kinetic(primitive) * c + s
+            end
+          when Contracted
+            @primitives.inject(0) do |s, (c, primitive)|
+              other.kinetic_raw(primitive) * c + s
+            end
+          else
+            raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
+          end
+        end
       end
     end
   end

@@ -6,7 +6,6 @@ require 'delegate'
 module RuPHY
   module Geometry
     class Molecule
-      include RuPHY::Constants
       def initialize source, format = 'xyz'
         obconv = OpenBabel::OBConversion.new
         obconv.set_in_format(format) or raise ArgumentError, '%p is not a format registered in OpenBabel!' % format
@@ -37,13 +36,15 @@ module RuPHY
       def nuclear_replusion_energy
         each_atom.to_a.combination(2).inject(0) do |e, (a1, a2)|
           v1, v2 = [a1,a2].map(&:vector)
-          r = (v1-v2).r * Angstrom
+          r = (v1-v2).r
           e + a1.get_atomic_num * a2.get_atomic_num / r
         end
       end
     end
 
     class Atom < Delegator
+      include RuPHY::Constants
+
       def initialize obatom
         @obatom = obatom
       end
@@ -65,7 +66,7 @@ module RuPHY
       end
 
       def vector
-        Vector[get_x, get_y, get_z]
+        Vector[get_x, get_y, get_z] * Angstrom
       end
     end
   end

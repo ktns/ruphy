@@ -3,10 +3,90 @@ require 'ruphy/basisset/STO3G'
 require 'ruphy/mo/basis/lcao'
 
 describe RuPHY::MO::Basis::LCAO do
-  describe '#initialize', :if => ::TestMol do
-    subject{described_class.new(::TestMol, RuPHY::BasisSet::STO3G)}
+  context 'with TestMol and STO3G', :if => ::TestMol do
+    let(:basis){described_class.new(::TestMol, RuPHY::BasisSet::STO3G)}
+    subject{basis}
 
-    it{pending{should be_kind_of RuPHY::MO::Basis}}
+    it{should be_kind_of RuPHY::MO::Basis}
+
+    describe '#aos' do
+      def subject; super.aos; end
+
+      it{should be_kind_of Enumerable}
+
+      it{should all_be_kind_of RuPHY::AO}
+    end
+
+    describe '#overlap' do
+      def subject; super.overlap; end
+
+      it{should be_kind_of RuPHY::Matrix}
+
+      it{should be_square}
+
+      it 'should not calculate symmetric off-diagonal element twice' do
+        count = 0
+        basis.aos.each do |ao|
+          ao.stub(:overlap) do
+            count += 1
+          end
+        end
+        subject
+        expect(count).to eq 3
+      end
+
+      describe 'diagonal elements' do
+        def subject; super.diagonal_elements; end
+
+        it{should all_be_within(1e-5).of(1)}
+      end
+
+      describe 'off diagonal elements' do
+        def subject; super.each :off_diagonal ; end
+
+        it{should all_be_within(0.01).percent_of(0.65987312)}
+      end
+    end
+
+    describe '#kinetic' do
+      def subject; super.kinetic; end
+
+      it{should be_kind_of RuPHY::Matrix}
+
+      it{should be_square}
+
+      it 'should not calculate symmetric off-diagonal element twice' do
+        count = 0
+        basis.aos.each do |ao|
+          ao.stub(:kinetic) do
+            count += 1
+          end
+        end
+        subject
+        expect(count).to eq 3
+      end
+
+      describe 'diagonal elements' do
+        def subject; super.diagonal_elements; end
+
+        it{should all_be_within(1e-5).of(0.76003188)}
+      end
+
+      describe 'off diagonal elements' do
+        def subject; super.each(:off_diagonal) ; end
+
+        it{should all_be_within(0.01).percent_of(0.23696027)}
+      end
+    end
+
+    describe '#core_hamiltonian' do
+      let(:operator){:core_hamiltonian}
+      let(:correct_diagonal_value){0.76003188}
+      let(:correct_off_diagonal_value){0.23696027}
+      pending do
+        it_should_behave_like "operator represented by basis"
+      end
+    end
   end
 end
 

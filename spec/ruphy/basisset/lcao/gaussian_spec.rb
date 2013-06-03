@@ -6,16 +6,50 @@ describe RuPHY::BasisSet::LCAO::Gaussian do
 
   shared_examples_for :proper_basisset do
     creating_it{should_not raise_error}
+    it{should respond_to :shells}
+
+    describe "#shells" do
+      context "with H atom" do
+        let(:obatomH){mock(:obatomH)}
+        let(:atom) do
+          obatomH.stub(:get_atomic_num).and_return(1)
+          RuPHY::Geometry::Atom.new(obatomH)
+        end
+
+        def subject
+          super.shells(atom)
+        end
+
+        it{should be_kind_of Enumerable}
+
+        it{should all_be_kind_of described_class::Shell}
+      end
+    end
+  end
+
+  let(:hshells) do
+    extend RSpec::Mocks::ExampleMethods
+    hshell = mock(:HShell)
+    hshell.stub(:kind_of?).with(described_class::Shell).and_return(true)
+    described_class::Shell.stub(:===).with(hshell).and_return(true)
+    break [hshell]
+  end
+
+  let(:heshells) do
+    extend RSpec::Mocks::ExampleMethods
+    heshell = mock(:HeShell)
+    heshell.stub(:kind_of?).and_return(true)
+    break [heshell]
   end
 
   context 'with :H' do
-    let(:arg){{:H=>stub(:HShells)}}
+    let(:arg){{:H=>hshells}}
 
     it_should_behave_like :proper_basisset
   end
 
   context 'with :hoge' do
-    let(:arg){{:hoge=>stub(:HeShells)}}
+    let(:arg){{:hoge=>heshells}}
 
     creating_it{should raise_error described_class::InvalidElementError}
   end

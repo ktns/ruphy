@@ -65,5 +65,5 @@ describe RuPHY::Geometry::Atom do
   let(:center){Array.new(3){rand()}}
   subject{described_class.new(dummy_atom(*center))}
 
-  its(:vector){should == Vector[*center]}
+  its(:vector){should == Vector[*center] * described_class::Angstrom}
 end
