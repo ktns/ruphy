@@ -7,6 +7,14 @@ describe RuPHY::Math::Matrix do
     it{should be_kind_of described_class}
   end
 
+  describe '#diagonal_elements' do
+    let(:size){rand(5)+1}
+    let(:matrix){described_class.build(size){rand()}}
+    subject{matrix.diagonal_elements}
+
+    its(:count){should == size}
+  end
+
   shared_examples_for 'operator between matrices' do
     let(:matrixA){described_class.build(1){1}}
     let(:matrixB){described_class.build(1){1}}
