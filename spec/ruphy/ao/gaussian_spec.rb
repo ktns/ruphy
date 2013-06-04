@@ -338,6 +338,22 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
 
     it{should == (center1 * primitive1.zeta + center2 * primitive2.zeta) / (primitive1.zeta + primitive2.zeta)}
   end
+
+  describe '#auxiliary_hermite_integral' do
+    let(:n){rand(4)}
+    let(:t){rand(4)}
+    let(:u){rand(4)}
+    let(:v){rand(4)}
+    let(:pc){random_vector}
+    let(:atom){mock(:atom)}
+    it 'should satisfy X directional recurrence relation' do
+      product.stub(:PC).with(atom).and_return(pc)
+      product.auxiliary_hermite_integral(t+1,u,v,n,atom).should be_within(1e-2).percent_of(
+            t * product.auxiliary_hermite_integral(t-1, u, v, n+1, atom) +
+        pc[0] * product.auxiliary_hermite_integral(t,   u, v, n+1, atom)
+      )
+    end
+  end
 end
 
 describe RuPHY::AO::Gaussian::Contracted do
