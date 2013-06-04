@@ -25,6 +25,8 @@ describe RuPHY::MO::Basis::LCAO do
 
       it{should be_square}
 
+      it{should all_be_finite}
+
       describe 'diagonal elements' do
         subject{matrix.diagonal_elements}
 
