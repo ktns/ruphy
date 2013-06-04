@@ -6,12 +6,17 @@ module RuPHY
       case m
       when 0
         rr = sqrt(r)
-        return sqrt(PI) * erf(rr) / 2 / rr
+        retval = sqrt(PI) * erf(rr) / 2 / rr
+        if retval.nan?
+          return 1
+        else
+          return retval
+        end
       when Integer
         raise ArgumentError, 'Negative m specified!' unless m >= 0
         return (boys(r,m-1) * (2*m-1) - exp(-r)) / 2 / r
       else
-        raise ArgumentError, 'Unsupported value for m(=%p)!', m
+        raise ArgumentError, 'Unsupported value for m(=%p)!' % m
       end
     end
 
