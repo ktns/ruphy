@@ -149,17 +149,19 @@ module RuPHY
 
           # R_{tuv}^{n} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def auxiliary_hermite_integral t,u,v,n,atom
-            if [t,u,v] == [0,0,0]
+            if t < 0 or u < 0 or v < 0
+              return 0
+            elsif [t,u,v] == [0,0,0]
               return -2 * p * F(p*PC(atom).r2,n)
             elsif [u,v] == [0,0]
               return PC(atom)[0] * R(t-1, u,   v,   n+1, atom) +
-                   (t>1) ? (t-1) * R(t-2, u,   v,   n+1, atom) : 0
+                           (t-1) * R(t-2, u,   v,   n+1, atom)
             elsif v == 0
               return PC(atom)[1] * R(t,   u-1, v,   n+1, atom) +
-                   (u>1) ? (u-1) * R(t,   u-2, v,   n+1, atom) : 0
+                           (u-1) * R(t,   u-2, v,   n+1, atom)
             else
               return PC(atom)[2] * R(t,   u,   v-1, n+1, atom) +
-                   (v>1) ? (v-1) * R(t,   u,   v-2, n+1, atom) : 0
+                           (v-1) * R(t,   u,   v-2, n+1, atom)
             end
           end
           alias R auxiliary_hermite_integral
