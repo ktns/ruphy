@@ -23,5 +23,10 @@ describe RuPHY::Math do
       let(:n){1.5}; let(:r){1.0}
       calling_it{should raise_error ArgumentError}
     end
+
+    context 'with n:negative' do
+      let(:n){-1}; let(:r){1.0}
+      calling_it{should raise_error ArgumentError, /negative/i}
+    end
   end
 end

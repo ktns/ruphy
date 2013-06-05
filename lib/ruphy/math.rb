@@ -12,8 +12,9 @@ module RuPHY
         else
           return retval
         end
+      when -Float::INFINITY...0
+        raise ArgumentError, 'Negative m specified!'
       when Integer
-        raise ArgumentError, 'Negative m specified!' unless m >= 0
         return (boys(r,m-1) * (2*m-1) - exp(-r)) / 2 / r
       else
         raise ArgumentError, 'Unsupported value for m(=%p)!' % m
