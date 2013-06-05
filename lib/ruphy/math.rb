@@ -3,15 +3,13 @@ module RuPHY
     include ::Math
 
     def boys(r,m)
+      if r == 0
+        return 1.0/(2*m+1)
+      end
       case m
       when 0
         rr = sqrt(r)
-        retval = sqrt(PI) * erf(rr) / 2 / rr
-        if retval.nan?
-          return 1
-        else
-          return retval
-        end
+        return sqrt(PI) * erf(rr) / 2 / rr
       when -Float::INFINITY...0
         raise ArgumentError, 'Negative m specified!'
       when Integer

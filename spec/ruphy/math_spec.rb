@@ -5,13 +5,19 @@ describe RuPHY::Math do
 
   describe '#boys(r, n)' do
     subject{boys(r, n)}
+    context 'r = 0' do
+      let(:r){0}
+
+      for n in 0..8
+        let(:n){n}
+        context 'n=%d' % n do
+          it{should be_within(1e-11).of(1.0/(2*n+1))}
+        end
+      end
+    end
+
     context 'n=0' do
       let(:n){0}
-
-      context 'r = 0' do
-        let(:r){0}
-        it{should be_within(1e-11).of(1)}
-      end
 
       context 'r -> +0' do
         let(:r){Float::EPSILON}
