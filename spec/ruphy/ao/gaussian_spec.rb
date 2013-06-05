@@ -340,18 +340,34 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
   end
 
   describe '#auxiliary_hermite_integral' do
-    let(:n){rand(4)}
-    let(:t){rand(4)}
-    let(:u){rand(4)}
-    let(:v){rand(4)}
+    let(:i){{:X => 0, :Y => 1, :Z => 2}}
     let(:pc){random_vector}
     let(:atom){mock(:atom)}
-    it 'should satisfy X directional recurrence relation' do
-      product.stub(:PC).with(atom).and_return(pc)
-      product.auxiliary_hermite_integral(t+1,u,v,n,atom).should be_within(1e-2).percent_of(
-            t * product.auxiliary_hermite_integral(t-1, u, v, n+1, atom) +
-        pc[0] * product.auxiliary_hermite_integral(t,   u, v, n+1, atom)
-      )
+
+    (0..2).to_a.repeated_permutation(4) do  |t1, u1, v1, n|
+      context do
+        let(:tuv1){[t1,u1,v1]}
+        for dir in [:X, :Y, :Z]
+          context '' % [t1, u1, v1, n] do
+            describe "#{dir} directonal recurrence relation" do
+              it 'is expected be satsfied on (t1=%d, u1=%d, v1=%d, n=%d)' % [t1, u1, v1, n] do
+                tuv2=tuv1.dup
+                tuv2[i[dir]]+=1
+                t2, u2, v2 = tuv2
+
+                tuv0=tuv1.dup
+                tuv0[i[dir]]-=1
+                t0, u0, v0 = tuv0
+                product.stub(:PC).with(atom).and_return(pc)
+                expect(          product.auxiliary_hermite_integral(t2, u2, v2, n,   atom)).to be_within(1e-2).percent_of(
+                  tuv1[i[dir]] * product.auxiliary_hermite_integral(t0, u0, v0, n+1, atom) +
+                    pc[i[dir]] * product.auxiliary_hermite_integral(t1, u1, v1, n+1, atom)
+                )
+              end
+            end
+          end
+        end
+      end
     end
   end
 end
