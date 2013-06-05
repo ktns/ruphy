@@ -152,7 +152,7 @@ module RuPHY
             if t < 0 or u < 0 or v < 0
               return 0
             elsif [t,u,v] == [0,0,0]
-              return -2 * p * F(p*PC(atom).r2,n)
+              return (-2*p)**n * F(p*PC(atom).r2,n)
             elsif [u,v] == [0,0]
               return PC(atom)[0] * R(t-1, u,   v,   n+1, atom) +
                            (t-1) * R(t-2, u,   v,   n+1, atom)
@@ -176,7 +176,7 @@ module RuPHY
               E(u,i(1),j(1),1) *
               E(v,i(2),j(2),2) *
               R(t,u,v,0,atom)
-            end * prefactor
+            end * prefactor * 2*PI / p
           end
         end
 

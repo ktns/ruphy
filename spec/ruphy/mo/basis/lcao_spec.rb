@@ -77,9 +77,7 @@ describe RuPHY::MO::Basis::LCAO do
       let(:operator){:core_hamiltonian}
       let(:correct_diagonal_value){-0.11209595e1}
       let(:correct_off_diagonal_value){-0.95937577}
-      pending do
-        it_should_behave_like "operator represented by basis"
-      end
+      it_should_behave_like "operator represented by basis"
     end
   end
 end
