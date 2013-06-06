@@ -43,6 +43,10 @@ module RuPHY
           e + a1.get_atomic_num * a2.get_atomic_num / r
         end
       end
+
+      def atoms
+        each_atom.to_a
+      end
     end
 
     class Atom < Delegator
