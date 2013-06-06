@@ -19,15 +19,16 @@ RSpec::Matchers.define :be_digested_as do |expected|
     @algorithm.reset << actual
     case expected.size
     when @algorithm.digest_length
-      @algorithm.digest == expected
+      @expected = expected.unpack('H*').join
     when @algorithm.digest_length * 2
-      @algorithm == expected
+      @expected = expected
     else
       raise 'Hash string lengths mismatched! (%d != %d)' % [expected.size, @algorithm.digest_length]
     end
+    @algorithm == @expected
   end
 
   failure_message_for_should do |actual|
-    "Digest mismatched using %s" % @algorithm.class
+    "expected: %s got: %s using %s" % [@expected, @algorithm.hexdigest, @algorithm.class]
   end
 end
