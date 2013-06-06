@@ -35,13 +35,16 @@ def random_vector
   return Vector[*3.times.map{rand()}]
 end
 
-def random_element
+def random_element range = 1..1000
   elements = RuPHY::Elements
   if elements.empty? 
     elements = RuPHY::Elements.class.new.extend(RuPHY::ElementData::PreDefined)
     elements.load_all
   end
-  elements.values.sample
+  begin 
+    random_element = elements.values.sample
+  end until range === random_element.z
+  return random_element
 end
 
 begin

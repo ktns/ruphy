@@ -15,25 +15,25 @@ describe "RuPHY::BasisSet::STO3G" do
     subject{described_class.shells(arg)}
 
     context "with #{RuPHY::Element}" do
-      let(:arg){random_element}
+      let(:arg){random_element(1..RuPHY::Elements[:I].z)}
       
       calling_it{should_not raise_error}
     end
 
     context "with #{RuPHY::Element}.z" do
-      let(:arg){random_element.z}
+      let(:arg){random_element(1..RuPHY::Elements[:I].z).z}
 
       calling_it{should_not raise_error}
     end
 
     context "with #{RuPHY::Element}.to_s" do
-      let(:arg){random_element.to_s}
+      let(:arg){random_element(1..RuPHY::Elements[:I].z).to_s}
 
       calling_it{should_not raise_error}
     end
 
     context "with #{RuPHY::Element}.to_sym" do
-      let(:arg){random_element.to_sym}
+      let(:arg){random_element(1..RuPHY::Elements[:I].z).to_sym}
 
       calling_it{should_not raise_error}
     end
