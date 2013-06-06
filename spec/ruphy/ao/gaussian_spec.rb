@@ -324,6 +324,16 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
     case_for(1, 1, 0){0.5/p}
 
     case_for(1, 0, 1){0.5/p}
+
+    case_for(0, 0, 2){pb*E(0,0,1)+E(1,0,1)}
+
+    case_for(0, 1, 2){pa*E(0,0,2)+E(1,0,2)}
+
+    case_for(2, 0, 2){E(1,0,1)/2/p}
+
+    case_for(1, 1, 2){E(0,0,2)/2/p+pa*E(1,0,2)+2*E(2,0,2)}
+
+    case_for(0, 2, 2){pa*E(0,1,2)+E(1,1,2)}
   end
 
   describe '#center' do
