@@ -19,7 +19,7 @@ module RuPHY
 
         class Hash < ::Hash
           def initialize
-            super do |e|
+            super do |hash,e|
               if RuPHY::Element === e or RuPHY::Elements[e]
                 raise ElementNotFoundError.new(e)
               else
