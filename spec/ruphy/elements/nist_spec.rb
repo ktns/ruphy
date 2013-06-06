@@ -12,7 +12,7 @@ if ENV['TEST_NIST']
     end
 
     subject do
-      {}.extend RuPHY::ElementsModule, described_class
+      RuPHY::Elements.class.new.extend described_class
     end
 
     describe '#get_elem_data' do
