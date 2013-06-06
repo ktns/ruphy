@@ -2,7 +2,8 @@ require 'spec_helper'
 require 'ruphy/basisset/STO3G'
 
 describe "RuPHY::BasisSet::STO3G" do
-  subject{RuPHY::BasisSet::STO3G}
+  let(:described_class){RuPHY::BasisSet::STO3G}
+  subject{described_class}
 
   it{should be_kind_of RuPHY::BasisSet::LCAO::Gaussian}
 
@@ -11,7 +12,7 @@ describe "RuPHY::BasisSet::STO3G" do
   it{should respond_to :shells}
 
   describe '#shells' do
-    def subject; super.shells(arg); end
+    subject{described_class.shells(arg)}
 
     context "with #{RuPHY::Element}" do
       let(:arg){random_element}
