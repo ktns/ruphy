@@ -88,7 +88,7 @@ module RuPHY
           end
 
           # E_t^{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
-          def hermitian_coeffs t, i, j, xyz
+          def hermitian_coeff_decomposed t, i, j, xyz
             if t > i + j or t < 0
               return 0.0
             elsif [t,i,j] == [0,0,0]
@@ -103,7 +103,15 @@ module RuPHY
                 (t+1) * E(t+1, i, j-1, xyz)
             end
           end
-          alias E hermitian_coeffs
+          alias E hermitian_coeff_decomposed
+
+          # E_{tuv}^{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def hermitian_coeff t, u, v
+              E(t,i(0),j(0),0) *
+              E(u,i(1),j(1),1) *
+              E(v,i(2),j(2),2)
+          end
+          alias Eab hermitian_coeff
 
           # i in K_{AB} * x_A^i x_B^j exp(-p*x_P)
           def i xyz
@@ -115,13 +123,26 @@ module RuPHY
             @primitive2.momenta[xyz]
           end
 
+          def each_tuv &block
+            unless block
+              return Enumerator.new(self, :each_tuv)
+            end
+            for t in 0..(i(0)+j(0))
+              for u in 0..(i(1)+j(1))
+                for v in 0..(i(2)+j(2))
+                  yield t,u,v
+                end
+              end
+            end
+          end
+
           def gauss3
             (PI/p)**1.5
           end
 
           # S_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def overlap_decomposed xyz
-            hermitian_coeffs(0,i(xyz),j(xyz),xyz)
+            hermitian_coeff_decomposed(0,i(xyz),j(xyz),xyz)
           end
 
           # S_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
@@ -168,14 +189,8 @@ module RuPHY
 
           # <G_a | r_C^{-1} | G_b>
           def nuclear_attraction_integral atom
-            [0, 1, 2].map do |xyz|
-              (0..(i(xyz)+j(xyz))).to_a
-            end.reduce(&:product).inject(0.0) do |vab, ((t,u),v)|
-              vab +
-              E(t,i(0),j(0),0) *
-              E(u,i(1),j(1),1) *
-              E(v,i(2),j(2),2) *
-              R(t,u,v,0,atom)
+            each_tuv.inject(0.0) do |vab, (t,u,v)|
+              vab + Eab(t, u, v)* R(t,u,v,0,atom)
             end * prefactor * 2*PI / p
           end
           alias V nuclear_attraction_integral

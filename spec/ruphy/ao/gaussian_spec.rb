@@ -264,7 +264,7 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
   let(:primitive2){mock_primitive(:primitive2)}
   let(:product){described_class.new(primitive1,primitive2)}
 
-  describe '#hermitian_coeffs' do
+  describe '#hermitian_coeff_decomposed' do
     let(:xyz){mock(:xyz)}
     let(:p){rand()};
     let(:pa){rand()}; let(:pb){rand()}
@@ -276,7 +276,7 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
         product.stub(:p).with().and_return(p)
         product.stub(:pa).with().and_return(mock_vector(pa,:pa,xyz))
         product.stub(:pb).with().and_return(mock_vector(pb,:pb,xyz))
-        product.hermitian_coeffs(t,i,j,xyz)
+        product.hermitian_coeff_decomposed(t,i,j,xyz)
       end
 
       context 'with t=%d, i=%d, j=%d' % [t,i,j] do
