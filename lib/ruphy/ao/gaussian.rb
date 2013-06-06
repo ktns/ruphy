@@ -178,6 +178,8 @@ module RuPHY
               R(t,u,v,0,atom)
             end * prefactor * 2*PI / p
           end
+          alias V nuclear_attraction_integral
+
         end
 
         def normalization_factor
