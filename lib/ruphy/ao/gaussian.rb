@@ -168,21 +168,21 @@ module RuPHY
             end * gauss3 * prefactor
           end
 
-          # R_{tuv}^{n} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
-          def auxiliary_hermite_integral t,u,v,n,atom
+          # R_{tuv}^{n}(p, R) in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def auxiliary_hermite_integral t,u,v,n,p,r
             if t < 0 or u < 0 or v < 0
               return 0
             elsif [t,u,v] == [0,0,0]
-              return (-2*p)**n * F(p*PC(atom).r2,n)
+              return (-2*p)**n * F(p*r.r2,n)
             elsif [u,v] == [0,0]
-              return PC(atom)[0] * R(t-1, u,   v,   n+1, atom) +
-                           (t-1) * R(t-2, u,   v,   n+1, atom)
+              return r[0] * R(t-1, u,   v,   n+1, p, r) +
+                    (t-1) * R(t-2, u,   v,   n+1, p, r)
             elsif v == 0
-              return PC(atom)[1] * R(t,   u-1, v,   n+1, atom) +
-                           (u-1) * R(t,   u-2, v,   n+1, atom)
+              return r[1] * R(t,   u-1, v,   n+1, p, r) +
+                    (u-1) * R(t,   u-2, v,   n+1, p, r)
             else
-              return PC(atom)[2] * R(t,   u,   v-1, n+1, atom) +
-                           (v-1) * R(t,   u,   v-2, n+1, atom)
+              return r[2] * R(t,   u,   v-1, n+1, p, r) +
+                    (v-1) * R(t,   u,   v-2, n+1, p, r)
             end
           end
           alias R auxiliary_hermite_integral
@@ -190,7 +190,7 @@ module RuPHY
           # <G_a | r_C^{-1} | G_b>
           def nuclear_attraction_integral atom
             each_tuv.inject(0.0) do |vab, (t,u,v)|
-              vab + Eab(t, u, v)* R(t,u,v,0,atom)
+              vab + Eab(t, u, v)* R(t,u,v,0,p,PC(atom))
             end * prefactor * 2*PI / p
           end
           alias V nuclear_attraction_integral

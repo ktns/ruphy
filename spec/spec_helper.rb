@@ -14,6 +14,10 @@ RSpec.configure do |config|
 
 end
 
+def random_positive
+  - Math::log(rand())
+end
+
 def random_complex
   rand() + Complex::I * rand()
 end

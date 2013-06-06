@@ -341,8 +341,8 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
 
   describe '#auxiliary_hermite_integral' do
     let(:i){{:X => 0, :Y => 1, :Z => 2}}
-    let(:pc){random_vector}
-    let(:atom){mock(:atom)}
+    let(:r){random_vector}
+    let(:p){random_positive()}
 
     (0..2).to_a.repeated_permutation(4) do  |t1, u1, v1, n|
       context do
@@ -358,10 +358,9 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
                 tuv0=tuv1.dup
                 tuv0[i[dir]]-=1
                 t0, u0, v0 = tuv0
-                product.stub(:PC).with(atom).and_return(pc)
-                expect(          product.auxiliary_hermite_integral(t2, u2, v2, n,   atom)).to be_within(1e-2).percent_of(
-                  tuv1[i[dir]] * product.auxiliary_hermite_integral(t0, u0, v0, n+1, atom) +
-                    pc[i[dir]] * product.auxiliary_hermite_integral(t1, u1, v1, n+1, atom)
+                expect(          product.auxiliary_hermite_integral(t2, u2, v2, n,   p, r)).to be_within(1e-2).percent_of(
+                  tuv1[i[dir]] * product.auxiliary_hermite_integral(t0, u0, v0, n+1, p, r) +
+                     r[i[dir]] * product.auxiliary_hermite_integral(t1, u1, v1, n+1, p, r)
                 )
               end
             end
