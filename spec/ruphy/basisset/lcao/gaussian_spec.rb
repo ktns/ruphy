@@ -10,12 +10,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian do
 
     describe "#shells" do
       context "with H atom" do
-        let(:obatomH){mock(:obatomH)}
-        let(:atom) do
-          obatomH.stub(:get_atomic_num).and_return(1)
-          RuPHY::Geometry::Atom.new(obatomH)
-        end
-
+        let(:atom){dummy_atom(0,0,0,1)}
         def subject
           super.shells(atom)
         end
