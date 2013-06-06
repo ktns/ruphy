@@ -264,7 +264,7 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
   let(:primitive2){mock_primitive(:primitive2)}
   let(:product){described_class.new(primitive1,primitive2)}
 
-  describe '#hermitian_coeffs' do
+  describe '#hermitian_coeff_decomposed' do
     let(:xyz){mock(:xyz)}
     let(:p){rand()};
     let(:pa){rand()}; let(:pb){rand()}
@@ -276,7 +276,7 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
         product.stub(:p).with().and_return(p)
         product.stub(:pa).with().and_return(mock_vector(pa,:pa,xyz))
         product.stub(:pb).with().and_return(mock_vector(pb,:pb,xyz))
-        product.hermitian_coeffs(t,i,j,xyz)
+        product.hermitian_coeff_decomposed(t,i,j,xyz)
       end
 
       context 'with t=%d, i=%d, j=%d' % [t,i,j] do
@@ -324,6 +324,16 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
     case_for(1, 1, 0){0.5/p}
 
     case_for(1, 0, 1){0.5/p}
+
+    case_for(0, 0, 2){pb*E(0,0,1)+E(1,0,1)}
+
+    case_for(0, 1, 2){pa*E(0,0,2)+E(1,0,2)}
+
+    case_for(2, 0, 2){E(1,0,1)/2/p}
+
+    case_for(1, 1, 2){E(0,0,2)/2/p+pa*E(1,0,2)+2*E(2,0,2)}
+
+    case_for(0, 2, 2){pa*E(0,1,2)+E(1,1,2)}
   end
 
   describe '#center' do
@@ -337,6 +347,37 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
     end
 
     it{should == (center1 * primitive1.zeta + center2 * primitive2.zeta) / (primitive1.zeta + primitive2.zeta)}
+  end
+
+  describe '#auxiliary_hermite_integral' do
+    let(:i){{:X => 0, :Y => 1, :Z => 2}}
+    let(:r){random_vector}
+    let(:p){random_positive()}
+
+    (0..2).to_a.repeated_permutation(4) do  |t1, u1, v1, n|
+      context do
+        let(:tuv1){[t1,u1,v1]}
+        for dir in [:X, :Y, :Z]
+          context '' % [t1, u1, v1, n] do
+            describe "#{dir} directonal recurrence relation" do
+              it 'is expected be satsfied on (t1=%d, u1=%d, v1=%d, n=%d)' % [t1, u1, v1, n] do
+                tuv2=tuv1.dup
+                tuv2[i[dir]]+=1
+                t2, u2, v2 = tuv2
+
+                tuv0=tuv1.dup
+                tuv0[i[dir]]-=1
+                t0, u0, v0 = tuv0
+                expect(          product.auxiliary_hermite_integral(t2, u2, v2, n,   p, r)).to be_within(1e-2).percent_of(
+                  tuv1[i[dir]] * product.auxiliary_hermite_integral(t0, u0, v0, n+1, p, r) +
+                     r[i[dir]] * product.auxiliary_hermite_integral(t1, u1, v1, n+1, p, r)
+                )
+              end
+            end
+          end
+        end
+      end
+    end
   end
 end
 

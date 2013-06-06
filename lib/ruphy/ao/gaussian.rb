@@ -82,8 +82,13 @@ module RuPHY
             center - @primitive2.center
           end
 
+          # PC in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def PC atom
+            center - atom.vector
+          end
+
           # E_t^{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
-          def hermitian_coeffs t, i, j, xyz
+          def hermitian_coeff_decomposed t, i, j, xyz
             if t > i + j or t < 0
               return 0.0
             elsif [t,i,j] == [0,0,0]
@@ -98,7 +103,15 @@ module RuPHY
                 (t+1) * E(t+1, i, j-1, xyz)
             end
           end
-          alias E hermitian_coeffs
+          alias E hermitian_coeff_decomposed
+
+          # E_{tuv}^{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def hermitian_coeff t, u, v
+              E(t,i(0),j(0),0) *
+              E(u,i(1),j(1),1) *
+              E(v,i(2),j(2),2)
+          end
+          alias Eab hermitian_coeff
 
           # i in K_{AB} * x_A^i x_B^j exp(-p*x_P)
           def i xyz
@@ -110,16 +123,33 @@ module RuPHY
             @primitive2.momenta[xyz]
           end
 
+          def each_tuv &block
+            unless block
+              return Enumerator.new(self, :each_tuv)
+            end
+            for t in 0..(i(0)+j(0))
+              for u in 0..(i(1)+j(1))
+                for v in 0..(i(2)+j(2))
+                  yield t,u,v
+                end
+              end
+            end
+          end
+
+          def gauss3
+            (PI/p)**1.5
+          end
+
           # S_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def overlap_decomposed xyz
-            hermitian_coeffs(0,i(xyz),j(xyz),xyz)
+            hermitian_coeff_decomposed(0,i(xyz),j(xyz),xyz)
           end
 
           # S_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def overlap_integral
             [0,1,2].inject(1) do |sab,i|
               sab * overlap_decomposed(i)
-            end * (PI/p)**1.5 * prefactor
+            end * gauss3 * prefactor
           end
 
           # T_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
@@ -135,7 +165,48 @@ module RuPHY
               ([0, 1, 2]-[i]).inject(kinetic_decomposed(i)) do |tij, j|
                 tij * overlap_decomposed(j)
               end + tab
-            end * (PI/p)**1.5 * prefactor
+            end * gauss3 * prefactor
+          end
+
+          # R_{tuv}^{n}(p, R) in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          def auxiliary_hermite_integral t,u,v,n,p,r
+            if t < 0 or u < 0 or v < 0
+              return 0
+            elsif [t,u,v] == [0,0,0]
+              return (-2*p)**n * F(p*r.r2,n)
+            elsif [u,v] == [0,0]
+              return r[0] * R(t-1, u,   v,   n+1, p, r) +
+                    (t-1) * R(t-2, u,   v,   n+1, p, r)
+            elsif v == 0
+              return r[1] * R(t,   u-1, v,   n+1, p, r) +
+                    (u-1) * R(t,   u-2, v,   n+1, p, r)
+            else
+              return r[2] * R(t,   u,   v-1, n+1, p, r) +
+                    (v-1) * R(t,   u,   v-2, n+1, p, r)
+            end
+          end
+          alias R auxiliary_hermite_integral
+
+          # <G_a | r_C^{-1} | G_b>
+          def nuclear_attraction_integral atom
+            each_tuv.inject(0.0) do |vab, (t,u,v)|
+              vab + Eab(t, u, v)* R(t,u,v,0,p,PC(atom))
+            end * prefactor * 2*PI / p
+          end
+          alias V nuclear_attraction_integral
+
+          #< G_a(r_1) G_b(r_1) | r_{12}^{-1} | G_c(r_2) G_d(r_2) >
+          def electron_repulsion_integral other
+            p  = self.p
+            q  = other.p
+            pq = center - other.center
+            a  = p*q/(p+q)
+            prefactor = 2*PI** 2.5/p/q/sqrt(p+q)
+            each_tuv.inject(0.0) do |gabcd, (t1,u1,v1)|
+              other.each_tuv.inject(0.0) do |gcd, (t2,u2,v2)|
+                (-1)**(t2+u2+v2) * R(t1+t2,u1+u2,v1+v2,0, a, r) + gcd
+              end + gabcd
+            end * prefactor
           end
         end
 
@@ -163,6 +234,14 @@ module RuPHY
 
         def kinetic o
           kinetic_raw(o) * normalization_factor * o.normalization_factor
+        end
+
+        def nuclear_attraction_raw other, atom
+          (self*other).nuclear_attraction_integral(atom)
+        end
+
+        def nuclear_attraction other, atom
+          nuclear_attraction_raw(other, atom) * normalization_factor * other.normalization_factor
         end
       end
 
@@ -225,7 +304,27 @@ module RuPHY
             raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
           end
         end
+
+        def nuclear_attraction other, atom
+          nuclear_attraction_raw(other, atom) * normalization_factor * other.normalization_factor
+        end
+
+        def nuclear_attraction_raw other, atom
+          case other
+          when Primitive
+            @primitives.inject(0) do |s, (c, primitive)|
+              other.nuclear_attraction(primitive, atom) * c + s
+            end
+          when Contracted
+            @primitives.inject(0) do |s, (c, primitive)|
+              other.nuclear_attraction_raw(primitive, atom) * c + s
+            end
+          else
+            raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
+          end
+        end
       end
+
     end
   end
 end
