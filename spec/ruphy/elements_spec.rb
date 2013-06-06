@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe RuPHY::ElementsModule do
+describe RuPHY::ElementsClass do
   subject do
-    {}.extend described_class, RuPHY::ElementData::PreDefined
+    described_class.new.extend RuPHY::ElementData::PreDefined
   end
 
   describe '#[]' do

@@ -2,9 +2,7 @@ require 'ruphy/element'
 require 'ruphy/elements/predefined'
 
 module RuPHY
-  Elements = {}
-
-  module ElementsModule
+  class ElementsClass < Hash
     def [] key
       if key? key
         super
@@ -47,5 +45,5 @@ module RuPHY
 
   end
 
-  Elements.extend(ElementsModule).extend(ElementData::PreDefined)
+  Elements = ElementsClass.new.extend(ElementData::PreDefined)
 end

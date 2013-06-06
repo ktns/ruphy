@@ -36,8 +36,11 @@ def random_vector
 end
 
 def random_element
-  elements = RuPHY::Elements.clone
-  elements.empty? and elements.load_all
+  elements = RuPHY::Elements
+  if elements.empty? 
+    elements = RuPHY::Elements.class.new.extend(RuPHY::ElementData::PreDefined)
+    elements.load_all
+  end
   elements.values.sample
 end
 
