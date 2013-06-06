@@ -195,6 +195,19 @@ module RuPHY
           end
           alias V nuclear_attraction_integral
 
+          #< G_a(r_1) G_b(r_1) | r_{12}^{-1} | G_c(r_2) G_d(r_2) >
+          def electron_repulsion_integral other
+            p  = self.p
+            q  = other.p
+            pq = center - other.center
+            a  = p*q/(p+q)
+            prefactor = 2*PI** 2.5/p/q/sqrt(p+q)
+            each_tuv.inject(0.0) do |gabcd, (t1,u1,v1)|
+              other.each_tuv.inject(0.0) do |gcd, (t2,u2,v2)|
+                (-1)**(t2+u2+v2) * R(t1+t2,u1+u2,v1+v2,0, a, r) + gcd
+              end + gabcd
+            end * prefactor
+          end
         end
 
         def normalization_factor
