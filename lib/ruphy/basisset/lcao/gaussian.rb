@@ -4,7 +4,8 @@ require 'ruphy/basisset/lcao/gaussian/shell'
 module RuPHY
   module BasisSet
     module LCAO
-      class Gaussian < BasisSet::Base
+      class Gaussian
+        include BasisSet
         class InvalidElementError < ArgumentError
           def initialize e
             super 'Invalid Element `%p\'!' % e

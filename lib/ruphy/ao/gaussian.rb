@@ -1,11 +1,10 @@
 module RuPHY
-  class AO
-    class Gaussian < AO
-      def initialize *args
-        raise NotImplementedError
-      end
+  module AO
+    module Gaussian
+      include AO
 
-      class Primitive < AO
+      class Primitive
+        include Gaussian
         public_class_method :new
 
         def initialize zeta, momenta, center
@@ -245,9 +244,8 @@ module RuPHY
         end
       end
 
-      class Contracted < AO
-        public_class_method :new
-
+      class Contracted
+        include Gaussian
         def initialize coeffs, zetas, momenta, center
           begin
             @primitives=[coeffs,zetas].transpose.map do |c,zeta|

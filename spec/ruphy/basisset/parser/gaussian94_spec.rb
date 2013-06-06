@@ -105,7 +105,7 @@ EOF
 
       calling_it{should_not raise_error}
 
-      it{should return_a RuPHY::BasisSet::Base}
+      it{should return_a RuPHY::BasisSet}
 
       its(:elements){should include RuPHY::Elements[:H]}
 

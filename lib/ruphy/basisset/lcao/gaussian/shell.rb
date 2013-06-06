@@ -1,7 +1,8 @@
 module RuPHY
   module BasisSet
     module LCAO
-      class Gaussian < BasisSet::Base
+      class Gaussian
+        include BasisSet
         class Shell
           CartAngularMomentumBasis =
             [Vector[1,0,0], Vector[0,1,0], Vector[0,0,1]].each(&:freeze).freeze

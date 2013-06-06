@@ -1,7 +1,8 @@
 module RuPHY
-  class MO
-    class Basis
-      class LCAO < Basis
+  module MO
+    module Basis
+      class LCAO
+        include Basis
         def initialize geometry, basisset
           @geometry = geometry
           @shells = geometry.each_atom.each_with_object({}) do |atom, shells|
