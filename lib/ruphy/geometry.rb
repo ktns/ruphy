@@ -44,6 +44,12 @@ module RuPHY
         end
       end
 
+      def total_nuclear_charge
+        each_atom.inject(0) do |charge, atom|
+          charge + atom.get_atomic_num
+        end
+      end
+
       def atoms
         each_atom.to_a
       end

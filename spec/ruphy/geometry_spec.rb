@@ -27,6 +27,8 @@ describe RuPHY::Geometry::Molecule do
       its(:nuclear_replusion_energy){should be_within(1e-5).of(9.24861786)}
 
       it{should have(3).atoms}
+
+      its(:total_nuclear_charge){should == 10}
     end
 
     context 'string' do
