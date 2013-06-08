@@ -1,5 +1,6 @@
 require 'ruphy/ao/gaussian'
 require 'ruphy/basisset/lcao/gaussian/shell'
+require 'ruphy/mo/basis/lcao'
 
 module RuPHY
   module BasisSet
@@ -99,6 +100,11 @@ module RuPHY
           else
             raise TypeError, "expected #{Geometry::Atom}, #{Element} or #{Symbol}, but #{arg.class}"
           end
+        end
+
+        def span opts
+          geometry = opts[:geometry]
+          RuPHY::MO::Basis::LCAO.new(geometry, self)
         end
       end
     end

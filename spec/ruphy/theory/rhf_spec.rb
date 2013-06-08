@@ -15,7 +15,7 @@ describe RuPHY::Theory::RHF::MO do
     context "with #{::TestMol} and #{RuPHY::BasisSet::STO3G}" do
       let(:arg){[::TestMol, RuPHY::BasisSet::STO3G]}
 
-      creating_it{pending{should_not raise_error}}
+      creating_it{should_not raise_error}
     end
   end
 end
