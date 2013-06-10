@@ -30,6 +30,21 @@ module RuPHY
 
         attr_reader :n, :geometry, :basis, :vectors, :energies
         alias number_of_electrons n
+
+        # Calculate density matrix from MO vectors and number of electrons
+        def density_matrix
+          raise VectorNotCalculatedError.new(self) unless vectors
+          # assume vectors are sorted by energy level in ascending order
+          vectors.transpose *
+            Matrix.diagonal(*[2]*(n/2)+[0]*(vectors.column_size-n/2)) *
+            vectors
+        end
+
+        class VectorNotCalculatedError < Exception
+          def initialize mo
+            "%p has no MO vector yet!" % mo
+          end
+        end
       end
 
       class Solver
