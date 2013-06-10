@@ -23,7 +23,13 @@ module RuPHY
           else
             @basis = basis.span(:geometry => geometry, :number_of_electrons => @n)
           end
+          @basis.freeze
+          @vectors = nil
+          @energies = nil
         end
+
+        attr_reader :n, :geometry, :basis, :vectors, :energies
+        alias number_of_electrons n
       end
 
       class Solver
