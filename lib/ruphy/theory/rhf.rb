@@ -3,8 +3,25 @@ require 'ruphy/mo/basis'
 module RuPHY
   module Theory
     module RHF
+
+      # Returns energies:Array and MO vectors:Matrix
+      def solve_roothaan_equation fock, overlap
+        raise ArgumentError, 'Fock matrix is not a hermitian matrix!' unless fock.hermitian?
+        raise ArgumentError, 'Overlap matrix is not a hermitian matrix!' unless overlap.hermitian?
+        _, energies_matrix, vectors = *(overlap**-0.5*fock*overlap**-0.5).eigensystem
+        energies = energies_matrix.each(:diagonal).to_a
+        vectors = Matrix[*(0...vectors.column_size).sort_by do |i|
+          energies[i]
+        end.map do |i|
+          vectors.row(i)
+        end]
+        vectors*=overlap**-0.5
+        return [energies.sort, vectors]
+      end
+
       class MO
         include RuPHY::MO
+        include RHF
 
         def setup_number_of_electrons geometry, opts = {}
           @n = opts.fetch(:number_of_electrons) do
@@ -38,6 +55,10 @@ module RuPHY
           vectors.transpose *
             Matrix.diagonal(*[2]*(n/2)+[0]*(vectors.column_size-n/2)) *
             vectors
+        end
+
+        def fock_matrix= fock
+          @energies, @vectors = *solve_roothaan_equation(fock, basis.overlap)
         end
 
         class VectorNotCalculatedError < Exception
