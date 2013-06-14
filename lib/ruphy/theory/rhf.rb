@@ -74,6 +74,8 @@ module RuPHY
           end
         end
 
+        # Solve Roothaan-Hall equation for the given Fock matrix and the ovelap matrix,
+        # and update energy eigenvalues and MO vectors
         def fock_matrix= fock
           @energies, @vectors = *solve_roothaan_equation(fock, basis.overlap)
         end
