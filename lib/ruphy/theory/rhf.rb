@@ -48,6 +48,16 @@ module RuPHY
         attr_reader :n, :geometry, :basis, :vectors, :energies
         alias number_of_electrons n
 
+        # Return overlap matrix of the basis functions
+        def overlap
+          basis.overlap
+        end
+
+        # Return core Hamiltonian matrix calculated from basis functions
+        def core_hamiltonian
+          basis.core_hamiltonian
+        end
+
         # Calculate density matrix from MO vectors and number of electrons
         def density_matrix
           raise VectorNotCalculatedError.new(self) unless vectors
@@ -55,6 +65,13 @@ module RuPHY
           vectors.transpose *
             Matrix.diagonal(*[2]*(n/2)+[0]*(vectors.column_size-n/2)) *
             vectors
+        end
+
+        # Calculate Mulliken population matrix from the density matrix and the overlap matrix
+        def mulliken_matrix
+          Matrix.build(overlap.column_size) do |i,j|
+            density_matrix[i,j] * overlap[i,j]
+          end
         end
 
         def fock_matrix= fock

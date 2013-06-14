@@ -72,6 +72,23 @@ describe RuPHY::Theory::RHF::MO do
           mo.fock_matrix = fock
         end
       end
+
+      context 'and without MO calculated' do
+        describe '#mulliken_matrix' do
+          subject{mo.mulliken_matrix}
+          calling_it{should raise_error described_class::VectorNotCalculatedError}
+        end
+      end
+
+      context 'and with MO calculated' do
+        describe '#mulliken_matrix' do
+          subject{mo.fock_matrix=mo.core_hamiltonian; mo.mulliken_matrix}
+
+          it 'should be summed up to number_of_electrons' do
+            subject.each.reduce(:+).should be_within(1e-8).of(mo.number_of_electrons)
+          end
+        end
+      end
     end
   end
 end
