@@ -9,10 +9,24 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
+    ZenTest (4.9.1)
     archive-tar-minitar (0.5.2)
+    autotest (4.4.6)
+      ZenTest (>= 4.4.1)
+    autotest-growl (0.2.16)
+    autotest-inotify (0.0.6)
+      autotest (>= 4.2.4)
+      rb-inotify
+    autotest-tmux (1.4.0)
+      autotest
+      autotest (>= 4.4.1)
+      jeweler
+      rake
+      rspec (>= 2.0.0)
     backports (2.6.7)
     columnize (0.3.6)
     diff-lcs (1.2.4)
+    ffi (1.8.1)
     git (1.2.5)
     jeweler (1.8.4)
       bundler (~> 1.0)
@@ -28,6 +42,8 @@ GEM
     openbabel (2.3.1.8)
     racc (1.4.9)
     rake (10.0.4)
+    rb-inotify (0.9.0)
+      ffi (>= 0.5.0)
     rbx-require-relative (0.0.9)
     rcov (1.0.0)
     rdoc (4.0.1)
@@ -62,6 +78,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ZenTest
+  autotest-growl
+  autotest-inotify
+  autotest-tmux
   backports (~> 2.6.5)
   bundler (~> 1.3.5)
   jeweler (~> 1.8.4)

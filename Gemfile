@@ -28,3 +28,25 @@ group :debug do
   gem 'ruby-debug', :platform => :ruby_18
   gem 'ruby-debug19', :platform => :ruby_19
 end
+
+group :autotest do
+  gem 'ZenTest'
+end
+
+group :autotest_inotify do
+  gem 'autotest-inotify'
+end
+
+group :autotest_tmux do
+  gem 'autotest-tmux'
+end
+
+if RUBY_PLATFORM =~ /darwin/
+  group :autotest_fsevents do
+    gem 'autotest-fsevents'
+  end
+end
+
+group :autotest_growl do
+  gem 'autotest-growl'
+end
