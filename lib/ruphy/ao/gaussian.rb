@@ -363,7 +363,6 @@ module RuPHY
           (self*other).nuclear_attraction(atom)
         end
       end
-
     end
   end
 end
