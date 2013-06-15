@@ -16,6 +16,15 @@ module RuPHY
           @shells.values.flatten
         end
 
+        # Return total number of the atomic orbital functions
+        def size
+          shells.inject(0) do |size, shell|
+            size + shell.aos.size
+          end
+        end
+        alias m size
+        alias dimension size
+
         def aos
           shells.flat_map do |shell|
             shell.aos

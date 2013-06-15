@@ -48,6 +48,12 @@ module RuPHY
         attr_reader :n, :geometry, :basis, :vectors, :energies
         alias number_of_electrons n
 
+        # Return the number of the basis function set
+        def size_of_basis
+          basis.size
+        end
+        alias m size_of_basis
+
         # Return overlap matrix of the basis functions
         def overlap
           basis.overlap
@@ -69,7 +75,7 @@ module RuPHY
 
         # Calculate Mulliken population matrix from the density matrix and the overlap matrix
         def mulliken_matrix
-          Matrix.build(overlap.column_size) do |i,j|
+          Matrix.build(size_of_basis) do |i,j|
             density_matrix[i,j] * overlap[i,j]
           end
         end
