@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+def random_primitive
+  RuPHY::AO::Gaussian::Primitive.new(rand(),Array.new(3){rand(2)},random_vector)
+end
+
 describe RuPHY::AO::Gaussian do
 
 end
@@ -407,6 +411,45 @@ describe RuPHY::AO::Gaussian::Contracted do
       let(:other){contracted}
 
       it{should be_a Float}
+    end
+  end
+end
+
+# specs for * method
+describe RuPHY::AO::Gaussian::Primitive do
+  describe '*' do
+    let(:primitive1){random_primitive}
+    context RuPHY::AO::Gaussian::Primitive do
+      let(:primitive2){random_primitive}
+      it 'should be a ' + RuPHY::AO::Gaussian::Primitive::PrimitiveProduct.to_s do
+        expect(primitive1*primitive2).to be_a RuPHY::AO::Gaussian::Primitive::PrimitiveProduct
+      end
+    end
+
+    context RuPHY::AO::Gaussian::Contracted do
+      let(:contracted2){RuPHY::AO::Gaussian::Contracted::PrimitiveDummy.new(random_primitive)}
+      it 'should be a ' + RuPHY::AO::Gaussian::Contracted::Product.to_s do
+        expect(primitive1*contracted2).to be_a RuPHY::AO::Gaussian::Contracted::Product
+      end
+    end
+  end
+end
+
+describe RuPHY::AO::Gaussian::Contracted do
+  describe '*' do
+    let(:contracted1){RuPHY::AO::Gaussian::Contracted::PrimitiveDummy.new(random_primitive)}
+    context RuPHY::AO::Gaussian::Primitive do
+      let(:primitive2){random_primitive}
+      it 'should be a ' + RuPHY::AO::Gaussian::Contracted::Product.to_s do
+        expect(contracted1*primitive2).to be_a RuPHY::AO::Gaussian::Contracted::Product
+      end
+    end
+
+    context RuPHY::AO::Gaussian::Contracted do
+      let(:contracted2){RuPHY::AO::Gaussian::Contracted::PrimitiveDummy.new(random_primitive)}
+      it 'should be a ' + RuPHY::AO::Gaussian::Contracted::Product.to_s do
+        expect(contracted1*contracted2).to be_a RuPHY::AO::Gaussian::Contracted::Product
+      end
     end
   end
 end

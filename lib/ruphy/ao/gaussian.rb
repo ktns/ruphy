@@ -216,7 +216,17 @@ module RuPHY
         @@products = {}
 
         def * other
-          @@products[[self,other]] ||= PrimitiveProduct.new(self,other)
+          case other
+          when Primitive
+            return @@products[[self,other]] ||= PrimitiveProduct.new(self,other)
+          else
+            begin
+            a,b = other.coerce(self)
+            rescue NoMethodError, RuntimeError
+              raise TypeError, "#{other.class} cannot be coerced into #{self.class}"
+            end
+            return a*b
+          end
         end
 
         def overlap o
@@ -242,6 +252,11 @@ module RuPHY
         def nuclear_attraction other, atom
           nuclear_attraction_raw(other, atom) * normalization_factor * other.normalization_factor
         end
+
+        # Enumerate self with pseudo coefficient 1
+        def each_primitives &block
+          [[1, self]].each &block
+        end
       end
 
       class Contracted
@@ -258,6 +273,44 @@ module RuPHY
             else
               raise $!
             end
+          end
+        end
+
+        # Enumerate primitives and coefficients
+        def each_primitives &block
+          @primitives.each &block
+        end
+
+        @@products = {}
+
+        def * other
+          @@products[[self,other]] ||= Product.new(self, other)
+        end
+
+        class Product
+          def initialize g1, g2
+            @g1, @g2 = g1, g2
+            n = g1.normalization_factor*g2.normalization_factor
+            @primitive_products = g1.each_primitives.flat_map do |c1, p1|
+              g2.each_primitives.map do |c2, p2|
+                next n*c1*c2, p1 * p2
+              end
+            end
+          end
+        end
+
+        def coerce other
+          case other
+          when Primitive
+            [PrimitiveDummy.new(other), self]
+          else
+            raise TypeError "#{other.class} cannot coerced into #{self.class}"
+          end
+        end
+
+        class PrimitiveDummy < Contracted
+          def initialize primitive
+            @primitives = [[1, primitive]]
           end
         end
 
