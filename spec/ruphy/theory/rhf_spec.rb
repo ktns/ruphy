@@ -43,7 +43,7 @@ describe RuPHY::Theory::RHF do
     end
 
     context 'with non-identity as overlap' do
-      let(:overlap){o=Matrix.build(2){rand()}; o+o.transpose+Matrix::identity(2)}
+      let(:overlap){o=Matrix.build(2){rand()}; o+o.transpose+Matrix::identity(2)*2}
 
       it 'should yield vectors diagonal with overlap as metric' do
         _, subject = solved
