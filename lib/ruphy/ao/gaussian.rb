@@ -293,9 +293,27 @@ module RuPHY
             n = g1.normalization_factor*g2.normalization_factor
             @primitive_products = g1.each_primitives.flat_map do |c1, p1|
               g2.each_primitives.map do |c2, p2|
-                next n*c1*c2, p1 * p2
+                next n * c1 * c2 * p1.normalization_factor * p2.normalization_factor, p1 * p2
               end
             end
+          end
+
+          def sum_up method, *args
+            @primitive_products.inject(0) do |sum, (c, p)|
+              sum + c * p.send(method, *args)
+            end
+          end
+
+          def overlap
+            sum_up :overlap_integral
+          end
+
+          def kinetic
+            sum_up :kinetic_integral
+          end
+
+          def nuclear_attraction atom
+            sum_up :nuclear_attraction_integral, atom
           end
         end
 
@@ -315,64 +333,23 @@ module RuPHY
         end
 
         def normalization_factor
-          @normalization_factor ||= overlap_raw(self)**-0.5
+          @normalization_factor ||= @primitives.inject(0) do |n, (c1, p1)|
+            @primitives.inject(n) do |n, (c2, p2)|
+            n + c1 * c2 * p1.overlap(p2)
+          end
+          end ** -0.5
         end
 
         def overlap other
-          overlap_raw(other) * normalization_factor * other.normalization_factor
-        end
-
-        def overlap_raw other
-          case other
-          when Primitive
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.overlap(primitive) * c + s
-            end
-          when Contracted
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.overlap_raw(primitive) * c + s
-            end
-          else
-            raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
-          end
+          (self*other).overlap
         end
 
         def kinetic other
-          kinetic_raw(other) * normalization_factor * other.normalization_factor
-        end
-
-        def kinetic_raw other
-          case other
-          when Primitive
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.kinetic(primitive) * c + s
-            end
-          when Contracted
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.kinetic_raw(primitive) * c + s
-            end
-          else
-            raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
-          end
+          (self*other).kinetic
         end
 
         def nuclear_attraction other, atom
-          nuclear_attraction_raw(other, atom) * normalization_factor * other.normalization_factor
-        end
-
-        def nuclear_attraction_raw other, atom
-          case other
-          when Primitive
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.nuclear_attraction(primitive, atom) * c + s
-            end
-          when Contracted
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.nuclear_attraction_raw(primitive, atom) * c + s
-            end
-          else
-            raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
-          end
+          (self*other).nuclear_attraction(atom)
         end
       end
 
