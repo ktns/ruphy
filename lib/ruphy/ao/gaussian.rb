@@ -303,6 +303,7 @@ module RuPHY
               sum + c * p.send(method, *args)
             end
           end
+          protected :sum_up
 
           def overlap
             sum_up :overlap_integral
@@ -314,6 +315,12 @@ module RuPHY
 
           def nuclear_attraction atom
             sum_up :nuclear_attraction_integral, atom
+          end
+
+          def electron_repulsion other
+            @primitive_products.inject(0) do |sum, (c, p)|
+              sum + c * other.sum_up(:electron_repulsion_integral, p)
+            end
           end
         end
 
