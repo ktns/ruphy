@@ -73,6 +73,17 @@ describe RuPHY::Theory::RHF::MO do
         end
       end
 
+      describe '#density_matrix=' do
+        let(:density_matrix){Matrix::build(2){0.60245569e+00}}
+        let(:fock_matrix){Matrix::build(2){|i,j| i==j ? -0.36602603e+00 : -0.59429997e+00 }}
+        it 'should yield correct solution' do
+          pending{
+            mo.density_matrix = density_matrix
+            mo.fock_matrix.should be_within(1e-10).of(fock_matrix)
+          }
+        end
+      end
+
       context 'and without MO calculated' do
         describe '#mulliken_matrix' do
           subject{mo.mulliken_matrix}
