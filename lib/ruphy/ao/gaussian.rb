@@ -200,11 +200,15 @@ module RuPHY
             q  = other.p
             pq = center - other.center
             a  = p*q/(p+q)
-            prefactor = 2*PI** 2.5/p/q/sqrt(p+q)
+            prefactor = 2*PI**2.5/p/q/sqrt(p+q) * self.prefactor * other.prefactor
             each_tuv.inject(0.0) do |gabcd, (t1,u1,v1)|
-              other.each_tuv.inject(0.0) do |gcd, (t2,u2,v2)|
-                (-1)**(t2+u2+v2) * R(t1+t2,u1+u2,v1+v2,0, a, r) + gcd
-              end + gabcd
+              Eab(t1,u1,v1) *
+              other.each_tuv.inject(gabcd) do |gcd, (t2,u2,v2)|
+                gcd +
+                other.Eab(t2,u2,v2) *
+                   (-1)**(t2+u2+v2) *
+                R(t1+t2,u1+u2,v1+v2,0, a, pq)
+              end
             end * prefactor
           end
         end
