@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+def random_primitive
+  RuPHY::AO::Gaussian::Primitive.new(rand(),Array.new(3){rand(2)},random_vector)
+end
+
 describe RuPHY::AO::Gaussian do
 
 end
@@ -379,6 +383,14 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
       end
     end
   end
+
+  describe '#electron_repulsion_integral' do
+    context 'with primitives zeta = 1 and all on same center'
+    let(:primitive){RuPHY::AO::Gaussian::Primitive.new(1,[0,0,0],[0,0,0])}
+    let(:product){primitive*primitive}
+    let(:correct_value){PI**2.5/4}
+    subject{product.electron_repulsion_integral(product)}
+  end
 end
 
 describe RuPHY::AO::Gaussian::Contracted do
@@ -407,6 +419,57 @@ describe RuPHY::AO::Gaussian::Contracted do
       let(:other){contracted}
 
       it{should be_a Float}
+    end
+  end
+end
+
+# specs for * method
+describe RuPHY::AO::Gaussian::Primitive do
+  describe '*' do
+    let(:primitive1){random_primitive}
+    context RuPHY::AO::Gaussian::Primitive do
+      let(:primitive2){random_primitive}
+      it 'should be a ' + RuPHY::AO::Gaussian::Primitive::PrimitiveProduct.to_s do
+        expect(primitive1*primitive2).to be_a RuPHY::AO::Gaussian::Primitive::PrimitiveProduct
+      end
+    end
+
+    context RuPHY::AO::Gaussian::Contracted do
+      let(:contracted2){RuPHY::AO::Gaussian::Contracted::PrimitiveDummy.new(random_primitive)}
+      it 'should be a ' + RuPHY::AO::Gaussian::Contracted::Product.to_s do
+        expect(primitive1*contracted2).to be_a RuPHY::AO::Gaussian::Contracted::Product
+      end
+    end
+  end
+end
+
+describe RuPHY::AO::Gaussian::Contracted do
+  describe '*' do
+    let(:contracted1){RuPHY::AO::Gaussian::Contracted::PrimitiveDummy.new(random_primitive)}
+    context RuPHY::AO::Gaussian::Primitive do
+      let(:primitive2){random_primitive}
+      it 'should be a ' + RuPHY::AO::Gaussian::Contracted::Product.to_s do
+        expect(contracted1*primitive2).to be_a RuPHY::AO::Gaussian::Contracted::Product
+      end
+    end
+
+    context RuPHY::AO::Gaussian::Contracted do
+      let(:contracted2){RuPHY::AO::Gaussian::Contracted::PrimitiveDummy.new(random_primitive)}
+      it 'should be a ' + RuPHY::AO::Gaussian::Contracted::Product.to_s do
+        expect(contracted1*contracted2).to be_a RuPHY::AO::Gaussian::Contracted::Product
+      end
+    end
+  end
+end
+
+describe RuPHY::AO::Gaussian::Contracted::Product do
+  let(:primitive){RuPHY::AO::Gaussian::Primitive.new(1,[0,0,0],[0,0,0])}
+  let(:contracted){RuPHY::AO::Gaussian::Contracted::PrimitiveDummy.new(primitive)}
+  describe '#electron_repulsion' do
+    let(:correct_value){Math::PI**2.5/4 * primitive.normalization_factor**4}
+
+    it 'should yield correct value' do
+      expect((contracted*contracted).electron_repulsion(contracted*contracted)).to be_within(1e-5).of(correct_value)
     end
   end
 end

@@ -1,6 +1,6 @@
 module RuPHY
-  class MO
-    class Basis
+  module MO
+    module Basis
 
     end
   end

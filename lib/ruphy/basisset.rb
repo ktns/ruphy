@@ -1,10 +1,8 @@
 module RuPHY
   module BasisSet
-    class Base
-      include Enumerable
-    end
-
-    class SimpleList < Base
+    include Enumerable
+    class SimpleList
+      include BasisSet
       def initialize *bases
         @bases = bases
       end

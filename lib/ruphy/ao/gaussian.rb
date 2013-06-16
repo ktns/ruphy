@@ -1,11 +1,10 @@
 module RuPHY
-  class AO
-    class Gaussian < AO
-      def initialize *args
-        raise NotImplementedError
-      end
+  module AO
+    module Gaussian
+      include AO
 
-      class Primitive < AO
+      class Primitive
+        include Gaussian
         public_class_method :new
 
         def initialize zeta, momenta, center
@@ -201,11 +200,15 @@ module RuPHY
             q  = other.p
             pq = center - other.center
             a  = p*q/(p+q)
-            prefactor = 2*PI** 2.5/p/q/sqrt(p+q)
+            prefactor = 2*PI**2.5/p/q/sqrt(p+q) * self.prefactor * other.prefactor
             each_tuv.inject(0.0) do |gabcd, (t1,u1,v1)|
-              other.each_tuv.inject(0.0) do |gcd, (t2,u2,v2)|
-                (-1)**(t2+u2+v2) * R(t1+t2,u1+u2,v1+v2,0, a, r) + gcd
-              end + gabcd
+              Eab(t1,u1,v1) *
+              other.each_tuv.inject(gabcd) do |gcd, (t2,u2,v2)|
+                gcd +
+                other.Eab(t2,u2,v2) *
+                   (-1)**(t2+u2+v2) *
+                R(t1+t2,u1+u2,v1+v2,0, a, pq)
+              end
             end * prefactor
           end
         end
@@ -217,7 +220,17 @@ module RuPHY
         @@products = {}
 
         def * other
-          @@products[[self,other]] ||= PrimitiveProduct.new(self,other)
+          case other
+          when Primitive
+            return @@products[[self,other]] ||= PrimitiveProduct.new(self,other)
+          else
+            begin
+            a,b = other.coerce(self)
+            rescue NoMethodError, RuntimeError
+              raise TypeError, "#{other.class} cannot be coerced into #{self.class}"
+            end
+            return a*b
+          end
         end
 
         def overlap o
@@ -243,11 +256,15 @@ module RuPHY
         def nuclear_attraction other, atom
           nuclear_attraction_raw(other, atom) * normalization_factor * other.normalization_factor
         end
+
+        # Enumerate self with pseudo coefficient 1
+        def each_primitives &block
+          [[1, self]].each &block
+        end
       end
 
-      class Contracted < AO
-        public_class_method :new
-
+      class Contracted
+        include Gaussian
         def initialize coeffs, zetas, momenta, center
           begin
             @primitives=[coeffs,zetas].transpose.map do |c,zeta|
@@ -263,65 +280,87 @@ module RuPHY
           end
         end
 
+        # Enumerate primitives and coefficients
+        def each_primitives &block
+          @primitives.each &block
+        end
+
+        @@products = {}
+
+        def * other
+          @@products[[self,other]] ||= Product.new(self, other)
+        end
+
+        class Product
+          def initialize g1, g2
+            @g1, @g2 = g1, g2
+            n = g1.normalization_factor*g2.normalization_factor
+            @primitive_products = g1.each_primitives.flat_map do |c1, p1|
+              g2.each_primitives.map do |c2, p2|
+                next n * c1 * c2 * p1.normalization_factor * p2.normalization_factor, p1 * p2
+              end
+            end
+          end
+
+          def sum_up method, *args
+            @primitive_products.inject(0) do |sum, (c, p)|
+              sum + c * p.send(method, *args)
+            end
+          end
+          protected :sum_up
+
+          def overlap
+            sum_up :overlap_integral
+          end
+
+          def kinetic
+            sum_up :kinetic_integral
+          end
+
+          def nuclear_attraction atom
+            sum_up :nuclear_attraction_integral, atom
+          end
+
+          def electron_repulsion other
+            @primitive_products.inject(0) do |sum, (c, p)|
+              sum + c * other.sum_up(:electron_repulsion_integral, p)
+            end
+          end
+        end
+
+        def coerce other
+          case other
+          when Primitive
+            [PrimitiveDummy.new(other), self]
+          else
+            raise TypeError "#{other.class} cannot coerced into #{self.class}"
+          end
+        end
+
+        class PrimitiveDummy < Contracted
+          def initialize primitive
+            @primitives = [[1, primitive]]
+          end
+        end
+
         def normalization_factor
-          @normalization_factor ||= overlap_raw(self)**-0.5
+          @normalization_factor ||= @primitives.inject(0) do |n, (c1, p1)|
+            @primitives.inject(n) do |n, (c2, p2)|
+            n + c1 * c2 * p1.overlap(p2)
+          end
+          end ** -0.5
         end
 
         def overlap other
-          overlap_raw(other) * normalization_factor * other.normalization_factor
-        end
-
-        def overlap_raw other
-          case other
-          when Primitive
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.overlap(primitive) * c + s
-            end
-          when Contracted
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.overlap_raw(primitive) * c + s
-            end
-          else
-            raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
-          end
+          (self*other).overlap
         end
 
         def kinetic other
-          kinetic_raw(other) * normalization_factor * other.normalization_factor
-        end
-
-        def kinetic_raw other
-          case other
-          when Primitive
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.kinetic(primitive) * c + s
-            end
-          when Contracted
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.kinetic_raw(primitive) * c + s
-            end
-          else
-            raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
-          end
+          (self*other).kinetic
         end
 
         def nuclear_attraction other, atom
-          nuclear_attraction_raw(other, atom) * normalization_factor * other.normalization_factor
-        end
-
-        def nuclear_attraction_raw other, atom
-          case other
-          when Primitive
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.nuclear_attraction(primitive, atom) * c + s
-            end
-          when Contracted
-            @primitives.inject(0) do |s, (c, primitive)|
-              other.nuclear_attraction_raw(primitive, atom) * c + s
-            end
-          else
-            raise TypeError, "Expected #{Primitive} or #{Contracted}, but `%p'" % [other]
-          end
+          (self*other).nuclear_attraction(atom)
         end
       end
 

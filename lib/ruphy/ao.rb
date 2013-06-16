@@ -1,10 +1,6 @@
 module RuPHY
-  class AO
-    def initialize *args
-      raise NotImplementedError
-    end
+  module AO
 
-    private_class_method :new
   end
 end
 
