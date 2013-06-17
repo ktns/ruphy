@@ -102,10 +102,8 @@ describe RuPHY::Theory::RHF::MO do
         end
         context 'after density_matrix= called' do
           it 'should raise VectorNotCalculatedError' do
-            pending{
             mo.density_matrix = Matrix::identity(mo.size_of_basis)
             expect{mo.fock_matrix}.not_to raise_error RuPHY::Theory::RHF::MO::VectorNotCalculatedError
-            }
           end
         end
       end
@@ -114,10 +112,13 @@ describe RuPHY::Theory::RHF::MO do
         let(:density_matrix){Matrix::build(2){0.60245569e+00}}
         let(:fock_matrix){Matrix::build(2){|i,j| i==j ? -0.36602603e+00 : -0.59429997e+00 }}
         it 'should yield correct solution' do
-          pending{
-            mo.density_matrix = density_matrix
-            mo.fock_matrix.should be_within(1e-10).of(fock_matrix)
-          }
+          mo.density_matrix = density_matrix
+          mo.fock_matrix.should be_within(1e-7).of(fock_matrix)
+        end
+
+        it 'should call solve_roothaan_equation' do
+          mo.should_receive(:solve_roothaan_equation)
+          mo.density_matrix=density_matrix
         end
       end
 

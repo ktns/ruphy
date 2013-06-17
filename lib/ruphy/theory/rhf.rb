@@ -99,6 +99,12 @@ module RuPHY
           super basis, density, geometry
         end
 
+        # Construct the Fock matrix from the given density matrix
+        # and solve it
+        def density_matrix= density
+          self.fock_matrix = fock_matrix(density)
+        end
+
         class VectorNotCalculatedError < Exception
           def initialize mo
             "%p has no MO vector yet!" % mo
