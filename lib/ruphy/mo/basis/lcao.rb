@@ -61,6 +61,10 @@ module RuPHY
           kinetic - nuclear_attraction(geometry)
         end
 
+        def electron_repulsion i,j,k,l
+          (aos[i]*aos[j]).electron_repulsion(aos[k]*aos[l])
+        end
+
         class Shell < SimpleDelegator
           def initialize abst_shell, center
             abst_shell.respond_to?(:aos) or

@@ -3,6 +3,14 @@ require 'ruphy/mo/basis'
 module RuPHY
   module Theory
     module RHF
+      # Calculate Fock matrix from given basis, density matrix, and geometry.
+      def fock_matrix basis, density, geometry
+        Matrix.build(basis.size) do |i,j|
+          density.each_with_index.inject(0) do |jk, (d, k, l)|
+            jk + d * (basis.electron_repulsion(i,j,k,l) - basis.electron_repulsion(i,k,j,l)/2)
+          end
+        end + basis.core_hamiltonian(geometry)
+      end
 
       # Returns energies:Array and MO vectors:Matrix
       def solve_roothaan_equation fock, overlap
@@ -84,6 +92,11 @@ module RuPHY
         # and update energy eigenvalues and MO vectors
         def fock_matrix= fock
           @energies, @vectors = *solve_roothaan_equation(fock, basis.overlap)
+        end
+
+        # Return Fock matrix calculated from the current density matrix
+        def fock_matrix density = self.density_matrix
+          super basis, density, geometry
         end
 
         class VectorNotCalculatedError < Exception

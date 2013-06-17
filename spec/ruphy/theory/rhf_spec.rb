@@ -51,6 +51,21 @@ describe RuPHY::Theory::RHF do
       end
     end
   end
+
+  describe '#fock_matrix' do
+    if defined? ::TestMol && defined? RuPHY::BasisSet::STO3G
+      context 'with TestMol and STO3G' do
+        let(:basis){RuPHY::BasisSet::STO3G.span(:geometry => ::TestMol, :number_of_electrons => 2)}
+        let(:density_matrix){Matrix::build(2){0.60245569e+00}}
+        let(:correct_fock_matrix){Matrix::build(2){|i,j| i==j ? -0.36602603e+00 : -0.59429997e+00 }}
+        it 'should return correct Fock matrix' do
+          extend described_class
+          f = fock_matrix(basis, density_matrix, ::TestMol)
+          expect(f).to be_within(1e-7).of(correct_fock_matrix)
+        end
+      end
+    end
+  end
 end
 
 describe RuPHY::Theory::RHF::MO do
@@ -70,6 +85,28 @@ describe RuPHY::Theory::RHF::MO do
           basis.stub(:overlap).and_return(overlap)
           mo.should_receive(:solve_roothaan_equation).with(fock,overlap)
           mo.fock_matrix = fock
+        end
+      end
+
+      describe '#fock_matrix' do
+        context 'before fock_matrix= called' do
+          it 'should raise VectorNotCalculatedError' do
+            expect{mo.fock_matrix}.to raise_error RuPHY::Theory::RHF::MO::VectorNotCalculatedError
+          end
+        end
+        context 'after fock_matrix= called' do
+          it 'should raise VectorNotCalculatedError' do
+            mo.fock_matrix = Matrix::identity(mo.size_of_basis)
+            expect{mo.fock_matrix}.not_to raise_error RuPHY::Theory::RHF::MO::VectorNotCalculatedError
+          end
+        end
+        context 'after density_matrix= called' do
+          it 'should raise VectorNotCalculatedError' do
+            pending{
+            mo.density_matrix = Matrix::identity(mo.size_of_basis)
+            expect{mo.fock_matrix}.not_to raise_error RuPHY::Theory::RHF::MO::VectorNotCalculatedError
+            }
+          end
         end
       end
 
