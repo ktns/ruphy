@@ -8,7 +8,8 @@ module RuPHY
     class Molecule
       include Enumerable
 
-      def initialize source, format = 'xyz'
+      def initialize source, format = File.extname(source).sub(/^\./,'')
+        format='xyz' if format.empty?
         obconv = OpenBabel::OBConversion.new
         obconv.set_in_format(format) or raise ArgumentError, '%p is not a format registered in OpenBabel!' % format
         @obmol = OpenBabel::OBMol.new

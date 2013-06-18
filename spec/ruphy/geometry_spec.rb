@@ -32,7 +32,7 @@ describe RuPHY::Geometry::Molecule do
     end
 
     context 'string' do
-      subject{described_class.new(@xyz)}
+      subject{described_class.new(@xyz,'xyz')}
 
       it_should_behave_like "molecule read from xyz"
 
