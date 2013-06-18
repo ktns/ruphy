@@ -138,6 +138,25 @@ describe RuPHY::Theory::RHF::MO do
           end
         end
       end
+
+      describe '#total_energy' do
+        let(:density_matrix){Matrix::build(2){0.60245569e+00}}
+
+        context 'before mo is calculated' do
+          it 'should raise EnergyNotCalculatedError' do
+            expect{mo.total_energy}.to raise_error described_class::EnergyNotCalculatedError
+          end
+        end
+
+        context 'after mo is calculated' do
+          it 'should return correct value' do
+            mo.density_matrix=density_matrix
+            expect(mo.total_energy).to be_within(1e-7).of(-1.1167593)
+          end
+        end
+      end
+
+      its(:nuclear_repulsion_energy){should be_within(1e-7).of(0.7151043355)}
     end
   end
 end

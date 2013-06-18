@@ -105,9 +105,32 @@ module RuPHY
           self.fock_matrix = fock_matrix(density)
         end
 
+        # Return nuclear repulsion energy calculated from molecule geometry.
+        def nuclear_repulsion_energy
+          geometry.nuclear_repulsion_energy
+        end
+
+        # Return total electronic energy calculated from current MO vectors.
+        def total_electronic_energy
+          raise EnergyNotCalculatedError.new(self) unless energies
+          energies.first(n/2).inject(:+) +
+            core_hamiltonian.inner_product(density_matrix)/2
+        end
+
+        # Return total energy including nuclear repulsion.
+        def total_energy
+          nuclear_repulsion_energy + total_electronic_energy
+        end
+
         class VectorNotCalculatedError < Exception
           def initialize mo
             "%p has no MO vector yet!" % mo
+          end
+        end
+
+        class EnergyNotCalculatedError < Exception
+          def initialize mo
+            "%p has no MO energy yet!" % mo
           end
         end
       end
