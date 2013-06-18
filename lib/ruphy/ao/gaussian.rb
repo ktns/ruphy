@@ -124,7 +124,7 @@ module RuPHY
 
           def each_tuv &block
             unless block
-              return Enumerator.new(self, :each_tuv)
+              return to_enum(:each_tuv)
             end
             for t in 0..(i(0)+j(0))
               for u in 0..(i(1)+j(1))
