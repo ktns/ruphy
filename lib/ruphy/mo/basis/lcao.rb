@@ -57,12 +57,14 @@ module RuPHY
             abst_shell.respond_to?(:aos) or
               raise TypeError, "Expected %p to have method aos, but not" % [abst_shell]
             shell = abst_shell.dup.extend ActualShell
-            shell.center = center
+            shell.instance_eval do
+              @center = center
+            end
             __setobj__ shell
           end
 
           module ActualShell
-            attr_accessor :center
+            attr_reader :center
           end
         end
       end
