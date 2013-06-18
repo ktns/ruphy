@@ -23,6 +23,10 @@ module RuPHY
         end
       end
 
+      def abs
+        ::Math::sqrt(inner_product(self))
+      end
+
       def inspect
         __getobj__.inspect.sub('Matrix',self.class.to_s)
       end

@@ -5,11 +5,13 @@ module RuPHY
     module RHF
       # Calculate Fock matrix from given basis, density matrix, and geometry.
       def fock_matrix basis, density, geometry
-        Matrix.build(basis.size) do |i,j|
+        f = Matrix.build(basis.size) do |i,j|
           density.each_with_index.inject(0) do |jk, (d, k, l)|
             jk + d * (basis.electron_repulsion(i,j,k,l) - basis.electron_repulsion(i,k,j,l)/2)
           end
         end + basis.core_hamiltonian(geometry)
+        f += f.transpose
+        f /= 2
       end
 
       # Returns energies:Array and MO vectors:Matrix
@@ -148,9 +150,39 @@ module RuPHY
       end
 
       class Solver
-        def initialize geometry, basisset
-          raise NotImplementedError
+        def initial_guess_type
+          :fock
         end
+
+        def initial_guess
+          @mo.core_hamiltonian
+        end
+
+        def initialize geometry, basisset
+          @mo = MO.new(geometry, basisset)
+        end
+        attr_reader :mo
+
+        def next_density_matrix previous_density_matrix
+          previous_density_matrix
+        end
+
+        def iterate
+          begin
+            @prev_density = mo.density_matrix
+            mo.density_matrix = next_density_matrix(@prev_density)
+            @delta_density = mo.density_matrix - @prev_density
+          rescue MO::VectorNotCalculatedError
+            case initial_guess_type
+            when :fock
+              @mo.fock_matrix = initial_guess
+            when :density
+              @mo.density_matrix = initial_guess
+            end
+            @delta_density = @mo.density_matrix * -1
+          end
+        end
+        attr_reader :delta_density
       end
     end
   end

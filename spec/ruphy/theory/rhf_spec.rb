@@ -173,11 +173,17 @@ describe RuPHY::Theory::RHF::MO do
 end
 
 describe RuPHY::Theory::RHF::Solver do
-  it 'should not raise error on initialization' do
-    pending 'Not yet implemented' do
-      lambda do
-        described_class.new nil, nil
-      end.should_not raise_error
+  if defined? ::TestMol && defined? RuPHY::BasisSet::STO3G
+    let(:solver){described_class.new(::TestMol, RuPHY::BasisSet::STO3G)}
+    subject{solver}
+
+    creating_it{should_not raise_error}
+
+    it 'should be able to solve the problem' do
+      10.times do
+        solver.iterate.abs < 1e-7 and break
+      end
+      solver.delta_density.abs < 1e-7
     end
   end
 end
