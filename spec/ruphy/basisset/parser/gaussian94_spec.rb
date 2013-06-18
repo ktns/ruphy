@@ -98,7 +98,8 @@ EOF
       @parser.debug = ENV['RACC_DEBUG']
     end
 
-    subject{ @parser.parse(str) }
+    let(:basisset){ @parser.parse(str) }
+    subject{basisset}
 
     context 'with STO-3G' do
       let(:str){sto3g_txt}
@@ -116,6 +117,19 @@ EOF
       its(:elements){should include RuPHY::Elements[:Ti]}
 
       its(:comment){should be_digested_as "r\xAE\xB2s\xBC^\xD31X*\xB4:^\x05Lb"}
+
+      describe '#shells' do
+        let(:shells){basisset.shells(arg)}
+        subject{shells}
+
+        context 'with C' do
+          let(:arg){RuPHY::Elements[:C]}
+
+          it{should be_an Array}
+
+          it{should all_be_kind_of(RuPHY::BasisSet::LCAO::Gaussian::Shell)}
+        end
+      end
     end
 
     context 'with STO-3G written by FORTRAN format' do

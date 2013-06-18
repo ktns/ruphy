@@ -43,13 +43,13 @@ SHELL
 			[z*scale_factor**2, c]
 		end.transpose()
 		coeffs=coeffs.transpose
-		result = [RuPHY::BasisSet::LCAO::Gaussian::Shell.new(
+		result = RuPHY::BasisSet::LCAO::Gaussian::Shell.new(
 			val[0], coeffs, zetas
-		)]
+		)
 	}
 SHELLS
-	: SHELL { [val[0]] }
-	| SHELLS SHELL { result = val[0].push val[1] }
+	: SHELL { result = [val[0]] }
+	| SHELLS SHELL { result = val[0] << val[1] }
 ANGULAR_MOMENTUM_ALL
 	: ANGULAR_MOMENTUM { result = parse_angular_momenta_all(val[0]) }
 	| ELEMENT_OR_ANGULAR_MOMENTUM { result = parse_angular_momenta_all(val[0]) }
