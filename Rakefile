@@ -83,6 +83,7 @@ Gaussian94Sources = FileList['lib/**/*.gbs']
 Gaussian94Outputs = Gaussian94Sources.ext('.yml')
 
 task :gbs2yml => Gaussian94Outputs
+task :spec => Gaussian94Outputs
 
 CLEAN << Gaussian94Outputs
 
@@ -91,8 +92,9 @@ rule '.yml' => ['.gbs', 'lib/ruphy/basisset/parser/gaussian94.rb'] do |t|
   require 'ruphy'
   require 'ruphy/basisset/parser/gaussian94'
   puts 'Parsing `%s\' as Gaussian94 basisset definition file' % t.source
-  bs = RuPHY::BasisSet::Parser::Gaussian94.new.parse(IO.read(t.source))
-  puts 'Damping basisset definition to `%s\'' % t.name
+  name = File.basename(t.source, '.gbs')
+  bs = RuPHY::BasisSet::Parser::Gaussian94.new.parse(IO.read(t.source), :name => name)
+  puts 'Dumping basisset definition to `%s\'' % t.name
   begin
     File.open t.name, 'w' do |yml|
       yml.puts bs.to_yaml

@@ -85,7 +85,7 @@ def debug= on
 	@yydebug = on ? true : false
 end
 
-def parse str
+def parse str, opts = {}
 	@q = []
 	until str.empty?
 		case str
@@ -114,7 +114,7 @@ def parse str
 		str=$'
 	end
 	@q.push [false, '$end']
-	return RuPHY::BasisSet::LCAO::Gaussian.new do_parse()
+	return RuPHY::BasisSet::LCAO::Gaussian.new opts.merge(do_parse())
 end
 
 def next_token
