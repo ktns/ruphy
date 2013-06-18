@@ -69,7 +69,7 @@ module RuPHY
 
         # Return core Hamiltonian matrix calculated from basis functions
         def core_hamiltonian
-          basis.core_hamiltonian
+          basis.core_hamiltonian(geometry)
         end
 
         # Calculate density matrix from MO vectors and number of electrons
