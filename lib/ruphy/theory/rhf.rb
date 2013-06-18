@@ -67,6 +67,11 @@ module RuPHY
           basis.overlap
         end
 
+        # Return kinetic componetn of core Hamiltonian matrix calculated from basis functions
+        def kinetic
+          basis.kinetic
+        end
+
         # Return core Hamiltonian matrix calculated from basis functions
         def core_hamiltonian
           basis.core_hamiltonian(geometry)
@@ -120,6 +125,13 @@ module RuPHY
         # Return total energy including nuclear repulsion.
         def total_energy
           nuclear_repulsion_energy + total_electronic_energy
+        end
+
+        # Return virial ratio calculated from current MO vectors.
+        def virial_ratio
+          t = density_matrix.inner_product(kinetic)
+          v = total_energy - t
+          return - v / t
         end
 
         class VectorNotCalculatedError < Exception

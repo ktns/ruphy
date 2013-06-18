@@ -157,6 +157,17 @@ describe RuPHY::Theory::RHF::MO do
       end
 
       its(:nuclear_repulsion_energy){should be_within(1e-7).of(0.7151043355)}
+
+      describe '#virial_ratio' do
+        context 'after mo is calculated' do
+          let(:density_matrix){Matrix::build(2){0.60245569e+00}}
+
+          it 'should approximatly equal to 2' do
+            mo.density_matrix=density_matrix
+            expect(mo.virial_ratio).to be_within(10).percent_of(2)
+          end
+        end
+      end
     end
   end
 end
