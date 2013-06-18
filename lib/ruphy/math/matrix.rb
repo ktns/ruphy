@@ -19,7 +19,7 @@ module RuPHY
           raise ExceptionForMatrix::ErrDimensionMismatch
         other = other.each(:all)
         self.each(:all).inject(0) do |p, e|
-          p + e*other.next
+          p + e*other.next.conjugate
         end
       end
 
