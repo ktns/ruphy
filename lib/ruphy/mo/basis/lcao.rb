@@ -54,6 +54,8 @@ module RuPHY
 
         class Shell < SimpleDelegator
           def initialize abst_shell, center
+            abst_shell.respond_to?(:aos) or
+              raise TypeError, "Expected %p to have method aos, but not" % [abst_shell]
             shell = abst_shell.dup.extend ActualShell
             shell.center = center
             __setobj__ shell
