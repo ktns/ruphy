@@ -24,7 +24,7 @@ describe RuPHY::Geometry::Molecule do
     shared_examples_for "molecule read from xyz" do
       its(:size){should == correct_size}
 
-      its(:nuclear_replusion_energy){should be_within(1e-5).of(9.24861786)}
+      its(:nuclear_repulsion_energy){should be_within(1e-5).of(9.24861786)}
 
       it{should have(3).atoms}
 

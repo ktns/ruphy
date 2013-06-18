@@ -36,7 +36,7 @@ module RuPHY
       end
       alias each each_atom
 
-      def nuclear_replusion_energy
+      def nuclear_repulsion_energy
         each_atom.to_a.combination(2).inject(0) do |e, (a1, a2)|
           v1, v2 = [a1,a2].map(&:vector)
           r = (v1-v2).r
