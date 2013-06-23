@@ -6,7 +6,7 @@ rvm:
   - 1.9.3
   - 2.0.0
 
-bundler_args: --without debuga autotest autotest_inotify autotest_tmux autotest_fsevents autotest_growl
+bundler_args: --without debug autotest autotest_inotify autotest_tmux autotest_fsevents autotest_growl
 
 gemfile:
   - Gemfile
