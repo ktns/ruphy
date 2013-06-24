@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+require_relative './ruphy_prof'
+
+include RuPHY
+mol = Geometry::Molecule.new(<<EOF, 'xyz')
+2
+H2
+H 0 0 0
+H 0 0 0.74
+EOF
+solver = Theory::RHF::Solver.new(mol,BasisSet::STO3G)
+2.times{p solver.iterate.abs}

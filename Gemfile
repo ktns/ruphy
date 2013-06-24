@@ -33,6 +33,10 @@ group :autotest do
   gem 'ZenTest'
 end
 
+group :profile do
+  gem 'ruby-prof'
+end
+
 group :autotest_inotify do
   gem 'autotest-inotify'
 end
