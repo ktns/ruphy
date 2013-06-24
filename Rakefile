@@ -85,7 +85,7 @@ Gaussian94Outputs = Gaussian94Sources.ext('.yml')
 task :gbs2yml => Gaussian94Outputs
 task :spec => Gaussian94Outputs
 
-CLEAN << Gaussian94Outputs
+CLOBBER << Gaussian94Outputs
 
 rule '.yml' => ['.gbs', 'lib/ruphy/basisset/parser/gaussian94.rb'] do |t|
   require 'yaml'
