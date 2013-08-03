@@ -13,6 +13,20 @@ module RuPHY
         each :diagonal, &block
       end
 
+      def inner_product other
+        column_size == other.column_size &&
+          row_size == other.row_size or
+          raise ExceptionForMatrix::ErrDimensionMismatch
+        other = other.each(:all)
+        self.each(:all).inject(0) do |p, e|
+          p + e*other.next.conjugate
+        end
+      end
+
+      def abs
+        ::Math::sqrt(inner_product(self))
+      end
+
       def inspect
         __getobj__.inspect.sub('Matrix',self.class.to_s)
       end

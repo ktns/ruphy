@@ -103,3 +103,15 @@ rule '.yml' => ['.gbs', 'lib/ruphy/basisset/parser/gaussian94.rb'] do |t|
     rm_f t.name if $!
   end
 end
+
+# prof task
+ProfSources = FileList['prof/*_prof']
+ProfOutputs = ProfSources.sub(/$/,'.out')
+CLEAN << ProfOutputs
+
+task :prof => :profile
+task :profile => ProfOutputs
+
+rule %r"prof/.*_prof.out$" => lambda{|n|n.ext('')} do |t|
+  system "ruby-prof -p call_tree -f '#{t.name}' '#{t.source}'"
+end

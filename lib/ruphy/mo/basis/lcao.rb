@@ -16,6 +16,15 @@ module RuPHY
           @shells.values.flatten
         end
 
+        # Return total number of the atomic orbital functions
+        def size
+          shells.inject(0) do |size, shell|
+            size + shell.aos.size
+          end
+        end
+        alias m size
+        alias dimension size
+
         def aos
           shells.flat_map do |shell|
             shell.aos
@@ -50,6 +59,10 @@ module RuPHY
 
         def core_hamiltonian geometry=@geometry
           kinetic - nuclear_attraction(geometry)
+        end
+
+        def electron_repulsion i,j,k,l
+          (aos[i]*aos[j]).electron_repulsion(aos[k]*aos[l])
         end
 
         class Shell < SimpleDelegator
