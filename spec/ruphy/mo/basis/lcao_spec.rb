@@ -84,9 +84,9 @@ end
 
 describe RuPHY::MO::Basis::LCAO::Shell do
   context 'with mockup center and abstract shell' do
-    let(:center){mock(:center)}
+    let(:center){double(:center)}
     let!(:abst_shell) do
-      abst_shell = mock(:abst_shell)
+      abst_shell = double(:abst_shell)
       abst_shell.stub(:respond_to?).with(:aos).and_return(true)
       abst_shell
     end
@@ -97,7 +97,7 @@ describe RuPHY::MO::Basis::LCAO::Shell do
 
     describe '#aos' do
       it "should invoke abst_shell#aos" do
-        abst_shell.stub!(:dup).and_return(abst_shell)
+        abst_shell.stub(:dup).and_return(abst_shell)
         abst_shell.should_receive(:aos).and_return(nil)
         subject.aos
       end

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RuPHY::BasisSet::SimpleList do
   before do
     @basis_set = described_class.new(
-      @spwf1=stub(:spwf1), @spwf2=stub(:spwf2))
+      @spwf1=double(:spwf1), @spwf2=double(:spwf2))
   end
 
   subject {@basis_set}

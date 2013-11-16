@@ -117,7 +117,7 @@ module TestShell
 end
 
 def dummy_atom x = 0, y = 0, z = 0, atomic_num = 1
-  obatom = mock(:obatom)
+  obatom = double(:obatom)
   obatom.stub(:x).and_return(x); obatom.stub(:get_x).and_return(x)
   obatom.stub(:y).and_return(y); obatom.stub(:get_y).and_return(y)
   obatom.stub(:z).and_return(z); obatom.stub(:get_z).and_return(z)
@@ -126,13 +126,13 @@ def dummy_atom x = 0, y = 0, z = 0, atomic_num = 1
 end
 
 def mock_primitive name=:primitive, opts={}
-  primitive = mock(name)
+  primitive = double(name)
   primitive.stub(:zeta).and_return(opts[:zeta] || rand())
   return primitive
 end
 
 def mock_vector value, name=:vector, xyz=nil
-  vector = mock(name)
+  vector = double(name)
   vector.stub(:[]).with(xyz).and_return(value)
   return vector
 end

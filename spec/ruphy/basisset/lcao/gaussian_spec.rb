@@ -24,7 +24,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian do
 
   let(:hshells) do
     extend RSpec::Mocks::ExampleMethods
-    hshell = mock(:HShell)
+    hshell = double(:HShell)
     hshell.stub(:kind_of?).with(described_class::Shell).and_return(true)
     described_class::Shell.stub(:===).with(hshell).and_return(true)
     break [hshell]
@@ -32,7 +32,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian do
 
   let(:heshells) do
     extend RSpec::Mocks::ExampleMethods
-    heshell = mock(:HeShell)
+    heshell = double(:HeShell)
     heshell.stub(:kind_of?).and_return(true)
     break [heshell]
   end

@@ -80,7 +80,7 @@ describe RuPHY::Theory::RHF::MO do
 
       describe '#fock_matrix=' do
         it 'should call solve_roothaan_equation' do
-          fock, basis, overlap = mock(:fock), mock(:basis), mock(:overlap)
+          fock, basis, overlap = double(:fock), double(:basis), double(:overlap)
           mo.stub(:basis).and_return(basis)
           basis.stub(:overlap).and_return(overlap)
           mo.should_receive(:solve_roothaan_equation).with(fock,overlap)
@@ -97,13 +97,13 @@ describe RuPHY::Theory::RHF::MO do
         context 'after fock_matrix= called' do
           it 'should raise VectorNotCalculatedError' do
             mo.fock_matrix = Matrix::identity(mo.size_of_basis)
-            expect{mo.fock_matrix}.not_to raise_error RuPHY::Theory::RHF::MO::VectorNotCalculatedError
+            expect{mo.fock_matrix}.not_to raise_error
           end
         end
         context 'after density_matrix= called' do
           it 'should raise VectorNotCalculatedError' do
             mo.density_matrix = Matrix::identity(mo.size_of_basis)
-            expect{mo.fock_matrix}.not_to raise_error RuPHY::Theory::RHF::MO::VectorNotCalculatedError
+            expect{mo.fock_matrix}.not_to raise_error
           end
         end
       end

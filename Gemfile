@@ -8,20 +8,18 @@ gem "backports", "~> 2.6.5"
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
 group :development do
-  gem "rspec", "~> 2.13.0"
-  gem "rspec-expectations", :github => 'ktns/rspec-expectations', :branch => 'fix-2.13'
+  gem "rspec", "~> 2.14.1"
   gem "bundler", "~> 1.3.5"
-  gem "jeweler", "~> 1.8.4"
+  gem "jeweler", "~> 1.8.8"
   gem "rdoc", "~> 4.0"
   gem "racc", "~> 1.4"
   #gem "rake-compiler", "~> 0.8.0"
 end
 
 group :test do
-  gem "rspec", "~> 2.13.0"
-  gem "rspec-expectations", :github => 'ktns/rspec-expectations', :branch => 'fix-2.13'
+  gem "rspec", "~> 2.14.1"
   gem 'rcov', "~> 1.0.0", :platform => :mri_18
-  gem 'simplecov', "~> 0.7.1", :platform => :ruby_19
+  gem 'simplecov', "~> 0.8.1", :platform => :ruby_19
 end
 
 group :debug do
