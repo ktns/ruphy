@@ -11,7 +11,7 @@ group :development do
   gem "jeweler", "~> 2.0.1"
   gem "rdoc", "~> 4.0"
   gem "racc", "~> 1.4"
-  #gem "rake-compiler", "~> 0.8.0"
+  gem "rake-compiler", "~> 0.9.2"
 end
 
 group :development, :test do

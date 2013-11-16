@@ -27,6 +27,7 @@ jeweler_tasks = Jeweler::Tasks.new do |gem|
   gem.files.exclude '.rspec'
   gem.files.exclude '.travis.yml'
   gem.files.exclude 'Gemfile*'
+  gem.extensions = FileList['ext/**/extconf.rb']
 end
 Jeweler::RubygemsDotOrgTasks.new
 
@@ -106,6 +107,11 @@ rule '.yml' => ['.gbs', 'lib/ruphy/basisset/parser/gaussian94.rb'] do |t|
     rm_f t.name if $!
   end
 end
+
+# Extension tasks
+require 'rake/extensiontask'
+
+Rake::ExtensionTask.new('ruphy_libint2')
 
 # prof task
 ProfSources = FileList['prof/*_prof']
