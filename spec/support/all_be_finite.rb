@@ -1,3 +1,5 @@
+require 'rspec/expectations'
+
 RSpec::Matchers.define :all_be_finite do |expected|
   match do |actual|
     @exception = actual.find do |elem|

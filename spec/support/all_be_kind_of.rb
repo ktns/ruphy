@@ -1,3 +1,5 @@
+require 'rspec/expectations'
+
 RSpec::Matchers.define :all_be_kind_of do |expected|
   match do |actual|
     @exception = actual.find do |elem|

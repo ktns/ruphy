@@ -1,4 +1,5 @@
 require 'digest'
+require 'rspec/expectations'
 
 RSpec::Matchers.define :be_digested_as do |expected|
   chain :using do |algorithm|

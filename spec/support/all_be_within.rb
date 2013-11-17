@@ -1,3 +1,5 @@
+require 'rspec/expectations'
+
 module RSpec::Matchers
   module AllBeWithin
     class AllBeWithin
