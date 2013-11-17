@@ -111,7 +111,14 @@ end
 # Extension tasks
 require 'rake/extensiontask'
 
-Rake::ExtensionTask.new('ruphy_libint2')
+Rake::ExtensionTask.new('ruphy_libint2') do |ext|
+  if dir = ENV['LIBINT2_DIR'] and File.directory? dir
+    ext.config_options << "--with-libint2-dir=#{dir}"
+    if File.directory?(p(dir = File.join(dir,*%w<include libint2>)))
+      ext.config_options << "--with-libint2-include=#{dir}"
+    end
+  end
+end
 
 # prof task
 ProfSources = FileList['prof/*_prof']
