@@ -120,6 +120,8 @@ Rake::ExtensionTask.new('ruphy_libint2') do |ext|
   end
 end
 
+task :spec => :compile
+
 # prof task
 ProfSources = FileList['prof/*_prof']
 ProfOutputs = ProfSources.sub(/$/,'.out')
