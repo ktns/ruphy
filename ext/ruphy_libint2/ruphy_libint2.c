@@ -7,6 +7,10 @@
 static VALUE return_true(){return Qtrue;};
 static VALUE return_false(){return Qfalse;};
 
+static void static_cleanup(VALUE p){
+  LIBINT2_PREFIXED_NAME(libint2_static_cleanup)();
+}
+
 static VALUE RuPHY;
 static VALUE Libint2;
 
@@ -15,6 +19,8 @@ void Init_ruphy_libint2(){
 	Libint2=rb_define_module_under(RuPHY,"Libint2");
 #ifdef HAVE_LIBINT2_INIT_ERI
 	rb_define_singleton_method(Libint2, "compiled?", return_true,  0);
+	rb_set_end_proc(static_cleanup, Qnil);
+	LIBINT2_PREFIXED_NAME(libint2_static_init)();
 #else
 	rb_define_singleton_method(Libint2, "compiled?", return_false, 0);
 #endif
