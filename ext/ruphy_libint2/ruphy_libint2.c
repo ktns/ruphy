@@ -3,6 +3,7 @@
 #ifdef HAVE_LIBINT2_H
 #include "libint2.h"
 #endif
+#include "evaluator.h"
 
 static VALUE return_true(){return Qtrue;};
 static VALUE return_false(){return Qfalse;};
@@ -21,6 +22,7 @@ void Init_ruphy_libint2(){
 	rb_define_singleton_method(Libint2, "compiled?", return_true,  0);
 	rb_set_end_proc(static_cleanup, Qnil);
 	LIBINT2_PREFIXED_NAME(libint2_static_init)();
+	ruphy_libint2_define_evaluator(Libint2);
 #else
 	rb_define_singleton_method(Libint2, "compiled?", return_false, 0);
 #endif
