@@ -12,7 +12,7 @@ static VALUE evaluator_class;
 static void free_libint_t(void *p){
 	evaluator_struct *st = (evaluator_struct*)p;
 	if(st->buf != NULL){
-		LIBINT2_PREFIXED_NAME(libint2_cleanup_eri)(&st->erieval);
+		ruby_xfree(st->buf);
 	}
 	ruby_xfree(st);
 }
