@@ -25,3 +25,7 @@ branches:
 
 env:
   - TEST_NIST=y
+
+cache:
+  - apt
+  - bundle
