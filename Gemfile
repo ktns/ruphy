@@ -2,7 +2,7 @@ source "http://rubygems.org"
 # Add dependencies required to use your gem here.
 # Example:
 #   gem "activesupport", ">= 2.3.5"
-gem "openbabel", "~> 2.3.1.8"
+gem "openbabel", "~> 2.3.2.0"
 gem "backports", "~> 2.6.5"
 
 # Add dependencies to develop your gem here.
