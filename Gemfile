@@ -9,7 +9,7 @@ gem "backports", "~> 2.6.5"
 # Include everything needed to run rake, tests, features, etc.
 group :development do
   gem "rspec", "~> 2.14.1"
-  gem "bundler", "~> 1.3.5"
+  gem "bundler", "~> 1.5.0"
   gem "jeweler", "~> 1.8.8"
   gem "rdoc", "~> 4.0"
   gem "racc", "~> 1.4"
