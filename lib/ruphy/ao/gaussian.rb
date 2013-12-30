@@ -186,11 +186,11 @@ module RuPHY
           end
           alias R auxiliary_hermite_integral
 
-          # <G_a | r_C^{-1} | G_b>
+          # <G_a | Z/r_C | G_b>
           def nuclear_attraction_integral atom
             each_tuv.inject(0.0) do |vab, (t,u,v)|
               vab + Eab(t, u, v)* R(t,u,v,0,p,PC(atom))
-            end * prefactor * 2*PI / p
+            end * prefactor * 2*PI / p * atom.get_atomic_num
           end
           alias V nuclear_attraction_integral
 
