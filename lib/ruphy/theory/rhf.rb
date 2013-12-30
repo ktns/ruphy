@@ -128,6 +128,7 @@ module RuPHY
         def total_energy
           nuclear_repulsion_energy + total_electronic_energy
         end
+        alias E total_energy
 
         # Return virial ratio calculated from current MO vectors.
         def virial_ratio
@@ -162,6 +163,7 @@ module RuPHY
           @mo = MO.new(geometry, basisset)
         end
         attr_reader :mo
+        alias result mo
 
         def next_density_matrix previous_density_matrix
           previous_density_matrix

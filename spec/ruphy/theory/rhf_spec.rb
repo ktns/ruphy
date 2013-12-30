@@ -17,7 +17,17 @@ describe RuPHY::Theory::RHF do
   end
 
   describe 'on Helium atom' do
-    it 'should yield -2.859895425 hartree of total energy'
+    let(:energy){@solver.result.E}
+    context 'with STO-3G basis set' do 
+      before :all do
+        @mol=RuPHY::Geometry::Molecule.new('[He]','smi')
+        @basisset = RuPHY::BasisSet::STO3G
+        @solver   = described_class::Solver.new(@mol, @basisset)
+
+        2.times{@solver.iterate}
+      end
+      specify{expect(energy).to be_within(1e-5).of(-2.807783)}
+    end
   end
 
   describe '#solve_roothaan_equation' do
