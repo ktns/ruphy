@@ -63,7 +63,7 @@ GEM
       multi_json (~> 1.0)
       multi_xml (~> 0.5)
       rack (~> 1.2)
-    openbabel (2.3.1.9)
+    openbabel (2.3.2.0)
     racc (1.4.10)
     rack (1.5.2)
     rake (10.1.0)
@@ -113,9 +113,9 @@ DEPENDENCIES
   autotest-inotify
   autotest-tmux
   backports (~> 2.6.5)
-  bundler (~> 1.3.5)
+  bundler (~> 1.5.0)
   jeweler (~> 1.8.8)
-  openbabel (~> 2.3.1.8)
+  openbabel (~> 2.3.2.0)
   racc (~> 1.4)
   rcov (~> 1.0.0)
   rdoc (~> 4.0)
