@@ -26,7 +26,7 @@ end
 if RuPHY::Libint2::compiled?
   describe RuPHY::Libint2::Evaluator do
     before do
-      @ams    = 4.times.collect{rand(0..3)}
+      @ams    = 4.times.collect{rand(4)}
       @shells = 4.times.collect{|i|double("shell#{i}", :angular_momentum=>@ams[i])}
       @max_am = @ams.max
     end
