@@ -115,6 +115,7 @@ Rake::ExtensionTask.new('ruphy_libint2') do |ext|
   if dir = ENV['LIBINT2_DIR'] and File.directory? dir
     ext.config_options << "--with-libint2-dir=#{dir}"
   end
+  ext.source_pattern = '*.{c,cc}'
 end
 
 task :spec => :compile
