@@ -26,7 +26,7 @@ static VALUE new_method(VALUE self, VALUE args){
 	st->buf = NULL;
 	ret = Data_Wrap_Struct(self, 0, free_libint_t, st);
 	rb_apply(ret, rb_intern("initialize"), args); // this may not return due to exception
-	max_am = NUM2UINT(rb_ivar_get(self, rb_intern("@max_angular_momentum")));
+	max_am = NUM2UINT(rb_ivar_get(ret, rb_intern("@max_angular_momentum")));
 	buf_size = LIBINT2_PREFIXED_NAME(libint2_need_memory_eri)(max_am);
 	heap = ruby_xmalloc(sizeof(LIBINT2_REALTYPE[buf_size]));
 	st->buf = new(heap) LIBINT2_REALTYPE[buf_size];
@@ -37,10 +37,11 @@ static VALUE new_method(VALUE self, VALUE args){
 static VALUE initialize(VALUE self, VALUE shell1, VALUE shell2, VALUE shell3, VALUE shell4){
 	unsigned int max_am = 0;
 	rb_ivar_set(self, rb_intern("@shells"), rb_ary_new3(4, shell1, shell2, shell3, shell4));
-	max_am = MAX(max_am, NUM2UINT(rb_apply(shell1, rb_intern("angular_momentum"), Qnil)));
-	max_am = MAX(max_am, NUM2UINT(rb_apply(shell2, rb_intern("angular_momentum"), Qnil)));
-	max_am = MAX(max_am, NUM2UINT(rb_apply(shell3, rb_intern("angular_momentum"), Qnil)));
-	max_am = MAX(max_am, NUM2UINT(rb_apply(shell4, rb_intern("angular_momentum"), Qnil)));
+	VALUE empty_ary = rb_ary_new();
+	max_am = MAX(max_am, NUM2UINT(rb_apply(shell1, rb_intern("angular_momentum"), empty_ary)));
+	max_am = MAX(max_am, NUM2UINT(rb_apply(shell2, rb_intern("angular_momentum"), empty_ary)));
+	max_am = MAX(max_am, NUM2UINT(rb_apply(shell3, rb_intern("angular_momentum"), empty_ary)));
+	max_am = MAX(max_am, NUM2UINT(rb_apply(shell4, rb_intern("angular_momentum"), empty_ary)));
 	rb_ivar_set(self, rb_intern("@max_angular_momentum"), UINT2NUM(max_am));
 	return self;
 }
