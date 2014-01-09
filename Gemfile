@@ -43,10 +43,8 @@ group :autotest_tmux do
   gem 'autotest-tmux'
 end
 
-if RUBY_PLATFORM =~ /darwin/
-  group :autotest_fsevent do
-    gem 'autotest-fsevent'
-  end
+group :autotest_fsevent do
+  gem 'autotest-fsevent', :require => (RUBY_PLATFORM =~ /darwin/)
 end
 
 group :autotest_growl do
