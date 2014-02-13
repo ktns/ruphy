@@ -10,7 +10,7 @@ gem "backports", "~> 2.6.5"
 group :development do
   gem "bundler", ">= 1.3.5"
   gem "rspec", "~> 2.14.1"
-  gem "jeweler", "~> 1.8.8"
+  gem "jeweler", "~> 2.0.1"
   gem "rdoc", "~> 4.0"
   gem "racc", "~> 1.4"
   #gem "rake-compiler", "~> 0.8.0"
