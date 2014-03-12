@@ -5,13 +5,15 @@ describe RuPHY::Math do
 
   describe '#boys(r, n)' do
     subject{boys(r, n)}
-    context 'r = 0' do
+    context 'r=0,' do
       let(:r){0}
+      let(:correct_value){1.0/(2*n+1)}
 
       for n in 0..8
-        let(:n){n}
-        context 'n=%d' % n do
-          it{should be_within(1e-11).of(1.0/(2*n+1))}
+        context 'n=%d' % n, :n => n do
+          let(:n){example.metadata[:n]}
+
+          it{should be_within(1e-11).of(correct_value)}
         end
       end
     end
