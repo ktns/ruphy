@@ -18,6 +18,19 @@ describe RuPHY::Math do
       end
     end
 
+    context 'r~0,' do
+      let (:r){1e-30}
+      let(:correct_value){1.0/(2*n+1)}
+
+      for n in 0..8
+        context 'n=%d' % n, :n => n do
+          let(:n){example.metadata[:n]}
+
+          it{should be_within(1e-11).of(correct_value)}
+        end
+      end
+    end
+
     context 'n=0' do
       let(:n){0}
 
