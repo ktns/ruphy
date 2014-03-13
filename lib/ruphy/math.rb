@@ -3,6 +3,7 @@ module RuPHY
     include ::Math
 
     def boys(r,m)
+      raise ArgumentError, 'r=%e < 0!' % r if r < 0
       if r == 0
         return 1.0/(2*m+1)
       end
@@ -13,7 +14,13 @@ module RuPHY
       when -Float::INFINITY...0
         raise ArgumentError, 'Negative m specified!'
       when Integer
-        return (boys(r,m-1) * (2*m-1) - exp(-r)) / 2 / r
+        if r < 1e-2
+          return (0..10).inject(0) do |f,i|
+            f + 1.0/(2*(i+m)+1) * (-r)**i
+          end
+        else
+          return (boys(r,m-1) * (2*m-1) - exp(-r)) / 2 / r
+        end
       else
         raise ArgumentError, 'Unsupported value for m(=%p)!' % m
       end
