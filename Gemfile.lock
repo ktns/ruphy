@@ -118,7 +118,7 @@ DEPENDENCIES
   autotest-inotify
   autotest-tmux
   backports (~> 2.6.5)
-  bundler (>= 1.3.5)
+  bundler (>= 1.6.1)
   jeweler (~> 2.0.1)
   openbabel (~> 2.3.2.0)
   racc (~> 1.4)
