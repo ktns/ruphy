@@ -28,13 +28,13 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct::MC do
     context 'of type <s|s>' do
 
       context 'on one center' do
-        #let(:product) { s1 * s1 }
+        let(:product) { s1 * s1 }
 
         include_examples CwDEM, :overlap_integral
       end
 
       context 'on two centers' do
-        #let(:product) { s1 * s2 }
+        let(:product) { s1 * s2 }
 
         include_examples CwDEM, :overlap_integral
       end
@@ -42,13 +42,13 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct::MC do
 
     context 'of type <s|p>' do
       context 'on one center' do
-        #let(:product) { s1 * pz1 }
+        let(:product) { s1 * pz1 }
 
         include_examples CwDEM, :overlap_integral
       end
 
       context 'on two centers' do
-        #let(:product) { s1 * pz2 }
+        let(:product) { s1 * pz2 }
 
         include_examples CwDEM, :overlap_integral
       end

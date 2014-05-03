@@ -3,6 +3,7 @@ require 'ruphy/ao/gaussian'
 # This module contains methods that
 # evaluate molecular integrals using Monte Carlo method.
 module RuPHY::AO::Gaussian::Primitive::PrimitiveProduct::MC
+  Primitive = RuPHY::AO::Gaussian::Primitive
   include Math
 
   private
@@ -24,9 +25,46 @@ module RuPHY::AO::Gaussian::Primitive::PrimitiveProduct::MC
     return r*cos(theta), r*sin(theta)
   end
 
+  # iterate with random points
+  def iterate_points
+    return to_enum(:iterate_points) unless block_given?
+    loop do
+      x,y,z,w = *gaussian_rand2, *gaussian_rand2
+      yield x,y,z
+      x,y,z = w, *gaussian_rand2
+      yield x,y,z
+    end
+  end
+
+  def volume_factor
+    p ** -1.5 * PI ** 1.5 * prefactor
+  end
+
+  # Minimum number of samples
+  N = 1000
   public
-  def overlap_integral
-    raise NotImplementedError
+  def overlap_integral tolerant_error=1e-3
+    tolerant_error/=volume_factor
+    tolerant_variance=tolerant_error**2
+    iterate_points.each_with_index.inject([0,0]) do |*args|
+      (fsum, fsqsum), ((x,y,z),n) = *args
+      rp = Vector[x,y,z]/3/p
+      ra = rp + pa
+      rb = rp + pb
+      f = [ra.to_a, @primitive1.momenta].transpose.concat(
+        [rb.to_a, @primitive2.momenta].transpose
+      ).inject(1) do |azim, (x, i)|
+        azim * x**i
+      end
+      fsum+=f
+      fsqsum+=f**2
+      next fsum, fsqsum if n < N
+      n+=1
+      fmean = fsum/n
+      var = (fsqsum/n-fmean**2)/n
+      break fmean if var < tolerant_variance
+      next fsum, fsqsum
+    end * volume_factor
   end
 
   def kinetic_integral
