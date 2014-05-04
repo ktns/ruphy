@@ -23,8 +23,9 @@ group :test do
 end
 
 group :debug do
-  gem 'ruby-debug', :platform => :ruby_18
-  gem 'ruby-debug19', :platform => :ruby_19
+  gem 'debugger', :platform => :ruby_19
+  gem 'byebug', :platform => :ruby_20
+  gem 'byebug', :platform => :ruby_21
 end
 
 group :autotest do
