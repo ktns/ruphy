@@ -47,6 +47,6 @@ group :autotest_fsevent do
   gem 'autotest-fsevent', :require => (RUBY_PLATFORM =~ /darwin/)
 end
 
-group :autotest_growl do
-  gem 'autotest-growl'
+group :autotest_notification do
+  gem 'autotest-notification'
 end

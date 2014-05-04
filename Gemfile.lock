@@ -8,10 +8,12 @@ GEM
       ZenTest (>= 4.4.1)
     autotest-fsevent (0.2.9)
       sys-uname
-    autotest-growl (0.2.16)
     autotest-inotify (0.0.6)
       autotest (>= 4.2.4)
       rb-inotify
+    autotest-notification (2.3.4)
+      autotest-standalone (~> 4.5)
+    autotest-standalone (4.5.11)
     autotest-tmux (1.4.0)
       autotest
       autotest (>= 4.4.1)
@@ -116,8 +118,8 @@ PLATFORMS
 DEPENDENCIES
   ZenTest
   autotest-fsevent
-  autotest-growl
   autotest-inotify
+  autotest-notification
   autotest-tmux
   backports (~> 2.6.5)
   bundler (>= 1.6.1)
