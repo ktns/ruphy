@@ -73,8 +73,17 @@ module RuPHY::AO::Gaussian::Primitive::PrimitiveProduct::MC
     end
   end
 
-  def kinetic_integral
-    raise NotImplementedError
+  def kinetic_integral tolerant_error=1e-3
+    integrate tolerant_error do |ra, rb|
+      [ra.to_a, @primitive1.momenta].transpose.concat(
+        [rb.to_a, @primitive2.momenta].transpose
+      ).inject(1) do |azim, (x, i)|
+        azim * x**i
+      end *
+      [rb.to_a, @primitive2.momenta].transpose.inject(0) do |kinetic_coeff, (x,i)|
+        x**-2*(i**2-i - 2*a*x**2*(2*i-1) + 4*a**2*x**i) + kinetic_coeff
+      end
+    end
   end
 
   def nuclear_attraction_integral atom

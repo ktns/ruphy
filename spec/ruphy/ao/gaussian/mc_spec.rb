@@ -17,14 +17,13 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct::MC do
     end
   end
 
+  let(:s1){ described_class::Primitive.new(rand(0.0..4.0), [0,0,0], center1) }
+  let(:s2){ described_class::Primitive.new(rand(0.0..4.0), [0,0,0], center2) }
+  let(:pz1){ described_class::Primitive.new(rand(0.0..4.0), [0,0,1], center1) }
+  let(:pz2){ described_class::Primitive.new(rand(0.0..4.0), [0,0,1], center2) }
+  let(:center1){ [0,0,0] }
+  let(:center2){ 3.times.map{rand(0.1..3.0)} }
   describe '#overlap_integral' do
-    let(:s1){ described_class::Primitive.new(rand(0.0..4.0), [0,0,0], center1) }
-    let(:s2){ described_class::Primitive.new(rand(0.0..4.0), [0,0,0], center2) }
-    let(:pz1){ described_class::Primitive.new(rand(0.0..4.0), [0,0,1], center1) }
-    let(:pz2){ described_class::Primitive.new(rand(0.0..4.0), [0,0,1], center2) }
-    let(:center1){ [0,0,0] }
-    let(:center2){ 3.times.map{rand(0.1..3.0)} }
-
     context 'of type <s|s>' do
 
       context 'on one center' do
@@ -56,7 +55,34 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct::MC do
   end
 
   describe '#kinetic_integral' do
-    include_examples CwDEM, :kinetic_integral
+    context 'of type <s|s>' do
+
+      context 'on one center' do
+        let(:product) { s1 * s1 }
+
+        include_examples CwDEM, :overlap_integral
+      end
+
+      context 'on two centers' do
+        let(:product) { s1 * s2 }
+
+        include_examples CwDEM, :overlap_integral
+      end
+    end
+
+    context 'of type <s|p>' do
+      context 'on one center' do
+        let(:product) { s1 * pz1 }
+
+        include_examples CwDEM, :overlap_integral
+      end
+
+      context 'on two centers' do
+        let(:product) { s1 * pz2 }
+
+        include_examples CwDEM, :overlap_integral
+      end
+    end
   end
 
   describe '#nuclear_attraction_integral' do
