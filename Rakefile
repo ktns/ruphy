@@ -63,6 +63,7 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+CLEAN << 'rdoc'
 CLEAN << 'gem_graph.png' 
 
 # Racc task
