@@ -40,10 +40,7 @@ module RuPHY::AO::Gaussian::Primitive::PrimitiveProduct::MC
     p ** -1.5 * PI ** 1.5 * prefactor
   end
 
-  # Minimum number of samples
-  N = 1000
-  public
-  def overlap_integral tolerant_error=1e-3
+  def integrate tolerant_error=1e-3
     tolerant_error/=volume_factor
     tolerant_variance=tolerant_error**2
     iterate_points.each_with_index.inject([0,0]) do |*args|
@@ -51,11 +48,7 @@ module RuPHY::AO::Gaussian::Primitive::PrimitiveProduct::MC
       rp = Vector[x,y,z]/3/p
       ra = rp + pa
       rb = rp + pb
-      f = [ra.to_a, @primitive1.momenta].transpose.concat(
-        [rb.to_a, @primitive2.momenta].transpose
-      ).inject(1) do |azim, (x, i)|
-        azim * x**i
-      end
+      f = yield ra, rb
       fsum+=f
       fsqsum+=f**2
       next fsum, fsqsum if n < N
@@ -65,6 +58,19 @@ module RuPHY::AO::Gaussian::Primitive::PrimitiveProduct::MC
       break fmean if var < tolerant_variance
       next fsum, fsqsum
     end * volume_factor
+  end
+
+  # Minimum number of samples
+  N = 1000
+  public
+  def overlap_integral tolerant_error=1e-3
+    integrate tolerant_error do |ra, rb|
+      [ra.to_a, @primitive1.momenta].transpose.concat(
+        [rb.to_a, @primitive2.momenta].transpose
+      ).inject(1) do |azim, (x, i)|
+        azim * x**i
+      end
+    end
   end
 
   def kinetic_integral
