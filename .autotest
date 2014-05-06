@@ -4,6 +4,9 @@ Autotest.add_hook :initialize do |at|
   at.add_mapping(%r<lib/(.+)\.(?:y|rb)$>) do |f,matched|
     "spec/#{matched[1]}_spec.rb"
   end
+  at.add_mapping(/Gemfile.lock/) do
+    at.files_matching %r(spec/.*_spec.rb)
+  end
 end
 
 Autotest.add_hook :run_command do |at|
