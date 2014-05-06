@@ -19,7 +19,6 @@ GEM
       jeweler
       rake
       rspec (>= 2.0.0)
-    backports (2.6.7)
     builder (3.2.2)
     byebug (3.1.2)
       columnize (~> 0.8)
@@ -109,7 +108,6 @@ DEPENDENCIES
   autotest-inotify
   autotest-notification
   autotest-tmux
-  backports (~> 2.6.5)
   bundler (>= 1.6.1)
   byebug
   debugger
