@@ -7,7 +7,7 @@ gem "openbabel", "~> 2.3.2.0"
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
 group :development do
-  gem "bundler", ">= 1.6.1"
+  gem "bundler", "~> 1.7"
   gem "jeweler", "~> 2.0.1"
   gem "rdoc", "~> 4.0"
   gem "racc", "~> 1.4"
