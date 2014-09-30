@@ -1,5 +1,10 @@
 require 'mkmf'
 
+pkgconfig_incflags,_ = pkg_config('libint2')
+if pkgconfig_incflags
+  $INCFLAGS+= ' ' + pkgconfig_incflags # Required for CXXFLAGS
+end
+
 incdir, libdir = dir_config('libint2')
 
 HEADER_SEARCH_PATH = %W<#{incdir} #{incdir}/libint2 /usr/include/libint2 /usr/local/include/libint2>
