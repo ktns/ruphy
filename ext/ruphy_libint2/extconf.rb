@@ -19,7 +19,21 @@ have_header('libint2.h') or
   find_header('libint2_params.h', *HEADER_SEARCH_PATH) and have_header('libint2_params.h') or
   find_header('libint2.h', *HEADER_SEARCH_PATH) and have_header('libint2.h') or
   raise "Error: cannot find libint2.h. Please specify --with-libint2-dir option."
+
+_, endproc_def =
+[ %w'(void*) -DRUPHY_ENDPROC_VOID',
+  %w'(void(*)(VALUE)) -DRUPHY_ENDPROC_FUNC' ].find do |type, _|
+    try_compile(<<EOS)
+#include <ruby.h>
+int main(void){
+  rb_set_end_proc(#{type}0, Qnil);
+}
+EOS
+  end
+$defs << endproc_def unless endproc_def.nil?
+
 $CFLAGS.sub!(COMPILER_LANG_FLAG_CXX, '')
+
 have_func('libint2_init_eri')
 
 create_header
