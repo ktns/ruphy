@@ -18,7 +18,8 @@ $CFLAGS+=COMPILER_LANG_FLAG_CXX
 have_header('libint2.h') or
   find_header('libint2_params.h', *HEADER_SEARCH_PATH) and have_header('libint2_params.h') or
   find_header('libint2.h', *HEADER_SEARCH_PATH) and have_header('libint2.h') or
-  raise "Error: cannot find libint2.h. Please specify --with-libint2-dir option."
+  raise "Error: cannot find libint2.h.\n" +
+  "Please specify the path to libint2 by --with-libint2-dir option or PKG_CONFIG_PATH."
 
 _, endproc_def =
 [ %w'(void*) -DRUPHY_ENDPROC_VOID',
