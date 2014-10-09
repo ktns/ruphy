@@ -3,9 +3,11 @@ begin
 
   class RuPHY::Libint2::Evaluator
     def initialize shell1, shell2, shell3, shell4
-      @max_angular_momentum = [
+      @shells = [
         shell1, shell2, shell3, shell4
-      ].map{|s|s.angular_momentum}.max
+      ]
+      @max_angular_momentum = @shells.map{|s|s.angular_momentum}.max
+      @max_contrdepth = @shells.map{|s| s.contrdepth }.reduce(&:*)
     end
   end
 rescue LoadError

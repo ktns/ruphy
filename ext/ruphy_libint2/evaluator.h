@@ -1,6 +1,6 @@
 #pragma once
 typedef struct _evaluator_struct{
-	Libint_eri_t erieval;
+	Libint_eri_t *erieval;
 	LIBINT2_REALTYPE * buf;
 }evaluator_struct;
 

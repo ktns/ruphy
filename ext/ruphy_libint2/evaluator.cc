@@ -14,23 +14,29 @@ static void free_libint_t(void *p){
 	if(st->buf != NULL){
 		ruby_xfree(st->buf);
 	}
+	if(st->erieval != NULL){
+		delete []st->erieval;
+	}
 	ruby_xfree(st);
 }
 
 static VALUE new_method(VALUE self, VALUE args){
 	VALUE ret;
-	unsigned int max_am;
+	unsigned int max_am, max_cd;
 	size_t buf_size;
 	void *heap;
 	evaluator_struct *st = ALLOC(evaluator_struct);
 	st->buf = NULL;
+	st->erieval = NULL;
 	ret = Data_Wrap_Struct(self, 0, free_libint_t, st);
 	rb_apply(ret, rb_intern("initialize"), args); // this may not return due to exception
 	max_am = NUM2UINT(rb_ivar_get(ret, rb_intern("@max_angular_momentum")));
+	max_cd = NUM2UINT(rb_ivar_get(ret, rb_intern("@max_contrdepth")));
 	buf_size = LIBINT2_PREFIXED_NAME(libint2_need_memory_eri)(max_am);
 	heap = ruby_xmalloc(sizeof(LIBINT2_REALTYPE[buf_size]));
+	st->erieval = new Libint_eri_t[max_cd];
 	st->buf = new(heap) LIBINT2_REALTYPE[buf_size];
-	LIBINT2_PREFIXED_NAME(libint2_init_eri)(&st->erieval, max_am, st->buf);
+	LIBINT2_PREFIXED_NAME(libint2_init_eri)(&st->erieval[0], max_am, st->buf);
 	return ret;
 }
 
