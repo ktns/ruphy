@@ -28,26 +28,6 @@ group :debug do
   gem 'byebug', :platform => [:ruby_20, :ruby_21]
 end
 
-group :autotest do
-  gem 'ZenTest'
-end
-
 group :profile do
   gem 'ruby-prof'
-end
-
-group :autotest_inotify do
-  gem 'autotest-inotify'
-end
-
-group :autotest_tmux do
-  gem 'autotest-tmux'
-end
-
-group :autotest_fsevent do
-  gem 'autotest-fsevent', :require => (RUBY_PLATFORM =~ /darwin/)
-end
-
-group :autotest_notification do
-  gem 'autotest-notification'
 end
