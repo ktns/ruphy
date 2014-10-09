@@ -54,6 +54,10 @@ module RuPHY
           def center
             raise NotImplementedError, "No center is defined!"
           end
+
+          def contrdepth
+            return @zetas.size
+          end
         end
       end
     end

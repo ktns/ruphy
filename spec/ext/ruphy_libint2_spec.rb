@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ruphy_libint2'
+require 'ruphy/libint2'
 
 describe RuPHY::Libint2 do
   if described_class.compiled?

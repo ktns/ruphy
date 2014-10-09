@@ -34,22 +34,9 @@ static VALUE new_method(VALUE self, VALUE args){
 	return ret;
 }
 
-static VALUE initialize(VALUE self, VALUE shell1, VALUE shell2, VALUE shell3, VALUE shell4){
-	unsigned int max_am = 0;
-	rb_ivar_set(self, rb_intern("@shells"), rb_ary_new3(4, shell1, shell2, shell3, shell4));
-	VALUE empty_ary = rb_ary_new();
-	max_am = MAX(max_am, NUM2UINT(rb_apply(shell1, rb_intern("angular_momentum"), empty_ary)));
-	max_am = MAX(max_am, NUM2UINT(rb_apply(shell2, rb_intern("angular_momentum"), empty_ary)));
-	max_am = MAX(max_am, NUM2UINT(rb_apply(shell3, rb_intern("angular_momentum"), empty_ary)));
-	max_am = MAX(max_am, NUM2UINT(rb_apply(shell4, rb_intern("angular_momentum"), empty_ary)));
-	rb_ivar_set(self, rb_intern("@max_angular_momentum"), UINT2NUM(max_am));
-	return self;
-}
-
 extern "C"
 void ruphy_libint2_define_evaluator(VALUE libint2_module){
 	evaluator_class = rb_define_class_under(libint2_module, "Evaluator", rb_cObject);
-	rb_define_method(evaluator_class, "initialize", (VALUE(*)(...))initialize, 4);
 	rb_define_singleton_method(evaluator_class, "new", (VALUE(*)(...))new_method, -2);
 	rb_define_attr(evaluator_class, "max_angular_momentum", true, false);
 }
