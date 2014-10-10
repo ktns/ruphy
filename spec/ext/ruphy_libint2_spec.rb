@@ -30,7 +30,8 @@ if RuPHY::Libint2::compiled?
       @shells = 4.times.collect do |i|
         double("shell#{i}",
                :angular_momentum=>@ams[i],
-               :contrdepth=>1)
+               :contrdepth=>1,
+               :center=>random_vector)
       end
       @max_am = @ams.max
     end
