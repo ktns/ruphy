@@ -15,6 +15,8 @@ begin
       @ABx,@ABy, @ABz = *(@AB = @B - @A)
       @CDx,@CDy, @CDz = *(@CD = @D - @C)
     end
+
+    attr_reader :max_angular_momentum
   end
 rescue LoadError
 end

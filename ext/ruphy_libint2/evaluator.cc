@@ -44,7 +44,6 @@ extern "C"
 void ruphy_libint2_define_evaluator(VALUE libint2_module){
 	evaluator_class = rb_define_class_under(libint2_module, "Evaluator", rb_cObject);
 	rb_define_singleton_method(evaluator_class, "new", (VALUE(*)(...))new_method, -2);
-	rb_define_attr(evaluator_class, "max_angular_momentum", true, false);
 }
 
 #endif // HAVE_LIBINT2_H
