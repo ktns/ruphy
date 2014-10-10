@@ -73,7 +73,7 @@ RaccOutputs = RaccSources.ext('rb')
 task :racc => RaccOutputs
 task :spec => RaccOutputs
 
-CLEAN << RaccOutputs
+CLEAN.concat RaccOutputs
 
 rule '.rb' => '.y' do |t|
   opts = []
@@ -88,7 +88,7 @@ Gaussian94Outputs = Gaussian94Sources.ext('.yml')
 task :gbs2yml => Gaussian94Outputs
 task :spec => Gaussian94Outputs
 
-CLOBBER << Gaussian94Outputs
+CLOBBER.concat Gaussian94Outputs
 
 rule '.yml' => ['.gbs', 'lib/ruphy/basisset/parser/gaussian94.rb'] do |t|
   require 'yaml'
@@ -110,7 +110,7 @@ end
 # prof task
 ProfSources = FileList['prof/*_prof']
 ProfOutputs = ProfSources.sub(/$/,'.out')
-CLEAN << ProfOutputs
+CLEAN.concat ProfOutputs
 
 task :prof => :profile
 task :profile => ProfOutputs
