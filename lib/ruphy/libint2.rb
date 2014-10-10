@@ -3,7 +3,7 @@ begin
 
   class RuPHY::Libint2::Evaluator
     def initialize shell0, shell1, shell2, shell3
-      @shells = [
+      @shell0, @shell1, @shell2, @shell3 = @shells = [
         shell0, shell1, shell2, shell3
       ]
       @max_angular_momentum = @shells.map{|s|s.angular_momentum}.max
@@ -17,6 +17,18 @@ begin
     end
 
     attr_reader :max_angular_momentum
+
+    def each_primitive_shell
+      @shell0.each_primitive_shell do |c0,z0|
+        @shell1.each_primitive_shell do |c1,z1|
+          @shell2.each_primitive_shell do |c2,z2|
+            @shell3.each_primitive_shell do |c3,z3|
+              yield c0*c1*c2*c3,z0,z1,z2,z3
+            end
+          end
+        end
+      end
+    end
   end
 rescue LoadError
 end
