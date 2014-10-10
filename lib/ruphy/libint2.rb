@@ -29,6 +29,12 @@ begin
         end
       end
     end
+
+    def each_primitive_shell_with_index
+      enum_for(:each_primitive_shell).each_with_index do |(*arg),i|
+        yield i, *arg
+      end
+    end
   end
 rescue LoadError
 end

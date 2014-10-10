@@ -54,5 +54,18 @@ if RuPHY::Libint2::compiled?
         end
       end
     end
+
+    describe '#each_primitive_shell_with_index' do
+      it 'should invoke block with correct arguments' do
+        subject.each_primitive_shell_with_index do |i, c, z0, z1, z2, z3|
+          expect(i).to eq 0
+          expect(c).to eq 1
+          expect(z0).to eq @shells[0].zeta
+          expect(z1).to eq @shells[1].zeta
+          expect(z2).to eq @shells[2].zeta
+          expect(z3).to eq @shells[3].zeta
+        end
+      end
+    end
   end
 end
