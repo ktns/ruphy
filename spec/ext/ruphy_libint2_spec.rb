@@ -67,5 +67,28 @@ if RuPHY::Libint2::compiled?
         end
       end
     end
+
+    describe '#initialize_evaluator' do
+      it 'should not raise error' do
+        expect{subject.initialize_evaluator}.not_to raise_error
+      end
+
+      it 'should set coordinates of centers' do
+        subject.initialize_evaluator
+        ax, ay, az, bx, by, bz, cx, cy, cz, dx, dy, dz = subject.packed_center_coordinates.unpack('d12')
+        expect(ax).to eq(@shells[0].center[0])
+        expect(ay).to eq(@shells[0].center[1])
+        expect(az).to eq(@shells[0].center[2])
+        expect(bx).to eq(@shells[1].center[0])
+        expect(by).to eq(@shells[1].center[1])
+        expect(bz).to eq(@shells[1].center[2])
+        expect(cx).to eq(@shells[2].center[0])
+        expect(cy).to eq(@shells[2].center[1])
+        expect(cz).to eq(@shells[2].center[2])
+        expect(dx).to eq(@shells[3].center[0])
+        expect(dy).to eq(@shells[3].center[1])
+        expect(dz).to eq(@shells[3].center[2])
+      end
+    end
   end
 end
