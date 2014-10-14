@@ -131,4 +131,23 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
       end
     end
   end
+
+  describe '#each_primitive_shells' do
+    specify do
+      expect{ |b| shell.each_primitive_shell(&b) }.to yield_successive_args(
+        *zetas.map{|z| [described_class::CoeffMap, z]}
+      )
+    end
+
+    specify do
+      expect { shell.enum_for(:each_primitive_shell).first } ==
+        [azimuthal_quantum_numbers.zip(coeffs.first).to_h, zetas.first]
+    end
+
+    specify do
+      expect{ |b| shell.each_primitive_shell(&b) }.to yield_successive_args(
+        *coeffs.transpose.zip(zetas).map{|c,z| [azimuthal_quantum_numbers.zip(c).to_h, z]}
+      )
+    end
+  end
 end

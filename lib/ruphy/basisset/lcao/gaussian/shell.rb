@@ -58,6 +58,32 @@ module RuPHY
           def contrdepth
             return @zetas.size
           end
+
+          # Returns a map from an azimuthal quantum number to a coefficient of the ith primitive.
+          def coeffmap i
+            @azimuthal_quantum_numbers.each_with_object(CoeffMap.new) do |l,m|
+              m[l]=@sets_of_coeffs[l][i]
+            end
+          end
+
+          class CoeffMap < Hash
+            # {l1 => c1} * {l2 => c2} = {[l1, l2] => c1*c2}
+            # {[l1, l2] => c1*c2} * {l3 => c3} = {[l1, l2, l3] => c1*c2*c3}
+            def * other
+              each_with_object(CoeffMap.new) do |(l1, c1), map|
+                other.each do |l2,c2|
+                  map[[*l1, *l2]]=c1*c2
+                end
+              end
+            end
+          end
+
+          # Iterates over maps of coefficient and zetas of all primitives.
+          def each_primitive_shell
+            @zetas.each_with_index do |z,i|
+              yield coeffmap(i),z
+            end
+          end
         end
       end
     end
