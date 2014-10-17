@@ -6,6 +6,7 @@ begin
       @shell0, @shell1, @shell2, @shell3 = @shells = [
         shell0, shell1, shell2, shell3
       ]
+      @total_angular_momentum = @shells.map{|s|s.angular_momentum}.reduce(&:+)
       @max_angular_momentum = @shells.map{|s|s.angular_momentum}.max
       @max_contrdepth = @shells.map{|s| s.contrdepth }.reduce(&:*)
       @Ax,@Ay,@Az = *(@A = shell0.center)

@@ -29,6 +29,7 @@ static VALUE new_method(VALUE self, VALUE args){
   st->erieval = NULL;
   ret = Data_Wrap_Struct(self, 0, free_libint_t, st);
   rb_apply(ret, rb_intern("initialize"), args); // this may not return due to exception
+  st->tot_am = NUM2UINT(rb_ivar_get(ret, rb_intern("@total_angular_momentum")));
   st->max_am = NUM2UINT(rb_ivar_get(ret, rb_intern("@max_angular_momentum")));
   st->max_cd = NUM2UINT(rb_ivar_get(ret, rb_intern("@max_contrdepth")));
   buf_size = LIBINT2_PREFIXED_NAME(libint2_need_memory_eri)(st->max_am);
