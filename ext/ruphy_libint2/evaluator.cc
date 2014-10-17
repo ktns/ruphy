@@ -324,6 +324,7 @@ static VALUE initialize_evaluator_primitive(VALUE, VALUE evaluator, int argc, VA
 #if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(20))
   erieval->LIBINT_T_SS_EREP_SS(20)[0] = pfac*F[20];
 #endif
+  return evaluator;
 }
 
 static VALUE initialize_evaluator(VALUE evaluator){
@@ -342,6 +343,7 @@ static VALUE initialize_evaluator(VALUE evaluator){
   st->Dy = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dy")));
   st->Dz = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dz")));
   rb_block_call(evaluator, rb_intern("each_primitive_shell_with_index"), 0, NULL, (VALUE(*)(...))initialize_evaluator_primitive, evaluator);
+  return evaluator;
 }
 
 extern "C"
