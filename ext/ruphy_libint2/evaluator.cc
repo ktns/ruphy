@@ -89,15 +89,18 @@ static VALUE initialize_evaluator_primitive(VALUE, VALUE evaluator, int argc, VA
         gammaq_o_gammapgammaq = gammapq * oogammap,
         rhop = alpha0 * alpha1 * oogammap,
         rhoq = alpha2 * alpha3 * oogammaq,
-        Ax = st->Ax, Bx = st->Bx, Cx = st->Cx, Dx = st->Dx,
-        Ay = st->Ay, By = st->By, Cy = st->Cy, Dy = st->Dy,
-        Az = st->Az, Bz = st->Bz, Cz = st->Cz, Dz = st->Dz,
-        Px = (alpha0 * st->Ax + alpha1 * st->Bx ) * oogammap,
-        Py = (alpha0 * st->Ay + alpha1 * st->By ) * oogammap,
-        Pz = (alpha0 * st->Az + alpha1 * st->Bz ) * oogammap,
-        Qx = (alpha0 * st->Cx + alpha1 * st->Dx ) * oogammaq,
-        Qy = (alpha0 * st->Cy + alpha1 * st->Dy ) * oogammaq,
-        Qz = (alpha0 * st->Cz + alpha1 * st->Dz ) * oogammaq,
+        Ax = st->centers.coords.Ax, Bx = st->centers.coords.Bx,
+        Ay = st->centers.coords.Ay, By = st->centers.coords.By,
+        Az = st->centers.coords.Az, Bz = st->centers.coords.Bz,
+        Cx = st->centers.coords.Cx, Dx = st->centers.coords.Dx,
+        Cy = st->centers.coords.Cy, Dy = st->centers.coords.Dy,
+        Cz = st->centers.coords.Cz, Dz = st->centers.coords.Dz,
+        Px = (alpha0 * Ax + alpha1 * Bx ) * oogammap,
+        Py = (alpha0 * Ay + alpha1 * By ) * oogammap,
+        Pz = (alpha0 * Az + alpha1 * Bz ) * oogammap,
+        Qx = (alpha0 * Cx + alpha1 * Dx ) * oogammaq,
+        Qy = (alpha0 * Cy + alpha1 * Dy ) * oogammaq,
+        Qz = (alpha0 * Cz + alpha1 * Dz ) * oogammaq,
         Wx = (gammap_o_gammapgammaq * Px + gammaq_o_gammapgammaq * Qx),
         Wy = (gammap_o_gammapgammaq * Py + gammaq_o_gammapgammaq * Qy),
         Wz = (gammap_o_gammapgammaq * Pz + gammaq_o_gammapgammaq * Qz),
@@ -330,18 +333,18 @@ static VALUE initialize_evaluator_primitive(VALUE, VALUE evaluator, int argc, VA
 static VALUE initialize_evaluator(VALUE evaluator){
   evaluator_struct* st;
   Data_Get_Struct(evaluator, evaluator_struct, st);
-  st->Ax = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Ax")));
-  st->Ay = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Ay")));
-  st->Az = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Az")));
-  st->Bx = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Bx")));
-  st->By = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@By")));
-  st->Bz = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Bz")));
-  st->Cx = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Cx")));
-  st->Cy = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Cy")));
-  st->Cz = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Cz")));
-  st->Dx = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dx")));
-  st->Dy = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dy")));
-  st->Dz = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dz")));
+  st->centers.coords.Ax = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Ax")));
+  st->centers.coords.Ay = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Ay")));
+  st->centers.coords.Az = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Az")));
+  st->centers.coords.Bx = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Bx")));
+  st->centers.coords.By = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@By")));
+  st->centers.coords.Bz = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Bz")));
+  st->centers.coords.Cx = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Cx")));
+  st->centers.coords.Cy = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Cy")));
+  st->centers.coords.Cz = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Cz")));
+  st->centers.coords.Dx = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dx")));
+  st->centers.coords.Dy = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dy")));
+  st->centers.coords.Dz = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dz")));
   rb_block_call(evaluator, rb_intern("each_primitive_shell_with_index"), 0, NULL, (VALUE(*)(...))initialize_evaluator_primitive, evaluator);
   return evaluator;
 }
