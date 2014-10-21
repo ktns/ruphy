@@ -33,7 +33,7 @@ module RSpec::Matchers
         return self
       end
 
-      def failure_message_for_should
+      def failure_message
         "expected %p to be within %p of %p but actual delta = %p" % [@exception, @delta, @expected, @actual_delta]
       end
 
