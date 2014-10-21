@@ -277,9 +277,9 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
       block and val = block
 
       def E(t,i,j)
-        allow(product).to receive(:p).with().and_return(p)
-        allow(product).to receive(:pa).with().and_return(mock_vector(pa,:pa,xyz))
-        allow(product).to receive(:pb).with().and_return(mock_vector(pb,:pb,xyz))
+        allow(product).to receive(:p).with(no_args).and_return(p)
+        allow(product).to receive(:pa).with(no_args).and_return(mock_vector(pa,:pa,xyz))
+        allow(product).to receive(:pb).with(no_args).and_return(mock_vector(pb,:pb,xyz))
         product.hermitian_coeff_decomposed(t,i,j,xyz)
       end
 
