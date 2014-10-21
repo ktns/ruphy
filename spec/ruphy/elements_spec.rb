@@ -29,6 +29,6 @@ describe RuPHY::ElementsClass do
       super[:H]
     end
 
-    its(:m){should be_within(1).percent_of(RuPHY::Constants::Da)}
+    its(:m){is_expected.to be_within(1).percent_of(RuPHY::Constants::Da)}
   end
 end

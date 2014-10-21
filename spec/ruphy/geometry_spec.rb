@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe RuPHY::Geometry::Molecule do
   shared_examples_for 'proper molecule' do
-    its(:each_atom){should all_be_kind_of RuPHY::Geometry::Atom}
+    its(:each_atom){is_expected.to all_be_kind_of RuPHY::Geometry::Atom}
 
-    its(:each){should all_be_kind_of RuPHY::Geometry::Atom}
+    its(:each){is_expected.to all_be_kind_of RuPHY::Geometry::Atom}
   end
 
   context 'with xyz' do
@@ -22,13 +22,13 @@ describe RuPHY::Geometry::Molecule do
     let(:correct_size){3}
 
     shared_examples_for "molecule read from xyz" do
-      its(:size){should == correct_size}
+      its(:size){is_expected.to eq correct_size}
 
-      its(:nuclear_repulsion_energy){should be_within(1e-5).of(9.24861786)}
+      its(:nuclear_repulsion_energy){is_expected.to be_within(1e-5).of(9.24861786)}
 
       it{is_expected.to have(3).atoms}
 
-      its(:total_nuclear_charge){should == 10}
+      its(:total_nuclear_charge){is_expected.to eq 10}
     end
 
     context 'string' do
@@ -69,5 +69,5 @@ describe RuPHY::Geometry::Atom do
   let(:center){Array.new(3){rand()}}
   subject{described_class.new(dummy_atom(*center))}
 
-  its(:vector){should == Vector[*center] * described_class::Angstrom}
+  its(:vector){is_expected.to eq Vector[*center] * described_class::Angstrom}
 end

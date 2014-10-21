@@ -34,11 +34,11 @@ describe RuPHY::AO::Gaussian::Primitive do
 
     subject{primitive}
 
-    its(:zeta){ should be_frozen }
+    its(:zeta){ is_expected.to be_frozen }
 
-    its(:momenta){ should be_frozen }
+    its(:momenta){ is_expected.to be_frozen }
 
-    its(:center){ should be_frozen }
+    its(:center){ is_expected.to be_frozen }
 
     describe '#normalization_factor' do
       subject{primitive.normalization_factor}
@@ -59,7 +59,7 @@ describe RuPHY::AO::Gaussian::Primitive do
     end
 
     its(:angular_momentum) do
-      should == momenta.reduce(:+)
+      is_expected.to eq momenta.reduce(:+)
     end
 
     describe 'diagonal kinetic integal' do

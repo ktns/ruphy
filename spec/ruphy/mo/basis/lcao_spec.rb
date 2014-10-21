@@ -93,7 +93,7 @@ describe RuPHY::MO::Basis::LCAO::Shell do
 
     subject{described_class.new(abst_shell, center)}
 
-    its(:center){should == center}
+    its(:center){is_expected.to eq center}
 
     describe '#aos' do
       it "should invoke abst_shell#aos" do

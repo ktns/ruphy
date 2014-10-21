@@ -25,9 +25,9 @@ describe RuPHY::Element do
     is_expected.not_to be_eql other_element
   end
 
-  its(:z){should == subject.Z}
+  its(:z){is_expected.to eq subject.Z}
 
-  its(:atomic_number){should == subject.Z}
+  its(:atomic_number){is_expected.to eq subject.Z}
 
   describe '#hash' do
     subject{element.hash}
@@ -41,9 +41,9 @@ describe RuPHY::Element do
     end
   end
 
-  its(:to_yaml){should_not include 'sym:'}
+  its(:to_yaml){is_expected.not_to include 'sym:'}
 
-  its(:to_yaml){should_not include 'u:'}
+  its(:to_yaml){is_expected.not_to include 'u:'}
 
   context 'deserialized from YAML' do
     let(:original){RuPHY::Elements.values.sample}
@@ -55,8 +55,8 @@ describe RuPHY::Element do
 
     it {is_expected.to be_eql original}
 
-    its(:hash){should == original.hash}
+    its(:hash){is_expected.to eq original.hash}
 
-    its(:m){should == original.m}
+    its(:m){is_expected.to eq original.m}
   end
 end

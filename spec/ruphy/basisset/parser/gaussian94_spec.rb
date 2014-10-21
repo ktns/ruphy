@@ -6,7 +6,7 @@ describe RuPHY::BasisSet::Parser::Gaussian94 do
   describe '::ANGULAR_MOMENTA_ALL' do
     subject{described_class::ANGULAR_MOMENTA_ALL}
 
-    its(:size){should be == 2**described_class::ANGULAR_MOMENTA.size - 1}
+    its(:size){is_expected.to eq(2**described_class::ANGULAR_MOMENTA.size - 1)}
   end
   let(:sto3g_txt){<<EOF
 
@@ -108,15 +108,15 @@ EOF
 
       it{is_expected.to return_a RuPHY::BasisSet}
 
-      its(:elements){should include RuPHY::Elements[:H]}
+      its(:elements){is_expected.to include RuPHY::Elements[:H]}
 
-      its(:elements){should include RuPHY::Elements[:He]}
+      its(:elements){is_expected.to include RuPHY::Elements[:He]}
 
-      its(:elements){should include RuPHY::Elements[:C]}
+      its(:elements){is_expected.to include RuPHY::Elements[:C]}
 
-      its(:elements){should include RuPHY::Elements[:Ti]}
+      its(:elements){is_expected.to include RuPHY::Elements[:Ti]}
 
-      its(:comment){should be_digested_as "r\xAE\xB2s\xBC^\xD31X*\xB4:^\x05Lb"}
+      its(:comment){is_expected.to be_digested_as "r\xAE\xB2s\xBC^\xD31X*\xB4:^\x05Lb"}
 
       describe '#shells' do
         let(:shells){basisset.shells(arg)}
@@ -160,9 +160,9 @@ EOF
       describe 'its SP shell' do
         def subject; super.shells(:C).first.extend(TestShell); end
 
-        its(:coeffs){should have(2).arrays}
+        its(:coeffs){is_expected.to have(2).arrays}
 
-        its(:zetas){should have(3).zetas}
+        its(:zetas){is_expected.to have(3).zetas}
       end
     end
   end

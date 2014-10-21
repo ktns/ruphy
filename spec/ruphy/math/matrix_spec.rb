@@ -12,7 +12,7 @@ describe RuPHY::Math::Matrix do
     let(:matrix){described_class.build(size){rand()}}
     subject{matrix.diagonal_elements}
 
-    its(:count){should == size}
+    its(:count){is_expected.to eq size}
   end
 
   shared_examples_for 'operator between matrices' do

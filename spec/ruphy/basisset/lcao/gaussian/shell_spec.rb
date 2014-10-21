@@ -9,7 +9,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 
     it{is_expected.to be_all(&:frozen?)}
 
-    its(:size){should eq 3}
+    its(:size){is_expected.to eq 3}
   end
 
   describe '.cart_angular_momenta' do
@@ -31,7 +31,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
     context 'l=1' do
       let(:l){1}
 
-      its(:size){should eq 3}
+      its(:size){is_expected.to eq 3}
 
       it{is_expected.to include Vector[1,0,0]}
       it{is_expected.to include Vector[0,1,0]}
@@ -43,7 +43,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
     context 'l=2' do
       let(:l){2}
 
-      its(:size){should eq 6}
+      its(:size){is_expected.to eq 6}
 
       it{is_expected.to include Vector[2,0,0]}
       it{is_expected.to include Vector[0,2,0]}
@@ -107,7 +107,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
       context 'with center' do
         subject{shell_with_center.aos()}
 
-        its(:size){should == 1}
+        its(:size){is_expected.to eq 1}
       end
     end
 
@@ -119,7 +119,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
       context 'with center' do
         subject{shell_with_center.aos}
 
-        its(:size){should == 4}
+        its(:size){is_expected.to eq 4}
       end
     end
   end

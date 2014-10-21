@@ -62,9 +62,9 @@ EOC
 
     subject{YAML.load(original.to_yaml)}
 
-    its(:comment){should == original.comment}
+    its(:comment){is_expected.to eq original.comment}
     
-    its(:elements){should == original.elements}
+    its(:elements){is_expected.to eq original.elements}
   end
 end
 
@@ -78,8 +78,8 @@ describe RuPHY::BasisSet::LCAO::Gaussian::YAML::CommentStyle do
 
     subject{str.clone.extend described_class}
 
-    its(:to_yaml){should_not include '!'}
+    its(:to_yaml){is_expected.not_to include '!'}
 
-    its(:to_yaml){should include str}
+    its(:to_yaml){is_expected.to include str}
   end
 end

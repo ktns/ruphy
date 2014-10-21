@@ -166,7 +166,7 @@ describe RuPHY::Theory::RHF::MO do
         end
       end
 
-      its(:nuclear_repulsion_energy){should be_within(1e-7).of(0.7151043355)}
+      its(:nuclear_repulsion_energy){is_expected.to be_within(1e-7).of(0.7151043355)}
 
       describe '#virial_ratio' do
         context 'after mo is calculated' do
