@@ -86,9 +86,9 @@ describe RuPHY::MO::Basis::LCAO::Shell do
   context 'with mockup center and abstract shell' do
     let(:center){double(:center)}
     let!(:abst_shell) do
-      abst_shell = double(:abst_shell)
+      double(:abst_shell).tap do |abst_shell|
       abst_shell.stub(:respond_to?).with(:aos).and_return(true)
-      abst_shell
+      end
     end
 
     subject{described_class.new(abst_shell, center)}
