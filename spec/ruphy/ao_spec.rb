@@ -4,6 +4,6 @@ describe RuPHY::AO do
   describe '.new' do
     subject{lambda{described_class.new}}
 
-    it{should raise_error NoMethodError}
+    it{is_expected.to raise_error NoMethodError}
   end
 end

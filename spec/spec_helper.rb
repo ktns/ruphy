@@ -67,11 +67,11 @@ RSpec::Matchers.define :include_a do |exp|
     act.any?{|a| exp === a}
   end
 
-  failure_message_for_should do |act|
+  failure_message do |act|
     'expected %p to include a instance of %p' % [act,exp]
   end
 
-  failure_message_for_should_not do |act|
+  failure_message_when_negated do |act|
     'expected %p not to include a instance of %p' % [act,exp]
   end
 end
@@ -118,21 +118,21 @@ end
 
 def dummy_atom x = 0, y = 0, z = 0, atomic_num = 1
   obatom = double(:obatom)
-  obatom.stub(:x).and_return(x); obatom.stub(:get_x).and_return(x)
-  obatom.stub(:y).and_return(y); obatom.stub(:get_y).and_return(y)
-  obatom.stub(:z).and_return(z); obatom.stub(:get_z).and_return(z)
-  obatom.stub(:get_atomic_num).and_return(atomic_num)
+  allow(obatom).to receive(:x).and_return(x); allow(obatom).to receive(:get_x).and_return(x)
+  allow(obatom).to receive(:y).and_return(y); allow(obatom).to receive(:get_y).and_return(y)
+  allow(obatom).to receive(:z).and_return(z); allow(obatom).to receive(:get_z).and_return(z)
+  allow(obatom).to receive(:get_atomic_num).and_return(atomic_num)
   RuPHY::Geometry::Atom.new obatom
 end
 
 def mock_primitive name=:primitive, opts={}
   primitive = double(name)
-  primitive.stub(:zeta).and_return(opts[:zeta] || rand())
+  allow(primitive).to receive(:zeta).and_return(opts[:zeta] || rand())
   return primitive
 end
 
 def mock_vector value, name=:vector, xyz=nil
   vector = double(name)
-  vector.stub(:[]).with(xyz).and_return(value)
+  allow(vector).to receive(:[]).with(xyz).and_return(value)
   return vector
 end

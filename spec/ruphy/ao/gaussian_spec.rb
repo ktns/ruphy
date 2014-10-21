@@ -11,21 +11,21 @@ end
 describe RuPHY::AO::Gaussian::Primitive do
   describe '.new' do
     it 'should accept zeta, momenta, and center' do
-      lambda do
+      expect do
         described_class.new 1.0, [0,0,0], Vector[0,0,0]
-      end.should_not raise_error
+      end.not_to raise_error
     end
 
     it 'should not accept wrong dimension of momenta' do
-      lambda do
+      expect do
         described_class.new 1.0, [0,0,0,0], Vector[0,0,0]
-      end.should raise_error ArgumentError
+      end.to raise_error ArgumentError
     end
 
     it 'should not accept wrong dimension of center coordinates' do
-      lambda do
+      expect do
         described_class.new 1.0, [0,0,0], Vector[0,0,0,0]
-      end.should raise_error ArgumentError
+      end.to raise_error ArgumentError
     end
   end
 
@@ -44,7 +44,7 @@ describe RuPHY::AO::Gaussian::Primitive do
       subject{primitive.normalization_factor}
 
       it "should return correct value" do
-        should be_within(1e-5).of(
+        is_expected.to be_within(1e-5).of(
           momenta.inject(1.0) do |k,i|
             k*(1..2*i-1).step(2).inject(1,&:*)/2**i/(2*zeta)**i
           end**-0.5 * (Math::PI/2/zeta)**-0.75
@@ -55,7 +55,7 @@ describe RuPHY::AO::Gaussian::Primitive do
     describe "its overlap with self" do
       subject{primitive.overlap(primitive)}
 
-      it{should be_within(0.1).percent_of(1)}
+      it{is_expected.to be_within(0.1).percent_of(1)}
     end
 
     its(:angular_momentum) do
@@ -65,7 +65,7 @@ describe RuPHY::AO::Gaussian::Primitive do
     describe 'diagonal kinetic integal' do
       subject{primitive.kinetic(primitive)}
 
-      it {should_not == 0}
+      it {is_expected.not_to eq(0)}
     end
   end
 
@@ -151,7 +151,7 @@ describe RuPHY::AO::Gaussian::Primitive do
     let(:primitive2) {described_class.new(zeta2,momenta2,center)}
 
     it 'should have overlap of 0' do
-      primitive1.overlap(primitive2).should be_within(1e-5).of(0)
+      expect(primitive1.overlap(primitive2)).to be_within(1e-5).of(0)
     end
   end
 
@@ -187,7 +187,7 @@ describe RuPHY::AO::Gaussian::Primitive do
     let(:primitive2 ){ described_class.new(zeta2,momenta2,center2)}
 
     it 'should not have overlap of 0' do
-      primitive1.overlap(primitive2).should be_within(1e-5).of(0)
+      expect(primitive1.overlap(primitive2)).to be_within(1e-5).of(0)
     end
   end
 
@@ -231,7 +231,7 @@ describe RuPHY::AO::Gaussian::Primitive do
 
     describe 'overlap' do
       it 'should be scaled by exponential of displacement' do
-        primitive1.overlap(primitive2).should be_within(1e-5).of(
+        expect(primitive1.overlap(primitive2)).to be_within(1e-5).of(
           primitive1.overlap(primitive3) *
           Math::exp(-r2 * zeta))
       end
@@ -277,9 +277,9 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
       block and val = block
 
       def E(t,i,j)
-        product.stub(:p).with().and_return(p)
-        product.stub(:pa).with().and_return(mock_vector(pa,:pa,xyz))
-        product.stub(:pb).with().and_return(mock_vector(pb,:pb,xyz))
+        allow(product).to receive(:p).with().and_return(p)
+        allow(product).to receive(:pa).with().and_return(mock_vector(pa,:pa,xyz))
+        allow(product).to receive(:pb).with().and_return(mock_vector(pb,:pb,xyz))
         product.hermitian_coeff_decomposed(t,i,j,xyz)
       end
 
@@ -292,26 +292,26 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
           case val
           when nil
             if i > 0
-              should be_within(1e-5).of(
+              is_expected.to be_within(1e-5).of(
                           E(t-1, i-1, j) / 2 / p \
                    + pa * E(t,   i-1, j)         \
                 + (t+1) * E(t+1, i-1, j)
               )
             else
-              should be_within(1e-5).of(
+              is_expected.to be_within(1e-5).of(
                           E(t-1, i, j-1) / 2 / p \
                    + pb * E(t,   i, j-1)         \
                 + (t+1) * E(t+1, i, j-1)
               )
             end
           when Proc
-            should be_within(1e-5).of(instance_eval(&val))
+            is_expected.to be_within(1e-5).of(instance_eval(&val))
           else
-            should be_within(1e-5).of(val)
+            is_expected.to be_within(1e-5).of(val)
           end
         end
 
-        it{should be_a Float}
+        it{is_expected.to be_a Float}
       end
     end
 
@@ -345,12 +345,12 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
     let(:center2){random_vector}
 
     subject do
-      primitive1.stub(:center).and_return(center1)
-      primitive2.stub(:center).and_return(center2)
+      allow(primitive1).to receive(:center).and_return(center1)
+      allow(primitive2).to receive(:center).and_return(center2)
       product.center
     end
 
-    it{should == (center1 * primitive1.zeta + center2 * primitive2.zeta) / (primitive1.zeta + primitive2.zeta)}
+    it{is_expected.to eq((center1 * primitive1.zeta + center2 * primitive2.zeta) / (primitive1.zeta + primitive2.zeta))}
   end
 
   describe '#auxiliary_hermite_integral' do
@@ -403,13 +403,13 @@ describe RuPHY::AO::Gaussian::Contracted do
   subject{contracted}
 
   context 'with proper coeffs, zetas, momenta, and center' do
-    creating_it{should_not raise_error}
+    creating_it{is_expected.not_to raise_error}
   end
 
   context 'with invalid zetas' do
     let(:zetas){[:wrong_zeta]}
 
-    creating_it{should raise_error ArgumentError, /wrong_zeta.*out of zetas cannot be converted to Float!/}
+    creating_it{is_expected.to raise_error ArgumentError, /wrong_zeta.*out of zetas cannot be converted to Float!/}
   end
 
   describe '#overlap' do
@@ -418,7 +418,7 @@ describe RuPHY::AO::Gaussian::Contracted do
     context 'with self' do
       let(:other){contracted}
 
-      it{should be_a Float}
+      it{is_expected.to be_a Float}
     end
   end
 end

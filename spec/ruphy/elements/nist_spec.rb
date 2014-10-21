@@ -8,7 +8,7 @@ if ENV['TEST_NIST']
 
   describe RuPHY::ElementData::NIST do
     it 'should be included by RuPHY::Elements' do
-      RuPHY::Elements.should be_kind_of described_class
+      expect(RuPHY::Elements).to be_kind_of described_class
     end
 
     subject do
@@ -23,15 +23,15 @@ if ENV['TEST_NIST']
         let(:m){hdat[2]}
 
         it 'should return proper atomic number' do
-          z.should == 1
+          expect(z).to eq(1)
         end
 
         it 'should return proper atomic symbol' do
-          sym.should == :H
+          expect(sym).to eq(:H)
         end
 
         it 'should return proper atomic weight' do
-          m.should be_within(1.0).percent_of(1)
+          expect(m).to be_within(1.0).percent_of(1)
         end
       end
     end

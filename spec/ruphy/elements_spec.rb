@@ -7,7 +7,7 @@ describe RuPHY::ElementsClass do
 
   describe '#[]' do
     it 'should invoke get_elem_data' do
-      subject.should_receive(:get_elem_data).and_return([0,:hoge,0])
+      expect(subject).to receive(:get_elem_data).and_return([0,:hoge,0])
       subject[:hoge]
     end
   end
@@ -17,11 +17,11 @@ describe RuPHY::ElementsClass do
       super.symbols
     end
 
-    it{should_not include_a String}
+    it{is_expected.not_to include_a String}
 
-    it{should_not include_a Numeric}
+    it{is_expected.not_to include_a Numeric}
 
-    it{should have_at_least(100).items}
+    it{is_expected.to have_at_least(100).items}
   end
 
   describe '#[:H]' do

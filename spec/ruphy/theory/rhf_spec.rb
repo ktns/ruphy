@@ -42,13 +42,13 @@ describe RuPHY::Theory::RHF do
       let(:overlap){Matrix.identity(2)}
 
       it 'should yield correct energies' do
-        Vector[*solved.first].should be_within(1e-12).of(energies)
+        expect(Vector[*solved.first]).to be_within(1e-12).of(energies)
       end
 
       it 'should yield correct vectors' do
         subject = solved.last
         subject = RuPHY::Matrix.diagonal(*subject.each(:diagonal).map{|d| d <=> 0})*subject
-        subject.should be_within(1e-12).of(u)
+        expect(subject).to be_within(1e-12).of(u)
       end
     end
 
@@ -86,14 +86,14 @@ describe RuPHY::Theory::RHF::MO do
     context "with #{::TestMol} and #{RuPHY::BasisSet::STO3G}" do
       let(:arg){[::TestMol, RuPHY::BasisSet::STO3G]}
 
-      creating_it{should_not raise_error}
+      creating_it{is_expected.not_to raise_error}
 
       describe '#fock_matrix=' do
         it 'should call solve_roothaan_equation' do
           fock, basis, overlap = double(:fock), double(:basis), double(:overlap)
-          mo.stub(:basis).and_return(basis)
-          basis.stub(:overlap).and_return(overlap)
-          mo.should_receive(:solve_roothaan_equation).with(fock,overlap)
+          allow(mo).to receive(:basis).and_return(basis)
+          allow(basis).to receive(:overlap).and_return(overlap)
+          expect(mo).to receive(:solve_roothaan_equation).with(fock,overlap)
           mo.fock_matrix = fock
         end
       end
@@ -123,11 +123,11 @@ describe RuPHY::Theory::RHF::MO do
         let(:fock_matrix){Matrix::build(2){|i,j| i==j ? -0.36602603e+00 : -0.59429997e+00 }}
         it 'should yield correct solution' do
           mo.density_matrix = density_matrix
-          mo.fock_matrix.should be_within(1e-7).of(fock_matrix)
+          expect(mo.fock_matrix).to be_within(1e-7).of(fock_matrix)
         end
 
         it 'should call solve_roothaan_equation' do
-          mo.should_receive(:solve_roothaan_equation)
+          expect(mo).to receive(:solve_roothaan_equation)
           mo.density_matrix=density_matrix
         end
       end
@@ -135,7 +135,7 @@ describe RuPHY::Theory::RHF::MO do
       context 'and without MO calculated' do
         describe '#mulliken_matrix' do
           subject{mo.mulliken_matrix}
-          calling_it{should raise_error described_class::VectorNotCalculatedError}
+          calling_it{is_expected.to raise_error described_class::VectorNotCalculatedError}
         end
       end
 
@@ -144,7 +144,7 @@ describe RuPHY::Theory::RHF::MO do
           subject{mo.fock_matrix=mo.core_hamiltonian; mo.mulliken_matrix}
 
           it 'should be summed up to number_of_electrons' do
-            subject.each.reduce(:+).should be_within(1e-8).of(mo.number_of_electrons)
+            expect(subject.each.reduce(:+)).to be_within(1e-8).of(mo.number_of_electrons)
           end
         end
       end
@@ -187,7 +187,7 @@ describe RuPHY::Theory::RHF::Solver do
     let(:solver){described_class.new(::TestMol, RuPHY::BasisSet::STO3G)}
     subject{solver}
 
-    creating_it{should_not raise_error}
+    creating_it{is_expected.not_to raise_error}
 
     it 'should be able to solve the problem' do
       10.times do

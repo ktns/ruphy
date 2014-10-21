@@ -8,7 +8,7 @@ RSpec::Matchers.define :all_be_kind_of do |expected|
     not @exception
   end
 
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     "expected %p to be kind of %s" % [@exception, expected]
   end
 end

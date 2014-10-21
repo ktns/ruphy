@@ -26,7 +26,7 @@ describe RuPHY::Geometry::Molecule do
 
       its(:nuclear_repulsion_energy){should be_within(1e-5).of(9.24861786)}
 
-      it{should have(3).atoms}
+      it{is_expected.to have(3).atoms}
 
       its(:total_nuclear_charge){should == 10}
     end
@@ -61,7 +61,7 @@ describe RuPHY::Geometry::Molecule do
   context 'with wrong format string' do
     subject{lambda { described_class.new('', 'wrong_format') }}
 
-    it{ should raise_error ArgumentError }
+    it{ is_expected.to raise_error ArgumentError }
   end
 end
 

@@ -10,19 +10,19 @@ describe RuPHY::Element do
   subject{element}
 
   it do
-    should == same_element
+    is_expected.to eq(same_element)
   end
 
   it do
-    should be_eql same_element
+    is_expected.to be_eql same_element
   end
 
   it do
-    should_not == other_element
+    is_expected.not_to eq(other_element)
   end
 
   it do
-    should_not be_eql other_element
+    is_expected.not_to be_eql other_element
   end
 
   its(:z){should == subject.Z}
@@ -33,11 +33,11 @@ describe RuPHY::Element do
     subject{element.hash}
 
     it do
-      should == same_element.hash
+      is_expected.to eq(same_element.hash)
     end
 
     it do
-      should_not == other_element.hash
+      is_expected.not_to eq(other_element.hash)
     end
   end
 
@@ -51,9 +51,9 @@ describe RuPHY::Element do
       YAML.load(original.to_yaml)
     end
 
-    it {should == original}
+    it {is_expected.to eq(original)}
 
-    it {should be_eql original}
+    it {is_expected.to be_eql original}
 
     its(:hash){should == original.hash}
 

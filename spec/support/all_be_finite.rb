@@ -8,11 +8,11 @@ RSpec::Matchers.define :all_be_finite do |expected|
     not @exception
   end
 
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     "expected %p to finite value" % [@exception]
   end
 
-  failure_message_for_should_not do |actual|
+  failure_message_when_negated do |actual|
     "expected %p to be include not finite value" % [actual]
   end
 end

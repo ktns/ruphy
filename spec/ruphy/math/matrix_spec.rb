@@ -4,7 +4,7 @@ describe RuPHY::Math::Matrix do
   describe '#build' do
     subject{described_class.build(1){1}}
 
-    it{should be_kind_of described_class}
+    it{is_expected.to be_kind_of described_class}
   end
 
   describe '#diagonal_elements' do
@@ -20,7 +20,7 @@ describe RuPHY::Math::Matrix do
     let(:matrixB){described_class.build(1){1}}
     subject{matrixA.__send__(operator,matrixB)}
 
-    it{should be_kind_of described_class}
+    it{is_expected.to be_kind_of described_class}
   end
 
   describe '#+' do
@@ -38,7 +38,7 @@ describe RuPHY::Math::Matrix do
     let(:scalar){rand()}
     subject{scalar.__send__(operator,matrix)}
 
-    it{should be_kind_of described_class}
+    it{is_expected.to be_kind_of described_class}
   end
 
   shared_examples_for 'operator between a matrix and a scalar' do
@@ -46,7 +46,7 @@ describe RuPHY::Math::Matrix do
     let(:scalar){rand()}
     subject{matrix.__send__(operator,scalar)}
 
-    it{should be_kind_of described_class}
+    it{is_expected.to be_kind_of described_class}
   end
 
   describe '#*' do

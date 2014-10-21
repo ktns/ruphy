@@ -5,25 +5,25 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
   describe '::CartAngularMomentumBasis' do
     subject{described_class::CartAngularMomentumBasis}
 
-    it{should be_frozen}
+    it{is_expected.to be_frozen}
 
-    it{should be_all(&:frozen?)}
+    it{is_expected.to be_all(&:frozen?)}
 
     its(:size){should eq 3}
   end
 
   describe '.cart_angular_momenta' do
     shared_examples_for("proper cart_angular_momenta") do
-      it{should be_frozen}
+      it{is_expected.to be_frozen}
 
-      it{should be_instance_of Array}
+      it{is_expected.to be_instance_of Array}
     end
 
     subject{described_class.cart_angular_momenta(l)}
     context 'l=0' do
       let(:l){0}
 
-      it{should eq [Vector[0,0,0]]}
+      it{is_expected.to eq [Vector[0,0,0]]}
 
       it_behaves_like("proper cart_angular_momenta")
     end
@@ -33,9 +33,9 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 
       its(:size){should eq 3}
 
-      it{should include Vector[1,0,0]}
-      it{should include Vector[0,1,0]}
-      it{should include Vector[0,0,1]}
+      it{is_expected.to include Vector[1,0,0]}
+      it{is_expected.to include Vector[0,1,0]}
+      it{is_expected.to include Vector[0,0,1]}
 
       it_behaves_like("proper cart_angular_momenta")
     end
@@ -45,11 +45,11 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 
       its(:size){should eq 6}
 
-      it{should include Vector[2,0,0]}
-      it{should include Vector[0,2,0]}
-      it{should include Vector[0,1,1]}
-      it{should include Vector[1,0,1]}
-      it{should include Vector[1,1,0]}
+      it{is_expected.to include Vector[2,0,0]}
+      it{is_expected.to include Vector[0,2,0]}
+      it{is_expected.to include Vector[0,1,1]}
+      it{is_expected.to include Vector[1,0,1]}
+      it{is_expected.to include Vector[1,1,0]}
 
       it_behaves_like("proper cart_angular_momenta")
     end
@@ -64,21 +64,21 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
   context 'with wrong azimuthal_quantum_numbers' do
     let(:azimuthal_quantum_numbers){-1}
 
-    creating_it{should raise_error ArgumentError,
+    creating_it{is_expected.to raise_error ArgumentError,
                 /^Invalid azimuthal quantum number!\(.*\)$/}
   end
 
   context 'with unmatching azimuthal quantum numbers and coefficient sets' do
     let(:azimuthal_quantum_numbers){[0,1]}
 
-    creating_it{should raise_error ArgumentError,
+    creating_it{is_expected.to raise_error ArgumentError,
                 /^Number of azimuthal quantum numbers\(\d+\) and coefficient sets\(\d+\) don\'t match!$/}
   end
 
   context 'with coefficients set of different sizes' do
     let(:azimuthal_quantum_numbers){[0,1]}
     let(:coeffs){[[1,1],[1]]}
-    creating_it{should raise_error ArgumentError,
+    creating_it{is_expected.to raise_error ArgumentError,
                 /^Sizes of coefficient sets\([\d,]+\) is not unique!$/}
   end
 
@@ -86,12 +86,12 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
     let(:coeffs){[[0.5,0.5]]}
     let(:zetas){[1,2,3]}
 
-    creating_it{should raise_error ArgumentError,
+    creating_it{is_expected.to raise_error ArgumentError,
                 /^Size of coefficient set\(\d+\) and zeta set\(\d+\) don't match!$/}
   end
 
   context 'of S shell' do
-    creating_it{should_not raise_error}
+    creating_it{is_expected.not_to raise_error}
   end
 
   describe '#aos' do
@@ -101,7 +101,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
       context 'without center' do
         subject{shell.aos()}
 
-        calling_it{should raise_error NotImplementedError}
+        calling_it{is_expected.to raise_error NotImplementedError}
       end
 
       context 'with center' do

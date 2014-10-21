@@ -7,36 +7,36 @@ describe RuPHY::MO::Basis::LCAO do
     let(:basis){described_class.new(::TestMol, RuPHY::BasisSet::STO3G)}
     subject{basis}
 
-    it{should be_kind_of RuPHY::MO::Basis}
+    it{is_expected.to be_kind_of RuPHY::MO::Basis}
 
     describe '#aos' do
       def subject; super.aos; end
 
-      it{should be_kind_of Enumerable}
+      it{is_expected.to be_kind_of Enumerable}
 
-      it{should all_be_kind_of RuPHY::AO}
+      it{is_expected.to all_be_kind_of RuPHY::AO}
     end
 
     shared_examples_for "operator represented by basis" do
       let(:matrix){ basis.__send__(operator) }
       subject{matrix}
 
-      it{should be_kind_of RuPHY::Matrix}
+      it{is_expected.to be_kind_of RuPHY::Matrix}
 
-      it{should be_square}
+      it{is_expected.to be_square}
 
-      it{should all_be_finite}
+      it{is_expected.to all_be_finite}
 
       describe 'diagonal elements' do
         subject{matrix.diagonal_elements}
 
-        it{should all_be_within(1e-5).of(correct_diagonal_value)}
+        it{is_expected.to all_be_within(1e-5).of(correct_diagonal_value)}
       end
 
       describe 'off diagonal elements' do
         subject{matrix.each :off_diagonal}
 
-        it{should all_be_within(0.01).percent_of(correct_off_diagonal_value)}
+        it{is_expected.to all_be_within(0.01).percent_of(correct_off_diagonal_value)}
       end
     end
 
@@ -47,7 +47,7 @@ describe RuPHY::MO::Basis::LCAO do
       it 'should not calculate symmetric off-diagonal element twice' do
         count = 0
         basis.aos.each do |ao|
-          ao.stub(operator) do
+          allow(ao).to receive(operator) do
             count += 1
           end
         end
@@ -87,7 +87,7 @@ describe RuPHY::MO::Basis::LCAO::Shell do
     let(:center){double(:center)}
     let!(:abst_shell) do
       double(:abst_shell).tap do |abst_shell|
-      abst_shell.stub(:respond_to?).with(:aos).and_return(true)
+      allow(abst_shell).to receive(:respond_to?).with(:aos).and_return(true)
       end
     end
 
@@ -97,8 +97,8 @@ describe RuPHY::MO::Basis::LCAO::Shell do
 
     describe '#aos' do
       it "should invoke abst_shell#aos" do
-        abst_shell.stub(:dup).and_return(abst_shell)
-        abst_shell.should_receive(:aos).and_return(nil)
+        allow(abst_shell).to receive(:dup).and_return(abst_shell)
+        expect(abst_shell).to receive(:aos).and_return(nil)
         subject.aos
       end
     end

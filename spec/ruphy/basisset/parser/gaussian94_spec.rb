@@ -89,7 +89,7 @@ EOF
   }
 
   describe 'STO-3G test string' do
-    example{sto3g_txt.should be_digested_as "\x9F\x16,\xE5\xF0\xF1\xF6\xD8#\x9B\xC7\x11\x15\x8D\x9FX"}
+    example{expect(sto3g_txt).to be_digested_as "\x9F\x16,\xE5\xF0\xF1\xF6\xD8#\x9B\xC7\x11\x15\x8D\x9FX"}
   end
 
   describe '#parse' do
@@ -104,9 +104,9 @@ EOF
     context 'with STO-3G' do
       let(:str){sto3g_txt}
 
-      calling_it{should_not raise_error}
+      calling_it{is_expected.not_to raise_error}
 
-      it{should return_a RuPHY::BasisSet}
+      it{is_expected.to return_a RuPHY::BasisSet}
 
       its(:elements){should include RuPHY::Elements[:H]}
 
@@ -125,9 +125,9 @@ EOF
         context 'with C' do
           let(:arg){RuPHY::Elements[:C]}
 
-          it{should be_an Array}
+          it{is_expected.to be_an Array}
 
-          it{should all_be_kind_of(RuPHY::BasisSet::LCAO::Gaussian::Shell)}
+          it{is_expected.to all_be_kind_of(RuPHY::BasisSet::LCAO::Gaussian::Shell)}
         end
       end
     end
@@ -135,13 +135,13 @@ EOF
     context 'with STO-3G written by FORTRAN format' do
       let(:str){sto3g_txt2}
 
-      calling_it{should_not raise_error}
+      calling_it{is_expected.not_to raise_error}
     end
 
     context 'with empty string' do
       let(:str){''}
 
-      calling_it{should raise_error}
+      calling_it{is_expected.to raise_error}
     end
 
     context 'with SP shell' do
@@ -155,7 +155,7 @@ SP   3   1.00
 EOF
       }
 
-      calling_it{should_not raise_error}
+      calling_it{is_expected.not_to raise_error}
 
       describe 'its SP shell' do
         def subject; super.shells(:C).first.extend(TestShell); end

@@ -11,9 +11,9 @@ describe RuPHY::Math do
 
       for n in 0..8
         context 'n=%d' % n, :n => n do
-          let(:n){example.metadata[:n]}
+          let(:n){ |example|example.metadata[:n]}
 
-          it{should be_within(1e-11).of(correct_value)}
+          it{is_expected.to be_within(1e-11).of(correct_value)}
         end
       end
     end
@@ -24,9 +24,9 @@ describe RuPHY::Math do
 
       for n in 0..8
         context 'n=%d' % n, :n => n do
-          let(:n){example.metadata[:n]}
+          let(:n){ |example|example.metadata[:n]}
 
-          it{should be_within(1e-11).of(correct_value)}
+          it{is_expected.to be_within(1e-11).of(correct_value)}
         end
       end
     end
@@ -36,18 +36,18 @@ describe RuPHY::Math do
 
       context 'r -> +0' do
         let(:r){Float::EPSILON}
-        it{should be_within(1e-11).of(1)}
+        it{is_expected.to be_within(1e-11).of(1)}
       end
     end
 
     context 'with n:Float' do
       let(:n){1.5}; let(:r){1.0}
-      calling_it{should raise_error ArgumentError}
+      calling_it{is_expected.to raise_error ArgumentError}
     end
 
     context 'with n:negative' do
       let(:n){-1}; let(:r){1.0}
-      calling_it{should raise_error ArgumentError, /negative/i}
+      calling_it{is_expected.to raise_error ArgumentError, /negative/i}
     end
   end
 end

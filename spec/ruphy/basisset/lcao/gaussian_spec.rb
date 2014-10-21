@@ -5,8 +5,8 @@ describe RuPHY::BasisSet::LCAO::Gaussian do
   subject{described_class.new arg}
 
   shared_examples_for :proper_basisset do
-    creating_it{should_not raise_error}
-    it{should respond_to :shells}
+    creating_it{is_expected.not_to raise_error}
+    it{is_expected.to respond_to :shells}
 
     describe "#shells" do
       context "with H atom" do
@@ -15,9 +15,9 @@ describe RuPHY::BasisSet::LCAO::Gaussian do
           super.shells(atom)
         end
 
-        it{should be_kind_of Enumerable}
+        it{is_expected.to be_kind_of Enumerable}
 
-        it{should all_be_kind_of described_class::Shell}
+        it{is_expected.to all_be_kind_of described_class::Shell}
       end
     end
   end
@@ -25,15 +25,15 @@ describe RuPHY::BasisSet::LCAO::Gaussian do
   let(:hshells) do
     extend RSpec::Mocks::ExampleMethods
     hshell = double(:HShell)
-    hshell.stub(:kind_of?).with(described_class::Shell).and_return(true)
-    described_class::Shell.stub(:===).with(hshell).and_return(true)
+    allow(hshell).to receive(:kind_of?).with(described_class::Shell).and_return(true)
+    allow(described_class::Shell).to receive(:===).with(hshell).and_return(true)
     break [hshell]
   end
 
   let(:heshells) do
     extend RSpec::Mocks::ExampleMethods
     heshell = double(:HeShell)
-    heshell.stub(:kind_of?).and_return(true)
+    allow(heshell).to receive(:kind_of?).and_return(true)
     break [heshell]
   end
 
@@ -46,7 +46,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian do
   context 'with :hoge' do
     let(:arg){{:hoge=>heshells}}
 
-    creating_it{should raise_error described_class::InvalidElementError}
+    creating_it{is_expected.to raise_error described_class::InvalidElementError}
   end
 
   context 'deserialized from YAML' do

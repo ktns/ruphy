@@ -8,19 +8,19 @@ describe RuPHY::BasisSet::SimpleList do
 
   subject {@basis_set}
 
-  it {should respond_to :each}
+  it {is_expected.to respond_to :each}
 
   it 'should enumerate basis functions' do
-    @spwf1.should_receive :test
-    @spwf2.should_receive :test
+    expect(@spwf1).to receive :test
+    expect(@spwf2).to receive :test
     subject.each do |b|
       b.test
     end
   end
 
   it '#map should return an array' do
-    subject.map do |b|
+    expect(subject.map do |b|
       b
-    end.should be_instance_of Array
+    end).to be_instance_of Array
   end
 end
