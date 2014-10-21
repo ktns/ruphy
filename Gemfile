@@ -15,7 +15,9 @@ group :development do
 end
 
 group :development, :test do
-  gem "rspec", "~> 2.14.1"
+  gem "rspec", "~> 3.1.0"
+  gem "rspec-its", "~> 1.0.1"
+  gem "rspec-collection_matchers", "~> 1.0.0"
 end
 
 group :test do
