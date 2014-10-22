@@ -113,7 +113,7 @@ module TestCenter
 end
 
 module TestShell
-  attr_reader :coeffs, :zetas
+  attr_reader :sets_of_coeffs, :zetas
 end
 
 def dummy_atom x = 0, y = 0, z = 0, atomic_num = 1

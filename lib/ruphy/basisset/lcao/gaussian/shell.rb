@@ -29,7 +29,7 @@ module RuPHY
               coeffcounts.uniq.count == 1
             raise ArgumentError, 'Size of coefficient set(%d) and zeta set(%d) don\'t match!' %
               [coeffcounts.first, zetas.count] unless coeffcounts.first == zetas.count
-            @coeffs, @zetas = coeffs, zetas
+            @sets_of_coeffs, @zetas = coeffs, zetas
           end
 
           def cart_angular_momenta_with_index
@@ -47,7 +47,7 @@ module RuPHY
           def aos
             @aos ||=
             cart_angular_momenta_with_index.map do |momenta, i|
-              RuPHY::AO::Gaussian::Contracted.new(@coeffs[i], @zetas, momenta, self.center)
+              RuPHY::AO::Gaussian::Contracted.new(@sets_of_coeffs[i], @zetas, momenta, self.center)
             end
           end
 

@@ -160,7 +160,7 @@ EOF
       describe 'its SP shell' do
         def subject; super.shells(:C).first.extend(TestShell); end
 
-        its(:coeffs){is_expected.to have(2).arrays}
+        its(:sets_of_coeffs){is_expected.to have(2).arrays}
 
         its(:zetas){is_expected.to have(3).zetas}
       end
