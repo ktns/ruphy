@@ -57,9 +57,9 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 
   subject{shell}
   let(:shell){described_class.new(azimuthal_quantum_numbers, coeffs, zetas)}
-  let(:azimuthal_quantum_numbers){0}
-  let(:coeffs){[[1]]}
-  let(:zetas){[1]}
+  let(:azimuthal_quantum_numbers){[0,1,2]}
+  let(:coeffs){3.times.map{4.times.map{rand()}}}
+  let(:zetas){4.times.map{rand()}}
 
   context 'with wrong azimuthal_quantum_numbers' do
     let(:azimuthal_quantum_numbers){-1}
@@ -83,14 +83,18 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
   end
 
   context 'with unmatching coefficients and zetas' do
-    let(:coeffs){[[0.5,0.5]]}
-    let(:zetas){[1,2,3]}
+    let(:coeffs){[[0.5,0.5]]*azimuthal_quantum_numbers.size}
+    let(:zetas){[1,2,3,4]}
 
     creating_it{is_expected.to raise_error ArgumentError,
                 /^Size of coefficient set\(\d+\) and zeta set\(\d+\) don't match!$/}
   end
 
   context 'of S shell' do
+    let(:azimuthal_quantum_numbers){0}
+    let(:coeffs){[[1]]}
+    let(:zetas){[1]}
+
     creating_it{is_expected.not_to raise_error}
   end
 
@@ -98,6 +102,10 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
     let(:shell_with_center){shell.clone.extend TestCenter}
 
     context 'of S shell' do
+      let(:azimuthal_quantum_numbers){0}
+      let(:coeffs){[[1]]}
+      let(:zetas){[1]}
+
       context 'without center' do
         subject{shell.aos()}
 
