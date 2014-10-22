@@ -18,10 +18,10 @@ module RuPHY
 
           def initialize azimuthal_quantum_numbers, coeffs, zetas
             @azimuthal_quantum_numbers = [azimuthal_quantum_numbers].flatten
-            l = @azimuthal_quantum_numbers.find do |l|
+            invalid_l = @azimuthal_quantum_numbers.find do |l|
               not l>=0 && Integer === l
             end
-            raise ArgumentError, 'Invalid azimuthal quantum number!(%p)' % l if l
+            raise ArgumentError, 'Invalid azimuthal quantum number!(%p)' % invalid_l if invalid_l
             raise ArgumentError, 'Number of azimuthal quantum numbers(%d) and coefficient sets(%d) don\'t match!' %
               [coeffs.count, @azimuthal_quantum_numbers.count] unless coeffs.count == @azimuthal_quantum_numbers.count
             coeffcounts = coeffs.map(&:count)
