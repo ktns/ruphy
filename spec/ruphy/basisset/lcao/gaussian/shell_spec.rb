@@ -151,3 +151,26 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
     end
   end
 end
+
+describe RuPHY::BasisSet::LCAO::Gaussian::Shell::CoeffMap do
+  describe '.[]' do
+    specify{ expect( described_class[0=>1] ).to be_instance_of(described_class) }
+  end
+
+  describe '#*' do
+    let(:c){2.times.map{|i|2.times.map{|j| spy('c%d%d'%[i,j])}}}
+    let(:c0){described_class[ :l0 => c[0][0], :l1 => c[0][1] ]}
+    let(:c1){described_class[ :l0 => c[1][0], :l1 => c[1][1] ]}
+
+    specify do
+      expect(c[0][0]).to receive(:*).with(c[1][0]).and_return(:c0010)
+      expect((c0*c1)[[:l0,:l0]]).to eq :c0010
+      expect(c[0][1]).to receive(:*).with(c[1][0]).and_return(:c0110)
+      expect((c0*c1)[[:l1,:l0]]).to eq :c0110
+      expect(c[0][0]).to receive(:*).with(c[1][1]).and_return(:c0011)
+      expect((c0*c1)[[:l0,:l1]]).to eq :c0011
+      expect(c[0][1]).to receive(:*).with(c[1][1]).and_return(:c0111)
+      expect((c0*c1)[[:l1,:l1]]).to eq :c0111
+    end
+  end
+end
