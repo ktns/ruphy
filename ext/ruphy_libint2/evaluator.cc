@@ -345,16 +345,16 @@ static VALUE initialize_evaluator(VALUE evaluator){
   st->centers.coords.Dx = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dx")));
   st->centers.coords.Dy = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dy")));
   st->centers.coords.Dz = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dz")));
-  rb_block_call(evaluator, rb_intern("each_primitive_shell_with_index"), 0, NULL, (VALUE(*)(...))initialize_evaluator_primitive, evaluator);
+  rb_block_call(evaluator, rb_intern("each_primitive_shell_with_index"), 0, NULL, RUBY_METHOD_FUNC(initialize_evaluator_primitive), evaluator);
   return evaluator;
 }
 
 extern "C"
 void ruphy_libint2_define_evaluator(VALUE libint2_module){
   evaluator_class = rb_define_class_under(libint2_module, "Evaluator", rb_cObject);
-  rb_define_singleton_method(evaluator_class, "new", (VALUE(*)(...))new_method, -2);
-  rb_define_method(evaluator_class, "packed_center_coordinates", (VALUE(*)(...))packed_center_coordinates, 0);
-  rb_define_method(evaluator_class, "initialize_evaluator", (VALUE(*)(...))initialize_evaluator, 0);
+  rb_define_singleton_method(evaluator_class, "new", RUBY_METHOD_FUNC(new_method), -2);
+  rb_define_method(evaluator_class, "packed_center_coordinates", RUBY_METHOD_FUNC(packed_center_coordinates), 0);
+  rb_define_method(evaluator_class, "initialize_evaluator", RUBY_METHOD_FUNC(initialize_evaluator), 0);
 }
 
 #endif // HAVE_LIBINT2_H
