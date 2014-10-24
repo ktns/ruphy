@@ -136,3 +136,12 @@ def mock_vector value, name=:vector, xyz=nil
   allow(vector).to receive(:[]).with(xyz).and_return(value)
   return vector
 end
+
+# Ruby < 2.1 workaround
+unless [].respond_to?(:to_h)
+  class Array
+    def to_h
+      Hash[*self.flatten(1)]
+    end
+  end
+end
