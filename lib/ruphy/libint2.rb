@@ -36,6 +36,20 @@ begin
         yield i, *arg
       end
     end
+
+    class CoeffMap < Hash
+      def initialize
+        super{|h,k|h[k]=[]}
+      end
+
+      def append other
+        other.each do |ls, c|
+          self[ls].push(*c)
+        end
+      end
+    end
+
+    attr_reader :coefficients_map
   end
 rescue LoadError
 end

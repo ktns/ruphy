@@ -72,12 +72,10 @@ if RuPHY::Libint2::compiled?
 
     describe '#initialize_evaluator' do
       it 'should not raise error' do
-        pending 'TODO: it should be received with CoeffMap rather than Float'
         expect{subject.initialize_evaluator}.not_to raise_error
       end
 
       it 'should set coordinates of centers' do
-        pending 'TODO: it should be received with CoeffMap rather than Float'
         subject.initialize_evaluator
         ax, ay, az, bx, by, bz, cx, cy, cz, dx, dy, dz = subject.packed_center_coordinates.unpack('d12')
         expect(ax).to eq(@shells[0].center[0])
@@ -92,6 +90,11 @@ if RuPHY::Libint2::compiled?
         expect(dx).to eq(@shells[3].center[0])
         expect(dy).to eq(@shells[3].center[1])
         expect(dz).to eq(@shells[3].center[2])
+      end
+
+      it 'should set coefficients map' do
+        expect{subject.initialize_evaluator}.to change{subject.coefficients_map}.from(nil).to(described_class::CoeffMap)
+        expect(subject.coefficients_map.keys).to eq [[0]*4]
       end
     end
   end

@@ -69,15 +69,18 @@ static VALUE packed_center_coordinates(VALUE evaluator){
   return rb_str_new(st->centers.packed, sizeof(st->centers.packed));
 }
 
-static VALUE initialize_evaluator_primitive(VALUE, VALUE evaluator, int argc, VALUE argv[]){
+static VALUE initialize_evaluator_primitive(VALUE, VALUE ctx, int argc, VALUE argv[]){
   if(argc != 6)
     rb_raise(rb_const_get(rb_cObject, rb_intern("ArgumentError")), "Libint2::Evaluator#initialize_evaluator_primitive: Expected 6 arguments, but %d!", argc);
   unsigned int i = NUM2UINT(argv[0]);
-  const double c = NUM2DBL(argv[1]),
-          alpha0 = NUM2DBL(argv[2]),
-          alpha1 = NUM2DBL(argv[3]),
-          alpha2 = NUM2DBL(argv[4]),
-          alpha3 = NUM2DBL(argv[5]);
+  VALUE c = argv[1];
+  const double alpha0 = NUM2DBL(argv[2]),
+               alpha1 = NUM2DBL(argv[3]),
+               alpha2 = NUM2DBL(argv[4]),
+               alpha3 = NUM2DBL(argv[5]);
+  VALUE evaluator        = rb_ary_entry(ctx, 0),
+        coefficients_map = rb_ary_entry(ctx, 1);
+  rb_apply(coefficients_map, rb_intern("append"), rb_ary_new3(1, c));
   evaluator_struct *st;
   Data_Get_Struct(evaluator, evaluator_struct, st);
   Libint_eri_t *erieval = &st->erieval[i];
@@ -345,7 +348,15 @@ static VALUE initialize_evaluator(VALUE evaluator){
   st->centers.coords.Dx = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dx")));
   st->centers.coords.Dy = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dy")));
   st->centers.coords.Dz = NUM2DBL(rb_ivar_get(evaluator, rb_intern("@Dz")));
-  rb_block_call(evaluator, rb_intern("each_primitive_shell_with_index"), 0, NULL, RUBY_METHOD_FUNC(initialize_evaluator_primitive), evaluator);
+  VALUE coefficients_map;
+  coefficients_map = rb_obj_alloc(rb_const_get(CLASS_OF(evaluator), rb_intern("CoeffMap")));
+  rb_obj_call_init(coefficients_map, 0, NULL);
+  rb_block_call(evaluator,
+                rb_intern("each_primitive_shell_with_index"),
+                0, NULL,
+                RUBY_METHOD_FUNC(initialize_evaluator_primitive),
+                rb_ary_new3(2, evaluator, coefficients_map));
+  rb_ivar_set(evaluator, rb_intern("@coefficients_map"), coefficients_map);
   return evaluator;
 }
 
