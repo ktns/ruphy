@@ -6,8 +6,8 @@ begin
       @shell0, @shell1, @shell2, @shell3 = @shells = [
         shell0, shell1, shell2, shell3
       ]
-      @total_angular_momentum = @shells.map{|s|s.angular_momentum}.reduce(&:+)
-      @max_angular_momentum = @shells.map{|s|s.angular_momentum}.max
+      @max_total_azimuthal_quantum_number = @shells.map{|s|s.azimuthal_quantum_numbers.max}.reduce(&:+)
+      @max_azimuthal_quantum_number = @shells.flat_map{|s|s.azimuthal_quantum_numbers}.max
       @max_contrdepth = @shells.map{|s| s.contrdepth }.reduce(&:*)
       @Ax,@Ay,@Az = *(@A = shell0.center)
       @Bx,@By,@Bz = *(@B = shell1.center)
@@ -17,7 +17,7 @@ begin
       @CDx,@CDy, @CDz = *(@CD = @D - @C)
     end
 
-    attr_reader :max_angular_momentum
+    attr_reader :max_azimuthal_quantum_number, :max_total_azimuthal_quantum_number
 
     def each_primitive_shell
       @shell0.each_primitive_shell do |c0,z0|

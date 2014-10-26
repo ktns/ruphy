@@ -2,7 +2,7 @@
 typedef struct _evaluator_struct{
   Libint_eri_t *erieval;
   LIBINT2_REALTYPE * buf;
-  unsigned int tot_am, max_am, max_cd;
+  unsigned int max_tot_am, max_am, max_cd;
   union{
     struct{
       double Ax, Ay, Az, Bx, By, Bz, Cx, Cy, Cz, Dx, Dy, Dz;

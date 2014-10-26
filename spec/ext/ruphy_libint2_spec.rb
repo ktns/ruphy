@@ -28,22 +28,25 @@ CoeffMap = RuPHY::BasisSet::LCAO::Gaussian::Shell::CoeffMap
 if RuPHY::Libint2::compiled?
   describe RuPHY::Libint2::Evaluator do
     before do
-      @ams    = 4.times.collect{rand(4)}
+      @ls     = 4.times.collect{[*0..4].sample(rand(1..5))}
       @shells = 4.times.collect do |i|
         double("shell#{i}",
-               :angular_momentum=>@ams[i],
+               :azimuthal_quantum_numbers=>@ls[i],
                :contrdepth=>1,
                :center=>random_vector,
                :zeta=>rand()).tap { |s|
           allow(s).to receive(:each_primitive_shell).and_yield(CoeffMap[0=>1], s.zeta)
         }
       end
-      @max_am = @ams.max
+      @max_l     = @ls.flatten.max
+      @max_tot_l = @ls.map(&:max).reduce(&:+)
     end
 
     subject{described_class.new(*@shells)}
 
-    its(:max_angular_momentum){is_expected == @max_am}
+    its(:max_azimuthal_quantum_number){is_expected == @max_l}
+
+    its(:max_total_azimuthal_quantum_number){is_expected == @max_tot_l}
 
     describe '#each_primitive_shell' do
       it 'should invoke block with correct arguments' do
