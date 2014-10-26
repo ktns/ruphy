@@ -29,15 +29,20 @@ if RuPHY::Libint2::compiled?
   describe RuPHY::Libint2::Evaluator do
     before do
       @ls     = 4.times.collect{[*0..4].sample(rand(1..5))}
+      @cmaps  = 4.times.collect do |i|
+        CoeffMap[@ls[i].zip([1]*@ls[i].size)]
+      end
       @shells = 4.times.collect do |i|
         double("shell#{i}",
                :azimuthal_quantum_numbers=>@ls[i],
                :contrdepth=>1,
                :center=>random_vector,
                :zeta=>rand()).tap { |s|
-          allow(s).to receive(:each_primitive_shell).and_yield(CoeffMap[0=>1], s.zeta)
+          allow(s).to receive(:each_primitive_shell).and_yield(@cmaps[i], s.zeta)
         }
       end
+      @tot_cmap  = @cmaps.reduce(&:*)
+      @csmap     = described_class::CoeffMap.new.append(@tot_cmap)
       @max_l     = @ls.flatten.max
       @max_tot_l = @ls.map(&:max).reduce(&:+)
     end
@@ -53,7 +58,7 @@ if RuPHY::Libint2::compiled?
     describe '#each_primitive_shell' do
       it 'should invoke block with correct arguments' do
         subject.each_primitive_shell do |c, z0, z1, z2, z3|
-          expect(c).to eq CoeffMap[[0]*4 => 1]
+          expect(c).to eq @tot_cmap
           expect(z0).to eq @shells[0].zeta
           expect(z1).to eq @shells[1].zeta
           expect(z2).to eq @shells[2].zeta
@@ -66,7 +71,7 @@ if RuPHY::Libint2::compiled?
       it 'should invoke block with correct arguments' do
         subject.each_primitive_shell_with_index do |i, c, z0, z1, z2, z3|
           expect(i).to eq 0
-          expect(c).to eq CoeffMap[[0]*4 => 1]
+          expect(c).to eq @tot_cmap
           expect(z0).to eq @shells[0].zeta
           expect(z1).to eq @shells[1].zeta
           expect(z2).to eq @shells[2].zeta
@@ -99,7 +104,7 @@ if RuPHY::Libint2::compiled?
 
       it 'should set coefficients map' do
         expect{subject.initialize_evaluator}.to change{subject.coefficients_map}.from(nil).to(described_class::CoeffMap)
-        expect(subject.coefficients_map.keys).to eq [[0]*4]
+        expect(subject.coefficients_map.keys).to eq @tot_cmap.keys
       end
 
       it 'should set contrdepth' do
