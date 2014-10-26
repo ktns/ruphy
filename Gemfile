@@ -27,10 +27,10 @@ group :test do
 end
 
 group :debug do
-  gem 'debugger', :platform => :ruby_19
-  gem 'byebug', :platform => [:ruby_20, :ruby_21]
+  gem 'debugger', :platform => :mri_19
+  gem 'byebug', :platform => [:mri_20, :mri_21]
 end
 
 group :profile do
-  gem 'ruby-prof'
+  gem 'ruby-prof', :platform => :mri
 end
