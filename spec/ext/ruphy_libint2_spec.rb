@@ -42,6 +42,8 @@ if RuPHY::Libint2::compiled?
       @max_tot_l = @ls.map(&:max).reduce(&:+)
     end
 
+    let(:contrdepth){@shells.map(&:contrdepth).reduce(&:*)}
+
     subject{described_class.new(*@shells)}
 
     its(:max_azimuthal_quantum_number){is_expected == @max_l}
@@ -98,6 +100,10 @@ if RuPHY::Libint2::compiled?
       it 'should set coefficients map' do
         expect{subject.initialize_evaluator}.to change{subject.coefficients_map}.from(nil).to(described_class::CoeffMap)
         expect(subject.coefficients_map.keys).to eq [[0]*4]
+      end
+
+      it 'should set contrdepth' do
+        expect{subject.initialize_evaluator}.to change{subject.contrdepth}.from(0).to(contrdepth)
       end
     end
   end

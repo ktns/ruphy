@@ -60,6 +60,7 @@ static VALUE new_method(VALUE self, VALUE args){
   st->erieval = new Libint_eri_t[st->max_cd];
   st->buf = new(bufheap) LIBINT2_REALTYPE[buf_size];
   LIBINT2_PREFIXED_NAME(libint2_init_eri)(&st->erieval[0], st->max_am, st->buf);
+  st->erieval[0].contrdepth=0;
   return ret;
 }
 
@@ -330,6 +331,7 @@ static VALUE initialize_evaluator_primitive(VALUE, VALUE ctx, int argc, VALUE ar
 #if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(20))
   erieval->LIBINT_T_SS_EREP_SS(20)[0] = pfac*F[20];
 #endif
+  st->erieval[0].contrdepth++;
   return evaluator;
 }
 
@@ -351,6 +353,7 @@ static VALUE initialize_evaluator(VALUE evaluator){
   VALUE coefficients_map;
   coefficients_map = rb_obj_alloc(rb_const_get(CLASS_OF(evaluator), rb_intern("CoeffMap")));
   rb_obj_call_init(coefficients_map, 0, NULL);
+  st->erieval[0].contrdepth=0;
   rb_block_call(evaluator,
                 rb_intern("each_primitive_shell_with_index"),
                 0, NULL,
@@ -360,11 +363,18 @@ static VALUE initialize_evaluator(VALUE evaluator){
   return evaluator;
 }
 
+static VALUE contrdepth(VALUE evaluator){
+  evaluator_struct *st;
+  Data_Get_Struct(evaluator, evaluator_struct, st);
+  return rb_uint_new(st->erieval[0].contrdepth);
+}
+
 extern "C"
 void ruphy_libint2_define_evaluator(VALUE libint2_module){
   evaluator_class = rb_define_class_under(libint2_module, "Evaluator", rb_cObject);
   rb_define_singleton_method(evaluator_class, "new", RUBY_METHOD_FUNC(new_method), -2);
   rb_define_method(evaluator_class, "packed_center_coordinates", RUBY_METHOD_FUNC(packed_center_coordinates), 0);
+  rb_define_method(evaluator_class, "contrdepth", RUBY_METHOD_FUNC(contrdepth), 0);
   rb_define_method(evaluator_class, "initialize_evaluator", RUBY_METHOD_FUNC(initialize_evaluator), 0);
 }
 
