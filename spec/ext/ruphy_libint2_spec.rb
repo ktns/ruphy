@@ -48,8 +48,8 @@ if RuPHY::Libint2::compiled?
     end
 
     let(:contrdepth){@shells.map(&:contrdepth).reduce(&:*)}
-
-    subject{described_class.new(*@shells)}
+    let(:evaluator){described_class.new(*@shells)}
+    subject{evaluator}
 
     its(:max_azimuthal_quantum_number){is_expected == @max_l}
 
@@ -109,6 +109,15 @@ if RuPHY::Libint2::compiled?
 
       it 'should set contrdepth' do
         expect{subject.initialize_evaluator}.to change{subject.contrdepth}.from(0).to(contrdepth)
+      end
+    end
+
+    describe '#evaluate' do
+      let(:ls){@ls.map( &:sample )}
+      context 'after #initialize_evaluator' do
+        subject{evaluator.initialize_evaluator}
+
+        specify{pending; expect{subject.evaluate(*ls)}.not_to raise_error}
       end
     end
   end

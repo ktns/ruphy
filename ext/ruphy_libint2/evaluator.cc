@@ -265,7 +265,7 @@ static VALUE initialize_evaluator_primitive(VALUE, VALUE ctx, int argc, VALUE ar
 
   const double two_times_M_PI_to_25 = 34.986836655249725693,
         K1 = exp(- rhop * AB2), K2 = exp(- rhoq * CD2);
-  const double pfac = c * two_times_M_PI_to_25 * K1 * K2 * sqrt(one_o_gammap_plus_gammaq);
+  const double pfac = two_times_M_PI_to_25 * K1 * K2 * sqrt(one_o_gammap_plus_gammaq);
   double F[LIBINT_MAX_AM*4 + 6] = {};
   fmeval_chebyshev.eval(F, PQ2*gammapq, st->max_tot_am);
 #if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(0))
@@ -369,6 +369,176 @@ static VALUE contrdepth(VALUE evaluator){
   return rb_uint_new(st->erieval[0].contrdepth);
 }
 
+static VALUE evaluate(VALUE evaluator, VALUE l0, VALUE l1, VALUE l2, VALUE l3){
+  VALUE coefficients_map = rb_ivar_get(evaluator, rb_intern("@coefficients_map")),
+        coefficients     = rb_apply(coefficients_map, rb_intern("[]"), rb_ary_new3(1, rb_ary_new3(4, l0, l1, l2, l3)));
+  evaluator_struct *st;
+  Data_Get_Struct(evaluator, evaluator_struct, st);
+  const unsigned int contrdepth = st->erieval[0].contrdepth;
+  double ssss[LIBINT_MAX_AM*4 + 6][contrdepth];
+  for(unsigned int i = 0; i < contrdepth; i++){
+    const double c = NUM2DBL(rb_ary_entry(coefficients, i));
+    Libint_eri_t *erieval = &st->erieval[i];
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(0))
+    ssss[0][i] = erieval->LIBINT_T_SS_EREP_SS(0)[0];
+    erieval->LIBINT_T_SS_EREP_SS(0)[0] = ssss[0][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(1))
+    ssss[1][i] = erieval->LIBINT_T_SS_EREP_SS(1)[0];
+    erieval->LIBINT_T_SS_EREP_SS(1)[0] = ssss[1][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(2))
+    ssss[2][i] = erieval->LIBINT_T_SS_EREP_SS(2)[0];
+    erieval->LIBINT_T_SS_EREP_SS(2)[0] = ssss[2][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(3))
+    ssss[3][i] = erieval->LIBINT_T_SS_EREP_SS(3)[0];
+    erieval->LIBINT_T_SS_EREP_SS(3)[0] = ssss[3][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(4))
+    ssss[4][i] = erieval->LIBINT_T_SS_EREP_SS(4)[0];
+    erieval->LIBINT_T_SS_EREP_SS(4)[0] = ssss[4][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(5))
+    ssss[5][i] = erieval->LIBINT_T_SS_EREP_SS(5)[0];
+    erieval->LIBINT_T_SS_EREP_SS(5)[0] = ssss[5][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(6))
+    ssss[6][i] = erieval->LIBINT_T_SS_EREP_SS(6)[0];
+    erieval->LIBINT_T_SS_EREP_SS(6)[0] = ssss[6][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(7))
+    ssss[7][i] = erieval->LIBINT_T_SS_EREP_SS(7)[0];
+    erieval->LIBINT_T_SS_EREP_SS(7)[0] = ssss[7][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(8))
+    ssss[8][i] = erieval->LIBINT_T_SS_EREP_SS(8)[0];
+    erieval->LIBINT_T_SS_EREP_SS(8)[0] = ssss[8][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(9))
+    ssss[9][i] = erieval->LIBINT_T_SS_EREP_SS(9)[0];
+    erieval->LIBINT_T_SS_EREP_SS(9)[0] = ssss[9][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(10))
+    ssss[10][i] = erieval->LIBINT_T_SS_EREP_SS(10)[0];
+    erieval->LIBINT_T_SS_EREP_SS(10)[0] = ssss[10][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(11))
+    ssss[11][i] = erieval->LIBINT_T_SS_EREP_SS(11)[0];
+    erieval->LIBINT_T_SS_EREP_SS(11)[0] = ssss[11][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(12))
+    ssss[12][i] = erieval->LIBINT_T_SS_EREP_SS(12)[0];
+    erieval->LIBINT_T_SS_EREP_SS(12)[0] = ssss[12][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(13))
+    ssss[13][i] = erieval->LIBINT_T_SS_EREP_SS(13)[0];
+    erieval->LIBINT_T_SS_EREP_SS(13)[0] = ssss[13][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(14))
+    ssss[14][i] = erieval->LIBINT_T_SS_EREP_SS(14)[0];
+    erieval->LIBINT_T_SS_EREP_SS(14)[0] = ssss[14][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(15))
+    ssss[15][i] = erieval->LIBINT_T_SS_EREP_SS(15)[0];
+    erieval->LIBINT_T_SS_EREP_SS(15)[0] = ssss[15][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(16))
+    ssss[16][i] = erieval->LIBINT_T_SS_EREP_SS(16)[0];
+    erieval->LIBINT_T_SS_EREP_SS(16)[0] = ssss[16][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(17))
+    ssss[17][i] = erieval->LIBINT_T_SS_EREP_SS(17)[0];
+    erieval->LIBINT_T_SS_EREP_SS(17)[0] = ssss[17][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(18))
+    ssss[18][i] = erieval->LIBINT_T_SS_EREP_SS(18)[0];
+    erieval->LIBINT_T_SS_EREP_SS(18)[0] = ssss[18][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(19))
+    ssss[19][i] = erieval->LIBINT_T_SS_EREP_SS(19)[0];
+    erieval->LIBINT_T_SS_EREP_SS(19)[0] = ssss[19][i] * c;
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(20))
+    ssss[20][i] = erieval->LIBINT_T_SS_EREP_SS(20)[0];
+    erieval->LIBINT_T_SS_EREP_SS(20)[0] = ssss[20][i] * c;
+#endif
+  }
+  const unsigned int l[4] = { NUM2UINT(l0), NUM2UINT(l1), NUM2UINT(l2), NUM2UINT(l3) };
+  if(LIBINT2_PREFIXED_NAME(libint2_build_eri)[l[0]][l[1]][l[2]][l[3]] == NULL){
+    rb_raise(rb_const_get(rb_cObject, rb_intern("NotImplementedError")),
+             "libint2_build_eri[%d, %d, %d, %d] is not implemented!", l[0], l[1], l[2], l[3]);
+  }
+  LIBINT2_PREFIXED_NAME(libint2_build_eri)[l[0]][l[1]][l[2]][l[3]](&st->erieval[0]);
+  for(unsigned int i = 0; i < contrdepth; i++){
+    Libint_eri_t *erieval = &st->erieval[i];
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(0))
+    erieval->LIBINT_T_SS_EREP_SS(0)[0] = ssss[0][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(1))
+    erieval->LIBINT_T_SS_EREP_SS(1)[0] = ssss[1][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(2))
+    erieval->LIBINT_T_SS_EREP_SS(2)[0] = ssss[2][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(3))
+    erieval->LIBINT_T_SS_EREP_SS(3)[0] = ssss[3][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(4))
+    erieval->LIBINT_T_SS_EREP_SS(4)[0] = ssss[4][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(5))
+    erieval->LIBINT_T_SS_EREP_SS(5)[0] = ssss[5][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(6))
+    erieval->LIBINT_T_SS_EREP_SS(6)[0] = ssss[6][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(7))
+    erieval->LIBINT_T_SS_EREP_SS(7)[0] = ssss[7][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(8))
+    erieval->LIBINT_T_SS_EREP_SS(8)[0] = ssss[8][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(9))
+    erieval->LIBINT_T_SS_EREP_SS(9)[0] = ssss[9][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(10))
+    erieval->LIBINT_T_SS_EREP_SS(10)[0] = ssss[10][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(11))
+    erieval->LIBINT_T_SS_EREP_SS(11)[0] = ssss[11][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(12))
+    erieval->LIBINT_T_SS_EREP_SS(12)[0] = ssss[12][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(13))
+    erieval->LIBINT_T_SS_EREP_SS(13)[0] = ssss[13][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(14))
+    erieval->LIBINT_T_SS_EREP_SS(14)[0] = ssss[14][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(15))
+    erieval->LIBINT_T_SS_EREP_SS(15)[0] = ssss[15][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(16))
+    erieval->LIBINT_T_SS_EREP_SS(16)[0] = ssss[16][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(17))
+    erieval->LIBINT_T_SS_EREP_SS(17)[0] = ssss[17][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(18))
+    erieval->LIBINT_T_SS_EREP_SS(18)[0] = ssss[18][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(19))
+    erieval->LIBINT_T_SS_EREP_SS(19)[0] = ssss[19][i];
+#endif
+#if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(20))
+    erieval->LIBINT_T_SS_EREP_SS(20)[0] = ssss[20][i];
+#endif
+  }
+  return evaluator;
+}
+
 extern "C"
 void ruphy_libint2_define_evaluator(VALUE libint2_module){
   evaluator_class = rb_define_class_under(libint2_module, "Evaluator", rb_cObject);
@@ -376,6 +546,7 @@ void ruphy_libint2_define_evaluator(VALUE libint2_module){
   rb_define_method(evaluator_class, "packed_center_coordinates", RUBY_METHOD_FUNC(packed_center_coordinates), 0);
   rb_define_method(evaluator_class, "contrdepth", RUBY_METHOD_FUNC(contrdepth), 0);
   rb_define_method(evaluator_class, "initialize_evaluator", RUBY_METHOD_FUNC(initialize_evaluator), 0);
+  rb_define_method(evaluator_class, "evaluate", RUBY_METHOD_FUNC(evaluate), 4);
 }
 
 #endif // HAVE_LIBINT2_H
