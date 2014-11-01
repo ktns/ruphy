@@ -385,11 +385,14 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
   end
 
   describe '#electron_repulsion_integral' do
-    context 'with primitives zeta = 1 and all on same center'
-    let(:primitive){RuPHY::AO::Gaussian::Primitive.new(1,[0,0,0],[0,0,0])}
-    let(:product){primitive*primitive}
-    let(:correct_value){PI**2.5/4}
-    subject{product.electron_repulsion_integral(product)}
+    context 'with primitives zeta = 1 and all on same center' do
+      let(:primitive){RuPHY::AO::Gaussian::Primitive.new(1,[0,0,0],[0,0,0])}
+      let(:product){primitive*primitive}
+      let(:correct_value){Math::PI**2.5/4}
+      subject{product.electron_repulsion_integral(product)}
+
+      it{is_expected.to eq correct_value}
+    end
   end
 end
 
