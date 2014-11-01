@@ -107,6 +107,8 @@ if RuPHY::Libint2::compiled?
         subject{evaluator.initialize_evaluator}
 
         specify{expect{subject.evaluate}.not_to raise_error}
+
+        specify{expect{subject.evaluate}.to change{subject.results}.from(nil).to(Hash)}
       end
     end
   end

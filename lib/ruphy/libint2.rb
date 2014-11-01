@@ -24,7 +24,7 @@ begin
       @CDx,@CDy, @CDz = *(@CD = @D - @C)
     end
 
-    attr_reader :max_azimuthal_quantum_number, :total_azimuthal_quantum_number, :original_shell_order
+    attr_reader :max_azimuthal_quantum_number, :total_azimuthal_quantum_number, :original_shell_order, :results
 
     def each_primitive_shell
       @shell0.each_primitive_shell(@l0) do |c0,z0|
