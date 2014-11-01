@@ -2,12 +2,37 @@ begin
   require 'ruphy_libint2'
 
   class RuPHY::Libint2::Evaluator
-    def initialize shell0, shell1, shell2, shell3
+    def initialize shell0, l0, shell1, l1, shell2, l2, shell3, l3
+      @original_shell_order = (0..3).to_a
+      if l0 < l1
+        shell0, l0, shell1, l1 = shell1, l1, shell0, l0
+        @original_shell_order[0], @original_shell_order[1] =
+          @original_shell_order[1], @original_shell_order[0]
+      end
+      if l2 < l3
+        shell2, l2, shell3, l3 = shell3, l3, shell2, l2
+        @original_shell_order[2], @original_shell_order[3] =
+          @original_shell_order[3], @original_shell_order[2]
+      end
+      if l2 + l3 < l0 + l1
+        shell0, l0, shell1, l1, shell2, l2, shell3, l3 =
+        shell2, l2, shell3, l3, shell0, l0, shell1, l1
+        @original_shell_order[0], @original_shell_order[1],
+          @original_shell_order[2], @original_shell_order[3] =
+          @original_shell_order[2], @original_shell_order[3],
+          @original_shell_order[0], @original_shell_order[1]
+      end
       @shell0, @shell1, @shell2, @shell3 = @shells = [
         shell0, shell1, shell2, shell3
       ]
-      @max_total_azimuthal_quantum_number = @shells.map{|s|s.azimuthal_quantum_numbers.max}.reduce(&:+)
-      @max_azimuthal_quantum_number = @shells.flat_map{|s|s.azimuthal_quantum_numbers}.max
+      @l0, @l1, @l2, @l3 = @l = [l0, l1, l2, l3]
+      @shells.zip(@l).each do |shell, l|
+        raise ArgumentError, "%p does not contain %d in azimuthal_quantum_numbers" % [shell, l] unless
+        shell.azimuthal_quantum_numbers.include? l
+      end
+
+      @total_azimuthal_quantum_number = @l.reduce(&:+)
+      @max_azimuthal_quantum_number = @l.max
       @max_contrdepth = @shells.map{|s| s.contrdepth }.reduce(&:*)
       @Ax,@Ay,@Az = *(@A = shell0.center)
       @Bx,@By,@Bz = *(@B = shell1.center)
@@ -17,13 +42,13 @@ begin
       @CDx,@CDy, @CDz = *(@CD = @D - @C)
     end
 
-    attr_reader :max_azimuthal_quantum_number, :max_total_azimuthal_quantum_number
+    attr_reader :max_azimuthal_quantum_number, :total_azimuthal_quantum_number, :original_shell_order
 
     def each_primitive_shell
-      @shell0.each_primitive_shell do |c0,z0|
-        @shell1.each_primitive_shell do |c1,z1|
-          @shell2.each_primitive_shell do |c2,z2|
-            @shell3.each_primitive_shell do |c3,z3|
+      @shell0.each_primitive_shell(@l0) do |c0,z0|
+        @shell1.each_primitive_shell(@l1) do |c1,z1|
+          @shell2.each_primitive_shell(@l2) do |c2,z2|
+            @shell3.each_primitive_shell(@l3) do |c3,z3|
               yield c0*c1*c2*c3,z0,z1,z2,z3
             end
           end
@@ -36,20 +61,6 @@ begin
         yield i, *arg
       end
     end
-
-    class CoeffMap < Hash
-      def initialize
-        super{|h,k|h[k]=[]}
-      end
-
-      def append other
-        other.each do |ls, c|
-          self[ls].push(*c)
-        end
-      end
-    end
-
-    attr_reader :coefficients_map
   end
 rescue LoadError
 end
