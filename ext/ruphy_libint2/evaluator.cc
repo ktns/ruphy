@@ -18,6 +18,8 @@
  *
  */
 
+#include <utility>
+
 #include <ruby.h>
 #include RUBY_EXTCONF_H
 
@@ -373,6 +375,63 @@ static VALUE evaluate(VALUE evaluator){
   return evaluator;
 }
 
+static VALUE reorder_shells(VALUE evaluator){
+  unsigned int l0 = rb_ivar_get(evaluator, rb_intern("@l0")),
+               l1 = rb_ivar_get(evaluator, rb_intern("@l1")),
+               l2 = rb_ivar_get(evaluator, rb_intern("@l2")),
+               l3 = rb_ivar_get(evaluator, rb_intern("@l3"));
+#if LIBINT_SHELL_SET == LIBINT_SHELL_SET_STANDARD
+  if(l0 >= l1 && l2 >= l3 && l0 + l1 <= l2 + l3){
+    rb_ivar_set(evaluator, rb_intern("@original_shell_order"),
+                rb_ary_new3(4, INT2NUM(0), INT2NUM(1), INT2NUM(2), INT2NUM(3)));
+    return Qnil;
+  }
+#elif LIBINT_SHELL_SET == LIBINT_SHELL_SET_ORCA
+  if(l0 <= l1 && l2 <= l3 && l0 < l2 || (l0 == l2 && l1 < l3)){
+    rb_ivar_set(evaluator, rb_intern("@original_shell_order"),
+                rb_ary_new3(4, INT2NUM(0), INT2NUM(1), INT2NUM(2), INT2NUM(3)));
+    return Qnil;
+  }
+#else
+  rb_ivar_set(evaluator, rb_intern("@original_shell_order"),
+              rb_ary_new3(4, INT2NUM(0), INT2NUM(1), INT2NUM(2), INT2NUM(3)));
+  return Qnil;
+#endif
+  unsigned int i[4] = {0, 1, 2, 3};
+  const unsigned int l[4] = {l0, l1, l2, l3};
+  VALUE s0 = rb_ivar_get(evaluator, rb_intern("@shell0")),
+        s1 = rb_ivar_get(evaluator, rb_intern("@shell1")),
+        s2 = rb_ivar_get(evaluator, rb_intern("@shell2")),
+        s3 = rb_ivar_get(evaluator, rb_intern("@shell3"));
+  const VALUE s[4] = {s0, s1, s2, s3};
+#if LIBINT_SHELL_SET == LIBINT_SHELL_SET_STANDARD
+  if(l0 < l1) std::swap(i[0], i[1]);
+  if(l2 < l3) std::swap(i[2], i[3]);
+  if(l0+l1 > l2+l3){
+    std::swap(i[0], i[2]);
+    std::swap(i[1], i[3]);
+  }
+#elif LIBINT_SHELL_SET == LIBINT_SHELL_SET_ORCA
+  if(l0 > l1) std::swap(i[0], i[1]);
+  if(l2 > l3) std::swap(i[2], i[3]);
+  if(l0 > l2 || l1 > l3){
+    std::swap(i[0], i[2]);
+    std::swap(i[1], i[3]);
+  }
+#endif
+  rb_ivar_set(evaluator, rb_intern("@shell0"), s[i[0]]);
+  rb_ivar_set(evaluator, rb_intern("@shell1"), s[i[1]]);
+  rb_ivar_set(evaluator, rb_intern("@shell2"), s[i[2]]);
+  rb_ivar_set(evaluator, rb_intern("@shell3"), s[i[3]]);
+  rb_ivar_set(evaluator, rb_intern("@l0"), l[i[0]]);
+  rb_ivar_set(evaluator, rb_intern("@l1"), l[i[1]]);
+  rb_ivar_set(evaluator, rb_intern("@l2"), l[i[2]]);
+  rb_ivar_set(evaluator, rb_intern("@l3"), l[i[3]]);
+  rb_ivar_set(evaluator, rb_intern("@original_shell_order"),
+              rb_ary_new3(4, INT2NUM(i[0]), INT2NUM(i[1]), INT2NUM(i[2]), INT2NUM(i[3])));
+  return evaluator;
+}
+
 extern "C"
 void ruphy_libint2_define_evaluator(VALUE libint2_module){
   evaluator_class = rb_define_class_under(libint2_module, "Evaluator", rb_cObject);
@@ -380,6 +439,7 @@ void ruphy_libint2_define_evaluator(VALUE libint2_module){
   rb_define_method(evaluator_class, "packed_center_coordinates", RUBY_METHOD_FUNC(packed_center_coordinates), 0);
   rb_define_method(evaluator_class, "contrdepth", RUBY_METHOD_FUNC(contrdepth), 0);
   rb_define_method(evaluator_class, "initialize_evaluator", RUBY_METHOD_FUNC(initialize_evaluator), 0);
+  rb_define_method(evaluator_class, "reorder_shells", RUBY_METHOD_FUNC(reorder_shells), 0);
   rb_define_method(evaluator_class, "evaluate", RUBY_METHOD_FUNC(evaluate), 0);
 }
 

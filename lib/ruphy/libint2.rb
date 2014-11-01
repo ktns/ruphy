@@ -3,25 +3,6 @@ begin
 
   class RuPHY::Libint2::Evaluator
     def initialize shell0, l0, shell1, l1, shell2, l2, shell3, l3
-      @original_shell_order = (0..3).to_a
-      if l0 < l1
-        shell0, l0, shell1, l1 = shell1, l1, shell0, l0
-        @original_shell_order[0], @original_shell_order[1] =
-          @original_shell_order[1], @original_shell_order[0]
-      end
-      if l2 < l3
-        shell2, l2, shell3, l3 = shell3, l3, shell2, l2
-        @original_shell_order[2], @original_shell_order[3] =
-          @original_shell_order[3], @original_shell_order[2]
-      end
-      if l2 + l3 < l0 + l1
-        shell0, l0, shell1, l1, shell2, l2, shell3, l3 =
-        shell2, l2, shell3, l3, shell0, l0, shell1, l1
-        @original_shell_order[0], @original_shell_order[1],
-          @original_shell_order[2], @original_shell_order[3] =
-          @original_shell_order[2], @original_shell_order[3],
-          @original_shell_order[0], @original_shell_order[1]
-      end
       @shell0, @shell1, @shell2, @shell3 = @shells = [
         shell0, shell1, shell2, shell3
       ]
@@ -30,14 +11,15 @@ begin
         raise ArgumentError, "%p does not contain %d in azimuthal_quantum_numbers" % [shell, l] unless
         shell.azimuthal_quantum_numbers.include? l
       end
+      reorder_shells
 
       @total_azimuthal_quantum_number = @l.reduce(&:+)
       @max_azimuthal_quantum_number = @l.max
       @max_contrdepth = @shells.map{|s| s.contrdepth }.reduce(&:*)
-      @Ax,@Ay,@Az = *(@A = shell0.center)
-      @Bx,@By,@Bz = *(@B = shell1.center)
-      @Cx,@Cy,@Cz = *(@C = shell2.center)
-      @Dx,@Dy,@Dz = *(@D = shell3.center)
+      @Ax,@Ay,@Az = *(@A = @shell0.center)
+      @Bx,@By,@Bz = *(@B = @shell1.center)
+      @Cx,@Cy,@Cz = *(@C = @shell2.center)
+      @Dx,@Dy,@Dz = *(@D = @shell3.center)
       @ABx,@ABy, @ABz = *(@AB = @B - @A)
       @CDx,@CDy, @CDz = *(@CD = @D - @C)
     end
