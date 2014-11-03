@@ -43,6 +43,13 @@ begin
         yield i, *arg
       end
     end
+
+    @@table = {}
+
+    def self.[] shell0, l0, shell1, l1, shell2, l2, shell3, l3
+      key = [[shell0, l0], [shell1, l1], [shell2, l2], [shell3, l3]].sort_by(&:hash)
+      @@table[key]||= self.new(shell0, l0, shell1, l1, shell2, l2, shell3, l3)
+    end
   end
 rescue LoadError
 end

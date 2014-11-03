@@ -111,5 +111,13 @@ if RuPHY::Libint2::compiled?
         specify{expect{subject.evaluate}.to change{subject.results}.from(nil).to(Hash)}
       end
     end
+
+    describe '.[]' do
+      let(:key){ 8.times.map{|i| double('key%d'%i)} }
+      it 'should invoke .new' do
+        expect(described_class).to receive(:new).with(*key)
+        described_class[*key]
+      end
+    end
   end
 end
