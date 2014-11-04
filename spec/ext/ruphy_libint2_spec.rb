@@ -116,7 +116,8 @@ if defined? RuPHY::Libint2
       describe '.[]' do
         let(:key){ 8.times.map{|i| double('key%d'%i)} }
         it 'should invoke .new' do
-          expect(described_class).to receive(:new).with(*key)
+          allow(described_class).to receive(:reorder_shells).with(*key).and_return(key)
+          expect(described_class).to receive(:new).with(*key).and_return(nil)
           described_class[*key]
         end
       end
