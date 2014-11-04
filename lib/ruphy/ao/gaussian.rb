@@ -211,6 +211,7 @@ module RuPHY
               end
             end * prefactor
           end
+          alias eri electron_repulsion_integral
         end
 
         def normalization_factor
