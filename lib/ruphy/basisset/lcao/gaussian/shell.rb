@@ -44,10 +44,21 @@ module RuPHY
             cart_angular_momenta_with_index.transpose.first
           end
 
+          # The class that represents a contracted gaussian localized atomic orbital function
+          # associated to a contracted shell
+          class AO < RuPHY::AO::Gaussian::Contracted
+            def initialize shell, *args
+              super *args
+              @shell = shell
+            end
+
+            attr_reader :shell
+          end
+
           def aos
             @aos ||=
             cart_angular_momenta_with_index.map do |momenta, i|
-              RuPHY::AO::Gaussian::Contracted.new(@sets_of_coeffs[i], @zetas, momenta, self.center)
+              AO.new(self, @sets_of_coeffs[i], @zetas, momenta, self.center)
             end
           end
 
