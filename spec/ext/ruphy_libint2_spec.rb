@@ -38,13 +38,13 @@ if defined? RuPHY::Libint2
                    allow(s).to receive(:each_primitive_shell).with(@ls[i]).and_yield(1, s.zeta)
           }
         end
+        @shells, @ls = described_class::reorder_shells(*@shells.zip(@ls).flatten).each_slice(2).to_a.transpose
         @max_l = @ls.max
         @tot_l = @ls.reduce(&:+)
       end
 
       let(:contrdepth){@shells.map(&:contrdepth).reduce(&:*)}
       let(:evaluator){described_class.new(*@shells.zip(@ls).flatten)}
-      let(:shells){evaluator.original_shell_order.map{|i|@shells[i]}}
       subject{evaluator}
 
       its(:max_azimuthal_quantum_number){is_expected == @max_l}
@@ -55,10 +55,10 @@ if defined? RuPHY::Libint2
         it 'should invoke block with correct arguments' do
           subject.each_primitive_shell do |c, z0, z1, z2, z3|
             expect(c).to eq 1
-            expect(z0).to eq shells[0].zeta
-            expect(z1).to eq shells[1].zeta
-            expect(z2).to eq shells[2].zeta
-            expect(z3).to eq shells[3].zeta
+            expect(z0).to eq @shells[0].zeta
+            expect(z1).to eq @shells[1].zeta
+            expect(z2).to eq @shells[2].zeta
+            expect(z3).to eq @shells[3].zeta
           end
         end
       end
@@ -68,10 +68,10 @@ if defined? RuPHY::Libint2
           subject.each_primitive_shell_with_index do |i, c, z0, z1, z2, z3|
             expect(i).to eq 0
             expect(c).to eq 1
-            expect(z0).to eq shells[0].zeta
-            expect(z1).to eq shells[1].zeta
-            expect(z2).to eq shells[2].zeta
-            expect(z3).to eq shells[3].zeta
+            expect(z0).to eq @shells[0].zeta
+            expect(z1).to eq @shells[1].zeta
+            expect(z2).to eq @shells[2].zeta
+            expect(z3).to eq @shells[3].zeta
           end
         end
       end
@@ -84,18 +84,18 @@ if defined? RuPHY::Libint2
         it 'should set coordinates of centers' do
           subject.initialize_evaluator
           ax, ay, az, bx, by, bz, cx, cy, cz, dx, dy, dz = subject.packed_center_coordinates.unpack('d12')
-          expect(ax).to eq(shells[0].center[0])
-          expect(ay).to eq(shells[0].center[1])
-          expect(az).to eq(shells[0].center[2])
-          expect(bx).to eq(shells[1].center[0])
-          expect(by).to eq(shells[1].center[1])
-          expect(bz).to eq(shells[1].center[2])
-          expect(cx).to eq(shells[2].center[0])
-          expect(cy).to eq(shells[2].center[1])
-          expect(cz).to eq(shells[2].center[2])
-          expect(dx).to eq(shells[3].center[0])
-          expect(dy).to eq(shells[3].center[1])
-          expect(dz).to eq(shells[3].center[2])
+          expect(ax).to eq(@shells[0].center[0])
+          expect(ay).to eq(@shells[0].center[1])
+          expect(az).to eq(@shells[0].center[2])
+          expect(bx).to eq(@shells[1].center[0])
+          expect(by).to eq(@shells[1].center[1])
+          expect(bz).to eq(@shells[1].center[2])
+          expect(cx).to eq(@shells[2].center[0])
+          expect(cy).to eq(@shells[2].center[1])
+          expect(cz).to eq(@shells[2].center[2])
+          expect(dx).to eq(@shells[3].center[0])
+          expect(dy).to eq(@shells[3].center[1])
+          expect(dz).to eq(@shells[3].center[2])
         end
 
         it 'should set contrdepth' do
