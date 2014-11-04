@@ -22,6 +22,8 @@ extern "C" void Init_ruphy_libint2(){
   Libint2=rb_define_module_under(RuPHY,"Libint2");
 #ifdef HAVE_LIBINT2_INIT_ERI
   rb_define_singleton_method(Libint2, "compiled?", RUBY_METHOD_FUNC(return_true),  0);
+  rb_const_set(Libint2, rb_intern("MaxAM"), INT2NUM(LIBINT_MAX_AM));
+  rb_const_set(Libint2, rb_intern("OptAM"), INT2NUM(LIBINT_OPT_AM));
 #ifdef RUPHY_ENDPROC_VOID
   rb_set_end_proc((void*)static_cleanup, Qnil);
 #elif defined(RUPHY_ENDPROC_FUNC)

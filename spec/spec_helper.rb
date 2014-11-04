@@ -51,6 +51,10 @@ def random_element range = 1..1000
   return random_element
 end
 
+def random_angular_momenta(l)
+  [Vector[0,0,1], Vector[0,1,0], Vector[0,0,1]].repeated_combination(l).to_a.sample.reduce(Vector[0,0,0], &:+).to_a
+end
+
 begin
   TestMol = RuPHY::Geometry::Molecule.new(<<EOF, 'xyz')
 2

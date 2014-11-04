@@ -53,6 +53,27 @@ begin
         @@table[key]||= self.new(shell0, l0, shell1, l1, shell2, l2, shell3, l3)
       end
     end
+
+    # Mix-in module for RuPHY::AO::Gaussian::Contracted::Product
+    module ContractedProduct
+      # Reimplement electron_repulsion using Libint2
+      def electron_repulsion other
+        raise NotImplementedError
+      end
+
+      # Override all methods
+      def self.append_features mod
+        methods = instance_methods(false) & mod.instance_methods(false)
+        methods.each do |method|
+          mod.send(:remove_method, method)
+        end
+        super
+      end
+    end
+
+    unless $0 =~ /rspec/
+      RuPHY::AO::Gaussian::Contracted::Product.include ContractedProduct
+    end
   end
 rescue LoadError
 end

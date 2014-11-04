@@ -122,5 +122,64 @@ if defined? RuPHY::Libint2
         end
       end
     end
+
+    describe RuPHY::AO::Gaussian::Contracted::Product do
+      context 'with %s included' % RuPHY::Libint2::ContractedProduct do
+        let(:contrdepth){ 4.times.map{ rand(1..3) }}
+        let(:coeffs){     4.times.map{|i| contrdepth[i].times.map{ rand(-5.0..5.0) }}}
+        let(:zetas){      4.times.map{|i| contrdepth[i].times.map{ rand(0.0..5.0) }}}
+        let(:l){          4.times.map{ rand(0..RuPHY::Libint2::OptAM) }}
+        let(:momenta){ l.map{|l| random_angular_momenta(l) }}
+        let(:center){ 4.times.map{ random_vector }}
+        let(:shell) do
+          4.times.map do |i|
+            double(
+              "shell#{i}",
+              :azimuthal_quantum_numbers=>[l[i]],
+              :contrdepth=>coeffs[i].size,
+              :center=>center[i],
+              :zeta=>rand()
+            ).tap do |s|
+              coeffs[i].zip(zetas[i]).inject(
+                allow(s).to receive(:each_primitive_shell).with(l[i])
+              ) do |r, (c, z)|
+                r.and_yield(c, z)
+              end
+            end
+          end
+        end
+        class ContractedAO < RuPHY::AO::Gaussian::Contracted
+          def initialize shell, *args
+            super *args
+            @shell = shell
+          end
+          attr_reader :shell
+        end
+
+        let(:ao) do
+          4.times.map do |i|
+            ContractedAO.new shell[i], coeffs[i], zetas[i], momenta[i], center[i]
+          end
+        end
+        4.times{ |i| let("ao#{i}".to_sym){ ao[i] }}
+
+        def described_class
+          @described_class ||= super.dup.include RuPHY::Libint2::ContractedProduct
+        end
+
+        specify{ expect( described_class ).to include RuPHY::Libint2::ContractedProduct }
+
+        let(:product0){ described_class::new(ao0, ao1) }
+        let(:product1){ described_class::new(ao2, ao3) }
+
+        describe '#electron_repulsion' do
+          subject{product0.electron_repulsion product1}
+
+          pending do 'to be implemented'
+            it{ is_expected.to eq (ao0*ao1).electron_repulsion(ao2*ao3) }
+          end
+        end
+      end
+    end
   end
 end
