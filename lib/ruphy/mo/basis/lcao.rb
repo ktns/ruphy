@@ -61,6 +61,7 @@ module RuPHY
           kinetic - nuclear_attraction(geometry)
         end
 
+        # Returns <ao_i(r_1)*ao_j(r_1)|r_12^-1|ao_k(r_2)*ao_l(r_2)>
         def electron_repulsion i,j,k,l
           (aos[i]*aos[j]).electron_repulsion(aos[k]*aos[l])
         end
