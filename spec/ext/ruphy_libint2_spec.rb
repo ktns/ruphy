@@ -151,10 +151,12 @@ if defined? RuPHY::Libint2
         4.times{ |i| let("ao#{i}".to_sym){ ao[i] }}
 
         def described_class
-          @described_class ||= super.dup.include RuPHY::Libint2::ContractedProduct
+          @described_class ||= super.dup.module_eval do
+            include RuPHY::Libint2::ContractedProduct
+          end
         end
 
-        specify{ expect( described_class ).to include RuPHY::Libint2::ContractedProduct }
+        specify{ expect( described_class ).to include(RuPHY::Libint2::ContractedProduct) }
 
         let(:product0){ described_class::new(ao0, ao1) }
         let(:product1){ described_class::new(ao2, ao3) }
