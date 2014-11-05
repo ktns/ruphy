@@ -93,6 +93,7 @@ begin
         shells = aos.map(&:shell)
         ls = aos.map{|ao| ao.angular_momentum }
         evaluator = Evaluator[*shells.zip(ls).flatten(1)]
+        evaluator.initialize_evaluator
         evaluator.evaluate
         evaluator.get_result_for_aos(*aos)
       end
