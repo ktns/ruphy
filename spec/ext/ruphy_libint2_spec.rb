@@ -26,54 +26,53 @@ if defined? RuPHY::Libint2
   end
 
   if RuPHY::Libint2::compiled?
-    describe RuPHY::Libint2::Evaluator do
-      before do
-        @ls     = 4.times.collect{rand(0..3)}
-        @shells = 4.times.collect do |i|
-          double("shell#{i}",
-                 :azimuthal_quantum_numbers=>[@ls[i]],
-                 :contrdepth=>1,
-                 :center=>random_vector,
-                 :zeta=>rand()).tap { |s|
-                   allow(s).to receive(:each_primitive_shell).with(@ls[i]).and_yield(1, s.zeta)
-          }
-        end
-        @shells, @ls = described_class::reorder_shells(*@shells.zip(@ls).flatten).each_slice(2).to_a.transpose
-        @max_l = @ls.max
-        @tot_l = @ls.reduce(&:+)
-      end
-
-      let(:contrdepth){@shells.map(&:contrdepth).reduce(&:*)}
-      let(:evaluator){described_class.new(*@shells.zip(@ls).flatten)}
-      subject{evaluator}
-
-      its(:max_azimuthal_quantum_number){is_expected == @max_l}
-
-      its(:total_azimuthal_quantum_number){is_expected == @tot_l}
-
-      describe '#each_primitive_shell' do
-        it 'should invoke block with correct arguments' do
-          subject.each_primitive_shell do |c, z0, z1, z2, z3|
-            expect(c).to eq 1
-            expect(z0).to eq @shells[0].zeta
-            expect(z1).to eq @shells[1].zeta
-            expect(z2).to eq @shells[2].zeta
-            expect(z3).to eq @shells[3].zeta
+    shared_context RuPHY::Libint2 do
+      let(:contrdepth){ 4.times.map{ rand(1..3) }}
+      let(:coeffs){     4.times.map{|i| contrdepth[i].times.map{ rand(-5.0..5.0) }}}
+      let(:zetas){      4.times.map{|i| contrdepth[i].times.map{ rand(0.0..5.0) }}}
+      let(:l){          4.times.map{ rand(0..RuPHY::Libint2::OptAM) }}
+      let(:total_contrdepth){contrdepth.reduce(&:*)}
+      let(:max_l){ l.max }
+      let(:tot_l){ l.reduce(&:+) }
+      let(:momenta){ l.map{|l| random_angular_momenta(l) }}
+      let(:center){ 4.times.map{ random_vector }}
+      let(:shell) do
+        4.times.map do |i|
+          double(
+            "shell#{i}",
+            :azimuthal_quantum_numbers=>[l[i]],
+            :contrdepth=>coeffs[i].size,
+            :center=>center[i],
+            :zeta=>rand()
+          ).tap do |s|
+            coeffs[i].zip(zetas[i]).inject(
+              allow(s).to receive(:each_primitive_shell).with(l[i])
+            ) do |r, (c, z)|
+              r.and_yield(c, z)
+            end
           end
         end
+      end
+      let(:reorderd_shell){described_class.reorder_shells(*shell.zip(l).flatten).reject{|l|Integer===l}}
+
+      let(:evaluator){described_class.new(*shell.zip(l).flatten)}
+    end
+
+    describe RuPHY::Libint2::Evaluator do
+      include_context RuPHY::Libint2
+
+      subject{evaluator}
+
+      its(:max_azimuthal_quantum_number){is_expected == max_l}
+
+      its(:total_azimuthal_quantum_number){is_expected == tot_l}
+
+      describe '#each_primitive_shell' do
+        specify{ expect{|b| evaluator.each_primitive_shell &b }.to yield_control.exactly(total_contrdepth).times }
       end
 
       describe '#each_primitive_shell_with_index' do
-        it 'should invoke block with correct arguments' do
-          subject.each_primitive_shell_with_index do |i, c, z0, z1, z2, z3|
-            expect(i).to eq 0
-            expect(c).to eq 1
-            expect(z0).to eq @shells[0].zeta
-            expect(z1).to eq @shells[1].zeta
-            expect(z2).to eq @shells[2].zeta
-            expect(z3).to eq @shells[3].zeta
-          end
-        end
+        specify{ expect{|b| evaluator.each_primitive_shell_with_index &b }.to yield_control.exactly(total_contrdepth).times }
       end
 
       describe '#initialize_evaluator' do
@@ -84,22 +83,22 @@ if defined? RuPHY::Libint2
         it 'should set coordinates of centers' do
           subject.initialize_evaluator
           ax, ay, az, bx, by, bz, cx, cy, cz, dx, dy, dz = subject.packed_center_coordinates.unpack('d12')
-          expect(ax).to eq(@shells[0].center[0])
-          expect(ay).to eq(@shells[0].center[1])
-          expect(az).to eq(@shells[0].center[2])
-          expect(bx).to eq(@shells[1].center[0])
-          expect(by).to eq(@shells[1].center[1])
-          expect(bz).to eq(@shells[1].center[2])
-          expect(cx).to eq(@shells[2].center[0])
-          expect(cy).to eq(@shells[2].center[1])
-          expect(cz).to eq(@shells[2].center[2])
-          expect(dx).to eq(@shells[3].center[0])
-          expect(dy).to eq(@shells[3].center[1])
-          expect(dz).to eq(@shells[3].center[2])
+          expect(ax).to eq(reorderd_shell[0].center[0])
+          expect(ay).to eq(reorderd_shell[0].center[1])
+          expect(az).to eq(reorderd_shell[0].center[2])
+          expect(bx).to eq(reorderd_shell[1].center[0])
+          expect(by).to eq(reorderd_shell[1].center[1])
+          expect(bz).to eq(reorderd_shell[1].center[2])
+          expect(cx).to eq(reorderd_shell[2].center[0])
+          expect(cy).to eq(reorderd_shell[2].center[1])
+          expect(cz).to eq(reorderd_shell[2].center[2])
+          expect(dx).to eq(reorderd_shell[3].center[0])
+          expect(dy).to eq(reorderd_shell[3].center[1])
+          expect(dz).to eq(reorderd_shell[3].center[2])
         end
 
         it 'should set contrdepth' do
-          expect{subject.initialize_evaluator}.to change{subject.contrdepth}.from(0).to(contrdepth)
+          expect{subject.initialize_evaluator}.to change{subject.contrdepth}.from(0).to(total_contrdepth)
         end
       end
 
@@ -125,7 +124,7 @@ if defined? RuPHY::Libint2
         end
 
         it 'should return same object for equivalent permutations' do
-          described_class.each_equivalent_shell_order(*@shells.zip(@ls)).map do |*args|
+          described_class.each_equivalent_shell_order(*shell.zip(l)).map do |*args|
             described_class[*args.flatten]
           end.uniq.tap{|e| expect(e).to have(1).item}
         end
@@ -133,30 +132,9 @@ if defined? RuPHY::Libint2
     end
 
     describe RuPHY::AO::Gaussian::Contracted::Product do
+      include_context RuPHY::Libint2
+
       context 'with %s included' % RuPHY::Libint2::ContractedProduct do
-        let(:contrdepth){ 4.times.map{ rand(1..3) }}
-        let(:coeffs){     4.times.map{|i| contrdepth[i].times.map{ rand(-5.0..5.0) }}}
-        let(:zetas){      4.times.map{|i| contrdepth[i].times.map{ rand(0.0..5.0) }}}
-        let(:l){          4.times.map{ rand(0..RuPHY::Libint2::OptAM) }}
-        let(:momenta){ l.map{|l| random_angular_momenta(l) }}
-        let(:center){ 4.times.map{ random_vector }}
-        let(:shell) do
-          4.times.map do |i|
-            double(
-              "shell#{i}",
-              :azimuthal_quantum_numbers=>[l[i]],
-              :contrdepth=>coeffs[i].size,
-              :center=>center[i],
-              :zeta=>rand()
-            ).tap do |s|
-              coeffs[i].zip(zetas[i]).inject(
-                allow(s).to receive(:each_primitive_shell).with(l[i])
-              ) do |r, (c, z)|
-                r.and_yield(c, z)
-              end
-            end
-          end
-        end
         class ContractedAO < RuPHY::AO::Gaussian::Contracted
           def initialize shell, *args
             super *args
