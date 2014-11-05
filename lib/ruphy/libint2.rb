@@ -18,6 +18,10 @@ begin
         @total_azimuthal_quantum_number = @l.reduce(&:+)
         @max_azimuthal_quantum_number = @l.max
         @max_contrdepth = @shells.map{|s| s.contrdepth }.reduce(&:*)
+
+        raise ArgumentError, "The max azimuthal quantum number is larger than LIBINT_MAX_AM (%d > %d)" %
+          [@max_azimuthal_quantum_number, MaxAM] if @max_azimuthal_quantum_number > MaxAM
+
         @Ax,@Ay,@Az = *(@A = @shell0.center)
         @Bx,@By,@Bz = *(@B = @shell1.center)
         @Cx,@Cy,@Cz = *(@C = @shell2.center)
@@ -44,6 +48,15 @@ begin
         enum_for(:each_primitive_shell).each_with_index do |(*arg),i|
           yield i, *arg
         end
+      end
+
+      def get_result_for_aos ao0, ao1, ao2, ao3
+        aos = [ao0, ao1, ao2, ao3].sort_by! do |ao|
+          @shells.index(ao.shell) or raise ArgumentError,
+            "`%p'.shell is not in the evaluator!" % ao
+        end
+        momenta = aos.map(&:momenta)
+        return results[momenta]
       end
 
       @@table = {}
@@ -76,7 +89,12 @@ begin
     module ContractedProduct
       # Reimplement electron_repulsion using Libint2
       def electron_repulsion other
-        raise NotImplementedError
+        aos = [*self.aos, *other.aos]
+        shells = aos.map(&:shell)
+        ls = aos.map{|ao| ao.angular_momentum }
+        evaluator = Evaluator[*shells.zip(ls).flatten(1)]
+        evaluator.evaluate
+        evaluator.get_result_for_aos(*aos)
       end
 
       # Override all methods

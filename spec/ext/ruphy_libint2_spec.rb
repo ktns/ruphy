@@ -184,7 +184,9 @@ if defined? RuPHY::Libint2
         describe '#electron_repulsion' do
           subject{product0.electron_repulsion product1}
 
-          pending do 'to be implemented'
+          it{ is_expected.to be_a Float }
+
+          pending do 'to be fixed'
             it{ is_expected.to eq (ao0*ao1).electron_repulsion(ao2*ao3) }
           end
         end

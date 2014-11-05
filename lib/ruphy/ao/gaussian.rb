@@ -291,6 +291,14 @@ module RuPHY
           end
         end
 
+        def momenta
+          @primitives.first.last.momenta
+        end
+
+        def angular_momentum
+          @primitives.first.last.angular_momentum
+        end
+
         # Enumerate primitives and coefficients
         def each_primitives &block
           @primitives.each &block
@@ -311,6 +319,10 @@ module RuPHY
                 next n * c1 * c2 * p1.normalization_factor * p2.normalization_factor, p1 * p2
               end
             end
+          end
+
+          def aos
+            return @g1, @g2
           end
 
           def sum_up method, *args
