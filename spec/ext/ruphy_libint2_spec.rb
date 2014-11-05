@@ -114,11 +114,20 @@ if defined? RuPHY::Libint2
       end
 
       describe '.[]' do
+        before :each do
+          described_class.clear
+        end
+
         let(:key){ 8.times.map{|i| double('key%d'%i)} }
         it 'should invoke .new' do
-          allow(described_class).to receive(:reorder_shells).with(*key).and_return(key)
-          expect(described_class).to receive(:new).with(*key).and_return(nil)
+          expect(described_class).to receive(:new).with(*key)
           described_class[*key]
+        end
+
+        it 'should return same object for equivalent permutations' do
+          described_class.each_equivalent_shell_order(*@shells.zip(@ls)).map do |*args|
+            described_class[*args.flatten]
+          end.uniq.tap{|e| expect(e).to have(1).item}
         end
       end
     end

@@ -48,9 +48,27 @@ begin
 
       @@table = {}
 
+      def self.each_equivalent_shell_order shell0, shell1, shell2, shell3
+        return enum_for(:each_equivalent_shell_order, shell0, shell1, shell2, shell3) unless block_given?
+        [[shell0, shell1], [shell2, shell3]].permutation(2) do |ss1, ss2|
+          ss1.permutation(2) do |s0, s1|
+            ss2.permutation(2) do |s2, s3|
+              yield s0, s1, s2, s3
+            end
+          end
+        end
+      end
+
       def self.[] shell0, l0, shell1, l1, shell2, l2, shell3, l3
-        key = reorder_shells(shell0, l0, shell1, l1, shell2, l2, shell3, l3)
-        @@table[key]||= self.new(shell0, l0, shell1, l1, shell2, l2, shell3, l3)
+        each_equivalent_shell_order [shell0, l0], [shell1, l1], [shell2, l2], [shell3, l3] do |*args|
+          evaluator = @@table[args.flatten] and return evaluator
+        end
+        return @@table[[shell0, l0, shell1, l1, shell2, l2, shell3, l3]] =
+          self.new(shell0, l0, shell1, l1, shell2, l2, shell3, l3)
+      end
+
+      def self.clear
+        @@table.clear and nil
       end
     end
 
