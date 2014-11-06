@@ -379,21 +379,15 @@ static VALUE evaluate(VALUE evaluator){
   rb_ivar_set(evaluator, rb_intern("@results"),
               result = rb_obj_alloc(hash_class));
   int ax, ay, az, bx, by, bz, cx, cy, cz, dx, dy, dz, i=0;
-  FOR_CART(ax, ay, az, l0)
-  FOR_CART(bx, by, bz, l1)
-  FOR_CART(cx, cy, cz, l2)
-  FOR_CART(dx, dy, dz, l3)
-  rb_apply(result, rb_intern("store"),
-           rb_ary_new3(2,
-                       rb_ary_new3(4, rb_ary_new3(3, INT2NUM(ax), INT2NUM(ay), INT2NUM(az)),
-                                      rb_ary_new3(3, INT2NUM(bx), INT2NUM(by), INT2NUM(bz)),
-                                      rb_ary_new3(3, INT2NUM(cx), INT2NUM(cy), INT2NUM(cz)),
-                                      rb_ary_new3(3, INT2NUM(dx), INT2NUM(dy), INT2NUM(dz))),
-                       DBL2NUM(st->erieval[0].targets[0][i++])));
-  END_FOR_CART
-  END_FOR_CART
-  END_FOR_CART
-  END_FOR_CART
+  FOR_CART(ax, ay, az, l0) FOR_CART(bx, by, bz, l1) FOR_CART(cx, cy, cz, l2) FOR_CART(dx, dy, dz, l3){
+    rb_apply(result, rb_intern("store"),
+        rb_ary_new3(2,
+          rb_ary_new3(4, rb_ary_new3(3, INT2NUM(ax), INT2NUM(ay), INT2NUM(az)),
+            rb_ary_new3(3, INT2NUM(bx), INT2NUM(by), INT2NUM(bz)),
+            rb_ary_new3(3, INT2NUM(cx), INT2NUM(cy), INT2NUM(cz)),
+            rb_ary_new3(3, INT2NUM(dx), INT2NUM(dy), INT2NUM(dz))),
+          DBL2NUM(st->erieval[0].targets[0][i++])));
+  } END_FOR_CART END_FOR_CART END_FOR_CART END_FOR_CART
   return evaluator;
 }
 
