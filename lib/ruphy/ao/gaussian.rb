@@ -98,7 +98,7 @@ module RuPHY
                 (t+1) * E(t+1, i-1, j, xyz)
             else
               return    E(t-1, i, j-1, xyz)/2/p +
-              pb[xyz] * E(t,   i, j-1, xyz)+
+              pb[xyz] * E(t,   i, j-1, xyz)     +
                 (t+1) * E(t+1, i, j-1, xyz)
             end
           end
@@ -139,19 +139,19 @@ module RuPHY
             (PI/p)**1.5
           end
 
-          # S_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          # S_{ij}*\sqrt{p/PI}=E^0_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def overlap_decomposed xyz
             hermitian_coeff_decomposed(0,i(xyz),j(xyz),xyz)
           end
 
           # S_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def overlap_integral
-            [0,1,2].inject(1) do |sab,i|
+            (0..2).inject(1) do |sab,i|
               sab * overlap_decomposed(i)
             end * gauss3 * prefactor
           end
 
-          # T_{ij} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          # T_{ij}*\sqrt(p/PI) in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def kinetic_decomposed xyz
                              -2*b**2 * E(0, i(xyz), j(xyz)+2, xyz) \
                     + b*(2*j(xyz)+1) * E(0, i(xyz), j(xyz),   xyz) \
@@ -160,7 +160,7 @@ module RuPHY
 
           # T_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
           def kinetic_integral
-            [0, 1, 2].inject(0.0) do |tab, i|
+            (0..2).inject(0.0) do |tab, i|
               ([0, 1, 2]-[i]).inject(kinetic_decomposed(i)) do |tij, j|
                 tij * overlap_decomposed(j)
               end + tab

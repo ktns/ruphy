@@ -29,9 +29,9 @@ describe RuPHY::AO::Gaussian::Primitive do
     end
   end
 
-  shared_examples_for 'a primitive'	do
-    let(:primitive ){ described_class.new(zeta,momenta,center)}
+  let(:primitive ){ described_class.new(zeta,momenta,center)}
 
+  shared_examples_for 'a primitive'	do
     subject{primitive}
 
     its(:zeta){ is_expected.to be_frozen }
@@ -45,8 +45,8 @@ describe RuPHY::AO::Gaussian::Primitive do
 
       it "should return correct value" do
         is_expected.to be_within(1e-5).of(
-          momenta.inject(1.0) do |k,i|
-            k*(1..2*i-1).step(2).inject(1,&:*)/2**i/(2*zeta)**i
+          momenta.inject(1.0) do |k,i| # \int x^2i exp(-2zeta*x^2)
+            k*(1..2*i-1).step(2).inject(1,&:*)/(2*2*zeta)**i # (2i-1)!!/(2*2zeta)^i
           end**-0.5 * (Math::PI/2/zeta)**-0.75
         )
       end
