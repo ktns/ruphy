@@ -24,7 +24,7 @@ branches:
     - /^feature\//
 
 env:
-  - TEST_NIST=y
+  - TRAVIS=y
 
 cache:
   - apt
