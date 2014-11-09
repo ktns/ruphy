@@ -1,3 +1,5 @@
+require 'ruphy/math'
+
 module RuPHY
   module BasisSet
     module LCAO
@@ -77,10 +79,15 @@ module RuPHY
             @sets_of_coeffs[i]
           end
 
+          # Returns normalize factor of z^l*exp(-zeta*r^2)
+          def normalization_factor l,zeta
+            (Math::PI/2/zeta)**-0.75*(1..2*l-1).step(2).reduce(1,&:*)**-0.5*(4*zeta)**0.5
+          end
+
           # Iterates over maps of coefficient and zetas of all primitives.
           def each_primitive_shell l
             coeffs(l).zip(@zetas).each do |c, z|
-              yield c, z
+              yield c*normalization_factor(l,z), z
             end
           end
         end
