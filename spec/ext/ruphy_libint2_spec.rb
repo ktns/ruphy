@@ -41,15 +41,12 @@ if defined? RuPHY::Libint2
           double(
             "shell#{i}",
             :azimuthal_quantum_numbers=>[l[i]],
-            :contrdepth=>coeffs[i].size,
+            :sets_of_coeffs=>[coeffs[i]],
+            :contrdepth=>contrdepth[i],
             :center=>center[i],
-            :zeta=>rand()
+            :zetas=>zetas[i]
           ).tap do |s|
-            coeffs[i].zip(zetas[i]).inject(
-              allow(s).to receive(:each_primitive_shell).with(l[i])
-            ) do |r, (c, z)|
-              r.and_yield(c, z)
-            end
+            s.extend RuPHY::AO::Gaussian::Shell
           end
         end
       end

@@ -2,16 +2,6 @@ require 'spec_helper'
 require 'ruphy/basisset/lcao/gaussian/shell'
 
 describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
-  describe '::CartAngularMomentumBasis' do
-    subject{described_class::CartAngularMomentumBasis}
-
-    it{is_expected.to be_frozen}
-
-    it{is_expected.to be_all(&:frozen?)}
-
-    its(:size){is_expected.to eq 3}
-  end
-
   describe '.cart_angular_momenta' do
     shared_examples_for("proper cart_angular_momenta") do
       it{is_expected.to be_frozen}
