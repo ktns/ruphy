@@ -163,9 +163,7 @@ if defined? RuPHY::Libint2
 
           it{ is_expected.to be_a Float }
 
-          pending do 'to be fixed'
-            it{ is_expected.to eq (ao0*ao1).electron_repulsion(ao2*ao3) }
-          end
+          it{ is_expected.to be_within(1e-5).of (ao0*ao1).electron_repulsion(ao2*ao3) }
         end
       end
     end

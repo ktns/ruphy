@@ -263,9 +263,10 @@ static VALUE initialize_evaluator_primitive(VALUE, VALUE evaluator, int argc, VA
   erieval->roe[0] = gammapq*oogammaq;
 #endif
 
-  const double two_times_M_PI_to_25 = 34.986836655249725693,
-        K1 = exp(- rhop * AB2), K2 = exp(- rhoq * CD2);
-  const double pfac = c*two_times_M_PI_to_25 * K1 * K2 * sqrt(one_o_gammap_plus_gammaq);
+  const double K1 = exp(- rhop * AB2) * oogammap;
+  const double K2 = exp(- rhoq * CD2) * oogammaq;
+  const double two_times_M_PI_to_25 = 34.986836655249725693;
+  const double pfac = c * two_times_M_PI_to_25 * K1 * K2 * sqrt(one_o_gammap_plus_gammaq);
   double F[LIBINT_MAX_AM*4 + 6] = {};
   fmeval_chebyshev.eval(F, PQ2*gammapq, st->max_tot_am);
 #if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(0))
