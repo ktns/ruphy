@@ -27,15 +27,15 @@ if defined? RuPHY::Libint2
 
   if RuPHY::Libint2::compiled?
     shared_context RuPHY::Libint2 do
-      let(:contrdepth){ [1] *4 }
-      let(:coeffs){ [[1.0]] * 4}
-      let(:zetas){ [[1.0]] * 4 }
-      let(:l){ [0] *4 }
+      let(:contrdepth){ 4.times.map{ rand(1..6) }}
+      let(:coeffs){     4.times.map{|i| contrdepth[i].times.map{ rand(-5.0..5.0) }}}
+      let(:zetas){      4.times.map{|i| contrdepth[i].times.map{ rand(0.0..5.0) }}}
+      let(:l){          4.times.map{ rand(0..0) }}
       let(:total_contrdepth){contrdepth.reduce(&:*)}
       let(:max_l){ l.max }
       let(:tot_l){ l.reduce(&:+) }
       let(:momenta){ l.map{|l| random_angular_momenta(l) }}
-      let(:center){ [ Vector[0,0,0] ] * 4 }
+      let(:center){ 4.times.map{ random_vector }}
       let(:shell) do
         4.times.map do |i|
           double(
