@@ -55,9 +55,9 @@ static VALUE new_method(VALUE self, VALUE args){
   st->erieval = NULL;
   ret = Data_Wrap_Struct(self, 0, free_libint_t, st);
   rb_apply(ret, rb_intern("initialize"), args); // this may not return due to exception
-  st->max_tot_am = NUM2UINT(rb_ivar_get(ret, rb_intern("@total_azimuthal_quantum_number")));
-  st->max_am     = NUM2UINT(rb_ivar_get(ret, rb_intern("@max_azimuthal_quantum_number")));
-  st->max_cd     = NUM2UINT(rb_ivar_get(ret, rb_intern("@max_contrdepth")));
+  st->tot_am = NUM2UINT(rb_ivar_get(ret, rb_intern("@total_azimuthal_quantum_number")));
+  st->max_am = NUM2UINT(rb_ivar_get(ret, rb_intern("@max_azimuthal_quantum_number")));
+  st->max_cd = NUM2UINT(rb_ivar_get(ret, rb_intern("@max_contrdepth")));
   buf_size = LIBINT2_PREFIXED_NAME(libint2_need_memory_eri)(st->max_am);
   bufheap = ruby_xmalloc(sizeof(LIBINT2_REALTYPE[buf_size]));
   st->erieval = new Libint_eri_t[st->max_cd];
@@ -268,7 +268,7 @@ static VALUE initialize_evaluator_primitive(VALUE, VALUE evaluator, int argc, VA
   const double two_times_M_PI_to_25 = 34.986836655249725693;
   const double pfac = c * two_times_M_PI_to_25 * K1 * K2 * sqrt(one_o_gammap_plus_gammaq);
   double F[LIBINT_MAX_AM*4 + 6] = {};
-  fmeval_chebyshev.eval(F, PQ2*gammapq, st->max_tot_am);
+  fmeval_chebyshev.eval(F, PQ2*gammapq, st->tot_am);
 #if LIBINT2_DEFINED(eri,LIBINT_T_SS_EREP_SS(0))
   erieval->LIBINT_T_SS_EREP_SS(0)[0] = pfac*F[0];
 #endif
