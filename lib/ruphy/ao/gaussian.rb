@@ -1,3 +1,5 @@
+require 'ruphy/math'
+
 module RuPHY
   module AO
     module Gaussian
