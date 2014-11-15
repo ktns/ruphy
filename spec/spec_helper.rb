@@ -15,7 +15,7 @@ RSpec.configure do |config|
 end
 
 def random_positive
-  - Math::log(rand())
+  - Math::log(rand(0.0..1.0))
 end
 
 def random_complex
