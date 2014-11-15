@@ -163,7 +163,7 @@ if defined? RuPHY::Libint2
 
           it{ is_expected.to be_a Float }
 
-          it{ is_expected.to be_within(1e-5).of (ao0*ao1).electron_repulsion(ao2*ao3) }
+          it{ is_expected.to be_within(1e-3).percent_of (ao0*ao1).electron_repulsion(ao2*ao3) }
         end
       end
     end
