@@ -18,8 +18,8 @@ def random_positive
   - Math::log(rand(0.0..1.0))
 end
 
-def random_complex
-  rand() + Complex::I * rand()
+def random_complex range=0.0..1.0
+  rand(range) + Complex::I * rand(range)
 end
 
 def random_spwf_hydrogenic_subset count
