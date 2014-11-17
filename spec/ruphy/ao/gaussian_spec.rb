@@ -44,10 +44,11 @@ describe RuPHY::AO::Gaussian::Primitive do
       subject{primitive.normalization_factor}
 
       it "should return correct value" do
+        p = 2*zeta
         is_expected.to be_within(1e-5).of(
           momenta.inject(1.0) do |k,i|
-            k*(1..2*i-1).step(2).inject(1,&:*)/2**i/(2*zeta)**i
-          end**-0.5 * (Math::PI/2/zeta)**-0.75
+            k*(1..2*i-1).step(2).inject(1,&:*)/(2*p)**i
+          end**-0.5 * (Math::PI/p)**-0.75
         )
       end
     end
