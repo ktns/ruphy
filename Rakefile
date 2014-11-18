@@ -32,22 +32,27 @@ Jeweler::RubygemsDotOrgTasks.new
 
 require 'rspec/core'
 require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec => "spec:prepare") do |spec|
+
+def configure_spec spec
   spec.pattern = FileList['spec/**/*_spec.rb']
   if ENV['TRAVIS']='y'
     spec.rspec_opts='--options=.rspec.travis'
   end
 end
 
+RSpec::Core::RakeTask.new(:spec => "spec:prepare") do |spec|
+  configure_spec spec
+end
+
 if RUBY_VERSION < '1.9'
   RSpec::Core::RakeTask.new(:rcov => "spec:prepare") do |spec|
-    spec.pattern = 'spec/**/*_spec.rb'
+    configure_spec spec
     spec.rcov = true
     spec.rcov_opts = %w<--exclude gems,spec>
   end
 else
   RSpec::Core::RakeTask.new(:simplecov => "spec:prepare") do |spec|
-    spec.pattern = 'spec/**/*_spec.rb'
+    configure_spec spec
     ENV['COVERAGE']='true'
   end
 end
