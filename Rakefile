@@ -32,7 +32,7 @@ Jeweler::RubygemsDotOrgTasks.new
 
 require 'rspec/core'
 require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec) do |spec|
+RSpec::Core::RakeTask.new(:spec => "spec:prepare") do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
   if ENV['TRAVIS']='y'
     spec.rspec_opts='--options=.rspec.travis'
@@ -40,13 +40,13 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
 end
 
 if RUBY_VERSION < '1.9'
-  RSpec::Core::RakeTask.new(:rcov) do |spec|
+  RSpec::Core::RakeTask.new(:rcov => "spec:prepare") do |spec|
     spec.pattern = 'spec/**/*_spec.rb'
     spec.rcov = true
     spec.rcov_opts = %w<--exclude gems,spec>
   end
 else
-  RSpec::Core::RakeTask.new(:simplecov) do |spec|
+  RSpec::Core::RakeTask.new(:simplecov => "spec:prepare") do |spec|
     spec.pattern = 'spec/**/*_spec.rb'
     ENV['COVERAGE']='true'
   end
@@ -74,7 +74,7 @@ CLEAN << 'gem_graph.png'
 RaccSources = FileList['lib/**/*.y']
 RaccOutputs = RaccSources.ext('rb')
 task :racc => RaccOutputs
-task :spec => RaccOutputs
+task "spec:prepare" => RaccOutputs
 
 CLEAN.concat RaccOutputs
 
@@ -89,7 +89,7 @@ Gaussian94Sources = FileList['lib/**/*.gbs']
 Gaussian94Outputs = Gaussian94Sources.ext('.yml')
 
 task :gbs2yml => Gaussian94Outputs
-task :spec => Gaussian94Outputs
+task "spec:prepare" => Gaussian94Outputs
 
 CLOBBER.concat Gaussian94Outputs
 
