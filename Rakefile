@@ -35,7 +35,7 @@ require 'rspec/core/rake_task'
 
 def configure_spec spec
   spec.pattern = FileList['spec/**/*_spec.rb']
-  if ENV['TRAVIS']='y'
+  if ENV['TRAVIS']=='y'
     spec.rspec_opts='--options=.rspec.travis'
   end
 end
