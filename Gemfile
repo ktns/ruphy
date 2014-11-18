@@ -26,7 +26,7 @@ end
 
 group :coverage do
   gem 'rcov', "~> 1.0.0", :platform => :mri_18
-  gem 'simplecov', "~> 0.8.1", :platform => :ruby_19
+  gem 'simplecov', "~> 0.8.1", :platform => [:ruby_19, :ruby_20, :ruby_21]
 end
 
 group :debug do

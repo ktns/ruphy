@@ -48,7 +48,7 @@ if RUBY_VERSION < '1.9'
 else
   RSpec::Core::RakeTask.new(:simplecov) do |spec|
     spec.pattern = 'spec/**/*_spec.rb'
-    ENV['SIMPLECOV']='true'
+    ENV['COVERAGE']='true'
   end
 end
 

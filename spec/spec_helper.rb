@@ -2,6 +2,13 @@ require 'bundler'
 
 Bundler.require(:test)
 
+if ENV['COVERAGE']
+  Bundler.require(:coverage)
+  if defined? SimpleCov
+    SimpleCov.start
+  end
+end
+
 require 'ruphy'
 require 'tempfile'
 
