@@ -21,9 +21,12 @@ group :development, :test do
 end
 
 group :test do
+  gem 'guard-rspec', :require => false
+end
+
+group :coverage do
   gem 'rcov', "~> 1.0.0", :platform => :mri_18
   gem 'simplecov', "~> 0.8.1", :platform => :ruby_19
-  gem 'guard-rspec', :require => false
 end
 
 group :debug do
