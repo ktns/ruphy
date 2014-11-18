@@ -132,12 +132,6 @@ def dummy_atom x = 0, y = 0, z = 0, atomic_num = 1
   RuPHY::Geometry::Atom.new obatom
 end
 
-def mock_primitive name=:primitive, opts={}
-  primitive = double(name)
-  allow(primitive).to receive(:zeta).and_return(opts[:zeta] || rand())
-  return primitive
-end
-
 def mock_vector value, name=:vector, xyz=nil
   vector = double(name)
   allow(vector).to receive(:[]).with(xyz).and_return(value)

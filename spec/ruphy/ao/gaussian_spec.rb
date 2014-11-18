@@ -264,22 +264,29 @@ describe RuPHY::AO::Gaussian::Primitive do
 end
 
 describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
-  let(:primitive1){mock_primitive(:primitive1)}
-  let(:primitive2){mock_primitive(:primitive2)}
-  let(:product){described_class.new(primitive1,primitive2)}
+  let(:center1){random_vector}
+  let(:center2){random_vector}
+  let(:zeta1){random_positive}
+  let(:zeta2){random_positive}
+  let(:primitive1){double(:primitive1, :zeta => zeta1, :center => center1)}
+  let(:primitive2){double(:primitive2, :zeta => zeta2, :center => center2)}
+  let(:p){zeta1+zeta2}
+  let(:pa){random_vector}
+  let(:pb){random_vector}
+  let(:xyz){rand(0..2)}
+  let(:product) do
+    described_class.new(primitive1,primitive2).tap do |product|
+      allow(product).to receive(:p).with(no_args).and_return(p)
+      allow(product).to receive(:pa).with(no_args).and_return(pa)
+      allow(product).to receive(:pb).with(no_args).and_return(pb)
+    end
+  end
 
   describe '#hermitian_coeff_decomposed' do
-    let(:xyz){double(:xyz)}
-    let(:p){rand()};
-    let(:pa){rand()}; let(:pb){rand()}
-
     def self.case_for t, i, j, val = nil, &block
       block and val = block
 
       def E(t,i,j)
-        allow(product).to receive(:p).with(no_args).and_return(p)
-        allow(product).to receive(:pa).with(no_args).and_return(mock_vector(pa,:pa,xyz))
-        allow(product).to receive(:pb).with(no_args).and_return(mock_vector(pb,:pb,xyz))
         product.hermitian_coeff_decomposed(t,i,j,xyz)
       end
 
@@ -319,36 +326,29 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
 
     case_for(1, 0, 0, 0)
 
-    case_for(0, 1, 0){pa}
+    case_for(0, 1, 0){pa[xyz]}
 
-    case_for(0, 0, 1){pb}
+    case_for(0, 0, 1){pb[xyz]}
 
-    case_for(0, 1, 1){pa*pb + E(1, 0, 1)}
+    case_for(0, 1, 1){pa[xyz]*pb[xyz] + E(1, 0, 1)}
 
     case_for(1, 1, 0){0.5/p}
 
     case_for(1, 0, 1){0.5/p}
 
-    case_for(0, 0, 2){pb*E(0,0,1)+E(1,0,1)}
+    case_for(0, 0, 2){pb[xyz]*E(0,0,1)+E(1,0,1)}
 
-    case_for(0, 1, 2){pa*E(0,0,2)+E(1,0,2)}
+    case_for(0, 1, 2){pa[xyz]*E(0,0,2)+E(1,0,2)}
 
     case_for(2, 0, 2){E(1,0,1)/2/p}
 
-    case_for(1, 1, 2){E(0,0,2)/2/p+pa*E(1,0,2)+2*E(2,0,2)}
+    case_for(1, 1, 2){E(0,0,2)/2/p+pa[xyz]*E(1,0,2)+2*E(2,0,2)}
 
-    case_for(0, 2, 2){pa*E(0,1,2)+E(1,1,2)}
+    case_for(0, 2, 2){pa[xyz]*E(0,1,2)+E(1,1,2)}
   end
 
   describe '#center' do
-    let(:center1){random_vector}
-    let(:center2){random_vector}
-
-    subject do
-      allow(primitive1).to receive(:center).and_return(center1)
-      allow(primitive2).to receive(:center).and_return(center2)
-      product.center
-    end
+    subject{ product.center }
 
     it{is_expected.to eq((center1 * primitive1.zeta + center2 * primitive2.zeta) / (primitive1.zeta + primitive2.zeta))}
   end
@@ -356,7 +356,6 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
   describe '#auxiliary_hermite_integral' do
     let(:i){{:X => 0, :Y => 1, :Z => 2}}
     let(:r){random_vector}
-    let(:p){random_positive()}
 
     (0..2).to_a.repeated_permutation(4) do  |t1, u1, v1, n|
       context do
