@@ -283,24 +283,27 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
 
   describe '#hermitian_coeff_decomposed' do
     context 'with i=0,j=0' do
+      let(:i){0}
+      let(:j){0}
       context 't = 0' do
-        subject{(0..2).map{|xyz| product.E(0,0,0,xyz)}}
+        let(:t){0}
+        subject{(0..2).map{|xyz| product.E(t,i,j,xyz)}}
         let(:one){[1.0]*3}
 
         it{is_expected.to all_be_within(1e-5).of(1)}
       end
 
       context 't > 0' do
-        subject{(1..8).flat_map{|t|(0..2).map{|xyz| product.E(0,0,t,xyz)}}}
+        subject{(1..8).flat_map{|t|(0..2).map{|xyz| product.E(t,i,j,xyz)}}}
 
-        it{pending; is_expected.to all_be_within(1e-5).of(0)}
+        it{is_expected.to all_be_within(1e-5).of(0)}
       end
     end
     let(:i){rand(1..1)}
     let(:j){rand(1..1)}
     context 'for x direction' do
       context 'contracted with Hermite polynomials' do
-        subject{(0..i+j).map{|t|GSL::Poly::hermite(t).to_f*2*p* product.E(i,j,t,0)}.reduce(&:+)}
+        subject{(0..i+j).map{|t|GSL::Poly::hermite(t).to_f*2*p* product.E(t,i,j,0)}.reduce(&:+)}
         let(:cartesian_monomial1){([GSL::Poly[1,-pa[0]]]*i).reduce(&:*)}
         let(:cartesian_monomial2){([GSL::Poly[1,-pb[0]]]*j).reduce(&:*)}
         it{pending;is_expected.to eq cartesian_monomial1*cartesian_monomial2}
