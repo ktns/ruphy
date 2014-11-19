@@ -273,7 +273,6 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
   let(:p){zeta1+zeta2}
   let(:pa){random_vector}
   let(:pb){random_vector}
-  let(:xyz){rand(0..2)}
   let(:product) do
     described_class.new(primitive1,primitive2).tap do |product|
       allow(product).to receive(:p).with(no_args).and_return(p)
@@ -283,68 +282,30 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
   end
 
   describe '#hermitian_coeff_decomposed' do
-    def self.case_for t, i, j, val = nil, &block
-      block and val = block
+    context 'with i=0,j=0' do
+      context 't = 0' do
+        subject{(0..2).map{|xyz| product.E(0,0,0,xyz)}}
+        let(:one){[1.0]*3}
 
-      def E(t,i,j)
-        product.hermitian_coeff_decomposed(t,i,j,xyz)
+        it{is_expected.to all_be_within(1e-5).of(1)}
       end
 
-      context 'with t=%d, i=%d, j=%d' % [t,i,j] do
-        subject do
-          E(t,i,j)
-        end
+      context 't > 0' do
+        subject{(1..8).flat_map{|t|(0..2).map{|xyz| product.E(0,0,t,xyz)}}}
 
-        it 'should calculated correctly' do
-          case val
-          when nil
-            if i > 0
-              is_expected.to be_within(1e-5).of(
-                          E(t-1, i-1, j) / 2 / p \
-                   + pa * E(t,   i-1, j)         \
-                + (t+1) * E(t+1, i-1, j)
-              )
-            else
-              is_expected.to be_within(1e-5).of(
-                          E(t-1, i, j-1) / 2 / p \
-                   + pb * E(t,   i, j-1)         \
-                + (t+1) * E(t+1, i, j-1)
-              )
-            end
-          when Proc
-            is_expected.to be_within(1e-5).of(instance_eval(&val))
-          else
-            is_expected.to be_within(1e-5).of(val)
-          end
-        end
-
-        it{is_expected.to be_a Float}
+        it{pending; is_expected.to all_be_within(1e-5).of(0)}
       end
     end
-
-    case_for(0, 0, 0, 1)
-
-    case_for(1, 0, 0, 0)
-
-    case_for(0, 1, 0){pa[xyz]}
-
-    case_for(0, 0, 1){pb[xyz]}
-
-    case_for(0, 1, 1){pa[xyz]*pb[xyz] + E(1, 0, 1)}
-
-    case_for(1, 1, 0){0.5/p}
-
-    case_for(1, 0, 1){0.5/p}
-
-    case_for(0, 0, 2){pb[xyz]*E(0,0,1)+E(1,0,1)}
-
-    case_for(0, 1, 2){pa[xyz]*E(0,0,2)+E(1,0,2)}
-
-    case_for(2, 0, 2){E(1,0,1)/2/p}
-
-    case_for(1, 1, 2){E(0,0,2)/2/p+pa[xyz]*E(1,0,2)+2*E(2,0,2)}
-
-    case_for(0, 2, 2){pa[xyz]*E(0,1,2)+E(1,1,2)}
+    let(:i){rand(1..1)}
+    let(:j){rand(1..1)}
+    context 'for x direction' do
+      context 'contracted with Hermite polynomials' do
+        subject{(0..i+j).map{|t|GSL::Poly::hermite(t).to_f*2*p* product.E(i,j,t,0)}.reduce(&:+)}
+        let(:cartesian_monomial1){([GSL::Poly[1,-pa[0]]]*i).reduce(&:*)}
+        let(:cartesian_monomial2){([GSL::Poly[1,-pb[0]]]*j).reduce(&:*)}
+        it{pending;is_expected.to eq cartesian_monomial1*cartesian_monomial2}
+      end
+    end
   end
 
   describe '#center' do
