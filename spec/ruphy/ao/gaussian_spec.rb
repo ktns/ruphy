@@ -271,14 +271,10 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
   let(:primitive1){double(:primitive1, :zeta => zeta1, :center => center1)}
   let(:primitive2){double(:primitive2, :zeta => zeta2, :center => center2)}
   let(:p){zeta1+zeta2}
-  let(:pa){random_vector}
-  let(:pb){random_vector}
+  let(:pa){(center1*zeta1+center2*zeta2)/(zeta1+zeta2) - center1}
+  let(:pb){(center1*zeta1+center2*zeta2)/(zeta1+zeta2) - center2}
   let(:product) do
-    described_class.new(primitive1,primitive2).tap do |product|
-      allow(product).to receive(:p).with(no_args).and_return(p)
-      allow(product).to receive(:pa).with(no_args).and_return(pa)
-      allow(product).to receive(:pb).with(no_args).and_return(pb)
-    end
+    described_class.new(primitive1,primitive2)
   end
 
   describe '#hermitian_coeff_decomposed' do
