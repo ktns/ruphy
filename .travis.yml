@@ -12,7 +12,7 @@ gemfile:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq libopenbabel-dev
+  - sudo apt-get install -qq libopenbabel-dev libgsl0-dev
 
 before_script:
   - bundle exec rake clean

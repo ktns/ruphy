@@ -264,91 +264,68 @@ describe RuPHY::AO::Gaussian::Primitive do
 end
 
 describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
-  let(:primitive1){mock_primitive(:primitive1)}
-  let(:primitive2){mock_primitive(:primitive2)}
-  let(:product){described_class.new(primitive1,primitive2)}
+  let(:center1){random_vector}
+  let(:center2){random_vector}
+  let(:zeta1){random_positive}
+  let(:zeta2){random_positive}
+  let(:primitive1){double(:primitive1, :zeta => zeta1, :center => center1)}
+  let(:primitive2){double(:primitive2, :zeta => zeta2, :center => center2)}
+  let(:p){zeta1+zeta2}
+  let(:pa){(center1*zeta1+center2*zeta2)/(zeta1+zeta2) - center1}
+  let(:pb){(center1*zeta1+center2*zeta2)/(zeta1+zeta2) - center2}
+  let(:product) do
+    described_class.new(primitive1,primitive2)
+  end
 
   describe '#hermitian_coeff_decomposed' do
-    let(:xyz){double(:xyz)}
-    let(:p){rand()};
-    let(:pa){rand()}; let(:pb){rand()}
+    context 'with i=0,j=0' do
+      let(:i){0}
+      let(:j){0}
+      context 't = 0' do
+        let(:t){0}
+        subject{(0..2).map{|xyz| product.E(t,i,j,xyz)}}
+        let(:one){[1.0]*3}
 
-    def self.case_for t, i, j, val = nil, &block
-      block and val = block
-
-      def E(t,i,j)
-        allow(product).to receive(:p).with(no_args).and_return(p)
-        allow(product).to receive(:pa).with(no_args).and_return(mock_vector(pa,:pa,xyz))
-        allow(product).to receive(:pb).with(no_args).and_return(mock_vector(pb,:pb,xyz))
-        product.hermitian_coeff_decomposed(t,i,j,xyz)
+        it{is_expected.to all_be_within(1e-5).of(1)}
       end
 
-      context 'with t=%d, i=%d, j=%d' % [t,i,j] do
-        subject do
-          E(t,i,j)
-        end
+      context 't > 0' do
+        subject{(1..8).flat_map{|t|(0..2).map{|xyz| product.E(t,i,j,xyz)}}}
 
-        it 'should calculated correctly' do
-          case val
-          when nil
-            if i > 0
-              is_expected.to be_within(1e-5).of(
-                          E(t-1, i-1, j) / 2 / p \
-                   + pa * E(t,   i-1, j)         \
-                + (t+1) * E(t+1, i-1, j)
-              )
-            else
-              is_expected.to be_within(1e-5).of(
-                          E(t-1, i, j-1) / 2 / p \
-                   + pb * E(t,   i, j-1)         \
-                + (t+1) * E(t+1, i, j-1)
-              )
-            end
-          when Proc
-            is_expected.to be_within(1e-5).of(instance_eval(&val))
-          else
-            is_expected.to be_within(1e-5).of(val)
-          end
-        end
-
-        it{is_expected.to be_a Float}
+        it{is_expected.to all_be_within(1e-5).of(0)}
       end
     end
+    let(:i){rand(1..1)}
+    let(:j){rand(1..1)}
+    shared_context 'contracted with Hermite polynomials' do
+      include Math
+      subject{(0..i+j).map{|t|GSL::Poly::hermite(t).to_f*sqrt(p)**(t) * product.E(t,i,j,xyz)}.reduce(&:+)} # \sum^{i+j}_t=0 E^{ij}_t H_t(X) sqrt(p)^t
+      let(:cartesian_monomial1){([GSL::Poly[pa[xyz], 1.0/sqrt(p)]]*i).reduce(&:*)} # (x-A_x)^i = (x-P_x+PA_x)^i = (X/sqrt(p) + PA_x)^i
+      let(:cartesian_monomial2){([GSL::Poly[pb[xyz], 1.0/sqrt(p)]]*j).reduce(&:*)} # (x-B_x)^j = (x-P_x+PB_x)^j = (X/sqrt(p) + PB_x)^j
+      it{is_expected.to eq cartesian_monomial1*cartesian_monomial2}
+    end
 
-    case_for(0, 0, 0, 1)
+    context 'for x direction' do
+      let(:xyz){0}
 
-    case_for(1, 0, 0, 0)
+      include_context 'contracted with Hermite polynomials'
+    end
 
-    case_for(0, 1, 0){pa}
+    context 'for y direction' do
+      let(:xyz){1}
 
-    case_for(0, 0, 1){pb}
+      include_context 'contracted with Hermite polynomials'
+    end
 
-    case_for(0, 1, 1){pa*pb + E(1, 0, 1)}
+    context 'for z direction' do
+      let(:xyz){2}
 
-    case_for(1, 1, 0){0.5/p}
-
-    case_for(1, 0, 1){0.5/p}
-
-    case_for(0, 0, 2){pb*E(0,0,1)+E(1,0,1)}
-
-    case_for(0, 1, 2){pa*E(0,0,2)+E(1,0,2)}
-
-    case_for(2, 0, 2){E(1,0,1)/2/p}
-
-    case_for(1, 1, 2){E(0,0,2)/2/p+pa*E(1,0,2)+2*E(2,0,2)}
-
-    case_for(0, 2, 2){pa*E(0,1,2)+E(1,1,2)}
+      include_context 'contracted with Hermite polynomials'
+    end
   end
 
   describe '#center' do
-    let(:center1){random_vector}
-    let(:center2){random_vector}
-
-    subject do
-      allow(primitive1).to receive(:center).and_return(center1)
-      allow(primitive2).to receive(:center).and_return(center2)
-      product.center
-    end
+    subject{ product.center }
 
     it{is_expected.to eq((center1 * primitive1.zeta + center2 * primitive2.zeta) / (primitive1.zeta + primitive2.zeta))}
   end
@@ -356,7 +333,6 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
   describe '#auxiliary_hermite_integral' do
     let(:i){{:X => 0, :Y => 1, :Z => 2}}
     let(:r){random_vector}
-    let(:p){random_positive()}
 
     (0..2).to_a.repeated_permutation(4) do  |t1, u1, v1, n|
       context do
