@@ -285,7 +285,6 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
       context 't = 0' do
         let(:t){0}
         subject{(0..2).map{|xyz| product.E(t,i,j,xyz)}}
-        let(:one){[1.0]*3}
 
         it{is_expected.to all_be_within(1e-5).of(1)}
       end
