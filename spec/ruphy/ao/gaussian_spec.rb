@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-def random_primitive
-  RuPHY::AO::Gaussian::Primitive.new(rand(),Array.new(3){rand(2)},random_vector)
-end
-
 describe RuPHY::AO::Gaussian do
 
 end
@@ -442,13 +438,19 @@ describe RuPHY::AO::Gaussian::Contracted do
 end
 
 describe RuPHY::AO::Gaussian::Contracted::Product do
-  let(:primitive){RuPHY::AO::Gaussian::Primitive.new(1,[0,0,0],[0,0,0])}
-  let(:contracted){RuPHY::AO::Gaussian::Contracted::PrimitiveDummy.new(primitive)}
-  describe '#electron_repulsion' do
-    let(:correct_value){Math::PI**2.5/4 * primitive.normalization_factor**4}
+  context 'with only one primitive' do
+    let(:primitive_aos){4.times.map{random_primitive}}
+    let(:contracted_aos){primitive_aos.map{|p| RuPHY::AO::Gaussian::Contracted::PrimitiveDummy.new(p)}}
+    let(:primitive_products){primitive_aos.each_slice(2).map{|p1,p2|p1*p2}}
+    let(:contracted_products){contracted_aos.each_slice(2).map{|c1,c2|c1*c2}}
 
-    it 'should yield correct value' do
-      expect((contracted*contracted).electron_repulsion(contracted*contracted)).to be_within(1e-5).of(correct_value)
+    describe '#electron_repulsion' do
+      it 'should return normalized PrimitiveProduct#electron_repulsion_integral' do
+        expect(contracted_products[0].electron_repulsion(contracted_products[1])).to be_within(1e-3).percent_of(
+          primitive_products[0].electron_repulsion_integral(primitive_products[1]) *
+          primitive_aos.reduce(1){|n, p| n * p.normalization_factor}
+        )
+      end
     end
   end
 end
