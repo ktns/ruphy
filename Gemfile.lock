@@ -16,7 +16,7 @@ GEM
       debugger-linecache (~> 1.2.0)
       debugger-ruby_core_source (~> 1.3.5)
     debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.3.5)
+    debugger-ruby_core_source (1.3.7)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
@@ -81,6 +81,12 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (2.0.0)
+      byebug (~> 3.4)
+      pry (~> 0.10)
+    pry-debugger (0.2.3)
+      debugger (~> 1.3)
+      pry (>= 0.9.10, < 0.11.0)
     racc (1.4.12)
     rack (1.5.2)
     rake (10.3.2)
@@ -126,11 +132,11 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.7)
-  byebug
-  debugger
   guard-rspec
   jeweler (~> 2.0.1)
   openbabel (~> 2.3.2.0)
+  pry-byebug
+  pry-debugger
   racc (~> 1.4)
   rb-gsl (~> 1.16.0.3)
   rcov (~> 1.0.0)
