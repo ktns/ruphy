@@ -365,6 +365,14 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
 
       it{is_expected.to eq correct_value}
     end
+
+    let(:primitives){Array.new(4){random_primitive}}
+    let(:products){primitives.each_slice(2).map{|p1,p2|p1*p2}}
+    let(:p1){products.first}
+    let(:p2){products.last}
+    it 'should be commutable' do
+      expect(p1.electron_repulsion_integral(p2)).to eq p2.electron_repulsion_integral(p1)
+    end
   end
 end
 
