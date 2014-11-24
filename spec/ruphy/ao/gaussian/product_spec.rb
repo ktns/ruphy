@@ -111,7 +111,9 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
     let(:p1){products.first}
     let(:p2){products.last}
     it 'should be commutable' do
-      expect(p1.electron_repulsion_integral(p2)).to eq p2.electron_repulsion_integral(p1)
+      expect(p1.electron_repulsion_integral(p2)).to be_within(1e-3).percent_of(
+        p2.electron_repulsion_integral(p1)
+      )
     end
   end
 end
