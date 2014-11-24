@@ -21,15 +21,19 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rcov', "~> 1.0.0", :platform => :mri_18
-  gem 'simplecov', "~> 0.8.1", :platform => :ruby_19
+  gem 'rb-gsl', "~> 1.16.0.3", :require => 'gsl'
   gem 'guard-rspec', :require => false
   gem 'guard-rake', :require => false
 end
 
+group :coverage do
+  gem 'rcov', "~> 1.0.0", :platform => :mri_18
+  gem 'simplecov', "~> 0.8.1", :platform => [:ruby_19, :ruby_20, :ruby_21]
+end
+
 group :debug do
-  gem 'debugger', :platform => :mri_19
-  gem 'byebug', :platform => [:mri_20, :mri_21]
+  gem 'pry-debugger', :platform => :mri_19
+  gem 'pry-byebug', :platform => [:mri_20, :mri_21]
 end
 
 group :profile do

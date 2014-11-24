@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-def random_primitive
-  RuPHY::AO::Gaussian::Primitive.new(rand(),Array.new(3){rand(2)},random_vector)
-end
-
 describe RuPHY::AO::Gaussian do
 
 end
@@ -29,9 +25,9 @@ describe RuPHY::AO::Gaussian::Primitive do
     end
   end
 
-  shared_examples_for 'a primitive'	do
-    let(:primitive ){ described_class.new(zeta,momenta,center)}
+  let(:primitive ){ described_class.new(zeta,momenta,center)}
 
+  shared_examples_for 'a primitive'	do
     subject{primitive}
 
     its(:zeta){ is_expected.to be_frozen }
@@ -46,8 +42,8 @@ describe RuPHY::AO::Gaussian::Primitive do
       it "should return correct value" do
         p = 2*zeta
         is_expected.to be_within(1e-5).of(
-          momenta.inject(1.0) do |k,i|
-            k*(1..2*i-1).step(2).inject(1,&:*)/(2*p)**i
+          momenta.inject(1.0) do |k,i| # \int x^2i exp(-2zeta*x^2)
+            k*(1..2*i-1).step(2).inject(1,&:*)/(2*p)**i # (2i-1)!!/(2*2zeta)^i
           end**-0.5 * (Math::PI/p)**-0.75
         )
       end
@@ -264,139 +260,6 @@ describe RuPHY::AO::Gaussian::Primitive do
   end
 end
 
-describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
-  let(:primitive1){mock_primitive(:primitive1)}
-  let(:primitive2){mock_primitive(:primitive2)}
-  let(:product){described_class.new(primitive1,primitive2)}
-
-  describe '#hermitian_coeff_decomposed' do
-    let(:xyz){double(:xyz)}
-    let(:p){rand()};
-    let(:pa){rand()}; let(:pb){rand()}
-
-    def self.case_for t, i, j, val = nil, &block
-      block and val = block
-
-      def E(t,i,j)
-        allow(product).to receive(:p).with(no_args).and_return(p)
-        allow(product).to receive(:pa).with(no_args).and_return(mock_vector(pa,:pa,xyz))
-        allow(product).to receive(:pb).with(no_args).and_return(mock_vector(pb,:pb,xyz))
-        product.hermitian_coeff_decomposed(t,i,j,xyz)
-      end
-
-      context 'with t=%d, i=%d, j=%d' % [t,i,j] do
-        subject do
-          E(t,i,j)
-        end
-
-        it 'should calculated correctly' do
-          case val
-          when nil
-            if i > 0
-              is_expected.to be_within(1e-5).of(
-                          E(t-1, i-1, j) / 2 / p \
-                   + pa * E(t,   i-1, j)         \
-                + (t+1) * E(t+1, i-1, j)
-              )
-            else
-              is_expected.to be_within(1e-5).of(
-                          E(t-1, i, j-1) / 2 / p \
-                   + pb * E(t,   i, j-1)         \
-                + (t+1) * E(t+1, i, j-1)
-              )
-            end
-          when Proc
-            is_expected.to be_within(1e-5).of(instance_eval(&val))
-          else
-            is_expected.to be_within(1e-5).of(val)
-          end
-        end
-
-        it{is_expected.to be_a Float}
-      end
-    end
-
-    case_for(0, 0, 0, 1)
-
-    case_for(1, 0, 0, 0)
-
-    case_for(0, 1, 0){pa}
-
-    case_for(0, 0, 1){pb}
-
-    case_for(0, 1, 1){pa*pb + E(1, 0, 1)}
-
-    case_for(1, 1, 0){0.5/p}
-
-    case_for(1, 0, 1){0.5/p}
-
-    case_for(0, 0, 2){pb*E(0,0,1)+E(1,0,1)}
-
-    case_for(0, 1, 2){pa*E(0,0,2)+E(1,0,2)}
-
-    case_for(2, 0, 2){E(1,0,1)/2/p}
-
-    case_for(1, 1, 2){E(0,0,2)/2/p+pa*E(1,0,2)+2*E(2,0,2)}
-
-    case_for(0, 2, 2){pa*E(0,1,2)+E(1,1,2)}
-  end
-
-  describe '#center' do
-    let(:center1){random_vector}
-    let(:center2){random_vector}
-
-    subject do
-      allow(primitive1).to receive(:center).and_return(center1)
-      allow(primitive2).to receive(:center).and_return(center2)
-      product.center
-    end
-
-    it{is_expected.to eq((center1 * primitive1.zeta + center2 * primitive2.zeta) / (primitive1.zeta + primitive2.zeta))}
-  end
-
-  describe '#auxiliary_hermite_integral' do
-    let(:i){{:X => 0, :Y => 1, :Z => 2}}
-    let(:r){random_vector}
-    let(:p){random_positive()}
-
-    (0..2).to_a.repeated_permutation(4) do  |t1, u1, v1, n|
-      context do
-        let(:tuv1){[t1,u1,v1]}
-        for dir in [:X, :Y, :Z]
-          context '' % [t1, u1, v1, n] do
-            describe "#{dir} directonal recurrence relation" do
-              it 'is expected be satsfied on (t1=%d, u1=%d, v1=%d, n=%d)' % [t1, u1, v1, n] do
-                tuv2=tuv1.dup
-                tuv2[i[dir]]+=1
-                t2, u2, v2 = tuv2
-
-                tuv0=tuv1.dup
-                tuv0[i[dir]]-=1
-                t0, u0, v0 = tuv0
-                expect(          product.auxiliary_hermite_integral(t2, u2, v2, n,   p, r)).to be_within(1e-2).percent_of(
-                  tuv1[i[dir]] * product.auxiliary_hermite_integral(t0, u0, v0, n+1, p, r) +
-                     r[i[dir]] * product.auxiliary_hermite_integral(t1, u1, v1, n+1, p, r)
-                )
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-
-  describe '#electron_repulsion_integral' do
-    context 'with primitives zeta = 1 and all on same center' do
-      let(:primitive){RuPHY::AO::Gaussian::Primitive.new(1,[0,0,0],[0,0,0])}
-      let(:product){primitive*primitive}
-      let(:correct_value){Math::PI**2.5/4}
-      subject{product.electron_repulsion_integral(product)}
-
-      it{is_expected.to eq correct_value}
-    end
-  end
-end
-
 describe RuPHY::AO::Gaussian::Contracted do
   let(:coeffs){[1.0,0.0]}
   let(:zetas){[1.0,2.0]}
@@ -462,18 +325,6 @@ describe RuPHY::AO::Gaussian::Contracted do
       it 'should be a ' + RuPHY::AO::Gaussian::Contracted::Product.to_s do
         expect(contracted1*contracted2).to be_a RuPHY::AO::Gaussian::Contracted::Product
       end
-    end
-  end
-end
-
-describe RuPHY::AO::Gaussian::Contracted::Product do
-  let(:primitive){RuPHY::AO::Gaussian::Primitive.new(1,[0,0,0],[0,0,0])}
-  let(:contracted){RuPHY::AO::Gaussian::Contracted::PrimitiveDummy.new(primitive)}
-  describe '#electron_repulsion' do
-    let(:correct_value){Math::PI**2.5/4 * primitive.normalization_factor**4}
-
-    it 'should yield correct value' do
-      expect((contracted*contracted).electron_repulsion(contracted*contracted)).to be_within(1e-5).of(correct_value)
     end
   end
 end

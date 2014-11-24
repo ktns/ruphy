@@ -2,6 +2,13 @@ require 'bundler'
 
 Bundler.require(:test)
 
+if ENV['COVERAGE']
+  Bundler.require(:coverage)
+  if defined? SimpleCov
+    SimpleCov.start
+  end
+end
+
 require 'ruphy'
 require 'tempfile'
 
@@ -15,11 +22,11 @@ RSpec.configure do |config|
 end
 
 def random_positive
-  - Math::log(rand())
+  - Math::log(rand(0.0..1.0))
 end
 
-def random_complex
-  rand() + Complex::I * rand()
+def random_complex range=0.0..1.0
+  rand(range) + Complex::I * rand(range)
 end
 
 def random_spwf_hydrogenic_subset count
@@ -53,6 +60,10 @@ end
 
 def random_angular_momenta(l)
   [Vector[0,0,1], Vector[0,1,0], Vector[0,0,1]].repeated_combination(l).to_a.sample.reduce(Vector[0,0,0], &:+).to_a
+end
+
+def random_primitive l=3
+  RuPHY::AO::Gaussian::Primitive.new(rand(), random_angular_momenta(l),random_vector)
 end
 
 begin
@@ -127,12 +138,6 @@ def dummy_atom x = 0, y = 0, z = 0, atomic_num = 1
   allow(obatom).to receive(:z).and_return(z); allow(obatom).to receive(:get_z).and_return(z)
   allow(obatom).to receive(:get_atomic_num).and_return(atomic_num)
   RuPHY::Geometry::Atom.new obatom
-end
-
-def mock_primitive name=:primitive, opts={}
-  primitive = double(name)
-  allow(primitive).to receive(:zeta).and_return(opts[:zeta] || rand())
-  return primitive
 end
 
 def mock_vector value, name=:vector, xyz=nil
