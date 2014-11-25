@@ -56,15 +56,11 @@ module RuPHY
       end
     end
 
-    class Atom < Delegator
+    class Atom < SimpleDelegator
       include RuPHY::Constants
 
       def initialize obatom
-        @obatom = obatom
-      end
-
-      def __getobj__
-        return @obatom
+        __setobj__ obatom
       end
 
       def to_s
