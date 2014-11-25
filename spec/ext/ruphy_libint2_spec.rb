@@ -126,6 +126,25 @@ if defined? RuPHY::Libint2
           end.uniq.tap{|e| expect(e).to have(1).item}
         end
       end
+
+      context 'with shells centered on atoms' do
+        include_context RuPHY::Libint2
+
+        let(:mol) do
+          RuPHY::Geometry::Molecule.new(<<-EOF, 'xyz')
+            4
+            Ammonia
+            N          0.94135        0.04162       -0.08899
+            H          1.95868        0.07925       -0.04439
+            H          0.62975        1.00424       -0.20998
+            H          0.62975       -0.23983        0.83947
+          EOF
+        end
+
+        let(:center){mol.atoms}
+
+        specify{expect{evaluator.initialize_evaluator}.not_to raise_error}
+      end
     end
 
     describe RuPHY::AO::Gaussian::Contracted::Product do
