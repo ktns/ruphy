@@ -22,6 +22,13 @@ module RuPHY
         @momenta.reduce(:+)
       end
 
+      SymbolicAngularMomentum = 'spdfghiklmoqrtuvwxyz'
+
+      def symbol
+        SymbolicAngularMomentum[angular_momentum] +
+          momenta.each_with_index.map{|i,xyz| 'xyz'[xyz]*i}.reduce(&:+)
+      end
+
       class Primitive
         include Gaussian
         public_class_method :new
