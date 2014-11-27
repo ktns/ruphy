@@ -112,7 +112,9 @@ begin
     end
 
     unless $0 =~ /rspec/
-      RuPHY::AO::Gaussian::Contracted::Product.include ContractedProduct
+      RuPHY::AO::Gaussian::Contracted::Product.module_eval do
+        include ContractedProduct
+      end
     end
   end
 rescue LoadError
