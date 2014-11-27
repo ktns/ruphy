@@ -58,6 +58,12 @@ module RuPHY
     class <<self
       include RuPHY::Math
     end
+
+    def included mod
+      mod.module_eval do
+        private *RuPHY::Math.instance_methods(false)
+      end
+    end
   end
 end
 
