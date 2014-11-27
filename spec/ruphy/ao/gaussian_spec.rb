@@ -258,6 +258,19 @@ describe RuPHY::AO::Gaussian::Primitive do
       end
     end
   end
+
+  describe '#shell_ao_normalization_factor_ratio' do
+    context 'of dyz orbital' do
+      let(:primitive){described_class.new(random_positive, [0,1,1], random_vector)}
+      let(:reference){described_class.new(primitive.zeta, [0,0,2],primitive.center)}
+
+      it 'should equals to dyz.normalization_factor/dzz.normalization_factor' do
+        expect(primitive.shell_ao_normalization_factor_ratio).to be_within(1e-3).percent_of(
+          primitive.normalization_factor/reference.normalization_factor
+        )
+      end
+    end
+  end
 end
 
 describe RuPHY::AO::Gaussian::Contracted do

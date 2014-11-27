@@ -56,7 +56,10 @@ begin
             "`%p'.shell is not in the evaluator!" % ao
         end
         momenta = aos.map(&:momenta)
-        return results[momenta] * aos.reduce(1.0){|n, ao| n*ao.normalization_factor}
+
+        return aos.reduce(results[momenta]) do |n, ao|
+          n * ao.normalization_factor * ao.shell_ao_normalization_factor_ratio
+        end
       end
 
       @@table = {}
