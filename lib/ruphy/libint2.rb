@@ -51,10 +51,10 @@ begin
       end
 
       def get_result_for_aos ao0, ao1, ao2, ao3
-        aos = [ao0, ao1, ao2, ao3].sort_by! do |ao|
-          @shells.index(ao.shell) or raise ArgumentError,
-            "`%p'.shell is not in the evaluator!" % ao
-        end
+        aos = each_equivalent_shell_order(ao0, ao1, ao2, ao3).find do |ao0, ao1, ao2, ao3|
+          [ao0, ao1, ao2, ao3].map(&:shell) == @shells and
+          [ao0, ao1, ao2, ao3].map(&:angular_momentum) == @l
+        end or raise ArgumentError, 'Cannot find matching shell!'
         momenta = aos.map(&:momenta)
 
         return aos.reduce(results[momenta]) do |n, ao|
@@ -64,16 +64,20 @@ begin
 
       @@table = {}
 
-      def self.each_equivalent_shell_order shell0, shell1, shell2, shell3
-        return enum_for(:each_equivalent_shell_order, shell0, shell1, shell2, shell3) unless block_given?
-        [[shell0, shell1], [shell2, shell3]].permutation(2) do |ss1, ss2|
-          ss1.permutation(2) do |s0, s1|
-            ss2.permutation(2) do |s2, s3|
-              yield s0, s1, s2, s3
+      module EachEquivalentShellOrder
+        def each_equivalent_shell_order shell0, shell1, shell2, shell3
+          return enum_for(:each_equivalent_shell_order, shell0, shell1, shell2, shell3) unless block_given?
+          [[shell0, shell1], [shell2, shell3]].permutation(2) do |ss1, ss2|
+            ss1.permutation(2) do |s0, s1|
+              ss2.permutation(2) do |s2, s3|
+                yield s0, s1, s2, s3
+              end
             end
           end
         end
       end
+      include EachEquivalentShellOrder
+      extend EachEquivalentShellOrder
 
       def self.[] shell0, l0, shell1, l1, shell2, l2, shell3, l3
         each_equivalent_shell_order [shell0, l0], [shell1, l1], [shell2, l2], [shell3, l3] do |*args|
