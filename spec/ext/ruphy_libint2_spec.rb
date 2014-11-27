@@ -30,11 +30,11 @@ if defined? RuPHY::Libint2
       let(:contrdepth){ 4.times.map{ rand(1..6) }}
       let(:coeffs){     4.times.map{|i| contrdepth[i].times.map{ rand(-5.0..5.0) }}}
       let(:zetas){      4.times.map{|i| contrdepth[i].times.map{ rand(0.0..5.0) }}}
-      let(:l){          [0,0,0,2]}
+      let(:l){          4.times.map{ rand(0..0) }}
       let(:total_contrdepth){contrdepth.reduce(&:*)}
       let(:max_l){ l.max }
       let(:tot_l){ l.reduce(&:+) }
-      let(:momenta){[[0,0,0]]*3+[[0,1,1]]}
+      let(:momenta){ l.map{|l| random_angular_momenta(l) }}
       let(:center){ 4.times.map{ random_vector }}
       let(:shell) do
         4.times.map do |i|
