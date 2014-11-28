@@ -33,11 +33,14 @@ module RuPHY
         end
 
         def overlap
-          aos = self.aos
-          hash={}
-          Matrix.build(aos.size) do |i,j|
-            hash[i.hash+j.hash] ||= aos[i].overlap(aos[j])
-          end
+          @memoizer[:overlap] ||=
+            begin
+              aos = self.aos
+              hash={}
+              Matrix.build(aos.size) do |i,j|
+                hash[i.hash+j.hash] ||= aos[i].overlap(aos[j])
+              end
+            end
         end
 
         def kinetic
@@ -59,7 +62,10 @@ module RuPHY
         end
 
         def core_hamiltonian geometry=@geometry
-          kinetic - nuclear_attraction(geometry)
+          @memoizer[[:core_hamiltonian, geometry]] ||=
+            begin
+              kinetic - nuclear_attraction(geometry)
+            end
         end
 
         # Returns <ao_i(r_1)*ao_j(r_1)|r_12^-1|ao_k(r_2)*ao_l(r_2)>
