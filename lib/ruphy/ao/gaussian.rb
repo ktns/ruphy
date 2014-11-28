@@ -10,10 +10,11 @@ module RuPHY
       # Returns ratio between normalization factors of a shell and a ao with given angular momenta.
       # i.e. ao.normalization_factor / ao.shell.normalization_factor
       def shell_ao_normalization_factor_ratio
-        sqrt(
-          momenta.inject( double_factorial(2*angular_momentum-1) ) do |r,m|
-            r/double_factorial(2*m-1)
-          end
+        @shell_ao_normalization_factor_ratio ||=
+          sqrt(
+            momenta.inject( double_factorial(2*angular_momentum-1) ) do |r,m|
+              r/double_factorial(2*m-1)
+            end
         )
       end
 
