@@ -10,10 +10,11 @@ module RuPHY
               Shell.new shell, atom
             end
           end
+          @memoizer = {}
         end
 
         def shells
-          @shells.values.flatten
+          @memoizer[:shells] ||= @shells.values.flatten
         end
 
         # Return total number of the atomic orbital functions
@@ -26,17 +27,20 @@ module RuPHY
         alias dimension size
 
         def aos
-          shells.flat_map do |shell|
+          @memoizer[:aos] ||= shells.flat_map do |shell|
             shell.aos
           end
         end
 
         def overlap
-          aos = self.aos
-          hash={}
-          Matrix.build(aos.size) do |i,j|
-            hash[i.hash+j.hash] ||= aos[i].overlap(aos[j])
-          end
+          @memoizer[:overlap] ||=
+            begin
+              aos = self.aos
+              hash={}
+              Matrix.build(aos.size) do |i,j|
+                hash[i.hash+j.hash] ||= aos[i].overlap(aos[j])
+              end
+            end
         end
 
         def kinetic
@@ -58,7 +62,10 @@ module RuPHY
         end
 
         def core_hamiltonian geometry=@geometry
-          kinetic - nuclear_attraction(geometry)
+          @memoizer[[:core_hamiltonian, geometry]] ||=
+            begin
+              kinetic - nuclear_attraction(geometry)
+            end
         end
 
         # Returns <ao_i(r_1)*ao_j(r_1)|r_12^-1|ao_k(r_2)*ao_l(r_2)>
