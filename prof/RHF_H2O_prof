@@ -66,8 +66,8 @@ rows:
 column_count: 7
 YML
 
-loop.each_with_index do |_,i|
+5.times do
   p d = solver.iterate.abs
   p solver.mo.total_energy
-  break i if d < 1e-5
-end.tap{|i| puts i}
+  #break i if d < 1e-5
+end

@@ -51,6 +51,11 @@ begin
       end
 
       def get_result_for_aos ao0, ao1, ao2, ao3
+        if results.nil?
+          initialize_evaluator
+          evaluate
+        end
+
         aos = each_equivalent_shell_order(ao0, ao1, ao2, ao3).find do |ao0, ao1, ao2, ao3|
           [ao0, ao1, ao2, ao3].map(&:shell) == @shells and
           [ao0, ao1, ao2, ao3].map(&:angular_momentum) == @l
@@ -100,8 +105,6 @@ begin
         shells = aos.map(&:shell)
         ls = aos.map{|ao| ao.angular_momentum }
         evaluator = Evaluator[*shells.zip(ls).flatten(1)]
-        evaluator.initialize_evaluator
-        evaluator.evaluate
         evaluator.get_result_for_aos(*aos)
       end
 
