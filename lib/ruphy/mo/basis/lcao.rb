@@ -10,10 +10,11 @@ module RuPHY
               Shell.new shell, atom
             end
           end
+          @memoizer = {}
         end
 
         def shells
-          @shells.values.flatten
+          @memoizer[:shells] ||= @shells.values.flatten
         end
 
         # Return total number of the atomic orbital functions
@@ -26,7 +27,7 @@ module RuPHY
         alias dimension size
 
         def aos
-          shells.flat_map do |shell|
+          @memoizer[:aos] ||= shells.flat_map do |shell|
             shell.aos
           end
         end
