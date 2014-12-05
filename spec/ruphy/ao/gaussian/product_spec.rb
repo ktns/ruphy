@@ -33,30 +33,33 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
     end
     let(:i){rand(1..1)}
     let(:j){rand(1..1)}
-    shared_context 'contracted with Hermite polynomials' do
-      include Math
-      subject{(0..i+j).map{|t|GSL::Poly::hermite(t).to_f*sqrt(p)**(t) * product.E(t,i,j,xyz)}.reduce(&:+)} # \sum^{i+j}_t=0 E^{ij}_t H_t(X) sqrt(p)^t
-      let(:cartesian_monomial1){([GSL::Poly[pa[xyz], 1.0/sqrt(p)]]*i).reduce(&:*)} # (x-A_x)^i = (x-P_x+PA_x)^i = (X/sqrt(p) + PA_x)^i
-      let(:cartesian_monomial2){([GSL::Poly[pb[xyz], 1.0/sqrt(p)]]*j).reduce(&:*)} # (x-B_x)^j = (x-P_x+PB_x)^j = (X/sqrt(p) + PB_x)^j
-      it{is_expected.to eq cartesian_monomial1*cartesian_monomial2}
-    end
 
-    context 'for x direction' do
-      let(:xyz){0}
+    if defined? GSL
+      shared_context 'contracted with Hermite polynomials' do
+        include Math
+        subject{(0..i+j).map{|t|GSL::Poly::hermite(t).to_f*sqrt(p)**(t) * product.E(t,i,j,xyz)}.reduce(&:+)} # \sum^{i+j}_t=0 E^{ij}_t H_t(X) sqrt(p)^t
+        let(:cartesian_monomial1){([GSL::Poly[pa[xyz], 1.0/sqrt(p)]]*i).reduce(&:*)} # (x-A_x)^i = (x-P_x+PA_x)^i = (X/sqrt(p) + PA_x)^i
+        let(:cartesian_monomial2){([GSL::Poly[pb[xyz], 1.0/sqrt(p)]]*j).reduce(&:*)} # (x-B_x)^j = (x-P_x+PB_x)^j = (X/sqrt(p) + PB_x)^j
+        it{is_expected.to eq cartesian_monomial1*cartesian_monomial2}
+      end
 
-      include_context 'contracted with Hermite polynomials'
-    end
+      context 'for x direction' do
+        let(:xyz){0}
 
-    context 'for y direction' do
-      let(:xyz){1}
+        include_context 'contracted with Hermite polynomials'
+      end
 
-      include_context 'contracted with Hermite polynomials'
-    end
+      context 'for y direction' do
+        let(:xyz){1}
 
-    context 'for z direction' do
-      let(:xyz){2}
+        include_context 'contracted with Hermite polynomials'
+      end
 
-      include_context 'contracted with Hermite polynomials'
+      context 'for z direction' do
+        let(:xyz){2}
+
+        include_context 'contracted with Hermite polynomials'
+      end
     end
   end
 
