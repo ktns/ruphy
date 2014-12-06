@@ -363,7 +363,7 @@ static VALUE initialize_evaluator(VALUE evaluator){
 static VALUE contrdepth(VALUE evaluator){
   evaluator_struct *st;
   Data_Get_Struct(evaluator, evaluator_struct, st);
-  return rb_uint_new(st->erieval[0].contrdepth);
+  return UINT2NUM(st->erieval[0].contrdepth);
 }
 
 static VALUE evaluate(VALUE evaluator){
