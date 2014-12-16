@@ -143,6 +143,8 @@ if defined? RuPHY::Libint2
 
         let(:center){mol.atoms}
 
+        specify{expect(evaluator.instance_eval{@Ax}).to be_a Numeric}
+
         specify{expect{evaluator.initialize_evaluator}.not_to raise_error}
       end
     end

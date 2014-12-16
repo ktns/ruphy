@@ -22,10 +22,10 @@ begin
         raise ArgumentError, "The max azimuthal quantum number is larger than LIBINT_MAX_AM (%d > %d)" %
           [@max_azimuthal_quantum_number, MaxAM] if @max_azimuthal_quantum_number > MaxAM
 
-        @Ax,@Ay,@Az = *(@A = @shell0.center)
-        @Bx,@By,@Bz = *(@B = @shell1.center)
-        @Cx,@Cy,@Cz = *(@C = @shell2.center)
-        @Dx,@Dy,@Dz = *(@D = @shell3.center)
+        @Ax,@Ay,@Az = *(@A = @shell0.center.to_a)
+        @Bx,@By,@Bz = *(@B = @shell1.center.to_a)
+        @Cx,@Cy,@Cz = *(@C = @shell2.center.to_a)
+        @Dx,@Dy,@Dz = *(@D = @shell3.center.to_a)
         @ABx,@ABy, @ABz = *(@AB = @B - @A)
         @CDx,@CDy, @CDz = *(@CD = @D - @C)
       end
