@@ -64,8 +64,10 @@ solver.mo.density_matrix = Matrix[*YAML.load(<<YML)]
   - 0.6001221654615287
 YML
 
-5.times do
-  p d = solver.iterate.abs
-  p solver.mo.total_energy
-  #break i if d < 1e-5
+RuPHY::Profile.profile do
+  5.times do
+    p d = solver.iterate.abs
+    p solver.mo.total_energy
+    #break i if d < 1e-5
+  end
 end
