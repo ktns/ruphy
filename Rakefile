@@ -137,5 +137,6 @@ task :prof => :profile
 task :profile => ProfOutputs
 
 rule %r"prof/.*_prof.out$" => lambda{|n|FileList[n.ext(''), 'lib/**/*', 'ext/**/*']} do |t|
-  system "ruby-prof -p call_tree -f '#{t.name}' '#{t.source}'"
+  system "bundle exec ruby '#{t.source}' '#{t.name}'"
+  rm_f t.name unless $?.success?
 end

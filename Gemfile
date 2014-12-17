@@ -21,7 +21,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rb-gsl', "~> 1.16.0.3", :require => 'gsl'
+  gem 'rb-gsl', "~> 1.16.0.3", :require => 'gsl', :platform => :mri
   gem 'guard-rspec', :require => false
   gem 'guard-rake', :require => false
 end
