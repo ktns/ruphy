@@ -181,11 +181,12 @@ if defined? RuPHY::Libint2
 
         describe '#electron_repulsion' do
           subject{product0.electron_repulsion product1}
+          let(:reference){(ao0*ao1).electron_repulsion(ao2*ao3)}
 
           it{ is_expected.to be_a Float }
 
           it 'should return same value as RuPHY::AO::Gaussian::Contracted::Product#electron_repulsion' do
-            is_expected.to be_within(1e-3).percent_of((ao0*ao1).electron_repulsion(ao2*ao3)),
+            is_expected.to be_within(1e-3).percent_of(reference),
               lambda { '(%s %s | %s %s) does not match' % ao.map(&:symbol) }
           end
         end
