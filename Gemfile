@@ -11,7 +11,7 @@ group :development do
   gem "jeweler", "~> 2.0.1"
   gem "rdoc", "~> 4.0"
   gem "racc", "~> 1.4"
-  #gem "rake-compiler", "~> 0.8.0"
+  gem "rake-compiler", "~> 0.9.2"
 end
 
 group :development, :test do
@@ -23,6 +23,7 @@ end
 group :test do
   gem 'rb-gsl', "~> 1.16.0.3", :require => 'gsl', :platform => :mri
   gem 'guard-rspec', :require => false
+  gem 'guard-rake', :require => false
 end
 
 group :coverage do

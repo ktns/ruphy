@@ -5,6 +5,29 @@ module RuPHY
   module AO
     module Gaussian
       include AO
+      include RuPHY::Math
+
+      # Returns ratio between normalization factors of a shell and a ao with given angular momenta.
+      # i.e. ao.normalization_factor / ao.shell.normalization_factor
+      def shell_ao_normalization_factor_ratio
+        @shell_ao_normalization_factor_ratio ||=
+          sqrt(
+            momenta.inject( double_factorial(2*angular_momentum-1) ) do |r,m|
+              r/double_factorial(2*m-1)
+            end
+        )
+      end
+
+      def angular_momentum
+        @momenta.reduce(:+)
+      end
+
+      SymbolicAngularMomentum = 'spdfghiklmoqrtuvwxyz'
+
+      def symbol
+        SymbolicAngularMomentum[angular_momentum] +
+          momenta.each_with_index.map{|i,xyz| 'xyz'[xyz]*i}.reduce(&:+)
+      end
 
       class Primitive
         include Gaussian
@@ -24,10 +47,6 @@ module RuPHY
         end
 
         attr_reader :zeta, :momenta, :center
-
-        def angular_momentum
-          @momenta.reduce(:+)
-        end
 
         def normalization_factor
           @normalization_factor ||= overlap_raw(self)**(-0.5)
@@ -49,26 +68,32 @@ module RuPHY
           end
         end
 
+        # Normalized overlap integral
         def overlap o
           overlap_raw(o) * normalization_factor * o.normalization_factor
         end
 
+        # Unnormalized overlap integral
         def overlap_raw o
           (self*o).overlap_integral
         end
 
+        # Unnormalized kinetic integral
         def kinetic_raw o
           (self*o).kinetic_integral
         end
 
+        # Normalized kinetic integral
         def kinetic o
           kinetic_raw(o) * normalization_factor * o.normalization_factor
         end
 
+        # Unnormalized nuclear attraction integral
         def nuclear_attraction_raw other, atom
           (self*other).nuclear_attraction_integral(atom)
         end
 
+        # Normalized nuclear attraction integral
         def nuclear_attraction other, atom
           nuclear_attraction_raw(other, atom) * normalization_factor * other.normalization_factor
         end
@@ -94,6 +119,14 @@ module RuPHY
               raise $!
             end
           end
+        end
+
+        def momenta
+          @primitives.first.last.momenta
+        end
+
+        def angular_momentum
+          @primitives.first.last.angular_momentum
         end
 
         # Enumerate primitives and coefficients
@@ -130,14 +163,17 @@ module RuPHY
           end ** -0.5
         end
 
+        # Normalized overlap integral
         def overlap other
           (self*other).overlap
         end
 
+        # Normalized kinetic integral
         def kinetic other
           (self*other).kinetic
         end
 
+        # Normalized nuclear attraction integral
         def nuclear_attraction other, atom
           (self*other).nuclear_attraction(atom)
         end

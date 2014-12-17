@@ -27,6 +27,7 @@ jeweler_tasks = Jeweler::Tasks.new do |gem|
   gem.files.exclude '.rspec'
   gem.files.exclude '.travis.yml'
   gem.files.exclude 'Gemfile*'
+  gem.extensions = FileList['ext/**/extconf.rb']
 end
 Jeweler::RubygemsDotOrgTasks.new
 
@@ -115,6 +116,18 @@ rule '.yml' => ['.gbs', 'lib/ruphy/basisset/parser/gaussian94.rb'] do |t|
   end
 end
 
+# Extension tasks
+require 'rake/extensiontask'
+
+Rake::ExtensionTask.new('ruphy_libint2') do |ext|
+  if dir = ENV['LIBINT2_DIR'] and File.directory? dir
+    ext.config_options << "--with-libint2-dir=#{dir}"
+  end
+  ext.source_pattern = '*.{c,cc}'
+end
+
+task :spec => :compile
+
 # prof task
 ProfSources = FileList['prof/*_prof']
 ProfOutputs = ProfSources.sub(/$/,'.out')
@@ -124,5 +137,6 @@ task :prof => :profile
 task :profile => ProfOutputs
 
 rule %r"prof/.*_prof.out$" => lambda{|n|FileList[n.ext(''), 'lib/**/*', 'ext/**/*']} do |t|
-  system "ruby-prof -p call_tree -f '#{t.name}' '#{t.source}'"
+  system "bundle exec ruby '#{t.source}' '#{t.name}'"
+  rm_f t.name unless $?.success?
 end

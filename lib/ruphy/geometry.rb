@@ -56,15 +56,11 @@ module RuPHY
       end
     end
 
-    class Atom < Delegator
+    class Atom < SimpleDelegator
       include RuPHY::Constants
 
       def initialize obatom
-        @obatom = obatom
-      end
-
-      def __getobj__
-        return @obatom
+        __setobj__ obatom
       end
 
       def to_s
@@ -81,6 +77,27 @@ module RuPHY
 
       def vector
         Vector[get_x, get_y, get_z] * Angstrom
+      end
+
+      def coerce other
+        case other
+        when Vector
+          [other, self.vector]
+        else
+          self.vector.coerce(other)
+        end
+      end
+
+      def method_missing method, *args
+        begin
+          super
+        rescue NoMethodError
+          if Vector.method_defined?(method)
+            self.vector.send(method, *args)
+          else
+            raise $!
+          end
+        end
       end
     end
   end

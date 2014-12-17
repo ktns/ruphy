@@ -2,16 +2,6 @@ require 'spec_helper'
 require 'ruphy/basisset/lcao/gaussian/shell'
 
 describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
-  describe '::CartAngularMomentumBasis' do
-    subject{described_class::CartAngularMomentumBasis}
-
-    it{is_expected.to be_frozen}
-
-    it{is_expected.to be_all(&:frozen?)}
-
-    its(:size){is_expected.to eq 3}
-  end
-
   describe '.cart_angular_momenta' do
     shared_examples_for("proper cart_angular_momenta") do
       it{is_expected.to be_frozen}
@@ -56,9 +46,9 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
   end
 
   subject{shell}
-  let(:shell){described_class.new(azimuthal_quantum_numbers, coeffs, zetas)}
+  let(:shell){described_class.new(azimuthal_quantum_numbers, set_of_coeffs, zetas)}
   let(:azimuthal_quantum_numbers){[0,1,2]}
-  let(:coeffs){3.times.map{4.times.map{rand()}}}
+  let(:set_of_coeffs){3.times.map{4.times.map{rand()}}}
   let(:zetas){4.times.map{rand()}}
 
   context 'with wrong azimuthal_quantum_numbers' do
@@ -77,13 +67,13 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 
   context 'with coefficients set of different sizes' do
     let(:azimuthal_quantum_numbers){[0,1]}
-    let(:coeffs){[[1,1],[1]]}
+    let(:set_of_coeffs){[[1,1],[1]]}
     creating_it{is_expected.to raise_error ArgumentError,
                 /^Sizes of coefficient sets\([\d,]+\) is not unique!$/}
   end
 
   context 'with unmatching coefficients and zetas' do
-    let(:coeffs){[[0.5,0.5]]*azimuthal_quantum_numbers.size}
+    let(:set_of_coeffs){[[0.5,0.5]]*azimuthal_quantum_numbers.size}
     let(:zetas){[1,2,3,4]}
 
     creating_it{is_expected.to raise_error ArgumentError,
@@ -92,7 +82,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 
   context 'of S shell' do
     let(:azimuthal_quantum_numbers){0}
-    let(:coeffs){[[1]]}
+    let(:set_of_coeffs){[[1]]}
     let(:zetas){[1]}
 
     creating_it{is_expected.not_to raise_error}
@@ -103,7 +93,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 
     context 'of S shell' do
       let(:azimuthal_quantum_numbers){0}
-      let(:coeffs){[[1]]}
+      let(:set_of_coeffs){[[1]]}
       let(:zetas){[1]}
 
       context 'without center' do
@@ -121,7 +111,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 
     context 'of SP shell' do
       let(:azimuthal_quantum_numbers){[0,1]}
-      let(:coeffs){[[1],[1]]}
+      let(:set_of_coeffs){[[1],[1]]}
       let(:zetas){[1]}
 
       context 'with center' do
@@ -129,6 +119,17 @@ describe RuPHY::BasisSet::LCAO::Gaussian::Shell do
 
         its(:size){is_expected.to eq 4}
       end
+    end
+  end
+
+  describe '#each_primitive_shells' do
+    let(:lc){azimuthal_quantum_numbers.zip(set_of_coeffs).sample}
+    let(:l){lc.first}
+    let(:coeffs){lc.last}
+    specify do
+      expect{ |b| shell.each_primitive_shell(l, &b) }.to yield_successive_args(
+        *coeffs.zip(zetas).map{|c,z| [c*shell.normalization_factor(l,z), z]}
+      )
     end
   end
 end

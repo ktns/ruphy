@@ -51,8 +51,18 @@ module RuPHY
       end*sqrt(PI/z)
     end
 
+    def double_factorial n
+      n.step(1, -2).reduce(1,&:*)
+    end
+
     class <<self
       include RuPHY::Math
+    end
+
+    def included mod
+      mod.module_eval do
+        private *RuPHY::Math.instance_methods(false)
+      end
     end
   end
 end

@@ -121,6 +121,7 @@ module RuPHY
           end
 
           # S_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          # This returns an unnormalized integral.
           def overlap_integral
             (0..2).inject(1) do |sab,i|
               sab * overlap_decomposed(i)
@@ -135,6 +136,7 @@ module RuPHY
           end
 
           # T_{ab} in http://folk.uio.no/helgaker/talks/SostrupIntegrals_10.pdf
+          # This returns an unnormalized integral.
           def kinetic_integral
             (0..2).inject(0.0) do |tab, i|
               ([0, 1, 2]-[i]).inject(kinetic_decomposed(i)) do |tij, j|
@@ -163,6 +165,7 @@ module RuPHY
           alias R auxiliary_hermite_integral
 
           # <G_a | Z/r_C | G_b>
+          # This returns an unnormalized integral.
           def nuclear_attraction_integral atom
             each_tuv.inject(0.0) do |vab, (t,u,v)|
               vab + Eab(t, u, v)* R(t,u,v,0,p,PC(atom))
@@ -171,6 +174,7 @@ module RuPHY
           alias V nuclear_attraction_integral
 
           #< G_a(r_1) G_b(r_1) | r_{12}^{-1} | G_c(r_2) G_d(r_2) >
+          # This returns an unnormalized integral.
           def electron_repulsion_integral other
             p  = self.p
             q  = other.p
@@ -202,6 +206,10 @@ module RuPHY
             end
           end
 
+          def aos
+            return @g1, @g2
+          end
+
           def sum_up method, *args
             @primitive_products.inject(0) do |sum, (c, p)|
               sum + c * p.send(method, *args)
@@ -209,14 +217,17 @@ module RuPHY
           end
           protected :sum_up
 
+          # Normalized overlap integral
           def overlap
             sum_up :overlap_integral
           end
 
+          # Normalized kinetic integral
           def kinetic
             sum_up :kinetic_integral
           end
 
+          # Normalized nuclear attraction integral
           def nuclear_attraction atom
             sum_up :nuclear_attraction_integral, atom
           end

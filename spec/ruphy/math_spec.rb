@@ -50,4 +50,23 @@ describe RuPHY::Math do
       calling_it{is_expected.to raise_error ArgumentError, /negative/i}
     end
   end
+
+  describe 'itself' do
+    it 'should respond_to methods defined in RuPHY::Math' do
+      described_class.instance_methods(false).each do |method|
+        expect(described_class).to respond_to method
+      end
+    end
+  end
+end
+
+describe 'An instance of a class that include RuPHY::Math' do
+  let(:klass){ Class.new.module_eval{include RuPHY::Math} }
+  let(:instance){klass.new}
+
+  it 'should not respond to methods defined in RuPHY::Math' do
+    RuPHY::Math.instance_methods(false).each do |method|
+      expect(instance).not_to respond_to(method)
+    end
+  end
 end
