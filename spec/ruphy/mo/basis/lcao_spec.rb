@@ -14,7 +14,7 @@ describe RuPHY::MO::Basis::LCAO do
 
       it{is_expected.to be_kind_of Enumerable}
 
-      it{is_expected.to all_be_kind_of RuPHY::AO}
+      it{is_expected.to all be_kind_of RuPHY::AO}
     end
 
     shared_examples_for "operator represented by basis" do
@@ -25,18 +25,18 @@ describe RuPHY::MO::Basis::LCAO do
 
       it{is_expected.to be_square}
 
-      it{is_expected.to all_be_finite}
+      it{is_expected.to all be_finite}
 
       describe 'diagonal elements' do
         subject{matrix.diagonal_elements}
 
-        it{is_expected.to all_be_within(1e-5).of(correct_diagonal_value)}
+        it{is_expected.to all be_within(1e-5).of(correct_diagonal_value)}
       end
 
       describe 'off diagonal elements' do
         subject{matrix.each :off_diagonal}
 
-        it{is_expected.to all_be_within(0.01).percent_of(correct_off_diagonal_value)}
+        it{is_expected.to all be_within(0.01).percent_of(correct_off_diagonal_value)}
       end
     end
 

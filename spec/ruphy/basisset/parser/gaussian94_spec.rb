@@ -127,7 +127,7 @@ EOF
 
           it{is_expected.to be_an Array}
 
-          it{is_expected.to all_be_kind_of(RuPHY::BasisSet::LCAO::Gaussian::Shell)}
+          it{is_expected.to all be_kind_of(RuPHY::BasisSet::LCAO::Gaussian::Shell)}
         end
       end
     end

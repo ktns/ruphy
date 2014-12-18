@@ -22,13 +22,13 @@ describe RuPHY::AO::Gaussian::Primitive::PrimitiveProduct do
         let(:t){0}
         subject{(0..2).map{|xyz| product.E(t,i,j,xyz)}}
 
-        it{is_expected.to all_be_within(1e-5).of(1)}
+        it{is_expected.to all be_within(1e-5).of(1)}
       end
 
       context 't > 0' do
         subject{(1..8).flat_map{|t|(0..2).map{|xyz| product.E(t,i,j,xyz)}}}
 
-        it{is_expected.to all_be_within(1e-5).of(0)}
+        it{is_expected.to all be_within(1e-5).of(0)}
       end
     end
     let(:i){rand(1..1)}

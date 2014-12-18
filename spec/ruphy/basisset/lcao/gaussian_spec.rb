@@ -17,7 +17,7 @@ describe RuPHY::BasisSet::LCAO::Gaussian do
 
         it{is_expected.to be_kind_of Enumerable}
 
-        it{is_expected.to all_be_kind_of described_class::Shell}
+        it{is_expected.to all be_kind_of described_class::Shell}
       end
     end
   end

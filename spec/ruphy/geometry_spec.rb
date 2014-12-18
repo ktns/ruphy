@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe RuPHY::Geometry::Molecule do
   shared_examples_for 'proper molecule' do
-    its(:each_atom){is_expected.to all_be_kind_of RuPHY::Geometry::Atom}
+    its(:each_atom){is_expected.to all be_kind_of RuPHY::Geometry::Atom}
 
-    its(:each){is_expected.to all_be_kind_of RuPHY::Geometry::Atom}
+    its(:each){is_expected.to all be_kind_of RuPHY::Geometry::Atom}
   end
 
   context 'with xyz' do
