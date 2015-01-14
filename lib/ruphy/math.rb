@@ -64,6 +64,26 @@ module RuPHY
         private *RuPHY::Math.instance_methods(false)
       end
     end
+
+    # Solve $Ax = \lambda Bx$
+    # Returns Array of eigenvalues and Matrix of eigenvectors
+    def solve_generalized_symmetric_eigenproblem a, b
+      if a.hermitian? and b.hermitian?
+      _, energies_matrix, vectors = *(b**-0.5*a*b**-0.5).eigensystem
+      energies = energies_matrix.each(:diagonal).to_a
+      vectors = Matrix[*(0...vectors.column_size).sort_by do |i|
+        energies[i]
+      end.map do |i|
+        vectors.row(i)
+      end]
+      vectors*=b**-0.5
+      return [energies.sort, vectors]
+      else
+        raise NotImplementedError, 'Solver for GSEP with non-hermitian matrix is not implemented'
+      end
+    end
+
+    alias solve_GSEP solve_generalized_symmetric_eigenproblem
   end
 end
 

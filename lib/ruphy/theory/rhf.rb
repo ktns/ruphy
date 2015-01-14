@@ -3,6 +3,8 @@ require 'ruphy/mo/basis'
 module RuPHY
   module Theory
     module RHF
+      include Math
+
       # Calculate Fock matrix from given basis, density matrix, and geometry.
       def fock_matrix basis, density, geometry
         f = Matrix.build(basis.size) do |i,j|
@@ -18,15 +20,7 @@ module RuPHY
       def solve_roothaan_equation fock, overlap
         raise ArgumentError, 'Fock matrix is not a hermitian matrix!' unless fock.hermitian?
         raise ArgumentError, 'Overlap matrix is not a hermitian matrix!' unless overlap.hermitian?
-        _, energies_matrix, vectors = *(overlap**-0.5*fock*overlap**-0.5).eigensystem
-        energies = energies_matrix.each(:diagonal).to_a
-        vectors = Matrix[*(0...vectors.column_size).sort_by do |i|
-          energies[i]
-        end.map do |i|
-          vectors.row(i)
-        end]
-        vectors*=overlap**-0.5
-        return [energies.sort, vectors]
+        solve_GSEP fock, overlap
       end
 
       class MO
