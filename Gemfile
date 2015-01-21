@@ -3,6 +3,7 @@ source "http://rubygems.org"
 # Example:
 #   gem "activesupport", ">= 2.3.5"
 gem "openbabel", "~> 2.3.2.0"
+gem "nmatrix", "~> 0.1.0"
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
@@ -21,7 +22,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rb-gsl', "~> 1.16.0.3", :require => 'gsl', :platform => :mri
+  gem 'gsl-nmatrix', "~> 1.15.3", :require => 'gsl', :platform => :mri
   gem 'guard-rspec', :require => false
   gem 'guard-rake', :require => false
 end
