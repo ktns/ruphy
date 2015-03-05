@@ -1,4 +1,5 @@
 require 'nmatrix'
+require 'matrix'
 require 'delegate'
 
 module RuPHY
@@ -88,7 +89,13 @@ module RuPHY
         private :new
 
         def method_missing method, *args, &block
-          new(NMatrix.send(method,*args, &block))
+          if NMatrix.respond_to? method
+            new(NMatrix.send(method,*args, &block))
+          elsif ::Matrix.respond_to? method
+            new(NMatrix[*::Matrix.send(method, *args, &block).to_a])
+          else
+            super
+          end
         end
       end
     end
