@@ -35,6 +35,16 @@ module RuPHY
         __getobj__.inspect.sub('NMatrix',self.class.to_s)
       end
 
+      def coerce other
+        case other 
+        when Numeric
+          n, _ = shape
+          [self.class.diagonal([other]*n), self]
+        else
+          raise TypeError, '%s cannot be coerced into %s' % [other.class, self.class]
+        end
+      end
+
       module MatrixWrapper
         def method_missing method, *args, &block
           args.map! do |arg|
@@ -64,11 +74,6 @@ module RuPHY
           end
         end
 
-        def coerce other
-          other, self_ = super
-          return [Coercer.new(other), self_]
-        end
-
         def inspect
           "#<#{self.class}: #{__getobj__.inspect}>"
         end
@@ -81,11 +86,6 @@ module RuPHY
         end
 
         include MatrixWrapper
-      end
-
-      def coerce other
-        other, self_ = super
-        return [Coercer.new(other), self_]
       end
 
       class << self
