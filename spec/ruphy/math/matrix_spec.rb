@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RuPHY::Math::Matrix do
+describe RuPHY::Math::Matrix, matrix: true do
   describe '#build' do
     subject{described_class.build(1){1}}
 
