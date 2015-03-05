@@ -1,11 +1,11 @@
-require 'matrix'
+require 'nmatrix'
 require 'delegate'
 
 module RuPHY
   module Math
     class Matrix < SimpleDelegator
       def initialize matrix
-        raise TypeError, "Expected #{::Matrix}, but `%p'" % [matrix] unless ::Matrix === matrix
+        raise TypeError, "Expected #{NMatrix}, but `%p'" % [matrix] unless NMatrix === matrix
         __setobj__ matrix
       end
 
@@ -28,7 +28,7 @@ module RuPHY
       end
 
       def inspect
-        __getobj__.inspect.sub('Matrix',self.class.to_s)
+        __getobj__.inspect.sub('NMatrix',self.class.to_s)
       end
 
       module MatrixWrapper
@@ -44,9 +44,13 @@ module RuPHY
           retval = super method, *args, &block
           loop do
             case retval
-            when ::Matrix
+            when NMatrix
               Matrix.class_eval do
                 return new(retval)
+              end
+            when ::Matrix
+              Matrix.class_eval do
+                return new(NMatrix[*retval])
               end
             when Coercer
               retval = retval.__getobj__
@@ -84,7 +88,7 @@ module RuPHY
         private :new
 
         def method_missing method, *args, &block
-          new(::Matrix.send(method,*args, &block))
+          new(NMatrix.send(method,*args, &block))
         end
       end
     end
