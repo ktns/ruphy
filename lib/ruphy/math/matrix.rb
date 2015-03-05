@@ -10,8 +10,11 @@ module RuPHY
         __setobj__ matrix
       end
 
-      def diagonal_elements &block
-        each :diagonal, &block
+      def diagonal_elements
+        return enum_for(:diagonal_elements) unless block_given?
+        __getobj__.shape.min.times do |i|
+          yield __getobj__[i,i]
+        end
       end
 
       def inner_product other
