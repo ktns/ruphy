@@ -35,6 +35,11 @@ module RuPHY
         __getobj__.inspect.sub('NMatrix',self.class.to_s)
       end
 
+      def square?
+        n,m = shape
+        n == m
+      end
+
       def coerce other
         case other 
         when Numeric
