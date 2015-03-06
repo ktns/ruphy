@@ -76,4 +76,12 @@ describe RuPHY::Math::Matrix, matrix: true do
     let(:negative_examples){[described_class[[1,2]]]}
     include_context 'a predicate method'
   end
+
+  describe 'as a collection' do
+    let(:size){rand(5)+1}
+    let(:matrix){described_class.build(size){rand()}}
+    subject{matrix}
+
+    it{is_expected.to all(be_finite)}
+  end
 end
