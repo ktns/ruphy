@@ -84,4 +84,41 @@ describe RuPHY::Math::Matrix, matrix: true do
 
     it{is_expected.to all(be_finite)}
   end
+
+  describe '#each' do
+    let(:size){rand(5)+1}
+    let(:matrix){described_class.build(size){rand()}}
+
+    context '(:all)' do
+      specify 'should enumerate all elements of a matrix' do
+        expect(matrix.each(:all).count).to eq matrix.size
+      end
+    end
+
+    context '(:diagonal)' do
+      specify 'should enumerate all diagonal elements of a matrix' do
+        expect(matrix.each(:diagonal).count).to eq matrix.shape.min
+      end
+
+      specify 'should enumerate only diagonal elements of a matrix' do
+        matrix.each(:diagonal) do |e|
+          m, n = matrix.index(e)
+          expect(m).to eq n
+        end
+      end
+    end
+
+    context '(:off_diagonal)' do
+      specify 'should enumerate all off-diagonal elements of a matrix' do
+        expect(matrix.each(:off_diagonal).count).to eq matrix.size - matrix.shape.min
+      end
+
+      specify 'should enumerate only off-diagonal elements of a matrix' do
+        matrix.each(:off_diagonal) do |e|
+          m, n = matrix.index(e)
+          expect(m).not_to eq n
+        end
+      end
+    end
+  end
 end
