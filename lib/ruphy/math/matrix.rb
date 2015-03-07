@@ -7,14 +7,7 @@ module RuPHY
     class Matrix < SimpleDelegator
       def initialize matrix
         raise TypeError, "Expected #{NMatrix}, but `%p'" % [matrix] unless NMatrix === matrix
-        __setobj__ matrix.extend RespondToWorkaround
-      end
-
-      module RespondToWorkaround
-        def respond_to? method, include_private = false
-          super method or include_private &&
-            private_methods.include?(method.intern)
-        end
+        __setobj__ matrix
       end
 
       def diagonal_elements
@@ -31,6 +24,28 @@ module RuPHY
         other = other.each(:all)
         self.each(:all).inject(0) do |p, e|
           p + e*other.next.conjugate
+        end
+      end
+
+      def each_with_index &block
+        if vector?
+          super
+        else
+          prc = lambda do |nm, shape, indeces, prc, &block|
+            n = shape.pop
+            if shape.empty?
+              n.times do |i|
+                i = [*indeces, i]
+                block.call(nm[*i], i)
+              end
+            else
+              n.times do |i|
+                i = [*indeces, i]
+                prc.call(nm, shape.dup, i, prc, &block)
+              end
+            end
+          end
+          prc.call(__getobj__, __getobj__.shape, [], prc, &block)
         end
       end
 
