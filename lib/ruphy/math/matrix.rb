@@ -27,6 +27,25 @@ module RuPHY
         end
       end
 
+      def each which = :all, &block
+        case which
+        when :all
+          __getobj__.each &block
+        when :diagonal
+          return enum_for(:each, :diagonal) unless block_given?
+          each_with_index do |e, (i, j)|
+            yield e if i == j
+          end
+        when :off_diagonal
+          return enum_for(:each, :off_diagonal) unless block_given?
+          each_with_index do |e, (i, j)|
+            yield e unless i == j
+          end
+        else
+          raise ArgumentError, 'Expected `%p\' to be one of :all, :diagonal' % which
+        end
+      end
+
       def each_with_index &block
         if vector?
           super
