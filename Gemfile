@@ -22,7 +22,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'gsl-nmatrix', "~> 1.15.3", :require => 'gsl', :platform => :mri
+  gem 'gsl-nmatrix', "~> 1.15.3", :require => 'gsl', :platform => :mri, :github => 'ktns/rb-gsl', :branch => 'use_find_header'
   gem 'guard-rspec', :require => false
   gem 'guard-rake', :require => false
 end
