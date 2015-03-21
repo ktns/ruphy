@@ -81,6 +81,15 @@ module RuPHY
         n == m
       end
 
+      unless NMatrix.instance_methods.include?(:index)
+        def index v
+          each_with_indices do |e, i, j|
+            return [i, j] if e == v
+          end
+          nil 
+        end
+      end
+
       def coerce other
         case other 
         when Numeric
