@@ -70,6 +70,13 @@ describe RuPHY::Math::Matrix, matrix: true do
     end
   end
 
+  describe '#hermitian?' do
+    let(:predicate){:hermitian?}
+    let(:positive_examples){[described_class.eye(rand(2..8))]}
+    let(:negative_examples){[described_class.eye([3,rand(4..8)])]}
+    include_context 'a predicate method'
+  end
+
   describe '#square?' do
     let(:predicate){:square?}
     let(:positive_examples){[described_class.identity(rand(1..8))]}
